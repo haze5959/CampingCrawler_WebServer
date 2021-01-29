@@ -1,0 +1,1 @@
+final double MAX_WIDTH = 1000;
