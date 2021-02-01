@@ -12,6 +12,11 @@ dependencies:
     
   get:
 
+  table_calendar:
+
+  flutter_localizations: 
+    sdk: flutter
+
   cupertino_icons: ^0.1.2
 
 dev_dependencies:

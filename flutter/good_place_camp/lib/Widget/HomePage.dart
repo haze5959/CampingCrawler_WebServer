@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Constants.dart';
+
+// Widgets
+import 'package:good_place_camp/Widget/CalenderWidget.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -14,6 +18,11 @@ class HomePage extends StatelessWidget {
   Widget build(context) {
     // 업데이트된 count 변수에 연결
     return Scaffold(
-        body: Center(child: Obx(() => Text("${c.siteInfoList.length}"))));
+        body: Container(
+            constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+            child: Column(children: <Widget>[
+              Center(child: Obx(() => Text("${c.siteInfoList.length}"))),
+              Center(child: CalenderWidget())
+            ])));
   }
 }

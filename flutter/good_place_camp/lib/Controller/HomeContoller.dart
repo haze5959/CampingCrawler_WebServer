@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/SiteRepository.dart';
@@ -10,6 +11,11 @@ class HomeController extends GetxController {
   SiteRepository repo = SiteRepository();
 
   RxList<SiteInfo> siteInfoList = <SiteInfo>[].obs;
+
+  CalendarController calendarController = CalendarController();
+  Map<DateTime, List<dynamic>> events;
+  DateTime selectedDay;
+  OnDaySelected onDaySelected;
 
   @override
   void onReady() {
