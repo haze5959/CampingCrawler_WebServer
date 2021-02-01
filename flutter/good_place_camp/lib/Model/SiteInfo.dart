@@ -1,7 +1,22 @@
 class SiteInfo {
-  String site;
-  List<String> availDates;
-  String updatedDate;
+  final String site;
+  final List<String> availDates;
+  final String updatedDate;
 
-  static SiteInfo fromJson(dynamic json) => SiteInfo();
+  SiteInfo(
+    this.site,
+    this.availDates,
+    this.updatedDate,
+  );
+
+  SiteInfo.fromJson(Map<String, dynamic> json)
+      : site = json['site'],
+        availDates = List<String>.from(json['availDates']),
+        updatedDate = json['updatedDate'];
+
+  static List<SiteInfo> fromJsonArr(jsonStr) {
+    var list = List<Map<String, dynamic>>.from(jsonStr);
+    var listSiteInfo = list.map((json) => SiteInfo.fromJson(json));
+    return listSiteInfo.toList();
+  }
 }

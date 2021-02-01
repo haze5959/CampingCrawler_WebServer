@@ -13,9 +13,9 @@ class Home extends StatelessWidget {
   Widget build(context) {
     final HomeController c = Get.put(HomeController());
 
-    return Scaffold(
-        appBar: GPCAppBar(),
-        body: HomePage()
-    );
+    return Scaffold(appBar: GPCAppBar(), body: HomePage());
   }
 }
+
+// 카피 사이트
+// https://www.skyscanner.co.kr

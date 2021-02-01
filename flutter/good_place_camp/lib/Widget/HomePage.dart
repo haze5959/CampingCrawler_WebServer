@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(context) {
     // 업데이트된 count 변수에 연결
-    return Scaffold(body: Center(child: Text("${c.siteInfo}")));
+    return Scaffold(
+        body: Center(child: Obx(() => Text("${c.siteInfoList.length}"))));
   }
 }
