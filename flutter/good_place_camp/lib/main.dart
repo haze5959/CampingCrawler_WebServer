@@ -17,7 +17,7 @@ class Home extends StatelessWidget {
   Widget build(context) {
     final HomeController c = Get.put(HomeController());
 
-    return Scaffold(appBar: GPCAppBar(), body: HomePage());
+    return Scaffold(appBar: GPCAppBar(), body: Center(child: HomePage()));
   }
 }
 

@@ -17,12 +17,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(context) {
     // 업데이트된 count 변수에 연결
-    return Scaffold(
-        body: Container(
-            constraints: BoxConstraints(maxWidth: MAX_WIDTH),
-            child: Column(children: <Widget>[
-              Center(child: Obx(() => Text("${c.siteInfoList.length}"))),
-              Center(child: CalenderWidget())
-            ])));
+    return SingleChildScrollView(child: Container(
+        alignment: Alignment.center,
+        constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+        child: Column(
+          children: <Widget>[
+          Obx(() => Text("${c.siteInfoList.length}")),
+          CalenderWidget()
+        ])));
   }
 }

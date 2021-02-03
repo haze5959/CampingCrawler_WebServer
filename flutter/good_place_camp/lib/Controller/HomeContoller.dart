@@ -11,11 +11,14 @@ class HomeController extends GetxController {
   SiteRepository repo = SiteRepository();
 
   RxList<SiteInfo> siteInfoList = <SiteInfo>[].obs;
+  RxMap<DateTime, List<String>> events = Map<DateTime, List<String>>().obs;
 
-  CalendarController calendarController = CalendarController();
-  Map<DateTime, List<dynamic>> events;
-  DateTime selectedDay;
-  OnDaySelected onDaySelected;
+  List<CalendarController> calendarControllerList = [
+    CalendarController(),
+    CalendarController(),
+    CalendarController()
+  ];
+  DateTime selectedDay = DateTime.now();
 
   @override
   void onReady() {
@@ -24,8 +27,42 @@ class HomeController extends GetxController {
   }
 
   void reload() async {
-    var siteInfo1 = await repo.getAllSiteInfo();
-    siteInfoList.assignAll(siteInfo1.body);
+    var result = await repo.getAllSiteInfo();
+    var siteInfo = result.body;
+    updateEvents(siteInfo);
+    siteInfoList.assignAll(siteInfo);
     siteInfoList.refresh();
+    update();
+  }
+
+  void updateEvents(List<SiteInfo> infoList) {
+    events.clear();
+
+    for (var info in infoList) {
+      for (var date in info.availDates) {
+        var list = events[DateTime.parse(date)];
+        if (list == null) {
+          list = [info.site];
+        } else {
+          list.add(info.site);
+        }
+
+        events[DateTime.parse(date)] = list;
+      }
+    }
+
+    events.refresh();
+  }
+
+  void onDaySelected(DateTime day, List events, List holidays) {
+    for (var index = 0; index < calendarControllerList.length; index++) {
+      if (calendarControllerList[index].selectedDay.month == day.month) {
+        print('CALLBACK: _onDaySelected');
+
+        // selectedDay = day;
+      } else {
+        // calendarControllerList[index].
+      }
+    }
   }
 }
