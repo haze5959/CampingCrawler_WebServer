@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -10,8 +12,8 @@ import 'package:good_place_camp/Model/SiteInfo.dart';
 class HomeController extends GetxController {
   SiteRepository repo = SiteRepository();
 
-  RxList<SiteInfo> siteInfoList = <SiteInfo>[].obs;
-  RxMap<DateTime, List<String>> events = Map<DateTime, List<String>>().obs;
+  List<SiteInfo> siteInfoList = <SiteInfo>[];
+  Map<DateTime, List<String>> events = Map<DateTime, List<String>>();
 
   List<CalendarController> calendarControllerList = [
     CalendarController(),
@@ -30,8 +32,7 @@ class HomeController extends GetxController {
     var result = await repo.getAllSiteInfo();
     var siteInfo = result.body;
     updateEvents(siteInfo);
-    siteInfoList.assignAll(siteInfo);
-    siteInfoList.refresh();
+    siteInfoList = siteInfo;
     update();
   }
 
@@ -50,19 +51,10 @@ class HomeController extends GetxController {
         events[DateTime.parse(date)] = list;
       }
     }
-
-    events.refresh();
   }
 
   void onDaySelected(DateTime day, List events, List holidays) {
-    for (var index = 0; index < calendarControllerList.length; index++) {
-      if (calendarControllerList[index].selectedDay.month == day.month) {
-        print('CALLBACK: _onDaySelected');
-
-        // selectedDay = day;
-      } else {
-        // calendarControllerList[index].
-      }
-    }
+    selectedDay = day;
+    update();
   }
 }
