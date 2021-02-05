@@ -1,5 +1,4 @@
-import 'dart:js';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -8,6 +7,9 @@ import 'package:good_place_camp/Repository/SiteRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
+
+// Widgets
+import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
 
 class HomeController extends GetxController {
   SiteRepository repo = SiteRepository();
@@ -21,6 +23,8 @@ class HomeController extends GetxController {
     CalendarController()
   ];
   DateTime selectedDay = DateTime.now();
+
+  BuildContext context;
 
   @override
   void onReady() {
@@ -56,5 +60,14 @@ class HomeController extends GetxController {
   void onDaySelected(DateTime day, List events, List holidays) {
     selectedDay = day;
     update();
+
+    if (events.length > 0) {
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (context) {
+          return BottomSheetContent(date: day, events: events);
+        },
+      );
+    }
   }
 }
