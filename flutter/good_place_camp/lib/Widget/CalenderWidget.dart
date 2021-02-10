@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
-// Model
-import 'package:good_place_camp/Model/SiteInfo.dart';
+// Utils
+import 'package:good_place_camp/Utils/AddMonths.dart';
 
 class CalenderWidget extends StatelessWidget {
   final bool isVertical;
@@ -22,92 +21,107 @@ class CalenderWidget extends StatelessWidget {
         builder: (s) => Container(
             padding: EdgeInsets.all(20),
             alignment: Alignment.center,
-            constraints: isVertical
-                ? BoxConstraints(maxWidth: CALENDER_WIDTH)
-                : BoxConstraints(maxWidth: MAX_WIDTH + 60),
+            constraints:
+                isVertical ? BoxConstraints(maxWidth: CALENDER_WIDTH) : null,
             child: isVertical
                 ? _buildVerticalCalendar(s, context)
                 : _buildHorizenCalendar(s, context)));
   }
 
   Widget _buildHorizenCalendar(HomeController s, BuildContext context) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [0, 1, 2]
-            .map((index) => ClipRect(
-                    child: BackdropFilter(
-                  filter: ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                  child: Container(
-                      decoration:
-                          BoxDecoration(color: Colors.white.withOpacity(0.5)),
-                      child: Container(
-                          width: CALENDER_WIDTH,
-                          child: TableCalendar(
-                            locale:
-                                Localizations.localeOf(context).languageCode,
-                            initialSelectedDay: Jiffy().add(months: index),
-                            calendarController: s.calendarControllerList[index],
-                            events: s.events,
-                            availableGestures: AvailableGestures.none,
-                            calendarStyle: CalendarStyle(
-                              outsideDaysVisible: false,
-                            ),
-                            headerStyle: HeaderStyle(
-                                centerHeaderTitle: true,
-                                formatButtonVisible: false,
-                                leftChevronVisible: false,
-                                rightChevronVisible: false),
-                            builders: CalendarBuilders(
-                              selectedDayBuilder: (context, date, _) {
-                                return AnimatedContainer(
-                                  duration: const Duration(milliseconds: 250),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: s.selectedDay.month ==
-                                              s.calendarControllerList[index]
-                                                  .focusedDay.month
-                                          ? Colors.blueAccent
-                                          : isToday(date)
-                                              ? const Color(0xFF9FA8DA)
-                                              : null),
-                                  margin: const EdgeInsets.all(6.0),
-                                  alignment: Alignment.center,
-                                  child: Text('${date.day}',
-                                      style: isToday(date)
-                                          ? TextStyle().copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16.0,
-                                            )
-                                          : null),
-                                );
-                              },
-                              markersBuilder:
-                                  (context, date, events, holidays) {
-                                final children = <Widget>[];
+    return Scrollbar(
+        child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: ClampingScrollPhysics(),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [0, 1, 2, 3]
+                    .map((index) => Row(children: <Widget>[
+                          ClipRect(
+                              child: BackdropFilter(
+                            filter:
+                                ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5)),
+                                child: Container(
+                                    width: CALENDER_WIDTH,
+                                    child: TableCalendar(
+                                      locale: Localizations.localeOf(context)
+                                          .languageCode,
+                                      initialSelectedDay:
+                                          addMonths(DateTime.now(), index),
+                                      calendarController:
+                                          s.calendarControllerList[index],
+                                      events: s.events,
+                                      availableGestures: AvailableGestures.none,
+                                      calendarStyle: CalendarStyle(
+                                        outsideDaysVisible: false,
+                                      ),
+                                      headerStyle: HeaderStyle(
+                                          centerHeaderTitle: true,
+                                          formatButtonVisible: false,
+                                          leftChevronVisible: false,
+                                          rightChevronVisible: false),
+                                      builders: CalendarBuilders(
+                                        selectedDayBuilder: (context, date, _) {
+                                          return AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 250),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: s.selectedDay.month ==
+                                                        s
+                                                            .calendarControllerList[
+                                                                index]
+                                                            .focusedDay
+                                                            .month
+                                                    ? Colors.blueAccent
+                                                    : isToday(date)
+                                                        ? const Color(
+                                                            0xFF9FA8DA)
+                                                        : null),
+                                            margin: const EdgeInsets.all(6.0),
+                                            alignment: Alignment.center,
+                                            child: Text('${date.day}',
+                                                style: isToday(date)
+                                                    ? TextStyle().copyWith(
+                                                        color: Colors.white,
+                                                        fontSize: 16.0,
+                                                      )
+                                                    : null),
+                                          );
+                                        },
+                                        markersBuilder:
+                                            (context, date, events, holidays) {
+                                          final children = <Widget>[];
 
-                                if (events.isNotEmpty) {
-                                  children.add(
-                                    Positioned(
-                                      right: 1,
-                                      bottom: 1,
-                                      child: _buildEventsMarker(date, events),
-                                    ),
-                                  );
-                                }
+                                          if (events.isNotEmpty) {
+                                            children.add(
+                                              Positioned(
+                                                right: 1,
+                                                bottom: 1,
+                                                child: _buildEventsMarker(
+                                                    date, events),
+                                              ),
+                                            );
+                                          }
 
-                                return children;
-                              },
-                            ),
-                            onDaySelected: s.onDaySelected,
-                            rowHeight: CALENDER_WIDTH / 6,
-                          ))),
-                )))
-            .toList());
+                                          return children;
+                                        },
+                                      ),
+                                      onDaySelected: s.onDaySelected,
+                                      rowHeight: CALENDER_WIDTH / 6,
+                                    ))),
+                          )),
+                          SizedBox(width: 10)
+                        ]))
+                    .toList())));
   }
 
   Widget _buildVerticalCalendar(HomeController s, BuildContext context) {
     return Column(
-        children: [0, 1, 2]
+        children: [0, 1, 2, 3]
             .map((index) => Column(children: <Widget>[
                   ClipRect(
                       child: BackdropFilter(
@@ -121,7 +135,7 @@ class CalenderWidget extends StatelessWidget {
                                     locale: Localizations.localeOf(context)
                                         .languageCode,
                                     initialSelectedDay:
-                                        Jiffy().add(months: index),
+                                        addMonths(DateTime.now(), index),
                                     calendarController:
                                         s.calendarControllerList[index],
                                     events: s.events,

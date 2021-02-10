@@ -15,9 +15,10 @@ class HomeController extends GetxController {
   SiteRepository repo = SiteRepository();
 
   List<SiteInfo> siteInfoList = <SiteInfo>[];
-  Map<DateTime, List<String>> events = Map<DateTime, List<String>>();
+  Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
 
   List<CalendarController> calendarControllerList = [
+    CalendarController(),
     CalendarController(),
     CalendarController(),
     CalendarController()
@@ -47,9 +48,9 @@ class HomeController extends GetxController {
       for (var date in info.availDates) {
         var list = events[DateTime.parse(date)];
         if (list == null) {
-          list = [info.site];
+          list = [info];
         } else {
-          list.add(info.site);
+          list.add(info);
         }
 
         events[DateTime.parse(date)] = list;
@@ -62,10 +63,13 @@ class HomeController extends GetxController {
     update();
 
     if (events.length > 0) {
+      final List<SiteInfo> siteInfoList = events;
+
       showModalBottomSheet<void>(
+        isScrollControlled: true,
         context: context,
         builder: (context) {
-          return BottomSheetContent(date: day, events: events);
+          return BottomSheetContent(date: day, infoList: siteInfoList);
         },
       );
     }
