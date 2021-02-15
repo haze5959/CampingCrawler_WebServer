@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
 
-class SimpleCampCardItem extends StatelessWidget {
-  final String siteName;
+// Model
+import 'package:good_place_camp/Model/Post.dart';
 
-  SimpleCampCardItem({
-    this.siteName,
+class PostCardItem extends StatelessWidget {
+  final Post info;
+
+  PostCardItem({
+    this.info,
   });
 
   @override
@@ -48,7 +51,7 @@ class SimpleCampCardItem extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Ink.image(
-                image: AssetImage('assets/camp_munsoo.jpg'),
+                image: AssetImage('assets/Camp_Default.webp'),
                 fit: BoxFit.cover,
                 child: Container(),
               ),
@@ -66,7 +69,7 @@ class SimpleCampCardItem extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    "${CAMP_INFO[siteName]["name"]}",
+                    "${info.title}",
                     style: titleStyle,
                   ),
                 ),
@@ -84,8 +87,8 @@ class SimpleCampCardItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${CAMP_INFO[siteName]["desc"]}", style: descriptionStyle, maxLines: 2,),
-                Text("${CAMP_INFO[siteName]["addr"]}", style: addrStyle)
+                Text("${info.body}", style: descriptionStyle, maxLines: 2,),
+                Text("${info.nick}", style: addrStyle)
               ],
             ),
           ),

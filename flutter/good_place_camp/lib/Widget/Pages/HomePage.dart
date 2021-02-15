@@ -4,6 +4,9 @@ import 'package:good_place_camp/Constants.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/CalenderWidget.dart';
+import 'package:good_place_camp/Widget/RecommandSiteWidget.dart';
+import 'package:good_place_camp/Widget/RecentlyPostsWidget.dart';
+import 'package:good_place_camp/Widget/FooterWidget.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -24,12 +27,12 @@ class HomePage extends StatelessWidget {
             child: Column(children: <Widget>[
           ClipPath(
             child: Container(
-                alignment: Alignment.center,
+                alignment: Alignment.topCenter,
                 padding: EdgeInsets.only(
                     top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                  image: AssetImage('assets/Banner01.jpg'),
+                  image: IS_PHONE_SIZE ? AssetImage('assets/Banner02.jpg') : AssetImage('assets/Banner01.jpg'),
                   fit: BoxFit.cover,
                 )),
                 child: Column(children: <Widget>[
@@ -38,7 +41,10 @@ class HomePage extends StatelessWidget {
                 ])),
             clipper: ZigzagClipPath(),
           ),
-          Container(height: 2000, child: Text("ssss"))
+          RecommandSiteWidget(),
+          RecentlyPostsWidget(),
+          FooterWidget()
+          
         ])));
   }
 

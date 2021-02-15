@@ -19,7 +19,7 @@ class CalenderWidget extends StatelessWidget {
   Widget build(context) {
     return GetBuilder<HomeController>(
         builder: (s) => Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.only(bottom: 10),
             alignment: Alignment.center,
             constraints:
                 isVertical ? BoxConstraints(maxWidth: CALENDER_WIDTH) : null,
@@ -31,12 +31,14 @@ class CalenderWidget extends StatelessWidget {
   Widget _buildHorizenCalendar(HomeController s, BuildContext context) {
     return Scrollbar(
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(right: 10),
             scrollDirection: Axis.horizontal,
             physics: ClampingScrollPhysics(),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [0, 1, 2, 3]
                     .map((index) => Row(children: <Widget>[
+                          SizedBox(width: 10),
                           ClipRect(
                               child: BackdropFilter(
                             filter:
@@ -114,7 +116,6 @@ class CalenderWidget extends StatelessWidget {
                                       rowHeight: CALENDER_WIDTH / 6,
                                     ))),
                           )),
-                          SizedBox(width: 10)
                         ]))
                     .toList())));
   }

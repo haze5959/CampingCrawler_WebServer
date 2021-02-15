@@ -43,6 +43,7 @@ class TappableCampCardItem extends StatelessWidget {
     final theme = Theme.of(context);
     final titleStyle = theme.textTheme.headline5.copyWith(color: Colors.white);
     final descriptionStyle = theme.textTheme.subtitle1;
+    final addrStyle = theme.textTheme.caption;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,11 +99,11 @@ class TappableCampCardItem extends StatelessWidget {
                       message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
                       child: Text(
                         "예약정보 수집 시간 - ${siteInfo.updatedDate}",
-                        style: descriptionStyle.copyWith(color: Colors.black54),
+                        style: addrStyle,
                       ),
                     )),
-                Text("${CAMP_INFO[siteInfo.site]["desc"]}"),
-                Text("${CAMP_INFO[siteInfo.site]["addr"]}")
+                Text("${CAMP_INFO[siteInfo.site]["desc"]}", maxLines: 2),
+                Text("${CAMP_INFO[siteInfo.site]["addr"]}", style: addrStyle)
               ],
             ),
           ),

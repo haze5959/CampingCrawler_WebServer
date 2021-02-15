@@ -21,7 +21,7 @@ class Home extends StatelessWidget {
 
     IS_PHONE_SIZE = context.mediaQuerySize.width < MAX_WIDTH;
 
-    return Scaffold(appBar: GPCAppBar(), body: Center(child: HomePage()));
+    return Scaffold(appBar: GPCAppBar(), body: Center(child: HomePage()), backgroundColor: Colors.lightGreen.shade50);
   }
 }
 
