@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/SiteRepository.dart';
@@ -23,6 +25,7 @@ class HomeController extends GetxController {
     CalendarController(),
     CalendarController()
   ];
+
   DateTime selectedDay = DateTime.now();
 
   BuildContext context;
@@ -34,7 +37,7 @@ class HomeController extends GetxController {
   }
 
   void reload() async {
-    var result = await repo.getAllSiteInfo();
+    var result = await repo.getSiteInfo(SELECTED_AREA);
     var siteInfo = result.body;
     updateEvents(siteInfo);
     siteInfoList = siteInfo;

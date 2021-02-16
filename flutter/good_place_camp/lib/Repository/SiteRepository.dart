@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
+import 'package:good_place_camp/Model/CampArea.dart';
 
 class SiteRepository extends GetConnect {
   @override
@@ -12,4 +13,16 @@ class SiteRepository extends GetConnect {
   }
 
   Future<Response<List<SiteInfo>>> getAllSiteInfo() => get('/camp');
+
+  Future<Response<List<SiteInfo>>> getSiteInfo(List<CampArea> areaList) {
+    var url = "/camp";
+    Iterable<int>.generate(areaList.length).forEach((index) => {
+          if (index == 0)
+            url += "?area[]=${areaList[index].toString()}"
+          else
+            url += "&area[]=${areaList[index].toString()}"
+        });
+
+    return get(url);
+  }
 }

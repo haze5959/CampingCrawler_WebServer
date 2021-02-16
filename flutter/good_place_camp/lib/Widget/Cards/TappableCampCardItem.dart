@@ -5,8 +5,6 @@ import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Model/SiteInfo.dart';
 
 class TappableCampCardItem extends StatelessWidget {
-  static const height = 298.0;
-
   final SiteInfo siteInfo;
 
   TappableCampCardItem({
@@ -21,7 +19,6 @@ class TappableCampCardItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: SizedBox(
-          height: height,
           child: Card(
             clipBehavior: Clip.antiAlias,
             child: InkWell(
@@ -54,7 +51,7 @@ class TappableCampCardItem extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: Ink.image(
-                  image: AssetImage('assets/camp_munsoo.jpg'),
+                  image: AssetImage('assets/${siteInfo.site}.jpg'),
                   fit: BoxFit.cover,
                   child: Container(),
                 ),

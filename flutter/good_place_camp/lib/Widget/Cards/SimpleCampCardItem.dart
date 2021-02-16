@@ -48,7 +48,7 @@ class SimpleCampCardItem extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Ink.image(
-                image: AssetImage('assets/camp_munsoo.jpg'),
+                image: AssetImage('assets/$siteName.jpg'),
                 fit: BoxFit.cover,
                 child: Container(),
               ),

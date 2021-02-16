@@ -5,9 +5,10 @@ import 'package:good_place_camp/Constants.dart';
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
-class GPCAppBar extends AppBar {
-  final HomeController c = Get.find();
+// Model
+import 'package:good_place_camp/Model/CampArea.dart';
 
+class GPCAppBar extends AppBar {
   GPCAppBar()
       : super(
             backgroundColor: Colors.lightGreen.shade500,
@@ -17,27 +18,82 @@ class GPCAppBar extends AppBar {
                 child: Row(children: <Widget>[
                   Text("명당캠핑"),
                   Spacer(),
-                  PopupMenuButton<String>(
+                  PopupMenuButton<CampArea>(
+                    tooltip: "지역필터",
                     icon: Icon(IconData(0xe73d, fontFamily: 'MaterialIcons')),
                     itemBuilder: (context) {
                       return [
-                        PopupMenuItem(
+                        CheckedPopupMenuItem(
+                          value: CampArea.all,
+                          checked: SELECTED_AREA.isEmpty,
                           child: Text(
-                            "First",
+                            CampArea.all.toAreaString(),
                           ),
                         ),
-                        PopupMenuItem(
+                        CheckedPopupMenuItem(
+                          value: CampArea.seoul,
+                          checked: SELECTED_AREA.contains(CampArea.seoul),
                           child: Text(
-                            "Second",
+                            CampArea.seoul.toAreaString(),
                           ),
                         ),
-                        PopupMenuItem(
+                        CheckedPopupMenuItem(
+                          value: CampArea.gyeonggi,
+                          checked: SELECTED_AREA.contains(CampArea.gyeonggi),
                           child: Text(
-                            "Third",
+                            CampArea.gyeonggi.toAreaString(),
+                          ),
+                        ),
+                        CheckedPopupMenuItem(
+                          value: CampArea.inchoen,
+                          checked: SELECTED_AREA.contains(CampArea.inchoen),
+                          child: Text(
+                            CampArea.inchoen.toAreaString(),
+                          ),
+                        ),
+                        CheckedPopupMenuItem(
+                          value: CampArea.chungnam,
+                          checked: SELECTED_AREA.contains(CampArea.chungnam),
+                          child: Text(
+                            CampArea.chungnam.toAreaString(),
+                          ),
+                        ),
+                        CheckedPopupMenuItem(
+                          value: CampArea.chungbuk,
+                          checked: SELECTED_AREA.contains(CampArea.chungbuk),
+                          child: Text(
+                            CampArea.chungbuk.toAreaString(),
+                          ),
+                        ),
+                        CheckedPopupMenuItem(
+                          value: CampArea.gangwon,
+                          checked: SELECTED_AREA.contains(CampArea.gangwon),
+                          child: Text(
+                            CampArea.gangwon.toAreaString(),
                           ),
                         ),
                       ];
                     },
+                    onSelected: (area) => onSelected(area),
                   )
                 ]))) {}
+
+  static void onSelected(CampArea area) {
+    final HomeController c = Get.find();
+
+    switch (area) {
+      case CampArea.all:
+        SELECTED_AREA.clear();
+        break;
+      default:
+        if (SELECTED_AREA.contains(area)) {
+          SELECTED_AREA.remove(area);
+        } else {
+          SELECTED_AREA.add(area);
+        }
+        break;
+    }
+
+    c.reload();
+  }
 }
