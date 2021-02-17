@@ -26,6 +26,13 @@ class PostCardItem extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 print('Card was tapped');
+                // Navigator.push<void>(
+                //         context,
+                //         MaterialPageRoute(
+                //           builder: (context) => _FullScreenDialogDemo(),
+                //           fullscreenDialog: true,
+                //         ),
+                //       );
               },
               splashColor:
                   Theme.of(context).colorScheme.onSurface.withOpacity(0.12),

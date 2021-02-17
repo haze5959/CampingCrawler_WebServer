@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
 
+// Widgets
+import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
+
 class SimpleCampCardItem extends StatelessWidget {
   final String siteName;
 
@@ -22,7 +25,13 @@ class SimpleCampCardItem extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: () {
-                print('Card was tapped');
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CampDetailPage(siteName: siteName),
+                    fullscreenDialog: true,
+                  ),
+                );
               },
               splashColor:
                   Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
@@ -76,20 +85,24 @@ class SimpleCampCardItem extends StatelessWidget {
         ),
       ),
       Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-          child: DefaultTextStyle(
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-            style: descriptionStyle,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("${CAMP_INFO[siteName]["desc"]}", style: descriptionStyle, maxLines: 2,),
-                Text("${CAMP_INFO[siteName]["addr"]}", style: addrStyle)
-              ],
-            ),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: DefaultTextStyle(
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          style: descriptionStyle,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${CAMP_INFO[siteName]["desc"]}",
+                style: descriptionStyle,
+                maxLines: 2,
+              ),
+              Text("${CAMP_INFO[siteName]["addr"]}", style: addrStyle)
+            ],
           ),
         ),
+      ),
     ]);
   }
 }

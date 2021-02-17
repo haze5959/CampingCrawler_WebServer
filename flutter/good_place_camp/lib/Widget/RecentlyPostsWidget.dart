@@ -23,6 +23,7 @@ class RecentlyPostsWidget extends StatelessWidget {
               textAlign: TextAlign.left),
           SizedBox(width: 10),
           FloatingActionButton(
+            heroTag: "RecentlyPosts",
             backgroundColor: Colors.lightGreen.shade300,
             mini: true,
             child: const Icon(Icons.add),

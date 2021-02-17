@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
 
+// Widgets
+import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
+
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
 
@@ -23,7 +26,13 @@ class TappableCampCardItem extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: () {
-                print('Card was tapped');
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CampDetailPage(siteName: siteInfo.site),
+                    fullscreenDialog: true,
+                  ),
+                );
               },
               splashColor:
                   Theme.of(context).colorScheme.onSurface.withOpacity(0.12),

@@ -20,6 +20,7 @@ class RecommandSiteWidget extends StatelessWidget {
               textAlign: TextAlign.left),
           SizedBox(width: 10),
           FloatingActionButton(
+            heroTag: "RecommandSite",
             backgroundColor: Colors.lightGreen.shade300,
             mini: true,
             child: const Icon(Icons.add),
