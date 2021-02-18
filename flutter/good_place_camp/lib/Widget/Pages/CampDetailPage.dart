@@ -2,50 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 
-// Widgets
-import 'package:good_place_camp/Widget/CalenderWidget.dart';
-import 'package:good_place_camp/Widget/RecommandSiteWidget.dart';
-import 'package:good_place_camp/Widget/RecentlyPostsWidget.dart';
-import 'package:good_place_camp/Widget/FooterWidget.dart';
-
 // Controller
 import 'package:good_place_camp/Controller/CampDetailContoller.dart';
-
-// Utils
-import 'package:good_place_camp/Utils/ZigzagCliper.dart';
 
 class CampDetailPage extends StatelessWidget {
   final String siteName;
 
-  CampDetailPage({
-    this.siteName,
-  });
+  CampDetailPage({this.siteName});
 
   @override
   Widget build(BuildContext context) {
-    final CampDetailContoller c = Get.put(CampDetailContoller());
-    final theme = Theme.of(context);
+    final CampDetailContoller c = CampDetailContoller(siteName: siteName);
+
+    final infoJson = CAMP_INFO[siteName];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("제모고곡"),
+        title: Text(infoJson["name"]),
         actions: [
-          TextButton(
-            child: Text(
-              "으아아아앙",
-              style: theme.textTheme.bodyText2.copyWith(
-                color: theme.colorScheme.onPrimary,
-              ),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          Obx(() => IconButton(
+                icon: c.isFavorite.value
+                    ? Icon(Icons.star, color: Colors.yellow)
+                    : Icon(Icons.star_border_outlined, color: Colors.white),
+                onPressed: () {
+                  // Navigator.pop(context);
+                  // 즐겨찾기 로직 필요
+                },
+              )),
         ],
       ),
       body: Center(
-        child: Text(
-          "센터어어어어",
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              child: Text("홈페이지"),
+              onPressed: () {
+                c.launchURL("homepage_url");
+              },
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.add, size: 18),
+              label: Text("예약 사이트"),
+              onPressed: () {
+                c.launchURL("reservation_url");
+              },
+            ),
+          ],
         ),
       ),
     );
