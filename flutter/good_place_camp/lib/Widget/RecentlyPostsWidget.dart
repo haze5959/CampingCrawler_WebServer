@@ -3,15 +3,12 @@ import 'package:good_place_camp/Constants.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
+import 'package:good_place_camp/Widget/Pages/PostListPage.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
 
 class RecentlyPostsWidget extends StatelessWidget {
-  // final bool isVertical;
-
-  // RecentlyPostsWidget({this.isVertical});
-
   @override
   Widget build(context) {
     return Column(children: [
@@ -27,7 +24,33 @@ class RecentlyPostsWidget extends StatelessWidget {
             backgroundColor: Colors.lightGreen.shade300,
             mini: true,
             child: const Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push<void>(
+                  context,
+                  PageRouteBuilder(
+                      pageBuilder: (BuildContext context, Animation animation,
+                          Animation secondaryAnimation) {
+                        return PostListPage();
+                      },
+                      opaque: true,
+                      barrierColor: Colors.grey,
+                      transitionDuration: Duration(milliseconds: 300),
+                      transitionsBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation,
+                          Widget child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: SlideTransition(
+                            position: new Tween<Offset>(
+                              begin: const Offset(1.0, 0.0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          ),
+                        );
+                      }));
+            },
           ),
           Spacer(),
         ]),
