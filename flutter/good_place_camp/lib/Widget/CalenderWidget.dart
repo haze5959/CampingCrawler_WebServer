@@ -21,8 +21,6 @@ class CalenderWidget extends StatelessWidget {
         builder: (s) => Container(
             padding: EdgeInsets.only(bottom: 10),
             alignment: Alignment.center,
-            constraints:
-                isVertical ? BoxConstraints(maxWidth: CALENDER_WIDTH) : null,
             child: isVertical
                 ? _buildVerticalCalendar(s, context)
                 : _buildHorizenCalendar(s, context)));

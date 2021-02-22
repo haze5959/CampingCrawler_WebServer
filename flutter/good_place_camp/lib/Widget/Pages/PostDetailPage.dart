@@ -21,9 +21,7 @@ class PostDetailPage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("ㄴㄹㄴㄹㄴㄹㄴㄹㄴㄹㄴ")
-          ],
+          children: [Text("공사중...")],
         ),
       ),
     );

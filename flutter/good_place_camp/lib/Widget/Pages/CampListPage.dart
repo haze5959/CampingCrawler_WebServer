@@ -5,8 +5,14 @@ import 'package:good_place_camp/Constants.dart';
 // Widgets
 import 'package:good_place_camp/Widget/GPCAppBar.dart';
 
+// Cards
+import 'package:good_place_camp/Widget/Cards/TappableCampCardItem.dart';
+
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
+
+// Model
+import 'package:good_place_camp/Model/SiteInfo.dart';
 
 class CampListPage extends StatelessWidget {
   final String siteName;
@@ -20,26 +26,22 @@ class CampListPage extends StatelessWidget {
     return Scaffold(
       appBar: GPCAppBar(pageName: "캠핑장", showFilter: true),
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ElevatedButton(
-              child: Text("홈페이지"),
-              onPressed: () {
-                
+        child: Container(
+            constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+            child: Scrollbar(
+                child: ListView.builder(
+              itemCount: c.siteInfoList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: _buildListCell(context, c.siteInfoList[index]),
+                );
               },
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.add, size: 18),
-              label: Text("예약 사이트"),
-              onPressed: () {
-                
-              },
-            ),
-          ],
-        ),
+            ))),
       ),
     );
+  }
+
+  Widget _buildListCell(BuildContext context, SiteInfo siteInfo) {
+    return TappableCampCardItem(siteInfo: siteInfo);
   }
 }

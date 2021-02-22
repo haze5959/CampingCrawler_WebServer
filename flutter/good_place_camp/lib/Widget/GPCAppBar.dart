@@ -98,6 +98,8 @@ class GPCAppBar extends AppBar {
         break;
     }
 
+    saveCampAreaData(SELECTED_AREA);
+
     c.reload();
   }
 }

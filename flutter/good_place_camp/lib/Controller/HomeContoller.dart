@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 
@@ -9,6 +8,8 @@ import 'package:good_place_camp/Repository/SiteRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
+import 'package:good_place_camp/Model/CampArea.dart';
+import 'package:good_place_camp/Model/Post.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
@@ -18,6 +19,11 @@ class HomeController extends GetxController {
 
   List<SiteInfo> siteInfoList = <SiteInfo>[];
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
+
+  Map<String, Map<String, Object>> accpetedCampInfo =
+      Map<String, Map<String, Object>>();
+
+  RxList<Post> postList = RxList<Post>.empty();
 
   List<CalendarController> calendarControllerList = [
     CalendarController(),
@@ -33,7 +39,21 @@ class HomeController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    initData();
+  }
+
+  void initData() async {
+    SELECTED_AREA = await getCampAreaData();
     reload();
+
+    final testItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        .map((key) => Post(
+              "타이틀$key",
+              "바디들",
+              "으허허헝",
+            ))
+        .toList();
+    postList.assignAll(testItem);
   }
 
   void reload() async {
@@ -41,6 +61,9 @@ class HomeController extends GetxController {
     var siteInfo = result.body;
     updateEvents(siteInfo);
     siteInfoList = siteInfo;
+
+    updateAccpetedCampInfo();
+
     update();
   }
 
@@ -57,6 +80,20 @@ class HomeController extends GetxController {
         }
 
         events[DateTime.parse(date)] = list;
+      }
+    }
+  }
+
+  void updateAccpetedCampInfo() {
+    if (SELECTED_AREA.isEmpty) {
+      accpetedCampInfo = Map.from(CAMP_INFO);
+    } else {
+      accpetedCampInfo.clear();
+      for (final key in CAMP_INFO.keys) {
+        final info = CAMP_INFO[key];
+        if (SELECTED_AREA.contains(info["area"])) {
+          accpetedCampInfo[key] = info;
+        }
       }
     }
   }

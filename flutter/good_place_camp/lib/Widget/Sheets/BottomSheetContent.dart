@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Cards
 import 'package:good_place_camp/Widget/Cards/TappableCampCardItem.dart';
@@ -46,6 +47,8 @@ class BottomSheetContent extends StatelessWidget {
               ]),
               const Divider(thickness: 1),
               Expanded(
+                child: Container(
+                constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                 child: ListView.builder(
                   itemCount: infoList.length,
                   itemBuilder: (context, index) {
@@ -53,7 +56,7 @@ class BottomSheetContent extends StatelessWidget {
                       title: _buildListCell(context, infoList[index]),
                     );
                   },
-                ),
+                )),
               ),
             ],
           ),
