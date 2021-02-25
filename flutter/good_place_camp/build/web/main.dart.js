@@ -61011,9 +61011,9 @@ r=r.a
 return this.gz9().p7(0,r,s,s,s,s,t.Ok)}}
 E.a2b.prototype={
 $1:function(a){var s,r=P.aU(t.X),q=this.a,p=this.b,o=q.a
-if(a===0){s=o+("?area[]="+J.c4(J.av(p,a)))
+if(a===0){s=o+("?area="+J.c4(J.av(p,a)))
 q.a=s
-r.A(0,s)}else{s=o+("&area[]="+J.c4(J.av(p,a)))
+r.A(0,s)}else{s=o+("&area="+J.c4(J.av(p,a)))
 q.a=s
 r.A(0,s)}return r},
 $S:401}
