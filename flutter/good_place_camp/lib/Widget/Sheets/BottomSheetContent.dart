@@ -21,7 +21,7 @@ class BottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          height: isFullScreen.value ? context.height - 80 : context.height / 2,
+          height: isFullScreen.value ? context.height : context.height / 2 + 100,
           child: Column(
             children: [
               Row(children: [
