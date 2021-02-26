@@ -18,9 +18,9 @@ class SiteRepository extends GetConnect {
     var url = "/camp";
     Iterable<int>.generate(areaList.length).forEach((index) => {
           if (index == 0)
-            url += "?area[]=${areaList[index].toString()}"
+            url += "?area=${areaList[index].toString()}"
           else
-            url += "&area[]=${areaList[index].toString()}"
+            url += "&area=${areaList[index].toString()}"
         });
 
     return get(url);
