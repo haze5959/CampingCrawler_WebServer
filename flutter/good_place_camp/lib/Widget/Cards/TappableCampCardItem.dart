@@ -55,7 +55,7 @@ class TappableCampCardItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 184,
+          height: 200,
           child: Stack(
             children: [
               Positioned.fill(
@@ -89,7 +89,7 @@ class TappableCampCardItem extends StatelessWidget {
         ),
         // Description and share/explore buttons.
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: DefaultTextStyle(
             softWrap: false,
             overflow: TextOverflow.ellipsis,
@@ -97,17 +97,13 @@ class TappableCampCardItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // This array contains the three line description on each card
-                // demo.
-                Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Tooltip(
+                Tooltip(
                       message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
                       child: Text(
                         "예약정보 수집 시간 - ${siteInfo.updatedDate}",
                         style: addrStyle,
                       ),
-                    )),
+                    ),
                 Text("${CAMP_INFO[siteInfo.site]["desc"]}", maxLines: 2),
                 Text("${CAMP_INFO[siteInfo.site]["addr"]}", style: addrStyle)
               ],

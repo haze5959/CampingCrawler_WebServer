@@ -16,6 +16,7 @@ class GPCAppBar extends AppBar {
       : super(
             backgroundColor: Colors.lightGreen.shade500,
             title: Container(
+                alignment: Alignment.center,
                 padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Row(children: <Widget>[

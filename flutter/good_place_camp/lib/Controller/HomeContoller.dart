@@ -105,13 +105,15 @@ class HomeController extends GetxController {
     if (events.length > 0) {
       final List<SiteInfo> siteInfoList = events;
 
-      showModalBottomSheet<void>(
-        isScrollControlled: true,
-        context: context,
-        builder: (context) {
-          return BottomSheetContent(date: day, infoList: siteInfoList);
-        },
-      );
+      Future.delayed(const Duration(milliseconds: 500), () {
+        showModalBottomSheet<void>(
+          isScrollControlled: true,
+          context: context,
+          builder: (context) {
+            return BottomSheetContent(date: day, infoList: siteInfoList);
+          },
+        );
+      });
     }
   }
 }
