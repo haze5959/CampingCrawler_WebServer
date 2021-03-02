@@ -14,6 +14,7 @@ class GPCAppBar extends AppBar {
 
   GPCAppBar({this.pageName, this.showFilter})
       : super(
+            centerTitle: true,
             backgroundColor: Colors.lightGreen.shade500,
             title: Container(
                 alignment: Alignment.center,

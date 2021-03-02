@@ -215,7 +215,7 @@ class CalenderWidget extends StatelessWidget {
           '${events.length}',
           style: TextStyle().copyWith(
             color: Colors.white,
-            fontSize: IS_PHONE_SIZE ? 10.0: 12.0,
+            fontSize: 12.0,
           ),
         ),
       ),

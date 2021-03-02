@@ -58,6 +58,11 @@ class HomeController extends GetxController {
 
   void reload() async {
     var result = await repo.getSiteInfo(SELECTED_AREA);
+    if (result.hasError) {
+      showOneBtnAlert(result.statusText, "재시도", reload);
+      return;
+    }
+
     var siteInfo = result.body;
     updateEvents(siteInfo);
     siteInfoList = siteInfo;
@@ -115,5 +120,22 @@ class HomeController extends GetxController {
         );
       });
     }
+  }
+
+  void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
+    showDialog(context: context, builder: (BuildContext context) {  return 
+    AlertDialog(
+        content: Text(
+          msg,
+        ),
+        actions: [
+          TextButton(  
+    child: Text(btnText),  
+      onPressed: () {  
+        confirmAction();
+      Navigator.of(context).pop();  
+    },  
+  )],);
+  });
   }
 }
