@@ -21,31 +21,34 @@ class HomePage extends StatelessWidget {
   Widget build(context) {
     c.context = context;
 
-    return SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
-        child: Container(
-            child: Column(children: <Widget>[
-          ClipPath(
+    return Obx(() => c.isLoading.value
+        ? Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
             child: Container(
-                alignment: Alignment.topCenter,
-                padding: EdgeInsets.only(
-                    top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                  image: IS_PHONE_SIZE ? AssetImage('assets/Banner02.jpg') : AssetImage('assets/Banner01.jpg'),
-                  fit: BoxFit.cover,
-                )),
                 child: Column(children: <Widget>[
-                  if (!IS_PHONE_SIZE) _buildIntroText(),
-                  CalenderWidget(isVertical: IS_PHONE_SIZE)
-                ])),
-            clipper: ZigzagClipPath(),
-          ),
-          RecommandSiteWidget(),
-          RecentlyPostsWidget(),
-          FooterWidget()
-          
-        ])));
+              ClipPath(
+                child: Container(
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.only(
+                        top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: IS_PHONE_SIZE
+                          ? AssetImage('assets/Banner02.jpg')
+                          : AssetImage('assets/Banner01.jpg'),
+                      fit: BoxFit.cover,
+                    )),
+                    child: Column(children: <Widget>[
+                      if (!IS_PHONE_SIZE) _buildIntroText(),
+                      CalenderWidget(isVertical: IS_PHONE_SIZE)
+                    ])),
+                clipper: ZigzagClipPath(),
+              ),
+              RecommandSiteWidget(),
+              RecentlyPostsWidget(),
+              FooterWidget()
+            ]))));
   }
 
   Widget _buildIntroText() {

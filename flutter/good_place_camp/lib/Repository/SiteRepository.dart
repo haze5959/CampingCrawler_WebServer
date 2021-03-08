@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
+import 'package:good_place_camp/Model/CampInfo.dart';
 
 class SiteRepository extends GetConnect {
   @override
@@ -25,4 +26,7 @@ class SiteRepository extends GetConnect {
 
     return get(url);
   }
+
+  Future<Response<Map<String, CampInfo>>> getAllSiteJson() =>
+      get('/info', contentType: "application/json", decoder: CampInfo.fromJsonArr);
 }

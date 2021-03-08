@@ -18,7 +18,7 @@ class CampDetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(infoJson["name"]),
+        title: Text(infoJson.name),
         actions: [
           Obx(() => IconButton(
                 icon: c.isFavorite.value
@@ -38,7 +38,7 @@ class CampDetailPage extends StatelessWidget {
             ElevatedButton(
               child: Text("홈페이지"),
               onPressed: () {
-                c.launchURL("homepage_url");
+                c.launchHomepageURL();
               },
             ),
             const SizedBox(height: 12),
@@ -46,7 +46,7 @@ class CampDetailPage extends StatelessWidget {
               icon: const Icon(Icons.add, size: 18),
               label: Text("예약 사이트"),
               onPressed: () {
-                c.launchURL("reservation_url");
+                c.launchReservationURL();
               },
             ),
           ],

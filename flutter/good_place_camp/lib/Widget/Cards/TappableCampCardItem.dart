@@ -78,7 +78,7 @@ class TappableCampCardItem extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
                     child: Text(
-                      "${CAMP_INFO[siteInfo.site]["name"]}",
+                      "${CAMP_INFO[siteInfo.site].name}",
                       style: titleStyle,
                     ),
                   ),
@@ -104,8 +104,8 @@ class TappableCampCardItem extends StatelessWidget {
                         style: addrStyle,
                       ),
                     ),
-                Text("${CAMP_INFO[siteInfo.site]["desc"]}", maxLines: 2),
-                Text("${CAMP_INFO[siteInfo.site]["addr"]}", style: addrStyle)
+                Text("${CAMP_INFO[siteInfo.site].desc}", maxLines: 2),
+                Text("${CAMP_INFO[siteInfo.site].addr}", style: addrStyle)
               ],
             ),
           ),

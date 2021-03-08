@@ -25,8 +25,17 @@ class CampDetailContoller extends GetxController {
 
   void reload() async {}
 
-  void launchURL(String urlKey) async {
-    final url = CAMP_INFO[siteName][urlKey];
+  void launchHomepageURL() async {
+    final url = CAMP_INFO[siteName].homepageUrl;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void launchReservationURL() async {
+    final url = CAMP_INFO[siteName].reservationUrl;
     if (await canLaunch(url)) {
       await launch(url);
     } else {

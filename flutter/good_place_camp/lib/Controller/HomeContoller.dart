@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 
@@ -20,8 +21,7 @@ class HomeController extends GetxController {
   List<SiteInfo> siteInfoList = <SiteInfo>[];
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
 
-  Map<String, Map<String, Object>> accpetedCampInfo =
-      Map<String, Map<String, Object>>();
+  Map<String, CampInfo> accpetedCampInfo = Map<String, CampInfo>();
 
   RxList<Post> postList = RxList<Post>.empty();
 
@@ -34,6 +34,8 @@ class HomeController extends GetxController {
 
   DateTime selectedDay = DateTime.now();
 
+  RxBool isLoading = true.obs;
+
   BuildContext context;
 
   @override
@@ -44,6 +46,14 @@ class HomeController extends GetxController {
 
   void initData() async {
     SELECTED_AREA = await getCampAreaData();
+    final result = await repo.getAllSiteJson();
+    if (result.hasError) {
+      showOneBtnAlert(result.statusText, "재시도", reload);
+      return;
+    }
+
+    CAMP_INFO = result.body;
+
     reload();
 
     final testItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -57,7 +67,8 @@ class HomeController extends GetxController {
   }
 
   void reload() async {
-    var result = await repo.getSiteInfo(SELECTED_AREA);
+    isLoading.value = true;
+    final result = await repo.getSiteInfo(SELECTED_AREA);
     if (result.hasError) {
       showOneBtnAlert(result.statusText, "재시도", reload);
       return;
@@ -70,6 +81,8 @@ class HomeController extends GetxController {
     updateAccpetedCampInfo();
 
     update();
+
+    isLoading.value = false;
   }
 
   void updateEvents(List<SiteInfo> infoList) {
@@ -91,12 +104,12 @@ class HomeController extends GetxController {
 
   void updateAccpetedCampInfo() {
     if (SELECTED_AREA.isEmpty) {
-      accpetedCampInfo = Map.from(CAMP_INFO);
+      accpetedCampInfo = CAMP_INFO;
     } else {
       accpetedCampInfo.clear();
       for (final key in CAMP_INFO.keys) {
         final info = CAMP_INFO[key];
-        if (SELECTED_AREA.contains(info["area"])) {
+        if (SELECTED_AREA.contains(info.area)) {
           accpetedCampInfo[key] = info;
         }
       }
@@ -123,19 +136,23 @@ class HomeController extends GetxController {
   }
 
   void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
-    showDialog(context: context, builder: (BuildContext context) {  return 
-    AlertDialog(
-        content: Text(
-          msg,
-        ),
-        actions: [
-          TextButton(  
-    child: Text(btnText),  
-      onPressed: () {  
-        confirmAction();
-      Navigator.of(context).pop();  
-    },  
-  )],);
-  });
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              msg,
+            ),
+            actions: [
+              TextButton(
+                child: Text(btnText),
+                onPressed: () {
+                  confirmAction();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }

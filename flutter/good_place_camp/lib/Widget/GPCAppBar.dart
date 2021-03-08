@@ -15,13 +15,13 @@ class GPCAppBar extends AppBar {
   GPCAppBar({this.pageName, this.showFilter})
       : super(
             centerTitle: true,
-            backgroundColor: Colors.lightGreen.shade500,
+            backgroundColor: Colors.lightGreen.shade400,
             title: Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Row(children: <Widget>[
-                  Text(pageName),
+                  Text(pageName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),),
                   Spacer(),
                   if (showFilter)
                     PopupMenuButton<CampArea>(
