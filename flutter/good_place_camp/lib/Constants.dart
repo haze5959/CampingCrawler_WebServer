@@ -7,7 +7,8 @@ const double CALENDER_WIDTH = 320;
 const double CARD_HEIGHT = 280;
 const double MAIN_PADDING = 50;
 
-bool IS_PHONE_SIZE = false;
-List<CampArea> SELECTED_AREA = [];
-
-Map<String, CampInfo> CAMP_INFO = {};
+class Constants {
+  static bool isPhoneSize = false;
+  static List<CampArea> selectedArea = [];
+  static Map<String, CampInfo> campInfo = {};
+}

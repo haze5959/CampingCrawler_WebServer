@@ -15,7 +15,7 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 class RecentlyPostsWidget extends StatelessWidget {
   @override
   Widget build(context) {
-    final HomeController c = Get.put(HomeController());
+    final HomeController c = Get.find();
 
     return Container(
         constraints: BoxConstraints(maxWidth: MAX_WIDTH),

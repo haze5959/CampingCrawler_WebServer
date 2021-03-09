@@ -15,6 +15,8 @@ class SiteRepository extends GetConnect {
 
   Future<Response<List<SiteInfo>>> getAllSiteInfo() => get('/camp');
 
+  Future<Response<SiteInfo>> getSiteInfoWith(String site) => get('/camp/$site', decoder: SiteInfo.fromJson);
+
   Future<Response<List<SiteInfo>>> getSiteInfo(List<CampArea> areaList) {
     var url = "/camp";
     Iterable<int>.generate(areaList.length).forEach((index) => {

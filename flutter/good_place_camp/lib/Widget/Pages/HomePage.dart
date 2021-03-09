@@ -34,14 +34,14 @@ class HomePage extends StatelessWidget {
                         top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                      image: IS_PHONE_SIZE
+                      image: Constants.isPhoneSize
                           ? AssetImage('assets/Banner02.jpg')
                           : AssetImage('assets/Banner01.jpg'),
                       fit: BoxFit.cover,
                     )),
                     child: Column(children: <Widget>[
-                      if (!IS_PHONE_SIZE) _buildIntroText(),
-                      CalenderWidget(isVertical: IS_PHONE_SIZE)
+                      if (!Constants.isPhoneSize) _buildIntroText(),
+                      CalenderWidget(isVertical: Constants.isPhoneSize)
                     ])),
                 clipper: ZigzagClipPath(),
               ),

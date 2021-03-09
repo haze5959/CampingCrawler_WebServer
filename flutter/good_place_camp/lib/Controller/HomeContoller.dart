@@ -45,14 +45,14 @@ class HomeController extends GetxController {
   }
 
   void initData() async {
-    SELECTED_AREA = await getCampAreaData();
+    Constants.selectedArea = await getCampAreaData();
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
       showOneBtnAlert(result.statusText, "재시도", reload);
       return;
     }
 
-    CAMP_INFO = result.body;
+    Constants.campInfo = result.body;
 
     reload();
 
@@ -68,7 +68,7 @@ class HomeController extends GetxController {
 
   void reload() async {
     isLoading.value = true;
-    final result = await repo.getSiteInfo(SELECTED_AREA);
+    final result = await repo.getSiteInfo(Constants.selectedArea);
     if (result.hasError) {
       showOneBtnAlert(result.statusText, "재시도", reload);
       return;
@@ -103,13 +103,13 @@ class HomeController extends GetxController {
   }
 
   void updateAccpetedCampInfo() {
-    if (SELECTED_AREA.isEmpty) {
-      accpetedCampInfo = CAMP_INFO;
+    if (Constants.selectedArea.isEmpty) {
+      accpetedCampInfo = Map.from(Constants.campInfo);
     } else {
       accpetedCampInfo.clear();
-      for (final key in CAMP_INFO.keys) {
-        final info = CAMP_INFO[key];
-        if (SELECTED_AREA.contains(info.area)) {
+      for (final key in Constants.campInfo.keys) {
+        final info = Constants.campInfo[key];
+        if (Constants.selectedArea.contains(info.area)) {
           accpetedCampInfo[key] = info;
         }
       }

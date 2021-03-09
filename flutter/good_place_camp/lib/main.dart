@@ -19,9 +19,9 @@ class Home extends StatelessWidget {
   Widget build(context) {
     final HomeController c = Get.put(HomeController());
 
-    IS_PHONE_SIZE = context.mediaQuerySize.width < MAX_WIDTH;
+    Constants.isPhoneSize = context.mediaQuerySize.width < MAX_WIDTH;
 
-    return Scaffold(appBar: GPCAppBar(pageName: "명당캠핑", showFilter: true), body: Center(child: HomePage()), backgroundColor: Colors.lightGreen.shade50);
+    return Scaffold(appBar: GPCAppBar(pageName: "명당캠핑", showFilter: true, isMain: true), body: Center(child: HomePage()), backgroundColor: Colors.lightGreen.shade50);
   }
 }
 

@@ -5,23 +5,30 @@ import 'package:good_place_camp/Constants.dart';
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
+// Widgets
+import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
+
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
 
 class GPCAppBar extends AppBar {
   final String pageName;
   final bool showFilter;
+  final bool isMain;
 
-  GPCAppBar({this.pageName, this.showFilter})
+  GPCAppBar({this.pageName, this.showFilter, this.isMain = false})
       : super(
             centerTitle: true,
             backgroundColor: Colors.lightGreen.shade400,
             title: Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Row(children: <Widget>[
-                  Text(pageName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),),
+                  Text(
+                    pageName,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                  ),
                   Spacer(),
                   if (showFilter)
                     PopupMenuButton<CampArea>(
@@ -31,49 +38,49 @@ class GPCAppBar extends AppBar {
                         return [
                           CheckedPopupMenuItem(
                             value: CampArea.all,
-                            checked: SELECTED_AREA.isEmpty,
+                            checked: Constants.selectedArea.isEmpty,
                             child: Text(
                               CampArea.all.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.seoul,
-                            checked: SELECTED_AREA.contains(CampArea.seoul),
+                            checked: Constants.selectedArea.contains(CampArea.seoul),
                             child: Text(
                               CampArea.seoul.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.gyeonggi,
-                            checked: SELECTED_AREA.contains(CampArea.gyeonggi),
+                            checked: Constants.selectedArea.contains(CampArea.gyeonggi),
                             child: Text(
                               CampArea.gyeonggi.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.inchoen,
-                            checked: SELECTED_AREA.contains(CampArea.inchoen),
+                            checked: Constants.selectedArea.contains(CampArea.inchoen),
                             child: Text(
                               CampArea.inchoen.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.chungnam,
-                            checked: SELECTED_AREA.contains(CampArea.chungnam),
+                            checked: Constants.selectedArea.contains(CampArea.chungnam),
                             child: Text(
                               CampArea.chungnam.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.chungbuk,
-                            checked: SELECTED_AREA.contains(CampArea.chungbuk),
+                            checked: Constants.selectedArea.contains(CampArea.chungbuk),
                             child: Text(
                               CampArea.chungbuk.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.gangwon,
-                            checked: SELECTED_AREA.contains(CampArea.gangwon),
+                            checked: Constants.selectedArea.contains(CampArea.gangwon),
                             child: Text(
                               CampArea.gangwon.toAreaString(),
                             ),
@@ -81,26 +88,35 @@ class GPCAppBar extends AppBar {
                         ];
                       },
                       onSelected: (area) => onSelected(area),
-                    )
-                ]))) {}
+                    ),
+                  if (isMain && GetPlatform.isWeb)
+                    SizedBox(width: 20),
+                    IconButton(
+                      icon: const Icon(Icons.notifications),
+                      onPressed: () {
+                        Get.to(PushPromotionPage());
+                      },
+                      // tooltip: "알림 설정",
+                    ),
+                ])));
 
   static void onSelected(CampArea area) {
     final HomeController c = Get.find();
 
     switch (area) {
       case CampArea.all:
-        SELECTED_AREA.clear();
+        Constants.selectedArea.clear();
         break;
       default:
-        if (SELECTED_AREA.contains(area)) {
-          SELECTED_AREA.remove(area);
+        if (Constants.selectedArea.contains(area)) {
+          Constants.selectedArea.remove(area);
         } else {
-          SELECTED_AREA.add(area);
+          Constants.selectedArea.add(area);
         }
         break;
     }
 
-    saveCampAreaData(SELECTED_AREA);
+    saveCampAreaData(Constants.selectedArea);
 
     c.reload();
   }

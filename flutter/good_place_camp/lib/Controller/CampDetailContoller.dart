@@ -6,6 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 // Repository
 import 'package:good_place_camp/Repository/SiteRepository.dart';
 
+// Model
+import 'package:good_place_camp/Model/SiteInfo.dart';
+
 class CampDetailContoller extends GetxController {
   final String siteName;
 
@@ -13,7 +16,11 @@ class CampDetailContoller extends GetxController {
 
   SiteRepository repo = SiteRepository();
 
-  var isFavorite = false.obs;
+  Rx<SiteInfo> siteInfo;
+
+  RxBool isFavorite = false.obs;
+
+  RxBool isLoading = true.obs;
 
   BuildContext context;
 
@@ -23,10 +30,22 @@ class CampDetailContoller extends GetxController {
     reload();
   }
 
-  void reload() async {}
+  void reload() async {
+    isLoading.value = true;
+
+    final result = await repo.getSiteInfoWith(siteName);
+    if (result.hasError) {
+      showOneBtnAlert(result.statusText, "재시도", reload);
+      return;
+    }
+
+    siteInfo = result.body.obs;
+
+    isLoading.value = false;
+  }
 
   void launchHomepageURL() async {
-    final url = CAMP_INFO[siteName].homepageUrl;
+    final url = Constants.campInfo[siteName].homepageUrl;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -35,11 +54,32 @@ class CampDetailContoller extends GetxController {
   }
 
   void launchReservationURL() async {
-    final url = CAMP_INFO[siteName].reservationUrl;
+    final url = Constants.campInfo[siteName].reservationUrl;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              msg,
+            ),
+            actions: [
+              TextButton(
+                child: Text(btnText),
+                onPressed: () {
+                  confirmAction();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }
