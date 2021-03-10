@@ -15,13 +15,13 @@ class SiteInfo {
         updatedDate = json['updatedDate'];
 
   static List<SiteInfo> fromJsonArr(jsonStr) {
-    var list = List<Map<String, dynamic>>.from(jsonStr);
-    var listSiteInfo = list.map((json) => SiteInfo._fromJson(json));
+    final list = List<Map<String, dynamic>>.from(jsonStr);
+    final listSiteInfo = list.map((json) => SiteInfo._fromJson(json));
     return listSiteInfo.toList();
   }
 
   static SiteInfo fromJson(jsonStr) {
-    var map = Map<String, dynamic>.from(jsonStr);
-    return SiteInfo.fromJson(map);
+    final map = Map<String, dynamic>.from(jsonStr);
+    return SiteInfo._fromJson(map);
   }
 }

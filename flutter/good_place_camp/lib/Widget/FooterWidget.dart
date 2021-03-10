@@ -7,7 +7,7 @@ class FooterWidget extends StatelessWidget {
   Widget build(context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-      color: Colors.lightGreen.shade900,
+      color: Colors.lightGreen.shade800,
         child: Column(children: [
           Text("푸터어어어", style: footerStyle),
       const Divider(thickness: 1),

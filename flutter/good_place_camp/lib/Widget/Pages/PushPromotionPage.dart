@@ -20,7 +20,7 @@ class PushPromotionPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
-              child: Text("PushPromotionPage"),
+              child: GetPlatform.isWeb ? Text("웹 PushPromotionPage") : Text("모바일 PushPromotionPage"),
               onPressed: () {
               },
             ),

@@ -7,6 +7,7 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
+import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
 
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
@@ -45,42 +46,48 @@ class GPCAppBar extends AppBar {
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.seoul,
-                            checked: Constants.selectedArea.contains(CampArea.seoul),
+                            checked:
+                                Constants.selectedArea.contains(CampArea.seoul),
                             child: Text(
                               CampArea.seoul.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.gyeonggi,
-                            checked: Constants.selectedArea.contains(CampArea.gyeonggi),
+                            checked: Constants.selectedArea
+                                .contains(CampArea.gyeonggi),
                             child: Text(
                               CampArea.gyeonggi.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.inchoen,
-                            checked: Constants.selectedArea.contains(CampArea.inchoen),
+                            checked: Constants.selectedArea
+                                .contains(CampArea.inchoen),
                             child: Text(
                               CampArea.inchoen.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.chungnam,
-                            checked: Constants.selectedArea.contains(CampArea.chungnam),
+                            checked: Constants.selectedArea
+                                .contains(CampArea.chungnam),
                             child: Text(
                               CampArea.chungnam.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.chungbuk,
-                            checked: Constants.selectedArea.contains(CampArea.chungbuk),
+                            checked: Constants.selectedArea
+                                .contains(CampArea.chungbuk),
                             child: Text(
                               CampArea.chungbuk.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.gangwon,
-                            checked: Constants.selectedArea.contains(CampArea.gangwon),
+                            checked: Constants.selectedArea
+                                .contains(CampArea.gangwon),
                             child: Text(
                               CampArea.gangwon.toAreaString(),
                             ),
@@ -89,15 +96,26 @@ class GPCAppBar extends AppBar {
                       },
                       onSelected: (area) => onSelected(area),
                     ),
-                  if (isMain && GetPlatform.isWeb)
+                  if (isMain) ...[
                     SizedBox(width: 20),
                     IconButton(
+                      tooltip: "즐겨찾기",
+                      icon: const Icon(Icons.star),
+                      onPressed: () {
+                        Get.to(CampListPage(isFavoritePage: true));
+                      },
+                      // tooltip: "알림 설정",
+                    ),
+                    SizedBox(width: 20),
+                    IconButton(
+                      tooltip: "알림 설정",
                       icon: const Icon(Icons.notifications),
                       onPressed: () {
                         Get.to(PushPromotionPage());
                       },
                       // tooltip: "알림 설정",
                     ),
+                  ]
                 ])));
 
   static void onSelected(CampArea area) {
