@@ -61,8 +61,8 @@ class PostCardItem extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Ink.image(
-                image: AssetImage('assets/Camp_Default.webp'),
-                fit: BoxFit.cover,
+                image: AssetImage('assets/Camp_Default.png'),
+                fit: BoxFit.fitHeight,
                 child: Container(),
               ),
             ),

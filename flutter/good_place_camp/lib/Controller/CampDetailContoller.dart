@@ -22,7 +22,7 @@ class CampDetailContoller extends GetxController {
 
   SiteInfo siteInfo;
 
-  RxBool isFavorite = false.obs;
+  Rx<bool> isFavorite = Rx<bool>(false);
 
   RxBool isLoading = true.obs;
 
@@ -43,7 +43,7 @@ class CampDetailContoller extends GetxController {
     siteInfo = result.body;
     _updateEvents(siteInfo);
 
-    isFavorite = (await _checkFavorite()).obs;
+    isFavorite(_checkFavorite());
     isLoading.value = false;
   }
 
@@ -94,30 +94,20 @@ class CampDetailContoller extends GetxController {
     }
   }
 
-  Future<bool> _checkFavorite() async {
-    final prefs = await SharedPreferences.getInstance();
-    final favoriteList = prefs.getStringList("CAMP_FAVORITE");
-    if (favoriteList == null) {
-      return false;
-    }
-
-    return favoriteList.contains(siteName);
+  bool _checkFavorite() {
+    return Constants.favoriteList.contains(siteName);
   }
 
   void onClickFavorite() async {
-    final prefs = await SharedPreferences.getInstance();
-    var favoriteList = prefs.getStringList("CAMP_FAVORITE");
-    if (favoriteList == null) {
-      favoriteList = [siteName];
-      isFavorite = true.obs;
-    } else if (favoriteList.contains(siteName)) {
-      favoriteList.remove(siteName);
-      isFavorite = false.obs;
+    if (Constants.favoriteList.contains(siteName)) {
+      Constants.favoriteList.remove(siteName);
+      isFavorite(false);
     } else {
-      favoriteList.add(siteName);
-      isFavorite = true.obs;
+      Constants.favoriteList.add(siteName);
+      isFavorite(true);
     }
 
-    prefs.setStringList("CAMP_FAVORITE", favoriteList);
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList("CAMP_FAVORITE", Constants.favoriteList);
   }
 }

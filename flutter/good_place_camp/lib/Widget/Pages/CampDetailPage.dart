@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/CampDetailContoller.dart';
@@ -27,13 +26,13 @@ class CampDetailPage extends StatelessWidget {
         title:
             Text(infoJson.name, style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
-          Obx(() => IconButton(
-                tooltip: "즐겨찾기",
-                icon: c.isFavorite.value
-                    ? Icon(Icons.star, color: Colors.yellow)
-                    : Icon(Icons.star_border_outlined, color: Colors.white),
-                onPressed: c.onClickFavorite,
-              )),
+          IconButton(
+            tooltip: "즐겨찾기",
+            icon: Obx(() => c.isFavorite.value
+                ? Icon(Icons.star, color: Colors.yellow)
+                : Icon(Icons.star_border_outlined, color: Colors.white)),
+            onPressed: c.onClickFavorite,
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -131,6 +130,7 @@ class CampDetailPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
           icon: const Icon(Icons.home, size: 18),
           label: Text("홈페이지"),
           onPressed: () {
@@ -139,6 +139,7 @@ class CampDetailPage extends StatelessWidget {
         ),
         const SizedBox(width: 12),
         ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
           icon: const Icon(Icons.calendar_today, size: 18),
           label: Text("예약 사이트"),
           onPressed: () {

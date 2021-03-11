@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/GPCAppBar.dart';
@@ -19,8 +20,6 @@ class CampListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController c = Get.find();
-
     return Scaffold(
       appBar: isFavoritePage
           ? GPCAppBar(pageName: "나만의 캠핑장", showFilter: false)
@@ -31,28 +30,41 @@ class CampListPage extends StatelessWidget {
             child: Scrollbar(
                 child: isFavoritePage
                     ? _buildFavoriteList(context)
-                    : _buildCampList(context, c))),
+                    : _buildCampList(context))),
       ),
     );
   }
 
-  Widget _buildCampList(BuildContext context, HomeController c) {
+  Widget _buildCampList(BuildContext context) {
+    final HomeController c = Get.find();
+
     return ListView.builder(
       itemCount: c.siteInfoList.length,
       itemBuilder: (context, index) {
         return ListTile(
             title: TappableCampCardItem(siteInfo: c.siteInfoList[index]));
       },
+
+      //   final campKeys = Constants.campInfo.keys.toList();
+      // return ListView.builder(
+      //   itemCount: campKeys.length,
+      //   itemBuilder: (context, index) {
+      //     return ListTile(title: SimpleCampCardItem(siteName: campKeys[index]));
+      //   },
+      // );
     );
   }
 
   Widget _buildFavoriteList(BuildContext context) {
-    final campKeys = Constants.campInfo.keys.toList();
-    return ListView.builder(
-      itemCount: campKeys.length,
-      itemBuilder: (context, index) {
-        return ListTile(title: SimpleCampCardItem(siteName: campKeys[index]));
-      },
-    );
+    return Obx(() => Constants.favoriteList.length == 0
+        ? Center(child: Text("등록된 즐겨찾기 목록이 없습니다."))
+        : ListView.builder(
+            itemCount: Constants.favoriteList.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                  title: SimpleCampCardItem(
+                      siteName: Constants.favoriteList[index]));
+            },
+          ));
   }
 }

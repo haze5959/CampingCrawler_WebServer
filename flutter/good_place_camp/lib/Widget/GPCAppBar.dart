@@ -26,6 +26,15 @@ class GPCAppBar extends AppBar {
                 padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Row(children: <Widget>[
+                  if (isMain)
+                    IconButton(
+                      icon: Image.asset('assets/Camp_Main.png'),
+                      iconSize: 35,
+                      onPressed: () {
+                        final HomeController c = Get.find();
+                        c.reload();
+                      },
+                    ),
                   Text(
                     pageName,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),

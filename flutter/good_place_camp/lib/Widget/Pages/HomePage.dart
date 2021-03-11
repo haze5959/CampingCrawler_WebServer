@@ -23,32 +23,37 @@ class HomePage extends StatelessWidget {
 
     return Obx(() => c.isLoading.value
         ? Center(child: CircularProgressIndicator())
-        : SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
-            child: Container(
-                child: Column(children: <Widget>[
-              ClipPath(
+        : RefreshIndicator(
+            onRefresh: () async {
+              c.reload();
+              return;
+            },
+            child: SingleChildScrollView(
+                physics: ClampingScrollPhysics(),
                 child: Container(
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.only(
-                        top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: Constants.isPhoneSize
-                          ? AssetImage('assets/Banner02.jpg')
-                          : AssetImage('assets/Banner01.jpg'),
-                      fit: BoxFit.cover,
-                    )),
                     child: Column(children: <Widget>[
-                      if (!Constants.isPhoneSize) _buildIntroText(),
-                      CalenderWidget(isVertical: Constants.isPhoneSize)
-                    ])),
-                clipper: ZigzagClipPath(),
-              ),
-              RecommandSiteWidget(),
-              RecentlyPostsWidget(),
-              FooterWidget()
-            ]))));
+                  ClipPath(
+                    child: Container(
+                        alignment: Alignment.topCenter,
+                        padding: EdgeInsets.only(
+                            top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          image: Constants.isPhoneSize
+                              ? AssetImage('assets/Banner02.jpg')
+                              : AssetImage('assets/Banner01.jpg'),
+                          fit: BoxFit.cover,
+                        )),
+                        child: Column(children: <Widget>[
+                          if (!Constants.isPhoneSize) _buildIntroText(),
+                          CalenderWidget(isVertical: Constants.isPhoneSize)
+                        ])),
+                    clipper: ZigzagClipPath(),
+                  ),
+                  RecommandSiteWidget(),
+                  RecentlyPostsWidget(),
+                  FooterWidget()
+                ])))));
   }
 
   Widget _buildIntroText() {

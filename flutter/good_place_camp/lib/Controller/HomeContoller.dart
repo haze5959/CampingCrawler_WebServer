@@ -55,15 +55,20 @@ class HomeController extends GetxController {
     Constants.campInfo = result.body;
 
     reload();
+    // BoardType.
+    // BoardModel();
+    // Post(PostType)
+    // PostModel(PostType.notice, "", "");
+    // final postList = [];
 
-    final testItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        .map((key) => Post(
-              "타이틀$key",
-              "바디들",
-              "으허허헝",
-            ))
-        .toList();
-    postList.assignAll(testItem);
+    // final testItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    //     .map((key) => Post(
+    //           "타이틀$key",
+    //           "바디들",
+    //           "으허허헝",
+    //         ))
+    //     .toList();
+    // postList.assignAll(testItem);
   }
 
   void reload() async {
