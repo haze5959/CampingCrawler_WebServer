@@ -28,14 +28,13 @@ class PostCardItem extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: () {
-                print('Card was tapped');
                 Navigator.push<void>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PostDetailPage(id: 0),
-                          fullscreenDialog: true,
-                        ),
-                      );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PostDetailPage(id: 0),
+                    fullscreenDialog: true,
+                  ),
+                );
               },
               splashColor:
                   Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
@@ -67,7 +66,7 @@ class PostCardItem extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 16,
+              bottom: 8,
               left: 16,
               right: 16,
               child: FittedBox(
@@ -75,34 +74,55 @@ class PostCardItem extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.black26,
+                      color: Colors.black54,
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    "${info.title}",
+                    info.type.toPostTypeString(),
                     style: titleStyle,
                   ),
                 ),
+              ),
+            ),
+            Positioned(
+              top: 16,
+              right: 16,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Row(children: <Widget>[
+                  Icon(Icons.comment_outlined, size: 18),
+                  SizedBox(width: 3),
+                  Text(
+                    "${info.commentCount}",
+                    style: theme.textTheme.subtitle1,
+                  ),
+                ]),
               ),
             ),
           ],
         ),
       ),
       Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-          child: DefaultTextStyle(
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-            style: descriptionStyle,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("${info.body}", style: descriptionStyle, maxLines: 2,),
-                Text("${info.nick}", style: addrStyle)
-              ],
-            ),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: DefaultTextStyle(
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          style: descriptionStyle,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${info.title}",
+                style: descriptionStyle,
+                overflow: TextOverflow.fade,
+                maxLines: 1,
+              ),
+              Text("${info.nick}", style: addrStyle)
+            ],
           ),
         ),
+      ),
     ]);
   }
 }

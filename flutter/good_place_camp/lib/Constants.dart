@@ -17,7 +17,10 @@ class Constants {
   static RxList<String> favoriteList = () {
     final prefs = SharedPreferences.getInstance();
     prefs.then((value) {
-      Constants.favoriteList.addAll(value.getStringList("CAMP_FAVORITE"));
+      final list = value.getStringList("CAMP_FAVORITE");
+      if (list != null) {
+        Constants.favoriteList.addAll(list);
+      }
     });
 
     return RxList<String>();

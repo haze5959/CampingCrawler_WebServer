@@ -46,6 +46,7 @@ class HomePage extends StatelessWidget {
                         )),
                         child: Column(children: <Widget>[
                           if (!Constants.isPhoneSize) _buildIntroText(),
+                          SizedBox(height: 30),
                           CalenderWidget(isVertical: Constants.isPhoneSize)
                         ])),
                     clipper: ZigzagClipPath(),
@@ -60,9 +61,21 @@ class HomePage extends StatelessWidget {
     return Container(
         constraints: BoxConstraints(maxWidth: MAX_WIDTH),
         alignment: Alignment.centerLeft,
-        child: Text("이제 '명당'에서 캠핑하세요",
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 40),
-            textAlign: TextAlign.left));
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Text("이제 '명당'에서 캠핑하세요",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 40),
+              textAlign: TextAlign.left),
+          Text("매시간 마다 업데이트 되는 캠핑장 예약 정보로 빠르고 편리하게 명당을 예약하세요!",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 18),
+              textAlign: TextAlign.left),
+        ]));
   }
 }

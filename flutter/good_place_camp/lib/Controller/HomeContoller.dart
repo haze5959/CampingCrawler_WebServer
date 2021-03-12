@@ -55,20 +55,6 @@ class HomeController extends GetxController {
     Constants.campInfo = result.body;
 
     reload();
-    // BoardType.
-    // BoardModel();
-    // Post(PostType)
-    // PostModel(PostType.notice, "", "");
-    // final postList = [];
-
-    // final testItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    //     .map((key) => Post(
-    //           "타이틀$key",
-    //           "바디들",
-    //           "으허허헝",
-    //         ))
-    //     .toList();
-    // postList.assignAll(testItem);
   }
 
   void reload() async {
@@ -85,9 +71,35 @@ class HomeController extends GetxController {
 
     updateAccpetedCampInfo();
 
-    update();
+    final posts = [
+      Post(0, PostType.notice, "공지공지", "바디 바디 바아아아디", "닉네임12", DateTime.now(),
+          0),
+      Post(
+          1,
+          PostType.question,
+          "문의문의문의문의문의문의문의문의문의문의문의문의문의문의",
+          "바디 바디 바아아아디 문의문의바디 바디 바아아아디 \n 문의문의바디 바디 바아아아디문의문의바디 바디 바아아아디문의문의바디 바디 바아아아디",
+          "닉네임4646",
+          DateTime.now(),
+          5),
+      Post(2, PostType.request, "캠핑장 요청", "ㄴㄹㅁㄴㄹㅁㄴㄹㄴ", "닉네임g24", DateTime.now(),
+          0),
+      Post(
+          3,
+          PostType.secret,
+          "비밀글",
+          "바디\n 바디\n 바아아아디문의문의바디 바디 바아아아디문의문의바디 바디 바아아아디",
+          "닉네임tjr",
+          DateTime.now(),
+          2),
+      Post(4, PostType.notice, "두번째 공지다", "ㄴㄴㄹㄴㄹㄴㄲㄴㄱㄴㄱ", "닉네임2", DateTime.now(),
+          1)
+    ];
+
+    postList.addAll(posts);
 
     isLoading.value = false;
+    update();
   }
 
   void updateEvents(List<SiteInfo> infoList) {
