@@ -10,12 +10,12 @@ class PostsRepository extends GetConnect {
     httpClient.baseUrl = 'http://haze5959.iptime.org:8000';
   }
 
-  Future<Response<List<Post>>> getAllPostsSimpleList() =>
-      get('/posts', decoder: Post.fromJsonArr);
+  Future<Response<List<Post>>> getAllPostsSimpleList(int page) =>
+      get('/posts/list/$page', decoder: Post.fromJsonArr);
 
   Future<Response<Post>> getPostsWith(int id) =>
       get('/posts/$id', decoder: Post.fromJson);
 
-  Future<Response<List<Comment>>> getCommentWith(int id) =>
-      get('/comment/$id', decoder: Comment.fromJsonArr);
+  Future<Response<Post>> getPostsWith(int id, String pw) =>
+      get('/posts/$id?key=$spw', decoder: Post.fromJson);
 }

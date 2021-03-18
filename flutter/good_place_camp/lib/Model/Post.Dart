@@ -2,7 +2,7 @@ class Post {
   final int id;
   final PostType type;
   final String title;
-  final String body;
+  final String? body;
   final String nick;
   final DateTime editTime;
   final int commentCount;
