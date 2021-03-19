@@ -1787,6 +1787,7 @@ POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
 async
 collection
+crypto
 stream_channel
 typed_data
 

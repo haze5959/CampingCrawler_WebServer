@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/SiteRepository.dart';
+import 'package:good_place_camp/Repository/PostsRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
@@ -17,6 +19,7 @@ import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
 
 class HomeController extends GetxController {
   SiteRepository repo = SiteRepository();
+  PostsRepository postRepo = PostsRepository();
 
   List<SiteInfo> siteInfoList = <SiteInfo>[];
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
@@ -48,7 +51,7 @@ class HomeController extends GetxController {
     Constants.selectedArea = await getCampAreaData();
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
-      showOneBtnAlert(result.statusText, "재시도", reload);
+      showOneBtnAlert(context, result.statusText, "재시도", reload);
       return;
     }
 
@@ -61,7 +64,7 @@ class HomeController extends GetxController {
     isLoading.value = true;
     final result = await repo.getSiteInfo(Constants.selectedArea);
     if (result.hasError) {
-      showOneBtnAlert(result.statusText, "재시도", reload);
+      showOneBtnAlert(context, result.statusText, "재시도", reload);
       return;
     }
 
@@ -71,32 +74,10 @@ class HomeController extends GetxController {
 
     updateAccpetedCampInfo();
 
-    final posts = [
-      Post(0, PostType.notice, "공지공지", "바디 바디 바아아아디", "닉네임12", DateTime.now(),
-          0),
-      Post(
-          1,
-          PostType.question,
-          "문의문의문의문의문의문의문의문의문의문의문의문의문의문의",
-          "바디 바디 바아아아디 문의문의바디 바디 바아아아디 \n 문의문의바디 바디 바아아아디문의문의바디 바디 바아아아디문의문의바디 바디 바아아아디",
-          "닉네임4646",
-          DateTime.now(),
-          5),
-      Post(2, PostType.request, "캠핑장 요청", "ㄴㄹㅁㄴㄹㅁㄴㄹㄴ", "닉네임g24", DateTime.now(),
-          0),
-      Post(
-          3,
-          PostType.secret,
-          "비밀글",
-          "바디\n 바디\n 바아아아디문의문의바디 바디 바아아아디문의문의바디 바디 바아아아디",
-          "닉네임tjr",
-          DateTime.now(),
-          2),
-      Post(4, PostType.notice, "두번째 공지다", "ㄴㄴㄹㄴㄹㄴㄲㄴㄱㄴㄱ", "닉네임2", DateTime.now(),
-          1)
-    ];
-
-    postList.addAll(posts);
+    // 게시물 로드
+    final postResult = await postRepo.getAllPostsSimpleList(0);
+    final recentlyPostList = postResult.body;
+    postList.assignAll(recentlyPostList);
 
     isLoading.value = false;
     update();
@@ -150,26 +131,5 @@ class HomeController extends GetxController {
         );
       });
     }
-  }
-
-  void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text(
-              msg,
-            ),
-            actions: [
-              TextButton(
-                child: Text(btnText),
-                onPressed: () {
-                  confirmAction();
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
   }
 }

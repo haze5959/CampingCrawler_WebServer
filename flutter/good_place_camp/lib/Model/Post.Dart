@@ -2,7 +2,7 @@ class Post {
   final int id;
   final PostType type;
   final String title;
-  final String? body;
+  final String body;
   final String nick;
   final DateTime editTime;
   final int commentCount;
@@ -99,5 +99,21 @@ extension ParseToString on PostType {
       case PostType.secret:
         return "비밀글";
     }
+  }
+}
+
+class Board {
+  final Post post;
+  final List<Comment> commentList;
+
+  Board(this.post, this.commentList);
+
+  Board._fromJson(Map<String, dynamic> json)
+      : post = json['posts'] != null ? Post.fromJson(json['posts']) : null,
+        commentList = json['comments'] != null ? Comment.fromJsonArr(json['comments']) : null;
+
+  static Board fromJson(jsonStr) {
+    final map = Map<String, dynamic>.from(jsonStr);
+    return Board._fromJson(map);
   }
 }

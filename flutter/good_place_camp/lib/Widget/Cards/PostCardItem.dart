@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PostDetailPage.dart';
@@ -28,13 +29,29 @@ class PostCardItem extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PostDetailPage(id: 0),
-                    fullscreenDialog: true,
-                  ),
-                );
+                if (info.type == PostType.secret) {
+                  showPwAlert(
+                      context,
+                      "게시물의 패스워드를 입력해주세요.",
+                      (pw) => {
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    PostDetailPage(id: info.id, pw: pw),
+                                fullscreenDialog: true,
+                              ),
+                            )
+                          });
+                } else {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PostDetailPage(id: info.id),
+                      fullscreenDialog: true,
+                    ),
+                  );
+                }
               },
               splashColor:
                   Theme.of(context).colorScheme.onSurface.withOpacity(0.12),

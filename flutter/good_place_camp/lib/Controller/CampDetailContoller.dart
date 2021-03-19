@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/SiteRepository.dart';
@@ -30,13 +30,11 @@ class CampDetailContoller extends GetxController {
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
 
-  BuildContext context;
-
   void reload() async {
     isLoading.value = true;
     final result = await repo.getSiteInfoWith(siteName);
     if (result.hasError) {
-      _showOneBtnAlert(result.statusText, "재시도", reload);
+      showOneBtnAlert(Get.context, result.statusText, "재시도", reload);
       return;
     }
 
@@ -63,27 +61,6 @@ class CampDetailContoller extends GetxController {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  void _showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text(
-              msg,
-            ),
-            actions: [
-              TextButton(
-                child: Text(btnText),
-                onPressed: () {
-                  confirmAction();
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
   }
 
   void _updateEvents(SiteInfo info) {
