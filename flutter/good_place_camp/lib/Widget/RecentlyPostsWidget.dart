@@ -13,6 +13,10 @@ import 'package:good_place_camp/Model/Post.dart';
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 class RecentlyPostsWidget extends StatelessWidget {
+  final bool isNotice; // 공지사항 뷰인지
+
+  RecentlyPostsWidget({this.isNotice});
+
   @override
   Widget build(context) {
     final HomeController c = Get.find();
@@ -23,12 +27,12 @@ class RecentlyPostsWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
             child: Row(children: [
-              Text("게시판",
+              Text(isNotice ? "공지사항" : "요청/문의 게시판",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                   textAlign: TextAlign.left),
               SizedBox(width: 10),
               FloatingActionButton(
-                heroTag: "RecentlyPosts",
+                heroTag: isNotice ? "RecentlyNoticePosts" : "RecentlyPosts",
                 backgroundColor: Colors.lightGreen.shade300,
                 mini: true,
                 child: const Icon(Icons.add),
@@ -39,7 +43,7 @@ class RecentlyPostsWidget extends StatelessWidget {
                           pageBuilder: (BuildContext context,
                               Animation animation,
                               Animation secondaryAnimation) {
-                            return PostListPage();
+                            return PostListPage(isNotice: isNotice);
                           },
                           opaque: true,
                           barrierColor: Colors.grey,
@@ -69,11 +73,17 @@ class RecentlyPostsWidget extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
                 scrollDirection: Axis.horizontal,
                 physics: ClampingScrollPhysics(),
-                child: Obx(() => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: c.postList
-                        .map((element) => PostCardItem(info: element))
-                        .toList()))),
+                child: isNotice
+                    ? Obx(() => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: c.noticeList
+                            .map((element) => PostCardItem(info: element))
+                            .toList()))
+                    : Obx(() => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: c.postList
+                            .map((element) => PostCardItem(info: element))
+                            .toList()))),
             SizedBox(
               child: DecoratedBox(
                 decoration: BoxDecoration(

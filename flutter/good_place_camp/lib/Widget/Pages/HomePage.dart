@@ -52,7 +52,8 @@ class HomePage extends StatelessWidget {
                     clipper: ZigzagClipPath(),
                   ),
                   RecommandSiteWidget(),
-                  RecentlyPostsWidget(),
+                  RecentlyPostsWidget(isNotice: true),
+                  RecentlyPostsWidget(isNotice: false),
                   FooterWidget()
                 ])))));
   }

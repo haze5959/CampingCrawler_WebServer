@@ -26,6 +26,7 @@ class HomeController extends GetxController {
 
   Map<String, CampInfo> accpetedCampInfo = Map<String, CampInfo>();
 
+  RxList<Post> noticeList = RxList<Post>.empty();
   RxList<Post> postList = RxList<Post>.empty();
 
   List<CalendarController> calendarControllerList = [
@@ -75,9 +76,10 @@ class HomeController extends GetxController {
     updateAccpetedCampInfo();
 
     // 게시물 로드
-    final postResult = await postRepo.getAllPostsSimpleList(0);
-    final recentlyPostList = postResult.body;
-    postList.assignAll(recentlyPostList);
+    final postResult = await postRepo.getFirstPagePostsList();
+    final postJson = postResult.body;
+    noticeList.assignAll(postJson["notice"]);
+    postList.assignAll(postJson["posts"]);
 
     isLoading.value = false;
     update();

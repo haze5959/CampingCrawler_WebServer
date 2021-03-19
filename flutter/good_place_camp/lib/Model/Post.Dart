@@ -37,6 +37,15 @@ class Post {
     final map = Map<String, dynamic>.from(jsonStr);
     return Post._fromJson(map);
   }
+
+  static Map<String, List<Post>> fromJsonToHomePosts(jsonStr) {
+    final map = Map<String, dynamic>.from(jsonStr);
+    final homePosts = {
+      "notice": Post.fromJsonArr(map['notice']),
+      "posts": Post.fromJsonArr(map['posts'])
+    };
+    return homePosts;
+  }
 }
 
 class Comment {
@@ -84,6 +93,21 @@ PostType fromInt(int val) {
       return PostType.secret;
     default:
       return PostType.secret;
+  }
+}
+
+int toInt(PostType type) {
+  switch (type) {
+    case PostType.notice:
+      return 0;
+    case PostType.request:
+      return 1;
+    case PostType.question:
+      return 2;
+    case PostType.secret:
+      return 3;
+    default:
+      return 3;
   }
 }
 

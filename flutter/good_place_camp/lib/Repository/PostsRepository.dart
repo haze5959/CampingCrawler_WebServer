@@ -9,8 +9,21 @@ class PostsRepository extends GetConnect {
     httpClient.baseUrl = 'http://haze5959.iptime.org:8000';
   }
 
-  Future<Response<List<Post>>> getAllPostsSimpleList(int page) =>
-      get('/post/list/$page', decoder: Post.fromJsonArr);
+  Future<Response<Map<String, List<Post>>>> getFirstPagePostsList() =>
+      get('/home', decoder: Post.fromJsonToHomePosts);
+
+  Future<Response<List<Post>>> getAllPostsSimpleList(
+      int page, List<PostType> typeList) {
+    var url = '/post/list/$page';
+    Iterable<int>.generate(typeList.length).forEach((index) => {
+          if (index == 0)
+            url += "?type=${toInt(typeList[index])}"
+          else
+            url += "&type=${toInt(typeList[index])}"
+        });
+
+    return get(url, decoder: Post.fromJsonArr);
+  }
 
   Future<Response<Board>> getPostsWith(int id) =>
       get('/post/$id', decoder: Board.fromJson);

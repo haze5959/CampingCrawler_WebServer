@@ -88,7 +88,7 @@ class PostDetailPage extends StatelessWidget {
             SizedBox(height: 20),
             Text("${posts.body}", style: theme.textTheme.headline6),
             SizedBox(height: 20),
-            comm
+            // 코맨트 만들어라!!
           ],
         ),
       ),
