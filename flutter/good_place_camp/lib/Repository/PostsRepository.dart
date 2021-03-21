@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
@@ -9,8 +10,11 @@ class PostsRepository extends GetConnect {
     httpClient.baseUrl = 'http://haze5959.iptime.org:8000';
   }
 
-  Future<Response<Map<String, List<Post>>>> getFirstPagePostsList() =>
-      get('/home', decoder: Post.fromJsonToHomePosts);
+  Future<Response<Map<String, List<Post>>>> getFirstPagePostsList() {
+    get('/home', decoder: Post.fromJsonToHomePosts).then((result) => {
+
+    }).timeout(timeOutSec);
+  }
 
   Future<Response<List<Post>>> getAllPostsSimpleList(
       int page, List<PostType> typeList) {
