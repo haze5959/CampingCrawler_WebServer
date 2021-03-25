@@ -36,9 +36,12 @@ class CampDetailContoller extends GetxController {
     if (result.hasError) {
       showOneBtnAlert(Get.context, result.statusText, "재시도", reload);
       return;
+    } else if (!result.body.result) {
+      showOneBtnAlert(Get.context, result.body.msg, "재시도", reload);
+      return;
     }
 
-    siteInfo = result.body;
+    siteInfo = SiteInfo.fromJson(result.body.data);
     _updateEvents(siteInfo);
 
     isFavorite(_checkFavorite());

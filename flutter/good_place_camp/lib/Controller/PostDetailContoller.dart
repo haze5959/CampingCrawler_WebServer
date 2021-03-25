@@ -29,29 +29,44 @@ class PostDetailContoller extends GetxController {
   void reload() async {
     isLoading.value = true;
     // 아이디로 게시물과 댓글 검색
-    Response<Board> result;
+    Board board;
 
     if (pw != null) {
       final bytes = utf8.encode(pw);
       final key = sha1.convert(bytes).toString();
-      result = await repo.getSecretPostsWith(id, key);
+      final postsResult = await repo.getSecretPostsWith(id, key);
 
-      if (result.body.post == null) {
-        showOneBtnAlert(
-            Get.context, "비밀번호가 일치하지 않습니다.", "확인", () => Navigator.pop(Get.context));
+      if (postsResult.hasError) {
+        showOneBtnAlert(Get.context, postsResult.statusText, "재시도", reload);
+        return;
+      } else if (!postsResult.body.result) {
+        showOneBtnAlert(Get.context, postsResult.body.msg, "재시도", reload);
+        return;
+      }
+
+      board = Board.fromJson(postsResult.body.data);
+
+      if (board.post == null) {
+        showOneBtnAlert(Get.context, "비밀번호가 일치하지 않습니다.", "확인",
+            () => Navigator.pop(Get.context));
         return;
       }
     } else {
-      result = await repo.getPostsWith(id);
+      final postsResult = await repo.getPostsWith(id);
+
+      if (postsResult.hasError) {
+        showOneBtnAlert(Get.context, postsResult.statusText, "재시도", reload);
+        return;
+      } else if (!postsResult.body.result) {
+        showOneBtnAlert(Get.context, postsResult.body.msg, "재시도", reload);
+        return;
+      }
+
+      board = Board.fromJson(postsResult.body.data);
     }
 
-    if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "재시도", reload);
-      return;
-    }
-
-    posts = result.body.post;
-    commentList = result.body.commentList;
+    posts = board.post;
+    commentList = board.commentList;
 
     isLoading.value = false;
   }

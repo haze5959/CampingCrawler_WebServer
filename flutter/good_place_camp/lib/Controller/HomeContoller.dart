@@ -54,9 +54,12 @@ class HomeController extends GetxController {
     if (result.hasError) {
       showOneBtnAlert(context, result.statusText, "재시도", reload);
       return;
+    } else if (!result.body.result) {
+      showOneBtnAlert(Get.context, result.body.msg, "재시도", reload);
+      return;
     }
 
-    Constants.campInfo = result.body;
+    Constants.campInfo = CampInfo.fromJsonArr(result.body.data);
 
     reload();
   }
@@ -67,9 +70,12 @@ class HomeController extends GetxController {
     if (result.hasError) {
       showOneBtnAlert(context, result.statusText, "재시도", reload);
       return;
+    } else if (!result.body.result) {
+      showOneBtnAlert(Get.context, result.body.msg, "재시도", reload);
+      return;
     }
 
-    var siteInfo = result.body;
+    var siteInfo = SiteInfo.fromJsonArr(result.body.data);
     updateEvents(siteInfo);
     siteInfoList = siteInfo;
 
@@ -77,7 +83,15 @@ class HomeController extends GetxController {
 
     // 게시물 로드
     final postResult = await postRepo.getFirstPagePostsList();
-    final postJson = postResult.body;
+    if (postResult.hasError) {
+      showOneBtnAlert(context, postResult.statusText, "재시도", reload);
+      return;
+    } else if (!postResult.body.result) {
+      showOneBtnAlert(Get.context, postResult.body.msg, "재시도", reload);
+      return;
+    }
+
+    final postJson = Post.fromJsonToHomePosts(postResult.body.data);
     noticeList.assignAll(postJson["notice"]);
     postList.assignAll(postJson["posts"]);
 
