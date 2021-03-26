@@ -43,7 +43,7 @@ class GPCAppBar extends AppBar {
                   if (showFilter)
                     PopupMenuButton<CampArea>(
                       tooltip: "지역필터",
-                      icon: Icon(IconData(0xe73d, fontFamily: 'MaterialIcons')),
+                      icon: Icon(Icons.filter_list_rounded),
                       itemBuilder: (context) {
                         return [
                           CheckedPopupMenuItem(

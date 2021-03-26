@@ -51,14 +51,16 @@ class Post {
 class Comment {
   final int id;
   final int postId;
+  final DateTime editTime;
   final String nick;
   final String comment;
 
-  Comment(this.id, this.postId, this.nick, this.comment);
+  Comment(this.id, this.postId, this.editTime, this.nick, this.comment);
 
   Comment._fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         postId = json['post_id'] as int,
+        editTime = DateTime.parse(json['edit_time']),
         nick = json['nick'],
         comment = json['comment'];
 
@@ -134,7 +136,9 @@ class Board {
 
   Board._fromJson(Map<String, dynamic> json)
       : post = json['posts'] != null ? Post.fromJson(json['posts']) : null,
-        commentList = json['comments'] != null ? Comment.fromJsonArr(json['comments']) : null;
+        commentList = json['comments'] != null
+            ? Comment.fromJsonArr(json['comments'])
+            : null;
 
   static Board fromJson(jsonStr) {
     final map = Map<String, dynamic>.from(jsonStr);
