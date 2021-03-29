@@ -1,8 +1,5 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:get/get.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
@@ -21,62 +18,83 @@ class CommentWidget extends StatelessWidget {
   Widget _buildCommentList(BuildContext context) {
     return Container(
       child: Column(children: [
-          for (final comment in commentList)
-            _buildCommentItem(comment),
-          
-          if (canWrite) 
-            _buildWriteCommentItem()
-        ]),
+        if (canWrite) _buildWriteCommentItem(),
+        for (final comment in commentList) _buildCommentItem(comment)
+      ]),
     );
   }
 
   Widget _buildCommentItem(Comment comment) {
-    return Container(color: Colors.blue[50],
-    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                  padding: const EdgeInsets.all(5.0),
-      child: Column(children: [
-       Row(children: [
-        Text(comment.nick),
-        Text(_getDateStr(comment.editTime)),
-        Spacer(),
-        IconButton(
-          tooltip: "신고하기",
-          icon: Icon(Icons.not_interested),
-          iconSize: 35,
-          onPressed: () {
-            // 신고하기
-          },
-        )
-      ]),
-      Divider(thickness: 1),
-      Text(comment.comment)
-    ]));
+    return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black12),
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: Column(children: [
+              Container(
+                  color: Colors.blueGrey[50],
+                  child: Row(children: [
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(comment.nick,
+                            style: TextStyle(fontWeight: FontWeight.bold))),
+                    Text(_getDateStr(comment.editTime),
+                        style: TextStyle(fontSize: 12)),
+                    Spacer(),
+                    IconButton(
+                      tooltip: "신고하기",
+                      icon: Icon(Icons.not_interested),
+                      iconSize: 20,
+                      onPressed: () {
+                        // 신고하기
+                      },
+                    )
+                  ])),
+              Container(color: Colors.black12, height: 1),
+              Padding(padding: EdgeInsets.all(20), child: Text(comment.comment))
+            ])));
   }
 
   Widget _buildWriteCommentItem() {
-    return Container(color: Colors.blue[50],
-    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                  padding: const EdgeInsets.all(5.0),
-      child: Column(children: [
-      Container(color: Colors.blue[50],
-      child: Row(children: [
-        SizedBox(width: 100, child: TextField(obscureText: true, obscuringCharacter: "익명의 캠퍼",)),
-        Spacer(),
-        ElevatedButton(
-                onPressed: () async {
-                  // 등록하기
-                },
-                child: Text("등록하기"),
-              )
-      ])),
-      Divider(thickness: 1),
-      TextField(obscureText: true, obscuringCharacter: "댓글...",)
-    ])
-    );
+    TextEditingController nickControler = new TextEditingController();
+    TextEditingController bodyControler = new TextEditingController();
+
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black12),
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        child: Column(children: [
+          Container(
+              color: Colors.blueGrey[50],
+              padding: EdgeInsets.all(10),
+              child: Row(children: [
+                SizedBox(
+                    width: 150,
+                    child: TextField(
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      controller: nickControler,
+                      decoration:
+                          InputDecoration(hintText: "익명의 캠퍼", labelText: '닉네임'),
+                    )),
+                Spacer(),
+                ElevatedButton(
+                  onPressed: () async {
+                    // 등록하기
+                  },
+                  child: Text("등록하기"),
+                )
+              ])),
+          Container(color: Colors.black12, height: 1),
+          Padding(
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                controller: bodyControler,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(hintText: "댓글...", labelText: '댓글'),
+              ))
+        ]));
   }
 
   String _getDateStr(DateTime date) {

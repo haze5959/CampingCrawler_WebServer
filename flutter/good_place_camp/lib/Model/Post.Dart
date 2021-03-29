@@ -17,6 +17,18 @@ class Post {
     this.commentCount,
   );
 
+  Map toJson() {
+    return {
+      "id": id,
+      "type": type,
+      "title": title,
+      "body": body,
+      "nick": nick,
+      "edit_time": editTime,
+      "comment_count": commentCount
+    }
+  }
+
   Post._fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         type = fromInt(json['type'] as int),

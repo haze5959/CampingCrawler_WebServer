@@ -1,12 +1,12 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
-import 'package:good_place_camp/Constants.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/PostDetailContoller.dart';
+
+// Widgets
+import 'package:good_place_camp/Widget/Comments/CommentWidget.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
@@ -36,7 +36,6 @@ class PostDetailPage extends StatelessWidget {
   Widget _buildContent(BuildContext context, Post posts, List<Comment> commentList) {
     final theme = Theme.of(context);
     final titleStyle = theme.textTheme.subtitle1.copyWith(color: Colors.white);
-    final addrStyle = theme.textTheme.caption;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SizedBox(
@@ -88,7 +87,7 @@ class PostDetailPage extends StatelessWidget {
             SizedBox(height: 20),
             Text("${posts.body}", style: theme.textTheme.headline6),
             SizedBox(height: 20),
-            // 코맨트 만들어라!!
+            CommentWidget(commentList: commentList)
           ],
         ),
       ),

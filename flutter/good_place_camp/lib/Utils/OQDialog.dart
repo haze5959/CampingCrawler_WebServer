@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Repository
+import 'package:good_place_camp/Repository/PostsRepository.dart';
+
 void showOneBtnAlert(BuildContext context, String msg, String btnText,
     Function() confirmAction) {
   showDialog(
@@ -52,6 +55,47 @@ void showPwAlert(
               onPressed: () {
                 Navigator.of(context).pop();
                 confirmAction(pwControler.text);
+              },
+            )
+          ],
+        );
+      });
+}
+
+void showReportAlert(BuildContext context, String id) {
+  TextEditingController bodyControler = new TextEditingController();
+  PostsRepository postRepo = PostsRepository();
+
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            TextField(
+              controller: bodyControler,
+              decoration:
+                  InputDecoration(hintText: "신고 내용...", labelText: '신고 내용'),
+            )
+          ]),
+          actions: [
+            TextButton(
+              child: Text("취소"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("확인"),
+              onPressed: () async {
+                // Navigator.of(context).pop();
+                final result = await postRepo.postReportWith(id, bodyControler.text);
+                if (result.hasError) {
+                  showOneBtnAlert(context, result.statusText, "닫기", (){});
+                  return;
+                } else if (!result.body.result) {
+                  showOneBtnAlert(context, result.body.msg, "닫기", (){});
+                  return;
+                }
               },
             )
           ],

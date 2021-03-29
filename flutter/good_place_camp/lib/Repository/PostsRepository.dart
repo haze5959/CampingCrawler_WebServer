@@ -11,7 +11,7 @@ class PostsRepository extends GetConnect {
     httpClient.defaultDecoder = ServerResult.fromJson;
     httpClient.baseUrl = 'http://haze5959.iptime.org:8000';
   }
-  
+
   Future<Response<ServerResult<dynamic>>> getFirstPagePostsList() {
     return get('/home');
   }
@@ -32,6 +32,14 @@ class PostsRepository extends GetConnect {
   Future<Response<ServerResult<dynamic>>> getPostsWith(int id) =>
       get('/post/$id');
 
-  Future<Response<ServerResult<dynamic>>> getSecretPostsWith(int id, String pw) =>
+  Future<Response<ServerResult<dynamic>>> getSecretPostsWith(
+          int id, String pw) =>
       get('/post/$id?key=$pw');
+
+  Future<Response<ServerResult<dynamic>>> postPostsWith(Post post) =>
+      post('/report', {id: id, body: body});
+
+  Future<Response<ServerResult<dynamic>>> postReportWith(
+          String id, String body) =>
+      post('/report', {id: id, body: body});
 }

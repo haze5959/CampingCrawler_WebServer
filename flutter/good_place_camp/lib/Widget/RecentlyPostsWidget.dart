@@ -27,7 +27,7 @@ class RecentlyPostsWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
             child: Row(children: [
-              Text(isNotice ? "공지사항" : "요청/문의 게시판",
+              Text(isNotice ? "공지사항/이벤트" : "요청/문의 게시판",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                   textAlign: TextAlign.left),
               SizedBox(width: 10),
