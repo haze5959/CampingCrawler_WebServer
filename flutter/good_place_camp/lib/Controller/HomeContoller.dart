@@ -55,7 +55,7 @@ class HomeController extends GetxController {
       showOneBtnAlert(context, result.statusText, "재시도", reload);
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "재시도", reload);
+      showOneBtnAlert(context, result.body.msg, "재시도", reload);
       return;
     }
 
@@ -71,7 +71,7 @@ class HomeController extends GetxController {
       showOneBtnAlert(context, result.statusText, "재시도", reload);
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "재시도", reload);
+      showOneBtnAlert(context, result.body.msg, "재시도", reload);
       return;
     }
 
@@ -87,7 +87,7 @@ class HomeController extends GetxController {
       showOneBtnAlert(context, postResult.statusText, "재시도", reload);
       return;
     } else if (!postResult.body.result) {
-      showOneBtnAlert(Get.context, postResult.body.msg, "재시도", reload);
+      showOneBtnAlert(context, postResult.body.msg, "재시도", reload);
       return;
     }
 

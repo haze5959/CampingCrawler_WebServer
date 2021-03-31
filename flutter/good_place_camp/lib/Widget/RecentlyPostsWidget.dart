@@ -6,9 +6,6 @@ import 'package:get/get.dart';
 import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
 import 'package:good_place_camp/Widget/Pages/PostListPage.dart';
 
-// Model
-import 'package:good_place_camp/Model/Post.dart';
-
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 

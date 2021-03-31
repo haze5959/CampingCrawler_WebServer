@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
+
+// Repository
+import 'package:good_place_camp/Repository/PostsRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
 
 class CommentWidget extends StatelessWidget {
+  final int postId;
   final bool canWrite;
-  final List<Comment> commentList;
+  RxList<Comment> commentList;
 
-  CommentWidget({this.commentList, this.canWrite = true});
+  CommentWidget({this.postId, this.commentList, this.canWrite = true});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +23,10 @@ class CommentWidget extends StatelessWidget {
 
   Widget _buildCommentList(BuildContext context) {
     return Container(
-      child: Column(children: [
-        if (canWrite) _buildWriteCommentItem(),
-        for (final comment in commentList) _buildCommentItem(comment)
-      ]),
-    );
+        child: Obx(() => Column(children: [
+              if (canWrite) _buildWriteCommentItem(),
+              for (final comment in commentList) _buildCommentItem(comment)
+            ])));
   }
 
   Widget _buildCommentItem(Comment comment) {
@@ -31,7 +36,9 @@ class CommentWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black12),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Column(children: [
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               Container(
                   color: Colors.blueGrey[50],
                   child: Row(children: [
@@ -47,12 +54,12 @@ class CommentWidget extends StatelessWidget {
                       icon: Icon(Icons.not_interested),
                       iconSize: 20,
                       onPressed: () {
-                        // 신고하기
+                        showReportAlert(Get.context, "comment_${comment.id}");
                       },
                     )
                   ])),
               Container(color: Colors.black12, height: 1),
-              Padding(padding: EdgeInsets.all(20), child: Text(comment.comment))
+              Padding(padding: EdgeInsets.fromLTRB(20, 10, 20, 10), child: Text(comment.comment))
             ])));
   }
 
@@ -60,7 +67,11 @@ class CommentWidget extends StatelessWidget {
     TextEditingController nickControler = new TextEditingController();
     TextEditingController bodyControler = new TextEditingController();
 
-    return Container(
+    nickControler.text = "익명의 캠퍼";
+
+    return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black12),
             borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -72,7 +83,9 @@ class CommentWidget extends StatelessWidget {
                 SizedBox(
                     width: 150,
                     child: TextField(
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      readOnly: true,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                       controller: nickControler,
                       decoration:
                           InputDecoration(hintText: "익명의 캠퍼", labelText: '닉네임'),
@@ -80,7 +93,32 @@ class CommentWidget extends StatelessWidget {
                 Spacer(),
                 ElevatedButton(
                   onPressed: () async {
-                    // 등록하기
+                    final body = bodyControler.text;
+
+                    if (body.length == 0) {
+                      showOneBtnAlert(
+                          Get.context, "내용을 입력해주세요.", "확인", () {});
+                      return;
+                    }
+
+                    final repo = PostsRepository();
+                    final result = await repo.postCommentWith(
+                        postId, nickControler.text, body);
+
+                    if (result.hasError) {
+                      showOneBtnAlert(
+                          Get.context, result.statusText, "확인", () {});
+                      return;
+                    } else if (!result.body.result) {
+                      showOneBtnAlert(
+                          Get.context, result.body.msg, "확인", () {});
+                      return;
+                    }
+
+                    commentList.insert(
+                        0,
+                        Comment(0, postId, DateTime.now(), nickControler.text,
+                            bodyControler.text));
                   },
                   child: Text("등록하기"),
                 )
@@ -94,7 +132,7 @@ class CommentWidget extends StatelessWidget {
                 maxLines: null,
                 decoration: InputDecoration(hintText: "댓글...", labelText: '댓글'),
               ))
-        ]));
+        ])));
   }
 
   String _getDateStr(DateTime date) {

@@ -86,8 +86,8 @@ class PostDetailPage extends StatelessWidget {
             const Divider(thickness: 1),
             SizedBox(height: 20),
             Text("${posts.body}", style: theme.textTheme.headline6),
-            SizedBox(height: 20),
-            CommentWidget(commentList: commentList)
+            SizedBox(height: 40),
+            CommentWidget(postId: id, commentList: commentList.obs)
           ],
         ),
       ),

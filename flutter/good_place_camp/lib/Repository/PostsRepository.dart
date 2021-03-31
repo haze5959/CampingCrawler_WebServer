@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:good_place_camp/Constants.dart';
 
 // Model
 import 'package:good_place_camp/Model/ServerResult.dart';
@@ -36,10 +35,20 @@ class PostsRepository extends GetConnect {
           int id, String pw) =>
       get('/post/$id?key=$pw');
 
-  Future<Response<ServerResult<dynamic>>> postPostsWith(Post post) =>
-      post('/report', {id: id, body: body});
+  Future<Response<ServerResult<dynamic>>> postPostsWith(
+          PostType type, String title, String body, String nick) =>
+      post('/post', {
+        "type": toInt(type),
+        "title": title,
+        "body": body,
+        "nick": nick,
+      });
+
+  Future<Response<ServerResult<dynamic>>> postCommentWith(
+          int postId, String nick, String comment) =>
+      post('/comment', {"post_id": postId, "nick": nick, "comment": comment});
 
   Future<Response<ServerResult<dynamic>>> postReportWith(
           String id, String body) =>
-      post('/report', {id: id, body: body});
+      post('/report', {"id": id, "body": body}, contentType: "application/json");
 }

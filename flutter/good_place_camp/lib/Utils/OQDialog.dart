@@ -87,15 +87,19 @@ void showReportAlert(BuildContext context, String id) {
             TextButton(
               child: Text("확인"),
               onPressed: () async {
-                // Navigator.of(context).pop();
-                final result = await postRepo.postReportWith(id, bodyControler.text);
+                final result =
+                    await postRepo.postReportWith(id, bodyControler.text);
                 if (result.hasError) {
-                  showOneBtnAlert(context, result.statusText, "닫기", (){});
+                  showOneBtnAlert(context, result.statusText, "닫기", () {});
                   return;
                 } else if (!result.body.result) {
-                  showOneBtnAlert(context, result.body.msg, "닫기", (){});
+                  showOneBtnAlert(context, result.body.msg, "닫기", () {});
                   return;
                 }
+
+                Navigator.of(context).pop();
+
+                showOneBtnAlert(context, "신고되었습니다.", "닫기", () {});
               },
             )
           ],
