@@ -10,7 +10,7 @@ import 'package:good_place_camp/Widget/Pages/PostWritePage.dart';
 import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
 
 // Controller
-import 'package:good_place_camp/Controller/HomeContoller.dart';
+import 'package:good_place_camp/Controller/PostListContoller.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
@@ -22,28 +22,27 @@ class PostListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController c = Get.find();
-    final list = isNotice ? c.noticeList : c.postList;
+    final PostListContoller c = PostListContoller(isNotice: isNotice);
 
-    return _build(list);
-  }
-
-  Scaffold _build(List<Post> list) {
     if (isNotice) {
       return Scaffold(
-          appBar: GPCAppBar(pageName: "공지사항", showFilter: false),
+          appBar: GPCAppBar(pageName: "공지사항/이벤트", showFilter: false),
           body: Center(
             child: Container(
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
-                child: Scrollbar(
-                    child: ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: _buildListCell(list[index]),
-                    );
-                  },
-                ))),
+                child: Obx(() => Stack(children: [
+                      Scrollbar(
+                          child: ListView.builder(
+                        itemCount: c.postList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: _buildListCell(c.postList[index]),
+                          );
+                        },
+                      )),
+                      if (c.isLoading.value)
+                        Center(child: CircularProgressIndicator())
+                    ]))),
           ));
     } else {
       return Scaffold(
@@ -51,23 +50,30 @@ class PostListPage extends StatelessWidget {
           body: Center(
             child: Container(
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
-                child: Scrollbar(
-                    child: ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: _buildListCell(list[index]),
-                    );
-                  },
-                ))),
+                child: Obx(() => Stack(children: [
+                      Scrollbar(
+                          child: ListView.builder(
+                        itemCount: c.postList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: _buildListCell(c.postList[index]),
+                          );
+                        },
+                      )),
+                      if (c.isLoading.value)
+                        Center(child: CircularProgressIndicator())
+                    ]))),
           ),
           floatingActionButton: FloatingActionButton(
               elevation: 0.0,
               tooltip: "새 글쓰기",
               child: Icon(Icons.edit),
               backgroundColor: Colors.lightGreen.shade400,
-              onPressed: () {
-                Get.to(PostWritePage());
+              onPressed: () async {
+                final result = await Get.to(PostWritePage());
+                if (result) {
+                  c.reload();
+                }
               }));
     }
   }

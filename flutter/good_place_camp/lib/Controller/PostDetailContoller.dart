@@ -36,10 +36,12 @@ class PostDetailContoller extends GetxController {
       final postsResult = await repo.getSecretPostsWith(id, key);
 
       if (postsResult.hasError) {
-        showOneBtnAlert(Get.context, postsResult.statusText, "재시도", reload);
+        showOneBtnAlert(Get.context, postsResult.statusText, "확인",
+            () => Navigator.pop(Get.context));
         return;
       } else if (!postsResult.body.result) {
-        showOneBtnAlert(Get.context, postsResult.body.msg, "재시도", reload);
+        showOneBtnAlert(Get.context, postsResult.body.msg, "확인",
+            () => Navigator.pop(Get.context));
         return;
       }
 
@@ -54,10 +56,12 @@ class PostDetailContoller extends GetxController {
       final postsResult = await repo.getPostsWith(id);
 
       if (postsResult.hasError) {
-        showOneBtnAlert(Get.context, postsResult.statusText, "재시도", reload);
+        showOneBtnAlert(Get.context, postsResult.statusText, "확인",
+            () => Navigator.pop(Get.context));
         return;
       } else if (!postsResult.body.result) {
-        showOneBtnAlert(Get.context, postsResult.body.msg, "재시도", reload);
+        showOneBtnAlert(Get.context, postsResult.body.msg, "확인",
+            () => Navigator.pop(Get.context));
         return;
       }
 

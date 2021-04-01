@@ -36,12 +36,13 @@ class PostsRepository extends GetConnect {
       get('/post/$id?key=$pw');
 
   Future<Response<ServerResult<dynamic>>> postPostsWith(
-          PostType type, String title, String body, String nick) =>
+          int type, String title, String body, String nick, String pw) =>
       post('/post', {
-        "type": toInt(type),
+        "type": type,
         "title": title,
         "body": body,
         "nick": nick,
+        "secret_key": pw
       });
 
   Future<Response<ServerResult<dynamic>>> postCommentWith(
@@ -50,5 +51,5 @@ class PostsRepository extends GetConnect {
 
   Future<Response<ServerResult<dynamic>>> postReportWith(
           String id, String body) =>
-      post('/report', {"id": id, "body": body}, contentType: "application/json");
+      post('/report', {"id": id, "body": body});
 }

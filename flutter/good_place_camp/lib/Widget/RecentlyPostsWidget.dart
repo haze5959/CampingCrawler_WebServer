@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 // Widgets
 import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
 import 'package:good_place_camp/Widget/Pages/PostListPage.dart';
+import 'package:good_place_camp/Widget/Pages/PostWritePage.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -32,9 +33,9 @@ class RecentlyPostsWidget extends StatelessWidget {
                 heroTag: isNotice ? "RecentlyNoticePosts" : "RecentlyPosts",
                 backgroundColor: Colors.lightGreen.shade300,
                 mini: true,
-                child: const Icon(Icons.add),
-                onPressed: () {
-                  Navigator.push<void>(
+                child: const Icon(Icons.list),
+                onPressed: () async {
+                  await Navigator.push<void>(
                       context,
                       PageRouteBuilder(
                           pageBuilder: (BuildContext context,
@@ -60,8 +61,48 @@ class RecentlyPostsWidget extends StatelessWidget {
                               ),
                             );
                           }));
+
+                  c.reload();
                 },
               ),
+              SizedBox(width: 10),
+              if (!isNotice)
+                FloatingActionButton(
+                  heroTag: "NewPosts",
+                  backgroundColor: Colors.lightGreen.shade300,
+                  mini: true,
+                  child: const Icon(Icons.edit),
+                  onPressed: () async {
+                    await Navigator.push<void>(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder: (BuildContext context,
+                                Animation animation,
+                                Animation secondaryAnimation) {
+                              return PostWritePage();
+                            },
+                            opaque: true,
+                            barrierColor: Colors.grey,
+                            transitionDuration: Duration(milliseconds: 300),
+                            transitionsBuilder: (BuildContext context,
+                                Animation<double> animation,
+                                Animation<double> secondaryAnimation,
+                                Widget child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: SlideTransition(
+                                  position: new Tween<Offset>(
+                                    begin: const Offset(1.0, 0.0),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: child,
+                                ),
+                              );
+                            }));
+
+                    c.reload();
+                  },
+                ),
               Spacer(),
             ]),
           ),

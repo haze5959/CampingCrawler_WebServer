@@ -28,7 +28,7 @@ class RecommandSiteWidget extends StatelessWidget {
                     heroTag: "RecommandSite",
                     backgroundColor: Colors.lightGreen.shade300,
                     mini: true,
-                    child: const Icon(Icons.add),
+                    child: const Icon(Icons.list),
                     onPressed: () {
                       Navigator.push<void>(
                           context,

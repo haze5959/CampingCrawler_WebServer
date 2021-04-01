@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/PostsRepository.dart';
@@ -39,8 +40,13 @@ void showPwAlert(
             ),
             TextField(
               controller: pwControler,
+              keyboardType: TextInputType.number,
+              obscureText: true,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
               decoration:
-                  InputDecoration(hintText: "패스워드...", labelText: '패스워드'),
+                  InputDecoration(hintText: "6자리 숫자", labelText: '패스워드'),
             )
           ]),
           actions: [

@@ -88,7 +88,7 @@ class CommentWidget extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                       controller: nickControler,
                       decoration:
-                          InputDecoration(hintText: "익명의 캠퍼", labelText: '닉네임'),
+                          InputDecoration(hintText: "닉네임", labelText: '닉네임'),
                     )),
                 Spacer(),
                 ElevatedButton(

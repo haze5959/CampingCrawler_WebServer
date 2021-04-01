@@ -1,49 +1,93 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:good_place_camp/Constants.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 // Controller
-import 'package:good_place_camp/Controller/PostDetailContoller.dart';
+import 'package:good_place_camp/Controller/PostWriteContoller.dart';
+
+// Model
+import 'package:good_place_camp/Model/Post.dart';
 
 class PostWritePage extends StatelessWidget {
-  final int id;
-
-  PostWritePage({this.id});
+  final children = <int, Widget>{
+    0: Text(PostType.request.toPostTypeString()),
+    1: Text(PostType.question.toPostTypeString()),
+    2: Text(PostType.secret.toPostTypeString()),
+  };
 
   @override
   Widget build(BuildContext context) {
-    final PostDetailContoller c = PostDetailContoller(id: id);
-
-    TextEditingController titleControler = new TextEditingController();
-    TextEditingController bodyControler = new TextEditingController();
+    final PostWriteContoller c = PostWriteContoller();
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Create Post'),
+          title: Text('새글 작성하기'),
         ),
-        body: new Container(
-          margin: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: new Column(
-            children: [
-              new TextField(
-                controller: titleControler,
-                decoration: InputDecoration(
-                    hintText: "title....", labelText: 'Post Title'),
+        body: Obx(() => Stack(children: [
+              Container(
+                // alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                        width: 150,
+                        child: TextField(
+                          readOnly: true,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 12),
+                          controller: c.nickControler,
+                          decoration: InputDecoration(
+                              hintText: "닉네임", labelText: '닉네임'),
+                        )),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      width: 300,
+                      child: CupertinoSegmentedControl<int>(
+                        padding: EdgeInsets.zero,
+                        children: children,
+                        onValueChanged: (int newValue) {
+                          c.postType.value = newValue;
+                        },
+                        groupValue: c.postType.value,
+                      ),
+                    ),
+                    TextField(
+                      controller: c.titleControler,
+                      decoration:
+                          InputDecoration(hintText: "제목", labelText: '제목'),
+                    ),
+                    SizedBox(height: 20),
+                    TextField(
+                      controller: c.bodyControler,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration:
+                          InputDecoration(hintText: "내용", labelText: '본문'),
+                    ),
+                    SizedBox(height: 20),
+                    if (c.postType.value == 2)
+                      TextFormField(
+                        controller: c.pwControler,
+                        keyboardType: TextInputType.number,
+                        obscureText: true,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        decoration: InputDecoration(
+                            hintText: "숫자 6자리", labelText: '비밀번호'),
+                      ),
+                    SizedBox(height: 20),
+                    Center(
+                        child: ElevatedButton(
+                      onPressed: c.makePosts,
+                      child: Text("등록하기"),
+                    ))
+                  ],
+                ),
               ),
-              new TextField(
-                controller: bodyControler,
-                decoration: InputDecoration(
-                    hintText: "body....", labelText: 'Post Body'),
-              ),
-              new ElevatedButton(
-                onPressed: () async {
-                  print(titleControler.text);
-                  print(bodyControler.text);
-                },
-                child: const Text("Create"),
-              )
-            ],
-          ),
-        ));
+              if (c.isLoading.value) Center(child: CircularProgressIndicator())
+            ])));
   }
 }
