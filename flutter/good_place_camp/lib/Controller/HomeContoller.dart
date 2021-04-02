@@ -81,6 +81,13 @@ class HomeController extends GetxController {
 
     updateAccpetedCampInfo();
 
+    updatePostList();
+
+    isLoading.value = false;
+    update();
+  }
+
+  void updatePostList() async {
     // 게시물 로드
     final postResult = await postRepo.getFirstPagePostsList();
     if (postResult.hasError) {
@@ -94,9 +101,6 @@ class HomeController extends GetxController {
     final postJson = Post.fromJsonToHomePosts(postResult.body.data);
     noticeList.assignAll(postJson["notice"]);
     postList.assignAll(postJson["posts"]);
-
-    isLoading.value = false;
-    update();
   }
 
   void updateEvents(List<SiteInfo> infoList) {

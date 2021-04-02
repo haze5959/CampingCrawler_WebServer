@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 
@@ -21,35 +22,45 @@ class CampDetailPage extends StatelessWidget {
     final infoJson = Constants.campInfo[siteName];
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.lightGreen.shade400,
-        title:
-            Text(infoJson.name, style: TextStyle(fontWeight: FontWeight.bold)),
-        actions: [
-          IconButton(
-            tooltip: "즐겨찾기",
-            icon: Obx(() => c.isFavorite.value
-                ? Icon(Icons.star, color: Colors.yellow)
-                : Icon(Icons.star_border_outlined, color: Colors.white)),
-            onPressed: c.onClickFavorite,
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildInfoContent(context, c),
-              SizedBox(height: 20),
-              _buildButtons(c),
-              SizedBox(height: 50),
-              _buildCalender(context, c),
-              SizedBox(height: 50),
-              FooterWidget()
-            ],
-          )),
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.lightGreen.shade400,
+          title: Text(infoJson.name,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          actions: [
+            IconButton(
+              tooltip: "즐겨찾기",
+              icon: Obx(() => c.isFavorite.value
+                  ? Icon(Icons.star, color: Colors.yellow)
+                  : Icon(Icons.star_border_outlined, color: Colors.white)),
+              onPressed: c.onClickFavorite,
+            ),
+          ],
+        ),
+        body: Obx(
+          () => c.isLoading.value
+              ? Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildInfoContent(context, c),
+                      SizedBox(height: 20),
+                      _buildButtons(c),
+                      SizedBox(height: 50),
+                      _buildCalender(context, c),
+                      SizedBox(height: 20),
+                      SizedBox(
+                          height: CALENDER_WIDTH * 2,
+                          child: InAppWebView(
+                            initialUrlRequest: URLRequest(
+                                url: Uri.parse(
+                                    "http://map.naver.com/?zoom=6&query=${Constants.campInfo[c.siteInfo.site].addr}")),
+                          )),
+                      FooterWidget()
+                    ],
+                  )),
+        ));
   }
 
   Widget _buildInfoContent(BuildContext context, CampDetailContoller c) {
@@ -58,70 +69,68 @@ class CampDetailPage extends StatelessWidget {
     final descriptionStyle = theme.textTheme.subtitle1;
     final addrStyle = theme.textTheme.caption;
 
-    return Obx(
-      () => c.isLoading.value
-          ? Center(child: CircularProgressIndicator())
-          : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              SizedBox(
-                height: 200,
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Ink.image(
-                        image: AssetImage('assets/${c.siteInfo.site}.jpg'),
-                        fit: BoxFit.cover,
-                        child: Container(),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 16,
-                      left: 16,
-                      right: 16,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black26,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            "${Constants.campInfo[c.siteInfo.site].name}",
-                            style: titleStyle,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 200,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Ink.image(
+                  image: AssetImage('assets/${c.siteInfo.site}.jpg'),
+                  fit: BoxFit.cover,
+                  child: Container(),
                 ),
               ),
-              // Description and share/explore buttons.
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: DefaultTextStyle(
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                  style: descriptionStyle,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Tooltip(
-                        message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
-                        child: Text(
-                          "예약정보 수집 시간 - ${c.siteInfo.updatedDate}",
-                          style: addrStyle,
-                        ),
-                      ),
-                      Text("${Constants.campInfo[c.siteInfo.site].desc}",
-                          maxLines: 2),
-                      Text("${Constants.campInfo[c.siteInfo.site].addr}",
-                          style: addrStyle)
-                    ],
+              Positioned(
+                bottom: 16,
+                left: 16,
+                right: 16,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      "${Constants.campInfo[c.siteInfo.site].name}",
+                      style: titleStyle,
+                    ),
                   ),
                 ),
               ),
-            ]),
+            ],
+          ),
+        ),
+        // Description and share/explore buttons.
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: DefaultTextStyle(
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+            style: descriptionStyle,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Tooltip(
+                  message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
+                  child: Text(
+                    "예약정보 수집 시간 - ${c.siteInfo.updatedDate}",
+                    style: addrStyle,
+                  ),
+                ),
+                Text("${Constants.campInfo[c.siteInfo.site].desc}",
+                    maxLines: 2),
+                Text("${Constants.campInfo[c.siteInfo.site].addr}",
+                    style: addrStyle)
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

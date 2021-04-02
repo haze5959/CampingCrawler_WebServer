@@ -21,50 +21,49 @@ class HomePage extends StatelessWidget {
   Widget build(context) {
     c.context = context;
 
-    return Obx(() => c.isLoading.value
-        ? Center(child: CircularProgressIndicator())
-        : RefreshIndicator(
-            onRefresh: () async {
-              c.reload();
-              return;
-            },
-            child: SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
-                child: Container(
-                    child: Column(children: <Widget>[
-                  ClipPath(
-                    child: Container(
-                        alignment: Alignment.topCenter,
-                        padding: EdgeInsets.only(
-                            top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          image: Constants.isPhoneSize
-                              ? AssetImage('assets/Banner02.jpg')
-                              : AssetImage('assets/Banner01.jpg'),
-                          fit: BoxFit.cover,
-                        )),
-                        child: Column(children: <Widget>[
-                          if (!Constants.isPhoneSize) _buildIntroText(),
-                          SizedBox(height: 30),
-                          CalenderWidget(isVertical: Constants.isPhoneSize)
-                        ])),
-                    clipper: ZigzagClipPath(),
-                  ),
-                  RecommandSiteWidget(),
-                  RecentlyPostsWidget(isNotice: true),
-                  RecentlyPostsWidget(isNotice: false),
-                  FooterWidget()
-                ])))));
+    return Obx(() => Stack(children: [
+          RefreshIndicator(
+              onRefresh: () async {
+                c.reload();
+                return;
+              },
+              child: SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: Container(
+                      child: Column(children: <Widget>[
+                    ClipPath(
+                      child: Container(
+                          alignment: Alignment.topCenter,
+                          padding: EdgeInsets.only(
+                              top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            image: Constants.isPhoneSize
+                                ? AssetImage('assets/Banner02.jpg')
+                                : AssetImage('assets/Banner01.jpg'),
+                            fit: BoxFit.cover,
+                          )),
+                          child: Column(children: <Widget>[
+                            if (!Constants.isPhoneSize) _buildIntroText(),
+                            SizedBox(height: 30),
+                            CalenderWidget(isVertical: Constants.isPhoneSize)
+                          ])),
+                      clipper: ZigzagClipPath(),
+                    ),
+                    RecommandSiteWidget(),
+                    RecentlyPostsWidget(isNotice: true),
+                    RecentlyPostsWidget(isNotice: false),
+                    FooterWidget()
+                  ])))),
+          if (c.isLoading.value) Center(child: CircularProgressIndicator())
+        ]));
   }
 
   Widget _buildIntroText() {
     return Container(
         constraints: BoxConstraints(maxWidth: MAX_WIDTH),
         alignment: Alignment.centerLeft,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text("이제 '명당'에서 캠핑하세요",
               style: TextStyle(
                   fontWeight: FontWeight.bold,

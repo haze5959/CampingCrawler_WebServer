@@ -62,7 +62,7 @@ class RecentlyPostsWidget extends StatelessWidget {
                             );
                           }));
 
-                  c.reload();
+                  c.updatePostList();
                 },
               ),
               SizedBox(width: 10),

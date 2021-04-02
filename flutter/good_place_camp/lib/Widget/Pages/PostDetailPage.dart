@@ -33,7 +33,8 @@ class PostDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context, Post posts, List<Comment> commentList) {
+  Widget _buildContent(
+      BuildContext context, Post posts, List<Comment> commentList) {
     final theme = Theme.of(context);
     final titleStyle = theme.textTheme.subtitle1.copyWith(color: Colors.white);
 
