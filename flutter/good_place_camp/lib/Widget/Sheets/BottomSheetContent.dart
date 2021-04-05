@@ -40,11 +40,11 @@ class BottomSheetContent extends StatelessWidget {
                             SizedBox(height: 5),
                             Row(children: <Widget>[
                               Icon(Icons.info_outline,
-                                  color: Colors.grey, size: 16),
+                                  color: Colors.grey, size: 15),
                               SizedBox(width: 3),
                               Text(
                                 "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
-                                style: Theme.of(context).textTheme.caption,
+                                style: TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                             ]),
                           ])

@@ -81,7 +81,7 @@ class CampDetailPage extends StatelessWidget {
                               ),
                             )),
                       TextButton.icon(
-                        label: Text("잘못된 정보 신고하기"),
+                        label: Text("${infoJson.name} 잘못된 정보 신고하기"),
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
                           showReportAlert(

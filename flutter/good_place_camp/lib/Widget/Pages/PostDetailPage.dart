@@ -29,6 +29,7 @@ class PostDetailPage extends StatelessWidget {
       body: Obx(() => c.isLoading.value
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               physics: ClampingScrollPhysics(),
               child: _buildContent(context, c.posts, c.commentList))),
     );
@@ -58,13 +59,13 @@ class PostDetailPage extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                      tooltip: "신고하기",
-                      color: Colors.grey,
-                      icon: Icon(Icons.report_gmailerrorred_outlined),
-                      onPressed: () {
-                        showReportAlert(Get.context, "post_$id");
-                      },
-                    ),
+                  tooltip: "신고하기",
+                  color: Colors.grey,
+                  icon: Icon(Icons.report_gmailerrorred_outlined),
+                  onPressed: () {
+                    showReportAlert(Get.context, "post_$id");
+                  },
+                ),
               ),
             ),
             Positioned(
@@ -105,7 +106,8 @@ class PostDetailPage extends StatelessWidget {
             SizedBox(height: 20),
             Text("${posts.body}", style: theme.textTheme.headline6),
             SizedBox(height: 40),
-            CommentWidget(postId: id, commentList: commentList.obs)
+            CommentWidget(postId: id, commentList: commentList.obs),
+            SizedBox(height: 40),
           ],
         ),
       ),

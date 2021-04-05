@@ -7,6 +7,7 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
+import 'package:good_place_camp/Widget/Pages/PushSettingPage.dart';
 import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
 
 // Model
@@ -23,7 +24,7 @@ class GPCAppBar extends AppBar {
             backgroundColor: Colors.lightGreen.shade400,
             title: Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                padding: GetPlatform.isWeb ? EdgeInsets.fromLTRB(15, 0, 15, 0) : EdgeInsets.zero,
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Row(children: <Widget>[
                   if (isMain)
@@ -106,7 +107,7 @@ class GPCAppBar extends AppBar {
                       onSelected: (area) => onSelected(area),
                     ),
                   if (isMain) ...[
-                    SizedBox(width: 20),
+                    SizedBox(width: GetPlatform.isWeb ? 20 : 10),
                     IconButton(
                       tooltip: "즐겨찾기",
                       icon: const Icon(Icons.star),
@@ -115,12 +116,16 @@ class GPCAppBar extends AppBar {
                       },
                       // tooltip: "알림 설정",
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: GetPlatform.isWeb ? 20 : 10),
                     IconButton(
                       tooltip: "알림 설정",
                       icon: const Icon(Icons.notifications),
                       onPressed: () {
-                        Get.to(PushPromotionPage());
+                        if (GetPlatform.isWeb) {
+                          Get.to(PushPromotionPage());
+                        } else {
+                          Get.to(PushSettingPage());
+                        }
                       },
                       // tooltip: "알림 설정",
                     ),

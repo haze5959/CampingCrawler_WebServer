@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/GPCAppBar.dart';
@@ -9,6 +8,7 @@ import 'package:good_place_camp/Widget/GPCAppBar.dart';
 // Cards
 import 'package:good_place_camp/Widget/Cards/TappableCampCardItem.dart';
 import 'package:good_place_camp/Widget/Cards/SimpleCampCardItem.dart';
+import 'package:good_place_camp/Widget/Cards/PromotionCardItem.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -39,32 +39,30 @@ class CampListPage extends StatelessWidget {
     final HomeController c = Get.find();
 
     return ListView.builder(
-      itemCount: c.siteInfoList.length,
+      itemCount: c.siteInfoList.length + 1,
       itemBuilder: (context, index) {
-        return ListTile(
-            title: TappableCampCardItem(siteInfo: c.siteInfoList[index]));
+        if (index < c.siteInfoList.length) {
+          return ListTile(
+              title: TappableCampCardItem(siteInfo: c.siteInfoList[index]));
+        } else {
+          return ListTile(title: PromotionCardItem());
+        }
       },
-
-      //   final campKeys = Constants.campInfo.keys.toList();
-      // return ListView.builder(
-      //   itemCount: campKeys.length,
-      //   itemBuilder: (context, index) {
-      //     return ListTile(title: SimpleCampCardItem(siteName: campKeys[index]));
-      //   },
-      // );
     );
   }
 
   Widget _buildFavoriteList(BuildContext context) {
-    return Obx(() => Constants.favoriteList.length == 0
-        ? Center(child: Text("등록된 즐겨찾기 목록이 없습니다."))
-        : ListView.builder(
-            itemCount: Constants.favoriteList.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                  title: SimpleCampCardItem(
-                      siteName: Constants.favoriteList[index]));
-            },
-          ));
+    return ListView.builder(
+      itemCount: Constants.favoriteList.length + 1,
+      itemBuilder: (context, index) {
+        if (index < Constants.favoriteList.length) {
+          return ListTile(
+              title:
+                  SimpleCampCardItem(siteName: Constants.favoriteList[index]));
+        } else {
+          return ListTile(title: PromotionCardItem());
+        }
+      },
+    );
   }
 }
