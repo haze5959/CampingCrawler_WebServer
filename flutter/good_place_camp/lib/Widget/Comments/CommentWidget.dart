@@ -51,7 +51,8 @@ class CommentWidget extends StatelessWidget {
                     Spacer(),
                     IconButton(
                       tooltip: "신고하기",
-                      icon: Icon(Icons.not_interested),
+                      color: Colors.grey,
+                      icon: Icon(Icons.report_gmailerrorred_outlined),
                       iconSize: 20,
                       onPressed: () {
                         showReportAlert(Get.context, "comment_${comment.id}");

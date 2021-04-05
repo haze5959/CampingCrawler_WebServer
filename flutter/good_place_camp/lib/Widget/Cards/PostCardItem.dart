@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
+import 'package:flutter/cupertino.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PostDetailPage.dart';
@@ -36,19 +37,17 @@ class PostCardItem extends StatelessWidget {
                       (pw) => {
                             Navigator.push<void>(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                 builder: (context) =>
-                                    PostDetailPage(id: info.id, pw: pw),
-                                fullscreenDialog: true,
+                                    PostDetailPage(id: info.id, pw: pw)
                               ),
                             )
                           });
                 } else {
                   Navigator.push<void>(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => PostDetailPage(id: info.id),
-                      fullscreenDialog: true,
+                    CupertinoPageRoute(
+                      builder: (context) => PostDetailPage(id: info.id)
                     ),
                   );
                 }
@@ -135,7 +134,11 @@ class PostCardItem extends StatelessWidget {
                 overflow: TextOverflow.fade,
                 maxLines: 1,
               ),
-              Text("${info.nick}", style: addrStyle)
+              Text(
+                "${info.nick}",
+                style: addrStyle,
+                maxLines: 1,
+              )
             ],
           ),
         ),

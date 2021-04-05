@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/PostDetailContoller.dart';
@@ -48,6 +49,22 @@ class PostDetailPage extends StatelessWidget {
                 image: AssetImage('assets/Camp_Default.png'),
                 fit: BoxFit.fitHeight,
                 child: Container(),
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 16,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                      tooltip: "신고하기",
+                      color: Colors.grey,
+                      icon: Icon(Icons.report_gmailerrorred_outlined),
+                      onPressed: () {
+                        showReportAlert(Get.context, "post_$id");
+                      },
+                    ),
               ),
             ),
             Positioned(

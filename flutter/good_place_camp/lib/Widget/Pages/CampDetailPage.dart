@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:ui' as ui;
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/CampDetailContoller.dart';
@@ -45,19 +45,49 @@ class CampDetailPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _buildInfoContent(context, c),
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
                       _buildButtons(c),
-                      SizedBox(height: 50),
+                      SizedBox(height: 20),
                       _buildCalender(context, c),
                       SizedBox(height: 20),
                       if (GetPlatform.isMobile)
                         SizedBox(
-                            height: CALENDER_WIDTH * 2,
-                            child: InAppWebView(
-                              initialUrlRequest: URLRequest(
-                                  url: Uri.parse(
-                                      "http://map.naver.com/?zoom=6&query=${Constants.campInfo[c.siteInfo.site].addr}")),
+                            height: CALENDER_WIDTH,
+                            child: GoogleMap(
+                              mapType: MapType.normal,
+                              myLocationButtonEnabled: false,
+                              rotateGesturesEnabled: false,
+                              scrollGesturesEnabled: false,
+                              zoomControlsEnabled: false,
+                              zoomGesturesEnabled: false,
+                              tiltGesturesEnabled: false,
+                              onTap: (position) {
+                                c.launchMap();
+                              },
+                              markers: {
+                                Marker(
+                                  markerId: MarkerId(""),
+                                  position: LatLng(
+                                      37.74092534968157, 126.53493271171929),
+                                  infoWindow: InfoWindow(
+                                      title: Constants
+                                          .campInfo[c.siteInfo.site].name),
+                                )
+                              },
+                              initialCameraPosition: CameraPosition(
+                                target: LatLng(
+                                    37.74092534968157, 126.53493271171929),
+                                zoom: 14.0,
+                              ),
                             )),
+                      TextButton.icon(
+                        label: Text("잘못된 정보 신고하기"),
+                        icon: Icon(Icons.report_gmailerrorred_outlined),
+                        onPressed: () {
+                          showReportAlert(
+                              Get.context, "camp_${c.siteInfo.site}");
+                        },
+                      ),
                       FooterWidget()
                     ],
                   )),
@@ -125,8 +155,17 @@ class CampDetailPage extends StatelessWidget {
                 ),
                 Text("${Constants.campInfo[c.siteInfo.site].desc}",
                     maxLines: 2),
-                Text("${Constants.campInfo[c.siteInfo.site].addr}",
-                    style: addrStyle)
+                TextButton.icon(
+                    icon: Icon(Icons.location_on, size: 20),
+                    style: TextButton.styleFrom(
+                        minimumSize: Size(50, 20),
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                    onPressed: () {
+                      c.launchMap();
+                    },
+                    label: Text("${Constants.campInfo[c.siteInfo.site].addr}",
+                        style: addrStyle))
               ],
             ),
           ),
@@ -164,43 +203,39 @@ class CampDetailPage extends StatelessWidget {
     return Obx(() => c.isLoading.value
         ? Center(child: CircularProgressIndicator())
         : ClipRect(
-            child: BackdropFilter(
-                filter: ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+            child: Container(
+                decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
                 child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.5)),
-                    child: Container(
-                        width: CALENDER_WIDTH,
-                        child: TableCalendar(
-                          locale: Localizations.localeOf(context).languageCode,
-                          calendarController: c.calendarController,
-                          events: c.events,
-                          availableGestures: AvailableGestures.horizontalSwipe,
-                          calendarStyle: CalendarStyle(
-                            outsideDaysVisible: false,
-                          ),
-                          headerStyle: HeaderStyle(
-                              centerHeaderTitle: true,
-                              formatButtonVisible: false),
-                          builders: CalendarBuilders(
-                            markersBuilder: (context, date, events, holidays) {
-                              final children = <Widget>[];
+                    width: CALENDER_WIDTH,
+                    child: TableCalendar(
+                      locale: Localizations.localeOf(context).languageCode,
+                      calendarController: c.calendarController,
+                      events: c.events,
+                      availableGestures: AvailableGestures.horizontalSwipe,
+                      calendarStyle: CalendarStyle(
+                        outsideDaysVisible: false,
+                      ),
+                      headerStyle: HeaderStyle(
+                          centerHeaderTitle: true, formatButtonVisible: false),
+                      builders: CalendarBuilders(
+                        markersBuilder: (context, date, events, holidays) {
+                          final children = <Widget>[];
 
-                              if (events.isNotEmpty) {
-                                children.add(
-                                  Positioned(
-                                    right: 1,
-                                    bottom: 1,
-                                    child: _buildEventsMarker(date, events),
-                                  ),
-                                );
-                              }
+                          if (events.isNotEmpty) {
+                            children.add(
+                              Positioned(
+                                right: 1,
+                                bottom: 1,
+                                child: _buildEventsMarker(date, events),
+                              ),
+                            );
+                          }
 
-                              return children;
-                            },
-                          ),
-                          rowHeight: CALENDER_WIDTH / 6,
-                        ))))));
+                          return children;
+                        },
+                      ),
+                      rowHeight: CALENDER_WIDTH / 6,
+                    )))));
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {

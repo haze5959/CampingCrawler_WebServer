@@ -10,6 +10,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="good_place_camp"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAsw6E4BQ-yCHrAglDNCILNQxr6HkwbUlE"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

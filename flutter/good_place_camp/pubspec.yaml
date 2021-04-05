@@ -20,6 +20,8 @@ dependencies:
 
   flutter_inappwebview:
 
+  google_maps_flutter:
+
   flutter_localizations: 
     sdk: flutter
 

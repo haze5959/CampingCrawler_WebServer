@@ -71,7 +71,7 @@ class PostListPage extends StatelessWidget {
               backgroundColor: Colors.lightGreen.shade400,
               onPressed: () async {
                 final result = await Get.to(PostWritePage());
-                if (result) {
+                if (result != null && result) {
                   c.reload();
                 }
               }));

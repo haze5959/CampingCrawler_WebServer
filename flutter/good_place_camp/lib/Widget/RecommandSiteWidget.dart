@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:flutter/cupertino.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Cards/SimpleCampCardItem.dart';
@@ -21,8 +22,7 @@ class RecommandSiteWidget extends StatelessWidget {
                 child: Row(children: [
                   Text("추천 명당",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
-                      textAlign: TextAlign.left),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   SizedBox(width: 10),
                   FloatingActionButton(
                     heroTag: "RecommandSite",
@@ -32,30 +32,9 @@ class RecommandSiteWidget extends StatelessWidget {
                     onPressed: () {
                       Navigator.push<void>(
                           context,
-                          PageRouteBuilder(
-                              pageBuilder: (BuildContext context,
-                                  Animation animation,
-                                  Animation secondaryAnimation) {
-                                return CampListPage();
-                              },
-                              opaque: true,
-                              barrierColor: Colors.grey,
-                              transitionDuration: Duration(milliseconds: 300),
-                              transitionsBuilder: (BuildContext context,
-                                  Animation<double> animation,
-                                  Animation<double> secondaryAnimation,
-                                  Widget child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: SlideTransition(
-                                    position: new Tween<Offset>(
-                                      begin: const Offset(1.0, 0.0),
-                                      end: Offset.zero,
-                                    ).animate(animation),
-                                    child: child,
-                                  ),
-                                );
-                              }));
+                          CupertinoPageRoute(
+                            builder: (context) => CampListPage(),
+                          ));
                     },
                   ),
                   Spacer(),

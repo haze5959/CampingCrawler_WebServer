@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:flutter/cupertino.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
@@ -28,9 +29,8 @@ class TappableCampCardItem extends StatelessWidget {
               onTap: () {
                 Navigator.push<void>(
                   context,
-                  MaterialPageRoute(
+                  CupertinoPageRoute(
                     builder: (context) => CampDetailPage(siteName: siteInfo.site),
-                    fullscreenDialog: true,
                   ),
                 );
               },

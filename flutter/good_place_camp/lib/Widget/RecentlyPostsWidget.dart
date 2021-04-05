@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
@@ -26,8 +27,7 @@ class RecentlyPostsWidget extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
             child: Row(children: [
               Text(isNotice ? "공지사항/이벤트" : "요청/문의 게시판",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
-                  textAlign: TextAlign.left),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
               SizedBox(width: 10),
               FloatingActionButton(
                 heroTag: isNotice ? "RecentlyNoticePosts" : "RecentlyPosts",
@@ -37,30 +37,9 @@ class RecentlyPostsWidget extends StatelessWidget {
                 onPressed: () async {
                   await Navigator.push<void>(
                       context,
-                      PageRouteBuilder(
-                          pageBuilder: (BuildContext context,
-                              Animation animation,
-                              Animation secondaryAnimation) {
-                            return PostListPage(isNotice: isNotice);
-                          },
-                          opaque: true,
-                          barrierColor: Colors.grey,
-                          transitionDuration: Duration(milliseconds: 300),
-                          transitionsBuilder: (BuildContext context,
-                              Animation<double> animation,
-                              Animation<double> secondaryAnimation,
-                              Widget child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: SlideTransition(
-                                position: new Tween<Offset>(
-                                  begin: const Offset(1.0, 0.0),
-                                  end: Offset.zero,
-                                ).animate(animation),
-                                child: child,
-                              ),
-                            );
-                          }));
+                      CupertinoPageRoute(
+                    builder: (context) => PostListPage(isNotice: isNotice),
+                  ));
 
                   c.updatePostList();
                 },
@@ -73,34 +52,10 @@ class RecentlyPostsWidget extends StatelessWidget {
                   mini: true,
                   child: const Icon(Icons.edit),
                   onPressed: () async {
-                    await Navigator.push<void>(
-                        context,
-                        PageRouteBuilder(
-                            pageBuilder: (BuildContext context,
-                                Animation animation,
-                                Animation secondaryAnimation) {
-                              return PostWritePage();
-                            },
-                            opaque: true,
-                            barrierColor: Colors.grey,
-                            transitionDuration: Duration(milliseconds: 300),
-                            transitionsBuilder: (BuildContext context,
-                                Animation<double> animation,
-                                Animation<double> secondaryAnimation,
-                                Widget child) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: SlideTransition(
-                                  position: new Tween<Offset>(
-                                    begin: const Offset(1.0, 0.0),
-                                    end: Offset.zero,
-                                  ).animate(animation),
-                                  child: child,
-                                ),
-                              );
-                            }));
-
-                    c.reload();
+                    final result = await Get.to(PostWritePage());
+                    if (result != null && result) {
+                      c.reload();
+                    }
                   },
                 ),
               Spacer(),

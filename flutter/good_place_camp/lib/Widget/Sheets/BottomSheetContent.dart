@@ -21,7 +21,7 @@ class BottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        height: isFullScreen.value ? context.height : context.height / 2 + 100,
+        height: isFullScreen.value ? context.height - Get.context.mediaQueryPadding.top : context.height / 2 + 100,
         child: Scaffold(
             body: Column(
               children: [
@@ -37,6 +37,7 @@ class BottomSheetContent extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ]),
+                            SizedBox(height: 5),
                             Row(children: <Widget>[
                               Icon(Icons.info_outline,
                                   color: Colors.grey, size: 16),

@@ -68,14 +68,12 @@ class HomePage extends StatelessWidget {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 40),
-              textAlign: TextAlign.left),
+                  fontSize: 40)),
           Text("매시간 마다 업데이트 되는 캠핑장 예약 정보로 빠르고 편리하게 명당을 예약하세요!",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 18),
-              textAlign: TextAlign.left),
+                  fontSize: 18)),
         ]));
   }
 }

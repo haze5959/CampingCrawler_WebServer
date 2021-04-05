@@ -66,6 +66,16 @@ class CampDetailContoller extends GetxController {
     }
   }
 
+  void launchMap() async {
+    final url =
+        "http://map.naver.com/?zoom=6&query=${Uri.encodeComponent(Constants.campInfo[siteName].addr)}";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   void _updateEvents(SiteInfo info) {
     events.clear();
 

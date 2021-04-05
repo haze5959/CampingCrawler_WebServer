@@ -42,7 +42,6 @@ class PostListContoller extends GetxController {
     final postListData = Post.fromJsonArr(result.body.data);
     postList.assignAll(postListData);
 
-    print(postList);
     isLoading.value = false;
   }
 }
