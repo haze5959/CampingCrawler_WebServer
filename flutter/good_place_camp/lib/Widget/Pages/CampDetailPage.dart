@@ -50,13 +50,14 @@ class CampDetailPage extends StatelessWidget {
                       SizedBox(height: 50),
                       _buildCalender(context, c),
                       SizedBox(height: 20),
-                      SizedBox(
-                          height: CALENDER_WIDTH * 2,
-                          child: InAppWebView(
-                            initialUrlRequest: URLRequest(
-                                url: Uri.parse(
-                                    "http://map.naver.com/?zoom=6&query=${Constants.campInfo[c.siteInfo.site].addr}")),
-                          )),
+                      if (GetPlatform.isMobile)
+                        SizedBox(
+                            height: CALENDER_WIDTH * 2,
+                            child: InAppWebView(
+                              initialUrlRequest: URLRequest(
+                                  url: Uri.parse(
+                                      "http://map.naver.com/?zoom=6&query=${Constants.campInfo[c.siteInfo.site].addr}")),
+                            )),
                       FooterWidget()
                     ],
                   )),
