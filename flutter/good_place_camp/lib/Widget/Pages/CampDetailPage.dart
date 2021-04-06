@@ -67,16 +67,12 @@ class CampDetailPage extends StatelessWidget {
                               markers: {
                                 Marker(
                                   markerId: MarkerId(""),
-                                  position: LatLng(
-                                      37.74092534968157, 126.53493271171929),
-                                  infoWindow: InfoWindow(
-                                      title: Constants
-                                          .campInfo[c.siteInfo.site].name),
+                                  position: LatLng(infoJson.lat, infoJson.lon),
+                                  infoWindow: InfoWindow(title: infoJson.name),
                                 )
                               },
                               initialCameraPosition: CameraPosition(
-                                target: LatLng(
-                                    37.74092534968157, 126.53493271171929),
+                                target: LatLng(infoJson.lat, infoJson.lon),
                                 zoom: 14.0,
                               ),
                             )),
@@ -99,6 +95,7 @@ class CampDetailPage extends StatelessWidget {
     final titleStyle = theme.textTheme.headline5.copyWith(color: Colors.white);
     final descriptionStyle = theme.textTheme.subtitle1;
     final addrStyle = theme.textTheme.caption;
+    final infoJson = Constants.campInfo[siteName];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +124,7 @@ class CampDetailPage extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
                     child: Text(
-                      "${Constants.campInfo[c.siteInfo.site].name}",
+                      "${infoJson.name}",
                       style: titleStyle,
                     ),
                   ),
@@ -153,8 +150,13 @@ class CampDetailPage extends StatelessWidget {
                     style: addrStyle,
                   ),
                 ),
-                Text("${Constants.campInfo[c.siteInfo.site].desc}",
-                    maxLines: 2),
+                Tooltip(
+                    message: "대략적인 내용이라 정확하지 않을 수도 있습니다.",
+                    child: Text(
+                      "예약 오픈일 - ${infoJson.reservationOpen}",
+                      style: addrStyle,
+                    )),
+                Text("${infoJson.desc}", maxLines: 2),
                 TextButton.icon(
                     icon: Icon(Icons.location_on, size: 20),
                     style: TextButton.styleFrom(
@@ -164,8 +166,7 @@ class CampDetailPage extends StatelessWidget {
                     onPressed: () {
                       c.launchMap();
                     },
-                    label: Text("${Constants.campInfo[c.siteInfo.site].addr}",
-                        style: addrStyle))
+                    label: Text("${infoJson.addr}", style: addrStyle))
               ],
             ),
           ),

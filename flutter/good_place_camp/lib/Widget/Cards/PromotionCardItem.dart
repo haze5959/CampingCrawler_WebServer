@@ -50,7 +50,7 @@ class PromotionCardItem extends StatelessWidget {
               Positioned.fill(
                 child: Ink.image(
                   image: AssetImage('assets/Camp_Default.png'),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fitHeight,
                   child: Container(),
                 ),
               ),

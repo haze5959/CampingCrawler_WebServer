@@ -36,33 +36,34 @@ class CampListPage extends StatelessWidget {
   }
 
   Widget _buildCampList(BuildContext context) {
-    final HomeController c = Get.find();
-
-    return ListView.builder(
-      itemCount: c.siteInfoList.length + 1,
-      itemBuilder: (context, index) {
-        if (index < c.siteInfoList.length) {
-          return ListTile(
-              title: TappableCampCardItem(siteInfo: c.siteInfoList[index]));
-        } else {
-          return ListTile(title: PromotionCardItem());
-        }
-      },
-    );
+    return GetBuilder<HomeController>(
+        builder: (c) => ListView.builder(
+              itemCount: c.siteInfoList.length + 1,
+              itemBuilder: (context, index) {
+                if (index < c.siteInfoList.length) {
+                  return ListTile(
+                      title: TappableCampCardItem(
+                          siteInfo: c.siteInfoList[index]));
+                } else {
+                  return ListTile(title: PromotionCardItem());
+                }
+              },
+            ));
   }
 
   Widget _buildFavoriteList(BuildContext context) {
-    return ListView.builder(
-      itemCount: Constants.favoriteList.length + 1,
-      itemBuilder: (context, index) {
-        if (index < Constants.favoriteList.length) {
-          return ListTile(
-              title:
-                  SimpleCampCardItem(siteName: Constants.favoriteList[index]));
-        } else {
-          return ListTile(title: PromotionCardItem());
-        }
-      },
-    );
+    return GetBuilder<HomeController>(
+        builder: (c) => ListView.builder(
+              itemCount: Constants.favoriteList.length + 1,
+              itemBuilder: (context, index) {
+                if (index < Constants.favoriteList.length) {
+                  return ListTile(
+                      title: SimpleCampCardItem(
+                          siteName: Constants.favoriteList[index]));
+                } else {
+                  return ListTile(title: PromotionCardItem());
+                }
+              },
+            ));
   }
 }

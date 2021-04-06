@@ -30,19 +30,23 @@ class PostListPage extends StatelessWidget {
           body: Center(
             child: Container(
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
-                child: Obx(() => Stack(children: [
-                      Scrollbar(
-                          child: ListView.builder(
-                        itemCount: c.postList.length,
-                        itemBuilder: (context, index) {
+                child: Obx(() => Scrollbar(
+                        child: ListView.builder(
+                      itemCount: c.postList.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index < c.postList.length) {
                           return ListTile(
-                            title: _buildListCell(c.postList[index]),
-                          );
-                        },
-                      )),
-                      if (c.isLoading.value)
-                        Center(child: CircularProgressIndicator())
-                    ]))),
+                              title: _buildListCell(c.postList[index]));
+                        } else {
+                          c.fetchPosts();
+                          return ListTile(
+                              title: Center(
+                                  child: Obx(() => c.isLastPage.value
+                                      ? Text("마지막 글 입니다.")
+                                      : CircularProgressIndicator())));
+                        }
+                      },
+                    )))),
           ));
     } else {
       return Scaffold(
@@ -50,19 +54,23 @@ class PostListPage extends StatelessWidget {
           body: Center(
             child: Container(
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
-                child: Obx(() => Stack(children: [
-                      Scrollbar(
-                          child: ListView.builder(
-                        itemCount: c.postList.length,
-                        itemBuilder: (context, index) {
+                child: Obx(() => Scrollbar(
+                        child: ListView.builder(
+                      itemCount: c.postList.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index < c.postList.length) {
                           return ListTile(
-                            title: _buildListCell(c.postList[index]),
-                          );
-                        },
-                      )),
-                      if (c.isLoading.value)
-                        Center(child: CircularProgressIndicator())
-                    ]))),
+                              title: _buildListCell(c.postList[index]));
+                        } else {
+                          c.fetchPosts();
+                          return ListTile(
+                              title: Center(
+                                  child: Obx(() => c.isLastPage.value
+                                      ? Text("마지막 글 입니다.")
+                                      : CircularProgressIndicator())));
+                        }
+                      },
+                    )))),
           ),
           floatingActionButton: FloatingActionButton(
               elevation: 0.0,
@@ -72,7 +80,7 @@ class PostListPage extends StatelessWidget {
               onPressed: () async {
                 final result = await Get.to(PostWritePage());
                 if (result != null && result) {
-                  c.reload();
+                  c.fetchPosts(reset: true);
                 }
               }));
     }
