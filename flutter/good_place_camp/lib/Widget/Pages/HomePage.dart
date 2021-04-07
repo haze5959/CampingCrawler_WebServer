@@ -14,11 +14,33 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 // Utils
 import 'package:good_place_camp/Utils/ZigzagCliper.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatelessWidget with WidgetsBindingObserver {
   final HomeController c = Get.find();
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        // print("app in resumed");
+        c.reload();
+        break;
+      case AppLifecycleState.inactive:
+        // print("app in inactive");
+        break;
+      case AppLifecycleState.paused:
+        // print("app in paused");
+        break;
+      case AppLifecycleState.detached:
+        // print("app in detached");
+        break;
+    }
+  }
+
+  @override
   Widget build(context) {
+    WidgetsBinding.instance.addObserver(this);
     c.context = context;
 
     return Obx(() => Stack(children: [

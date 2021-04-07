@@ -62,7 +62,6 @@ class TappableCampCardItem extends StatelessWidget {
                 child: Ink.image(
                   image: AssetImage('assets/${siteInfo.site}.jpg'),
                   fit: BoxFit.cover,
-                  child: Container(),
                 ),
               ),
               Positioned(

@@ -24,7 +24,9 @@ class GPCAppBar extends AppBar {
             backgroundColor: Colors.lightGreen.shade400,
             title: Container(
                 alignment: Alignment.center,
-                padding: GetPlatform.isWeb ? EdgeInsets.fromLTRB(15, 0, 15, 0) : EdgeInsets.zero,
+                padding: GetPlatform.isWeb
+                    ? EdgeInsets.fromLTRB(15, 0, 15, 0)
+                    : EdgeInsets.zero,
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Row(children: <Widget>[
                   if (isMain)
@@ -121,11 +123,7 @@ class GPCAppBar extends AppBar {
                       tooltip: "알림 설정",
                       icon: const Icon(Icons.notifications),
                       onPressed: () {
-                        if (GetPlatform.isWeb) {
-                          Get.to(PushPromotionPage());
-                        } else {
-                          Get.to(PushSettingPage());
-                        }
+                        Get.to(PushPromotionPage());
                       },
                       // tooltip: "알림 설정",
                     ),

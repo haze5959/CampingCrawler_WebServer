@@ -49,7 +49,6 @@ class PostDetailPage extends StatelessWidget {
               child: Ink.image(
                 image: AssetImage('assets/Camp_Default.png'),
                 fit: BoxFit.fitHeight,
-                child: Container(),
               ),
             ),
             Positioned(

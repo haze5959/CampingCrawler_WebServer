@@ -36,12 +36,8 @@ class PromotionCardItem extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.headline5.copyWith(color: Colors.white);
-    final descriptionStyle = theme.textTheme.subtitle1;
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
           height: 200,
@@ -51,7 +47,6 @@ class PromotionCardItem extends StatelessWidget {
                 child: Ink.image(
                   image: AssetImage('assets/Camp_Default.png'),
                   fit: BoxFit.fitHeight,
-                  child: Container(),
                 ),
               ),
               Positioned(
@@ -60,16 +55,17 @@ class PromotionCardItem extends StatelessWidget {
                 right: 16,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.black26,
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      "가고싶은 명당을 요청해주세요!",
-                      style: titleStyle,
-                    ),
+                    child: Text("가고싶은 명당을 요청해주세요!",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20)),
                   ),
                 ),
               ),
@@ -78,17 +74,14 @@ class PromotionCardItem extends StatelessWidget {
         ),
         // Description and share/explore buttons.
         Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: DefaultTextStyle(
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-            style: descriptionStyle,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("요청주시면 최대한 빨리 추가해드리겠습니다! 🔥", maxLines: 2),
-              ],
-            ),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("요청주시면 최대한 빨리 추가해드리겠습니다! 🔥",
+                  maxLines: 2,
+                  style: TextStyle(color: Colors.black, fontSize: 14))
+            ],
           ),
         ),
       ],

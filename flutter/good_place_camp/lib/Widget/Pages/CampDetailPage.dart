@@ -108,7 +108,6 @@ class CampDetailPage extends StatelessWidget {
                 child: Ink.image(
                   image: AssetImage('assets/${c.siteInfo.site}.jpg'),
                   fit: BoxFit.cover,
-                  child: Container(),
                 ),
               ),
               Positioned(
