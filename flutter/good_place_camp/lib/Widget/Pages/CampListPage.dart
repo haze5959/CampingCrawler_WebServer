@@ -52,18 +52,26 @@ class CampListPage extends StatelessWidget {
   }
 
   Widget _buildFavoriteList(BuildContext context) {
-    return GetBuilder<HomeController>(
-        builder: (c) => ListView.builder(
-              itemCount: Constants.favoriteList.length + 1,
-              itemBuilder: (context, index) {
-                if (index < Constants.favoriteList.length) {
-                  return ListTile(
-                      title: SimpleCampCardItem(
-                          siteName: Constants.favoriteList[index]));
-                } else {
-                  return ListTile(title: PromotionCardItem());
-                }
-              },
-            ));
+    if (Constants.user == null) {
+      return ElevatedButton(
+        onPressed: () async {},
+        child: Text("로그인이 필요합니다."),
+      );
+    } else {
+      final user = Constants.user;
+      return GetBuilder<HomeController>(
+          builder: (c) => ListView.builder(
+                itemCount: user.favoriteList.length + 1,
+                itemBuilder: (context, index) {
+                  if (index < user.favoriteList.length) {
+                    return ListTile(
+                        title: SimpleCampCardItem(
+                            siteName: user.favoriteList[index]));
+                  } else {
+                    return ListTile(title: PromotionCardItem());
+                  }
+                },
+              ));
+    }
   }
 }

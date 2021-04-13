@@ -85,19 +85,29 @@ class CampDetailContoller extends GetxController {
   }
 
   bool _checkFavorite() {
-    return Constants.favoriteList.contains(siteName);
+    if (Constants.user != null) {
+      return Constants.user.favoriteList.contains(siteName);
+    } else {
+      return false;
+    }
   }
 
   void onClickFavorite() async {
-    if (Constants.favoriteList.contains(siteName)) {
-      Constants.favoriteList.remove(siteName);
-      isFavorite(false);
+    if (Constants.user != null) {
+      // 로그인 하세여~
     } else {
-      Constants.favoriteList.add(siteName);
-      isFavorite(true);
+      if (Constants.user.favoriteList.contains(siteName)) {
+        // 즐겨찾기 api
+        Constants.user.favoriteList.remove(siteName);
+        isFavorite(false);
+      } else {
+        // 즐겨찾기 api
+        Constants.user.favoriteList.add(siteName);
+        isFavorite(true);
+      }
     }
 
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList("CAMP_FAVORITE", Constants.favoriteList);
+    // final prefs = await SharedPreferences.getInstance();
+    // prefs.setStringList("CAMP_FAVORITE", Constants.favoriteList);
   }
 }
