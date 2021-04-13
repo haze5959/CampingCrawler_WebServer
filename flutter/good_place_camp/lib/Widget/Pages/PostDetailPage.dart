@@ -16,12 +16,14 @@ class PostDetailPage extends StatelessWidget {
   final int id;
   final String pw;
 
-  PostDetailPage({this.id, this.pw});
+  PostDetailContoller c;
+
+  PostDetailPage({this.id, this.pw}) {
+    c = PostDetailContoller(id: id, pw: pw);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final PostDetailContoller c = PostDetailContoller(id: id, pw: pw);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("게시판"),
@@ -29,9 +31,16 @@ class PostDetailPage extends StatelessWidget {
       body: Obx(() => c.isLoading.value
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               physics: ClampingScrollPhysics(),
-              child: _buildContent(context, c.posts, c.commentList))),
+              child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    if (!currentFocus.hasPrimaryFocus) {
+                      currentFocus.unfocus();
+                    }
+                  },
+                  child: _buildContent(context, c.posts, c.commentList)))),
     );
   }
 

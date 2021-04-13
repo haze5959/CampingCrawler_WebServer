@@ -1,5 +1,5 @@
 name: good_place_camp
-description: Good Place Camp Site & App.
+description: 매번 업데이트 되는 명당 캠핑장 자리 정보를 받아보세요!
 
 version: 1.0.0+1
 
@@ -30,6 +30,8 @@ dependencies:
   flutter_brand_icons:
 
   crypto: ^3.0.0
+
+  flutter_inapp_purchase:
 
 dev_dependencies:
   flutter_test:
