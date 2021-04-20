@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
-import 'package:good_place_camp/Model/User.dart';
+import 'package:good_place_camp/Model/CampUser.dart';
 
 const double MAX_WIDTH = 1000;
 const double CALENDER_WIDTH = 320;
@@ -15,7 +15,7 @@ const Duration timeOutSec = Duration(seconds: 30);
 class Constants {
   static bool isPhoneSize = false;
   static Map<String, CampInfo> campInfo = {};
-  static User user;
+  static CampUser user;
   static List<CampArea> selectedArea;
 
   static FirebaseAuth auth = FirebaseAuth.instance;

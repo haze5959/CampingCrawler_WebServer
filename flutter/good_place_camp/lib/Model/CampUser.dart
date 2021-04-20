@@ -1,10 +1,7 @@
-import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
 
-class User {
+class CampUser {
   final int id;
   final String nick;
   final int level;
@@ -23,7 +20,7 @@ class User {
   //   return RxList<String>();
   // }();
 
-  User(
+  CampUser(
     this.id,
     this.nick,
     this.level,
@@ -31,19 +28,19 @@ class User {
     this.favoriteList,
   );
 
-  User.fromJson(Map<String, dynamic> json)
+  CampUser.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         nick = json['nick'],
         level = json['level'],
         myArea = json['area'],
         favoriteList = json['favorite'];
 
-  static Map<String, User> fromJsonArr(jsonStr) {
-    var userMap = Map<String, User>();
+  static Map<String, CampUser> fromJsonArr(jsonStr) {
+    var userMap = Map<String, CampUser>();
     final maps = Map<String, dynamic>.from(jsonStr);
     for (final key in maps.keys) {
       final json = Map<String, dynamic>.from(maps[key]);
-      userMap[key] = User.fromJson(json);
+      userMap[key] = CampUser.fromJson(json);
     }
 
     return userMap;

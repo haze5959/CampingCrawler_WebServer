@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Widgets
@@ -11,7 +11,7 @@ import 'package:good_place_camp/Widget/GPCAppBar.dart';
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 void main() => runApp(GetMaterialApp(home: Home(), localizationsDelegates: [
-      GlobalMaterialLocalizations.delegate,
+      // GlobalMaterialLocalizations.delegate,
     ], supportedLocales: [
       const Locale('ko', 'KR')
     ]));

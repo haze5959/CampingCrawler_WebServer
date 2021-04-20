@@ -22,14 +22,11 @@ dependencies:
 
   google_maps_flutter:
 
-  firebase_core:
-  firebase_auth:
-  google_sign_in:
-  flutter_facebook_auth: 
+  firebase_core: "^0.7.0"
+  firebase_auth: "^0.20.1"
+  google_sign_in: "^4.5.1"
+  flutter_facebook_auth: "^1.0.0"
   sign_in_with_apple:
-
-  flutter_localizations: 
-    sdk: flutter
 
   cupertino_icons: ^0.1.2
 
@@ -38,6 +35,8 @@ dependencies:
   crypto: ^3.0.0
 
   flutter_inapp_purchase:
+
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

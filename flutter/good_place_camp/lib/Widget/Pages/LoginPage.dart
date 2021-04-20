@@ -4,7 +4,7 @@ import 'package:good_place_camp/Constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class PushSettingPage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
