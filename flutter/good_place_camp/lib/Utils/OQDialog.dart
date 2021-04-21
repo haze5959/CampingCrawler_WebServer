@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/PostsRepository.dart';
+
+// Widgets
+import 'package:good_place_camp/Widget/Pages/LoginPage.dart';
 
 void showOneBtnAlert(BuildContext context, String msg, String btnText,
     Function() confirmAction) {
@@ -138,6 +143,36 @@ void showReportAlert(BuildContext context, String id) {
 
                   showOneBtnAlert(context, "신고되었습니다.", "닫기", () {});
                 }
+              },
+            )
+          ],
+        );
+      });
+}
+
+void showRequiredLoginAlert() {
+  showDialog(
+      context: Get.context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(
+            "로그인이 필요한 서비스입니다.",
+          ),
+          actions: [
+            TextButton(
+              child: Text("취소"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("로그인하기"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push<void>(
+                  context,
+                  CupertinoPageRoute(builder: (context) => LoginPage()),
+                );
               },
             )
           ],

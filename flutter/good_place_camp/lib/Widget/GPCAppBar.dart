@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -114,7 +115,11 @@ class GPCAppBar extends AppBar {
                       tooltip: "즐겨찾기",
                       icon: const Icon(Icons.star),
                       onPressed: () {
-                        Get.to(CampListPage(isFavoritePage: true));
+                        if (Constants.user == null) {
+                          showRequiredLoginAlert();
+                        } else {
+                          Get.to(CampListPage(isFavoritePage: true));
+                        }
                       },
                       // tooltip: "알림 설정",
                     ),

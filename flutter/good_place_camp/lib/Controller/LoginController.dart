@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/PostsRepository.dart';
@@ -28,10 +29,9 @@ class LoginController extends GetxController {
 
       googleProvider
           .addScope('https://www.googleapis.com/auth/contacts.readonly');
-      googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
       // Once signed in, return the UserCredential
-      return FirebaseAuth.instance.signInWithPopup(googleProvider);
+      return Constants.auth.signInWithPopup(googleProvider);
     } else {
       // 네이티브
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
@@ -47,7 +47,7 @@ class LoginController extends GetxController {
       );
 
       // Once signed in, return the UserCredential
-      return FirebaseAuth.instance.signInWithCredential(credential);
+      return Constants.auth.signInWithCredential(credential);
     }
   }
 
@@ -62,7 +62,7 @@ class LoginController extends GetxController {
       });
 
       // Once signed in, return the UserCredential
-      return FirebaseAuth.instance.signInWithPopup(facebookProvider);
+      return Constants.auth.signInWithPopup(facebookProvider);
     } else {
       // 네이티브
       // Trigger the sign-in flow
@@ -73,7 +73,7 @@ class LoginController extends GetxController {
           FacebookAuthProvider.credential(result.token);
 
       // Once signed in, return the UserCredential
-      return FirebaseAuth.instance
+      return Constants.auth
           .signInWithCredential(facebookAuthCredential);
     }
   }
@@ -84,7 +84,7 @@ class LoginController extends GetxController {
       final provider = OAuthProvider("apple.com")..addScope('email');
 
       // Sign in the user with Firebase.
-      return FirebaseAuth.instance.signInWithPopup(provider);
+      return Constants.auth.signInWithPopup(provider);
     }
     if (GetPlatform.isIOS) {
       // To prevent replay attacks with the credential returned from Apple, we
@@ -110,7 +110,7 @@ class LoginController extends GetxController {
 
       // Sign in the user with Firebase. If the nonce we generated earlier does
       // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-      return FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      return Constants.auth.signInWithCredential(oauthCredential);
     } else {
       // 안드로이드는 지원 안함
       return null;

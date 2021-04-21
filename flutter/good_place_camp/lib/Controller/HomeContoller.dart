@@ -80,9 +80,7 @@ class HomeController extends GetxController {
     siteInfoList = siteInfo;
 
     updateAccpetedCampInfo();
-
     updatePostList();
-
     isLoading.value = false;
     update();
   }
@@ -108,6 +106,10 @@ class HomeController extends GetxController {
 
     for (var info in infoList) {
       for (var date in info.availDates) {
+        if (date.isEmpty) {
+          break;
+        }
+        
         var list = events[DateTime.parse(date)];
         if (list == null) {
           list = [info];

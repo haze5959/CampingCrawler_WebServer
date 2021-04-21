@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Repository
@@ -80,6 +79,9 @@ class CampDetailContoller extends GetxController {
     events.clear();
 
     for (var date in info.availDates) {
+      if (date.isEmpty) {
+        break;
+      }
       events[DateTime.parse(date)] = [info];
     }
   }

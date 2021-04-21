@@ -4,11 +4,13 @@ description: 매번 업데이트 되는 명당 캠핑장 자리 정보를 받아
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.9.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter 
 
   shared_preferences:
       
@@ -36,7 +38,8 @@ dependencies:
 
   flutter_inapp_purchase:
 
-  intl: ^0.16.1
+dependency_overrides:
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
