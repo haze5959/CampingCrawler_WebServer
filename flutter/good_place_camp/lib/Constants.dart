@@ -17,6 +17,4 @@ class Constants {
   static Map<String, CampInfo> campInfo = {};
   static CampUser user;
   static List<CampArea> selectedArea;
-
-  static FirebaseAuth auth = FirebaseAuth.instance;
 }
