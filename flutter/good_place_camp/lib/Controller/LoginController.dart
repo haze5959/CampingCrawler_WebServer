@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,10 +7,9 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:good_place_camp/Constants.dart';
 
-// Repository
-import 'package:good_place_camp/Repository/PostsRepository.dart';
+// Model
+import 'package:good_place_camp/Model/CampUser.dart';
 
 class LoginController extends GetxController {
   LoginController() {
@@ -24,97 +23,142 @@ class LoginController extends GetxController {
     isLoading.value = false;
   }
 
-  Future<UserCredential> logInWithGoogle() async {
-    if (GetPlatform.isWeb) {
-      // Create a new provider
-      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+  Future<CampUser> logInWithGoogle() async {
+    isLoading.value = true;
+    try {
+      if (GetPlatform.isWeb) {
+        // Create a new provider
+        GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-      googleProvider
-          .addScope('https://www.googleapis.com/auth/contacts.readonly');
+        googleProvider
+            .addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-      // Once signed in, return the UserCredential
-      return auth.signInWithPopup(googleProvider);
-    } else {
-      // 네이티브
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+        // Once signed in, return the UserCredential
+        final cred = await auth.signInWithPopup(googleProvider);
+        isLoading.value = false;
+        return _checkSuccess(cred);
+      } else {
+        // 네이티브
+        final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+        // Obtain the auth details from the request
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
-      // Create a new credential
-      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+        // Create a new credential
+        final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
 
-      // Once signed in, return the UserCredential
-      return auth.signInWithCredential(credential);
+        // Once signed in, return the UserCredential
+        final cred = await auth.signInWithCredential(credential);
+        isLoading.value = false;
+        return _checkSuccess(cred);
+      }
+    } on FirebaseAuthException catch (e) {
+      _authEceptionHandler(e.code);
+      isLoading.value = false;
+      return null;
     }
   }
 
-  Future<UserCredential> logInWithFacebook() async {
-    if (GetPlatform.isWeb) {
-      // Create a new provider
-      FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+  Future<CampUser> logInWithFacebook() async {
+    isLoading.value = true;
+    try {
+      if (GetPlatform.isWeb) {
+        // Create a new provider
+        FacebookAuthProvider facebookProvider = FacebookAuthProvider();
 
-      facebookProvider.addScope('email');
-      facebookProvider.setCustomParameters({
-        'display': 'popup',
-      });
+        facebookProvider.addScope('email');
+        facebookProvider.setCustomParameters({
+          'display': 'popup',
+        });
 
-      // Once signed in, return the UserCredential
-      return auth.signInWithPopup(facebookProvider);
-    } else {
-      // 네이티브
-      // Trigger the sign-in flow
-      final AccessToken result = await FacebookAuth.instance.login();
+        // Once signed in, return the UserCredential
+        final cred = await auth.signInWithPopup(facebookProvider);
+        isLoading.value = false;
+        return _checkSuccess(cred);
+      } else {
+        // 네이티브
+        // Trigger the sign-in flow
+        final AccessToken result = await FacebookAuth.instance.login();
 
-      // Create a credential from the access token
-      final FacebookAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(result.token);
+        // Create a credential from the access token
+        final FacebookAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(result.token);
 
-      // Once signed in, return the UserCredential
-      return auth.signInWithCredential(facebookAuthCredential);
+        // Once signed in, return the UserCredential
+        final cred = await auth.signInWithCredential(facebookAuthCredential);
+        isLoading.value = false;
+        return _checkSuccess(cred);
+      }
+    } on FirebaseAuthException catch (e) {
+      _authEceptionHandler(e.code);
+      isLoading.value = false;
+      return null;
     }
   }
 
-  Future<UserCredential> logInWithApple() async {
-    if (GetPlatform.isWeb) {
-      // Create and configure an OAuthProvider for Sign In with Apple.
-      final provider = OAuthProvider("apple.com").addScope('email');
-      provider.setCustomParameters({"locale": "kr"});
+  Future<CampUser> logInWithApple() async {
+    isLoading.value = true;
+    try {
+      if (GetPlatform.isWeb) {
+        // Create and configure an OAuthProvider for Sign In with Apple.
+        final provider = OAuthProvider("apple.com").addScope('email');
+        provider.setCustomParameters({"locale": "kr"});
 
-      // Sign in the user with Firebase.
-      return auth.signInWithPopup(provider);
+        // Sign in the user with Firebase.
+        final cred = await auth.signInWithPopup(provider);
+        isLoading.value = false;
+        return _checkSuccess(cred);
+      }
+      if (GetPlatform.isIOS) {
+        // To prevent replay attacks with the credential returned from Apple, we
+        // include a nonce in the credential request. When signing in in with
+        // Firebase, the nonce in the id token returned by Apple, is expected to
+        // match the sha256 hash of `rawNonce`.
+        final rawNonce = _generateNonce();
+        final nonce = _sha256ofString(rawNonce);
+
+        // Request credential for the currently signed in Apple account.
+        final appleCredential = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+          ],
+          nonce: nonce,
+        );
+
+        // Create an `OAuthCredential` from the credential returned by Apple.
+        final oauthCredential = OAuthProvider("apple.com").credential(
+          idToken: appleCredential.identityToken,
+          rawNonce: rawNonce,
+        );
+
+        // Sign in the user with Firebase. If the nonce we generated earlier does
+        // not match the nonce in `appleCredential.identityToken`, sign in will fail.
+        final cred = await auth.signInWithCredential(oauthCredential);
+        isLoading.value = false;
+        return _checkSuccess(cred);
+      } else {
+        // 안드로이드는 지원 안함
+        return null;
+      }
+    } on FirebaseAuthException catch (e) {
+      _authEceptionHandler(e.code);
+      isLoading.value = false;
+      return null;
     }
-    if (GetPlatform.isIOS) {
-      // To prevent replay attacks with the credential returned from Apple, we
-      // include a nonce in the credential request. When signing in in with
-      // Firebase, the nonce in the id token returned by Apple, is expected to
-      // match the sha256 hash of `rawNonce`.
-      final rawNonce = _generateNonce();
-      final nonce = _sha256ofString(rawNonce);
+  }
 
-      // Request credential for the currently signed in Apple account.
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-        ],
-        nonce: nonce,
-      );
+  Future<CampUser> _checkSuccess(UserCredential cred) async {
+    if (cred != null && cred.user != null) {
+      final token = await cred.user.getIdToken();
+      // 유저정보 가져오는 로직!!!
 
-      // Create an `OAuthCredential` from the credential returned by Apple.
-      final oauthCredential = OAuthProvider("apple.com").credential(
-        idToken: appleCredential.identityToken,
-        rawNonce: rawNonce,
-      );
-
-      // Sign in the user with Firebase. If the nonce we generated earlier does
-      // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-      return auth.signInWithCredential(oauthCredential);
+      return CampUser(0, "", 0, null, null);
     } else {
-      // 안드로이드는 지원 안함
+      showOneBtnAlert(Get.context, "로그인에 실패하였습니다.", "확인", () {});
       return null;
     }
   }
@@ -134,5 +178,15 @@ class LoginController extends GetxController {
     final bytes = utf8.encode(input);
     final digest = sha256.convert(bytes);
     return digest.toString();
+  }
+
+  void _authEceptionHandler(String errCode) {
+    switch (errCode) {
+      case "popup-closed-by-user":
+        showOneBtnAlert(Get.context, "사용자 취소", "확인", () {});
+        return;
+      default:
+        showOneBtnAlert(Get.context, "로그인에 실패하였습니다. ($errCode", "확인", () {});
+    }
   }
 }

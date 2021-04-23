@@ -1,9 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import "package:flutter_brand_icons/flutter_brand_icons.dart";
-// import 'package:good_place_camp/Constants.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/LoginController.dart';
@@ -14,90 +13,113 @@ class LoginPage extends StatelessWidget {
     final LoginController c = LoginController();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("로그인"),
-        actions: [],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(primary: Colors.red[300]),
-              icon: const Icon(BrandIcons.googleplay, size: 30),
-              label: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Download on the",
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                                fontSize: 11)),
-                        Text("App Store",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20))
-                      ])),
-              onPressed: () async {
-                final credential = await c.logInWithGoogle();
-                credential.printInfo();
-              },
-            ),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(primary: Colors.blue[300]),
-              icon: const Icon(BrandIcons.facebook, size: 30),
-              label: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Download on the",
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                                fontSize: 11)),
-                        Text("App Store",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20))
-                      ])),
-              onPressed: () async {
-                final credential = await c.logInWithFacebook();
-                credential.printInfo();
-              },
-            ),
-            if (!GetPlatform.isAndroid)
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(primary: Colors.black),
-                icon: const Icon(BrandIcons.apple, size: 30),
-                label: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Download on the",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white,
-                                  fontSize: 11)),
-                          Text("App Store",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 20))
-                        ])),
-                onPressed: () async {
-                  final credential = await c.logInWithApple();
-                  credential.printInfo();
-                },
-              ),
-          ],
+        appBar: AppBar(
+          title: Text("로그인"),
+          actions: [],
         ),
-      ),
-    );
+        body: Obx(() => Stack(children: [
+              Center(
+                child: Container(
+                    constraints: BoxConstraints(maxWidth: 600),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: 120,
+                          child: Stack(
+                            children: [
+                              Positioned.fill(
+                                child: Ink.image(
+                                  image: AssetImage('assets/Camp_Default.png'),
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text("명당캠핑 로그인",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 25)),
+                        SizedBox(height: 20),
+                        Divider(
+                          thickness: 1,
+                          indent: 40,
+                          endIndent: 40,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 40),
+                            child: Text(
+                                "나만의 캠핑장 리스트를 빠르고 편리하게\n확인/알림 받을 수 있습니다!",
+                                textAlign: TextAlign.center)),
+                        Divider(
+                          thickness: 1,
+                          indent: 40,
+                          endIndent: 40,
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.deepOrange[700],
+                                minimumSize: Size(340, 50)),
+                            icon: const Icon(BrandIcons.google, size: 16),
+                            label: Text("Google로 계속하기",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                    fontSize: 16)),
+                            onPressed: () async {
+                              final user = await c.logInWithGoogle();
+                              if (user != null) {
+                                Constants.user = user;
+                                Get.back();
+                              }
+                            }),
+                        SizedBox(height: 20),
+                        ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.blue[700],
+                                minimumSize: Size(340, 50)),
+                            icon: const Icon(BrandIcons.facebook, size: 16),
+                            label: Text("Facebook으로 계속하기",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                    fontSize: 16)),
+                            onPressed: () async {
+                              final user = await c.logInWithFacebook();
+                              if (user != null) {
+                                Constants.user = user;
+                                Get.back();
+                              }
+                            }),
+                        SizedBox(height: 20),
+                        if (!GetPlatform.isAndroid)
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.black,
+                                  minimumSize: Size(340, 50)),
+                              icon: const Icon(
+                                BrandIcons.apple,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              label: Text("Apple로 계속하기",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.white,
+                                      fontSize: 16)),
+                              onPressed: () async {
+                                final user = await c.logInWithApple();
+                                if (user != null) {
+                                  Constants.user = user;
+                                  Get.back();
+                                }
+                              }),
+                        SizedBox(height: 40),
+                      ],
+                    )),
+              ),
+              if (c.isLoading.value) Center(child: CircularProgressIndicator())
+            ])));
   }
 }
