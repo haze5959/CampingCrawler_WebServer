@@ -2,23 +2,13 @@
 import 'package:good_place_camp/Model/CampArea.dart';
 
 class CampUser {
-  final int id;
-  final String nick;
-  final int level;
-  final List<CampArea> myArea;
-  final List<String> favoriteList;
-
-  // RxList<String> favoriteList = () {
-  //   final prefs = SharedPreferences.getInstance();
-  //   prefs.then((value) {
-  //     final list = value.getStringList("CAMP_FAVORITE");
-  //     if (list != null) {
-  //       Constants.favoriteList.addAll(list);
-  //     }
-  //   });
-
-  //   return RxList<String>();
-  // }();
+  String token;
+  int id;
+  String nick;
+  int level;
+  List<CampArea> myArea;
+  List<String> favoriteList;
+  bool usePushSubscription;
 
   CampUser(
     this.id,
@@ -26,6 +16,7 @@ class CampUser {
     this.level,
     this.myArea,
     this.favoriteList,
+    this.usePushSubscription,
   );
 
   CampUser.fromJson(Map<String, dynamic> json)
@@ -33,7 +24,8 @@ class CampUser {
         nick = json['nick'],
         level = json['level'],
         myArea = json['area'],
-        favoriteList = json['favorite'];
+        favoriteList = json['favorite'],
+        usePushSubscription = json['push_subscription'];
 
   static Map<String, CampUser> fromJsonArr(jsonStr) {
     var userMap = Map<String, CampUser>();

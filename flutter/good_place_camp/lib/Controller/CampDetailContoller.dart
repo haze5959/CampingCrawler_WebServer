@@ -6,6 +6,7 @@ import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/SiteRepository.dart';
+import 'package:good_place_camp/Repository/UserRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
@@ -18,6 +19,7 @@ class CampDetailContoller extends GetxController {
   }
 
   SiteRepository repo = SiteRepository();
+  UserRepository userRepo = UserRepository();
 
   SiteInfo siteInfo;
 
@@ -96,20 +98,37 @@ class CampDetailContoller extends GetxController {
 
   void onClickFavorite() async {
     if (Constants.user != null) {
-      // 로그인 하세여~
+      showRequiredLoginAlert();
     } else {
       if (Constants.user.favoriteList.contains(siteName)) {
-        // 즐겨찾기 api
+        // 즐겨찾기 삭제 api
+        final result = await userRepo.deleteUserFavoriteList(
+            Constants.user.token, siteName);
+        if (result.hasError) {
+          showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+          return;
+        } else if (!result.body.result) {
+          showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+          return;
+        }
+
         Constants.user.favoriteList.remove(siteName);
         isFavorite(false);
       } else {
-        // 즐겨찾기 api
+        // 즐겨찾기 추가 api
+        final result =
+            await userRepo.postUserFavoriteList(Constants.user.token, siteName);
+        if (result.hasError) {
+          showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+          return;
+        } else if (!result.body.result) {
+          showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+          return;
+        }
+
         Constants.user.favoriteList.add(siteName);
         isFavorite(true);
       }
     }
-
-    // final prefs = await SharedPreferences.getInstance();
-    // prefs.setStringList("CAMP_FAVORITE", Constants.favoriteList);
   }
 }

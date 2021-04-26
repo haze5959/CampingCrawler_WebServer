@@ -11,7 +11,12 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 // Model
 import 'package:good_place_camp/Model/CampUser.dart';
 
+// Repository
+import 'package:good_place_camp/Repository/UserRepository.dart';
+
 class LoginController extends GetxController {
+  UserRepository repo = UserRepository();
+
   LoginController() {
     reload();
   }
@@ -154,9 +159,18 @@ class LoginController extends GetxController {
   Future<CampUser> _checkSuccess(UserCredential cred) async {
     if (cred != null && cred.user != null) {
       final token = await cred.user.getIdToken();
-      // 유저정보 가져오는 로직!!!
+      // 유저정보 가져오는 로직
+      final result = await repo.getUserInfo(token);
+      if (result.hasError) {
+        showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+        return null;
+      } else if (!result.body.result) {
+        showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+        return null;
+      }
 
-      return CampUser(0, "", 0, null, null);
+      final userInfo = CampUser.fromJson(result.body.data);
+      return userInfo;
     } else {
       showOneBtnAlert(Get.context, "로그인에 실패하였습니다.", "확인", () {});
       return null;

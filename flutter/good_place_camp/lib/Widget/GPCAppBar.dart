@@ -132,6 +132,19 @@ class GPCAppBar extends AppBar {
                       },
                       // tooltip: "알림 설정",
                     ),
+                    SizedBox(width: GetPlatform.isWeb ? 20 : 10),
+                    IconButton(
+                      tooltip: "계정 정보",
+                      icon: const Icon(Icons.account_circle),
+                      onPressed: () {
+                        if (Constants.user == null) {
+                          showRequiredLoginAlert();
+                        } else {
+                          Get.to(CampListPage(isFavoritePage: true));
+                        }
+                      },
+                      // tooltip: "알림 설정",
+                    ),
                   ]
                 ])));
 
