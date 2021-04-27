@@ -110,7 +110,7 @@ class GPCAppBar extends AppBar {
                       onSelected: (area) => onSelected(area),
                     ),
                   if (isMain) ...[
-                    SizedBox(width: GetPlatform.isWeb ? 20 : 10),
+                    SizedBox(width: GetPlatform.isWeb ? 20 : 0),
                     IconButton(
                       tooltip: "즐겨찾기",
                       icon: const Icon(Icons.star),
@@ -123,7 +123,7 @@ class GPCAppBar extends AppBar {
                       },
                       // tooltip: "알림 설정",
                     ),
-                    SizedBox(width: GetPlatform.isWeb ? 20 : 10),
+                    SizedBox(width: GetPlatform.isWeb ? 20 : 0),
                     IconButton(
                       tooltip: "알림 설정",
                       icon: const Icon(Icons.notifications),
@@ -132,7 +132,7 @@ class GPCAppBar extends AppBar {
                       },
                       // tooltip: "알림 설정",
                     ),
-                    SizedBox(width: GetPlatform.isWeb ? 20 : 10),
+                    SizedBox(width: GetPlatform.isWeb ? 20 : 0),
                     IconButton(
                       tooltip: "계정 정보",
                       icon: const Icon(Icons.account_circle),

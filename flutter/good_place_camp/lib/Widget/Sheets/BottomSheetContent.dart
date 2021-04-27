@@ -44,7 +44,7 @@ class BottomSheetContent extends StatelessWidget {
                               SizedBox(width: 3),
                               Text(
                                 "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
-                                style: TextStyle(fontSize: 12, color: Colors.grey),
+                                style: TextStyle(fontSize: 11, color: Colors.grey),
                               ),
                             ]),
                           ])
