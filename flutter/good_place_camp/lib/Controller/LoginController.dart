@@ -35,9 +35,6 @@ class LoginController extends GetxController {
         // Create a new provider
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-        googleProvider
-            .addScope('https://www.googleapis.com/auth/contacts.readonly');
-
         // Once signed in, return the UserCredential
         final cred = await auth.signInWithPopup(googleProvider);
         isLoading.value = false;
@@ -75,7 +72,6 @@ class LoginController extends GetxController {
         // Create a new provider
         FacebookAuthProvider facebookProvider = FacebookAuthProvider();
 
-        facebookProvider.addScope('email');
         facebookProvider.setCustomParameters({
           'display': 'popup',
         });
@@ -110,7 +106,7 @@ class LoginController extends GetxController {
     try {
       if (GetPlatform.isWeb) {
         // Create and configure an OAuthProvider for Sign In with Apple.
-        final provider = OAuthProvider("apple.com").addScope('email');
+        final provider = OAuthProvider("apple.com");
         provider.setCustomParameters({"locale": "kr"});
 
         // Sign in the user with Firebase.
@@ -159,6 +155,7 @@ class LoginController extends GetxController {
   Future<CampUser> _checkSuccess(UserCredential cred) async {
     if (cred != null && cred.user != null) {
       final token = await cred.user.getIdToken();
+      print(token);
       // 유저정보 가져오는 로직
       final result = await repo.getUserInfo(token);
       if (result.hasError) {
