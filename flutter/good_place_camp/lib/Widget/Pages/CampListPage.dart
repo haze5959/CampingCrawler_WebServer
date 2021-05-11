@@ -55,12 +55,12 @@ class CampListPage extends StatelessWidget {
     final user = Constants.user;
     return GetBuilder<HomeController>(
         builder: (c) => ListView.builder(
-              itemCount: user.favoriteList.length + 1,
+              itemCount: user.value.info.favoriteList.length + 1,
               itemBuilder: (context, index) {
-                if (index < user.favoriteList.length) {
+                if (index < user.value.info.favoriteList.length) {
                   return ListTile(
                       title: SimpleCampCardItem(
-                          siteName: user.favoriteList[index]));
+                          siteName: user.value.info.favoriteList[index]));
                 } else {
                   return ListTile(title: PromotionCardItem());
                 }

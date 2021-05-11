@@ -14,12 +14,12 @@ import 'package:good_place_camp/Model/Post.dart';
 
 class PostDetailPage extends StatelessWidget {
   final int id;
-  final String pw;
+  final bool isSecret;
 
   PostDetailContoller c;
 
-  PostDetailPage({this.id, this.pw}) {
-    c = PostDetailContoller(id: id, pw: pw);
+  PostDetailPage({this.id, this.isSecret = false}) {
+    c = PostDetailContoller(id: id, isSecret: isSecret);
   }
 
   @override

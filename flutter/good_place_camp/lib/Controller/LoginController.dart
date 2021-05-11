@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Model
 import 'package:good_place_camp/Model/CampUser.dart';
@@ -21,14 +22,13 @@ class LoginController extends GetxController {
     reload();
   }
 
-  FirebaseAuth auth = FirebaseAuth.instance;
   RxBool isLoading = true.obs;
 
   void reload() async {
     isLoading.value = false;
   }
 
-  Future<CampUser> logInWithGoogle() async {
+  Future<bool> logInWithGoogle() async {
     isLoading.value = true;
     try {
       if (GetPlatform.isWeb) {
@@ -36,7 +36,7 @@ class LoginController extends GetxController {
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
         // Once signed in, return the UserCredential
-        final cred = await auth.signInWithPopup(googleProvider);
+        final cred = await Constants.auth.signInWithPopup(googleProvider);
         isLoading.value = false;
         return _checkSuccess(cred);
       } else {
@@ -54,7 +54,7 @@ class LoginController extends GetxController {
         );
 
         // Once signed in, return the UserCredential
-        final cred = await auth.signInWithCredential(credential);
+        final cred = await Constants.auth.signInWithCredential(credential);
         isLoading.value = false;
         return _checkSuccess(cred);
       }
@@ -65,7 +65,7 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<CampUser> logInWithFacebook() async {
+  Future<bool> logInWithFacebook() async {
     isLoading.value = true;
     try {
       if (GetPlatform.isWeb) {
@@ -77,7 +77,7 @@ class LoginController extends GetxController {
         });
 
         // Once signed in, return the UserCredential
-        final cred = await auth.signInWithPopup(facebookProvider);
+        final cred = await Constants.auth.signInWithPopup(facebookProvider);
         isLoading.value = false;
         return _checkSuccess(cred);
       } else {
@@ -90,7 +90,7 @@ class LoginController extends GetxController {
             FacebookAuthProvider.credential(result.token);
 
         // Once signed in, return the UserCredential
-        final cred = await auth.signInWithCredential(facebookAuthCredential);
+        final cred = await Constants.auth.signInWithCredential(facebookAuthCredential);
         isLoading.value = false;
         return _checkSuccess(cred);
       }
@@ -101,7 +101,7 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<CampUser> logInWithApple() async {
+  Future<bool> logInWithApple() async {
     isLoading.value = true;
     try {
       if (GetPlatform.isWeb) {
@@ -110,7 +110,7 @@ class LoginController extends GetxController {
         provider.setCustomParameters({"locale": "kr"});
 
         // Sign in the user with Firebase.
-        final cred = await auth.signInWithPopup(provider);
+        final cred = await Constants.auth.signInWithPopup(provider);
         isLoading.value = false;
         return _checkSuccess(cred);
       }
@@ -138,7 +138,7 @@ class LoginController extends GetxController {
 
         // Sign in the user with Firebase. If the nonce we generated earlier does
         // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-        final cred = await auth.signInWithCredential(oauthCredential);
+        final cred = await Constants.auth.signInWithCredential(oauthCredential);
         isLoading.value = false;
         return _checkSuccess(cred);
       } else {
@@ -152,25 +152,12 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<CampUser> _checkSuccess(UserCredential cred) async {
+  Future<bool> _checkSuccess(UserCredential cred) async {
     if (cred != null && cred.user != null) {
-      final token = await cred.user.getIdToken();
-      print(token);
-      // 유저정보 가져오는 로직
-      final result = await repo.getUserInfo(token);
-      if (result.hasError) {
-        showOneBtnAlert(Get.context, result.statusText, "확인", () {});
-        return null;
-      } else if (!result.body.result) {
-        showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
-        return null;
-      }
-
-      final userInfo = CampUser.fromJson(result.body.data);
-      return userInfo;
+      return await Constants.user.value.login(cred.user);
     } else {
       showOneBtnAlert(Get.context, "로그인에 실패하였습니다.", "확인", () {});
-      return null;
+      return false;
     }
   }
 

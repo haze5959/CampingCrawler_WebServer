@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // Model
@@ -15,6 +16,7 @@ const Duration timeOutSec = Duration(seconds: 30);
 class Constants {
   static bool isPhoneSize = false;
   static Map<String, CampInfo> campInfo = {};
-  static CampUser user;
+  static Rx<CampUser> user = CampUser(false).obs;
   static List<CampArea> selectedArea;
+  static FirebaseAuth auth = FirebaseAuth.instance;
 }

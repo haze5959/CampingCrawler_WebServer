@@ -8,7 +8,6 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
-import 'package:good_place_camp/Widget/Pages/PushSettingPage.dart';
 import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
 
 // Model
@@ -44,6 +43,12 @@ class GPCAppBar extends AppBar {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                   ),
                   Spacer(),
+                  if (!Constants.isPhoneSize) ...[
+                    Obx(() => Text(Constants.user.value.isLogin
+                        ? "${Constants.user.value.info.nick} 님"
+                        : "")),
+                    SizedBox(width: GetPlatform.isWeb ? 20 : 0),
+                  ],
                   if (showFilter)
                     PopupMenuButton<CampArea>(
                       tooltip: "지역필터",
@@ -115,7 +120,7 @@ class GPCAppBar extends AppBar {
                       tooltip: "즐겨찾기",
                       icon: const Icon(Icons.star),
                       onPressed: () {
-                        if (Constants.user == null) {
+                        if (!Constants.user.value.isLogin) {
                           showRequiredLoginAlert();
                         } else {
                           Get.to(CampListPage(isFavoritePage: true));
@@ -137,7 +142,7 @@ class GPCAppBar extends AppBar {
                       tooltip: "계정 정보",
                       icon: const Icon(Icons.account_circle),
                       onPressed: () {
-                        if (Constants.user == null) {
+                        if (!Constants.user.value.isLogin) {
                           showRequiredLoginAlert();
                         } else {
                           Get.to(CampListPage(isFavoritePage: true));

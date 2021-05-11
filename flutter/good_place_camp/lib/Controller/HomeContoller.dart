@@ -4,6 +4,7 @@ import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/SiteRepository.dart';
@@ -13,6 +14,7 @@ import 'package:good_place_camp/Repository/PostsRepository.dart';
 import 'package:good_place_camp/Model/SiteInfo.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Model/Post.dart';
+import 'package:good_place_camp/Model/CampUser.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
@@ -49,6 +51,11 @@ class HomeController extends GetxController {
   }
 
   void initData() async {
+    final user = await Constants.auth.authStateChanges().first;
+    if (user != null) {
+      await Constants.user.value.login(user);
+    }
+
     Constants.selectedArea = await getCampAreaData();
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
@@ -109,7 +116,7 @@ class HomeController extends GetxController {
         if (date.isEmpty) {
           break;
         }
-        
+
         var list = events[DateTime.parse(date)];
         if (list == null) {
           list = [info];

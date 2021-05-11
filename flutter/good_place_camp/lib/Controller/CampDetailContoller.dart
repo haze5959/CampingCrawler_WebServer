@@ -90,7 +90,7 @@ class CampDetailContoller extends GetxController {
 
   bool _checkFavorite() {
     if (Constants.user != null) {
-      return Constants.user.favoriteList.contains(siteName);
+      return Constants.user.value.info.favoriteList.contains(siteName);
     } else {
       return false;
     }
@@ -100,10 +100,10 @@ class CampDetailContoller extends GetxController {
     if (Constants.user != null) {
       showRequiredLoginAlert();
     } else {
-      if (Constants.user.favoriteList.contains(siteName)) {
+      if (Constants.user.value.info.favoriteList.contains(siteName)) {
         // 즐겨찾기 삭제 api
-        final result = await userRepo.deleteUserFavoriteList(
-            Constants.user.token, siteName);
+        final idToken = await Constants.user.value.firebaseUser.getIdToken();
+        final result = await userRepo.deleteUserFavoriteList(idToken, siteName);
         if (result.hasError) {
           showOneBtnAlert(Get.context, result.statusText, "확인", () {});
           return;
@@ -112,12 +112,12 @@ class CampDetailContoller extends GetxController {
           return;
         }
 
-        Constants.user.favoriteList.remove(siteName);
+        Constants.user.value.info.favoriteList.remove(siteName);
         isFavorite(false);
       } else {
         // 즐겨찾기 추가 api
-        final result =
-            await userRepo.postUserFavoriteList(Constants.user.token, siteName);
+        final idToken = await Constants.user.value.firebaseUser.getIdToken();
+        final result = await userRepo.postUserFavoriteList(idToken, siteName);
         if (result.hasError) {
           showOneBtnAlert(Get.context, result.statusText, "확인", () {});
           return;
@@ -126,7 +126,7 @@ class CampDetailContoller extends GetxController {
           return;
         }
 
-        Constants.user.favoriteList.add(siteName);
+        Constants.user.value.info.favoriteList.add(siteName);
         isFavorite(true);
       }
     }

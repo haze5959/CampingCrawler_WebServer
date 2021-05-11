@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/UserInfoController.dart';
@@ -20,7 +21,7 @@ class UserInfoPage extends StatelessWidget {
           child: Center(
               child: Container(
                   constraints: BoxConstraints(maxWidth: 600),
-                  child: Obx(() => _buildInfoContent(c.userInfo.value)))),
+                  child: Obx(() => _buildInfoContent(Constants.user.value)))),
         ));
   }
 

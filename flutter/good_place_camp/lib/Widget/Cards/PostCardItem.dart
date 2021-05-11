@@ -31,24 +31,21 @@ class PostCardItem extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 if (info.type == PostType.secret) {
-                  showPwAlert(
+                  if (!Constants.user.value.isLogin) {
+                    showRequiredLoginAlert();
+                  } else {
+                    Navigator.push<void>(
                       context,
-                      "게시물의 패스워드를 입력해주세요.",
-                      (pw) => {
-                            Navigator.push<void>(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) =>
-                                    PostDetailPage(id: info.id, pw: pw)
-                              ),
-                            )
-                          });
+                      CupertinoPageRoute(
+                          builder: (context) =>
+                              PostDetailPage(id: info.id, isSecret: true)),
+                    );
+                  }
                 } else {
                   Navigator.push<void>(
                     context,
                     CupertinoPageRoute(
-                      builder: (context) => PostDetailPage(id: info.id)
-                    ),
+                        builder: (context) => PostDetailPage(id: info.id)),
                   );
                 }
               },

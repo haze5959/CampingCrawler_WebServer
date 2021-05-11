@@ -68,9 +68,8 @@ class LoginPage extends StatelessWidget {
                                     color: Colors.white,
                                     fontSize: 16)),
                             onPressed: () async {
-                              final user = await c.logInWithGoogle();
-                              if (user != null) {
-                                Constants.user = user;
+                              final isSuccess = await c.logInWithGoogle();
+                              if (isSuccess) {
                                 Get.back();
                               }
                             }),
@@ -86,9 +85,8 @@ class LoginPage extends StatelessWidget {
                                     color: Colors.white,
                                     fontSize: 16)),
                             onPressed: () async {
-                              final user = await c.logInWithFacebook();
-                              if (user != null) {
-                                Constants.user = user;
+                              final isSuccess = await c.logInWithFacebook();
+                              if (isSuccess) {
                                 Get.back();
                               }
                             }),
@@ -109,9 +107,8 @@ class LoginPage extends StatelessWidget {
                                       color: Colors.white,
                                       fontSize: 16)),
                               onPressed: () async {
-                                final user = await c.logInWithApple();
-                                if (user != null) {
-                                  Constants.user = user;
+                                final isSuccess = await c.logInWithApple();
+                                if (isSuccess) {
                                   Get.back();
                                 }
                               }),

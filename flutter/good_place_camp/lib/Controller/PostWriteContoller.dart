@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
@@ -10,48 +11,47 @@ import 'package:good_place_camp/Repository/PostsRepository.dart';
 class PostWriteContoller extends GetxController {
   PostsRepository repo = PostsRepository();
 
-  TextEditingController nickControler =
-      new TextEditingController(text: "익명의 캠퍼");
+  RxString nick = "익명의 캠퍼".obs;
   TextEditingController titleControler = new TextEditingController();
   TextEditingController bodyControler = new TextEditingController();
-  TextEditingController pwControler = new TextEditingController();
 
   RxInt postType = 0.obs;
 
   RxBool isLoading = false.obs;
 
-  // PostDetailContoller() {
-  //   reload();
-  // }
+  @override
+  void onReady() {
+    super.onReady();
+    Constants.user.update((val) {
+      nick.value = val.isLogin ? val.info.nick : "익명의 캠퍼";
+    });
 
-  void reload() async {}
+    reload();
+  }
+
+  void reload() async {
+    if (Constants.user.value.isLogin) {
+      nick.value = Constants.user.value.info.nick;
+    }
+  }
 
   void makePosts() async {
     final title = titleControler.text;
     final body = bodyControler.text;
-    final nick = nickControler.text;
 
     if (title.length == 0 || body.length == 0) {
       showOneBtnAlert(Get.context, "제목과 내용을 입력해주세요.", "확인", () {});
       return;
     }
 
-    String pwEnc;
-    if (postType.value == 2) {
-      // 비밀글
-      if (pwControler.text.length != 6) {
-        showOneBtnAlert(Get.context, "6자리 숫자로된 비밀번호를 입력해주세요.", "확인", () {});
-        return;
-      }
-
-      final bytes = utf8.encode(pwControler.text);
-      pwEnc = sha1.convert(bytes).toString();
-    }
-
     isLoading.value = true;
 
-    final result =
-        await repo.postPostsWith(postType.value + 1, title, body, nick, pwEnc);
+    final token = Constants.user.value.isLogin
+        ? await Constants.user.value.firebaseUser.getIdToken()
+        : null;
+
+    final result = await repo.postPostsWith(
+        postType.value + 1, title, body, token);
 
     if (result.hasError) {
       showOneBtnAlert(Get.context, result.statusText, "확인", () {
@@ -68,7 +68,7 @@ class PostWriteContoller extends GetxController {
     isLoading.value = false;
 
     showOneBtnAlert(Get.context, "등록되었습니다.", "확인", () {
-        Get.back(result: true);
-      });
+      Get.back(result: true);
+    });
   }
 }

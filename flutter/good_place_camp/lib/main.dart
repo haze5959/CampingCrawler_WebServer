@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/HomePage.dart';
@@ -21,12 +22,15 @@ void main() async {
 }
 
 class Home extends StatelessWidget {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  Future<void> _initApp() async {
+    await Firebase.initializeApp();
+    return Constants.auth.setPersistence(Persistence.LOCAL);
+  }
 
   @override
   Widget build(context) {
     return FutureBuilder(
-      future: _initialization,
+      future: _initApp(),
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
@@ -37,6 +41,7 @@ class Home extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           final HomeController c = Get.put(HomeController());
           Constants.isPhoneSize = context.mediaQuerySize.width < MAX_WIDTH;
+
           return Scaffold(
               appBar:
                   GPCAppBar(pageName: "명당캠핑", showFilter: true, isMain: true),

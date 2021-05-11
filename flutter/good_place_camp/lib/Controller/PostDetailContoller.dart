@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:crypto/crypto.dart';
+import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Repository
@@ -12,9 +11,9 @@ import 'package:good_place_camp/Model/Post.dart';
 
 class PostDetailContoller extends GetxController {
   final int id;
-  final String pw;
+  final bool isSecret;
 
-  PostDetailContoller({this.id, this.pw}) {
+  PostDetailContoller({this.id, this.isSecret = false}) {
     reload();
   }
 
@@ -30,10 +29,9 @@ class PostDetailContoller extends GetxController {
     // 아이디로 게시물과 댓글 검색
     Board board;
 
-    if (pw != null) {
-      final bytes = utf8.encode(pw);
-      final key = sha1.convert(bytes).toString();
-      final postsResult = await repo.getSecretPostsWith(id, key);
+    if (isSecret) {
+      final token = await Constants.user.value.firebaseUser.getIdToken();
+      final postsResult = await repo.getSecretPostsWith(id, token);
 
       if (postsResult.hasError) {
         showOneBtnAlert(Get.context, postsResult.statusText, "확인",

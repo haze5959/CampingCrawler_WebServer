@@ -32,17 +32,16 @@ class PostsRepository extends GetConnect {
       get('/post/$id');
 
   Future<Response<ServerResult<dynamic>>> getSecretPostsWith(
-          int id, String pw) =>
-      get('/post/$id?key=$pw');
+          int id, String token) =>
+      get('/post/$id?token=$token');
 
   Future<Response<ServerResult<dynamic>>> postPostsWith(
-          int type, String title, String body, String nick, String pw) =>
+          int type, String title, String body, String token) =>
       post('/post', {
         "type": type,
         "title": title,
         "body": body,
-        "nick": nick,
-        "secret_key": pw
+        "token": token
       });
 
   Future<Response<ServerResult<dynamic>>> postCommentWith(
