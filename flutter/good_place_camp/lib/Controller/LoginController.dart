@@ -113,8 +113,7 @@ class LoginController extends GetxController {
         final cred = await Constants.auth.signInWithPopup(provider);
         isLoading.value = false;
         return _checkSuccess(cred);
-      }
-      if (GetPlatform.isIOS) {
+      } else if (GetPlatform.isIOS) {
         // To prevent replay attacks with the credential returned from Apple, we
         // include a nonce in the credential request. When signing in in with
         // Firebase, the nonce in the id token returned by Apple, is expected to

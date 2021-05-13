@@ -7,9 +7,6 @@ import 'package:good_place_camp/Constants.dart';
 // Repository
 import 'package:good_place_camp/Repository/PostsRepository.dart';
 
-// Widgets
-import 'package:good_place_camp/Widget/Pages/UserInfoPage.dart';
-
 // Model
 import 'package:good_place_camp/Model/Post.dart';
 

@@ -1,71 +1,382 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
+import "package:flutter_brand_icons/flutter_brand_icons.dart";
 
 // Controller
 import 'package:good_place_camp/Controller/UserInfoController.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
+
+// Widgets
+import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
 
 class UserInfoPage extends StatelessWidget {
   final UserInfoController c = UserInfoController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("UserInfoPage"),
-          actions: [],
-        ),
-        body: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Center(
-              child: Container(
-                  constraints: BoxConstraints(maxWidth: 600),
-                  child: Obx(() => _buildInfoContent(Constants.user.value)))),
-        ));
+    return GetBuilder<UserInfoController>(
+        init: c,
+        builder: (_) {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text("마이페이지"),
+                actions: [],
+              ),
+              body: SingleChildScrollView(
+                physics: ClampingScrollPhysics(),
+                child: Center(
+                    child: Container(
+                        constraints: BoxConstraints(maxWidth: 500),
+                        child: Obx(
+                            () => _buildInfoContent(Constants.user.value)))),
+              ));
+        });
   }
 
   Widget _buildInfoContent(CampUser user) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        SizedBox(height: 50),
         _buildUserInfo(user),
+        SizedBox(height: 50),
         _buildSubscriptInfo(user),
+        SizedBox(height: 50),
+        _buildSNSInfo(user),
+        SizedBox(height: 50),
         _buildETCInfo(user),
+        SizedBox(height: 50),
       ],
     );
   }
 
   Widget _buildUserInfo(CampUser user) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("유저 정보"),
-        Row(children: [
-          // 닉네임 설정, 레벨
-        ])
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Text("유저 정보",
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: Colors.black54))),
+        Divider(
+          thickness: 1,
+          indent: 20,
+          endIndent: 20,
+        ),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(mainAxisSize: MainAxisSize.max, children: [
+              // 닉네임 설정
+              Text("닉네임",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Spacer(),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(primary: Colors.black),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Text(user.info.nick,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                ),
+                onPressed: () async {
+                  showChangeNickAlert();
+                },
+              )
+            ])),
+        SizedBox(height: 20),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              // 레벨
+              Text("등급",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Tooltip(
+                  message: "등급에 따라 게시물 권한이 다르게 적용됩니다.",
+                  child: IconButton(
+                    onPressed: () {
+                      showRatingInfoAlert();
+                    },
+                    icon: const Icon(
+                      Icons.info,
+                    ),
+                  )),
+              Spacer(),
+              Text(user.info.level.getLevelText(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+            ]))
       ],
     );
   }
 
   Widget _buildSubscriptInfo(CampUser user) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("구독 정보"),
-        Row(children: [
-          // 구독하러가기 or 푸시설정 바로가기
-        ])
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Text("구독 정보",
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: Colors.black54))),
+        Divider(
+          thickness: 1,
+          indent: 20,
+          endIndent: 20,
+        ),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              // 구독하러가기 or 푸시설정 바로가기
+              if (user.info.usePushSubscription) ...[
+                Text("명당캠핑 알림 서비스 구독 중",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                Spacer(),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("알림 설정",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {
+                    Get.to(PushPromotionPage());
+                  },
+                )
+              ] else ...[
+                Text("구독정보 없음",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                Spacer(),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("명당캠핑 알림 서비스 구독하러 가기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {
+                    Get.to(PushPromotionPage());
+                  },
+                )
+              ]
+            ]))
+      ],
+    );
+  }
+
+  Widget _buildSNSInfo(CampUser user) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Text("SNS 간편 로그인 연동",
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: Colors.black54))),
+        Divider(
+          thickness: 1,
+          indent: 20,
+          endIndent: 20,
+        ),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  child: Icon(BrandIcons.google,
+                      size: 15, color: Colors.deepOrange[700])),
+              Text("구글 로그인",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Spacer(),
+              if (c.linkedSNS.contains("google")) ...[
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text("연동중입니다.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15))),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("해제하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {},
+                )
+              ] else
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("연동하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {},
+                )
+            ])),
+        SizedBox(height: 20),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  child: Icon(BrandIcons.facebook,
+                      size: 15, color: Colors.blue[700])),
+              Text("페이스북 로그인",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Spacer(),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(primary: Colors.black),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("연동하기",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
+                      ]),
+                ),
+                onPressed: () async {},
+              )
+            ])),
+        SizedBox(height: 20),
+        if (!GetPlatform.isAndroid)
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Row(children: [
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child:
+                        Icon(BrandIcons.apple, size: 15, color: Colors.black)),
+                Text("애플 로그인",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                Spacer(),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("연동하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {},
+                )
+              ])),
       ],
     );
   }
 
   Widget _buildETCInfo(CampUser user) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("기타"),
-        Row(children: [
-          // SNS 연동, 로그아웃
-        ])
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Text("기타",
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: Colors.black54))),
+        Divider(
+          thickness: 1,
+          indent: 20,
+          endIndent: 20,
+        ),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              Text("-",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Spacer(),
+              // 로그아웃
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(primary: Colors.black),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("로그아웃",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
+                      ]),
+                ),
+                onPressed: () async {
+                  showTwoBtnAlert(Get.context, "로그아웃 하시겠습니까?", "로그아웃", () {
+                    user.logout();
+                    Get.back();
+                  });
+                },
+              )
+            ])),
+        SizedBox(height: 20),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              Text("-",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Spacer(),
+              // 탈퇴
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(primary: Colors.black),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("탈퇴하기",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
+                      ]),
+                ),
+                onPressed: () async {
+                  showTwoBtnAlert(Get.context, "정말 탈퇴하시겠습니까?ㅠ", "로그아웃",
+                      () async {
+                    final isSuccess = await user.signout();
+                    if (isSuccess) {
+                      showOneBtnAlert(
+                          Get.context, "탈퇴되었습니다. \n이용해주셔서 감사합니다.", "확인", () {
+                        Get.back();
+                      });
+                    }
+                  });
+                },
+              )
+            ]))
       ],
     );
   }

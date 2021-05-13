@@ -17,6 +17,9 @@ class UserRepository extends GetConnect {
   Future<Response<ServerResult<dynamic>>> getUserFavoriteList(String token) =>
       get('/user/favorite/$token');
 
+  Future<Response<ServerResult<dynamic>>> getUserLinkedSNS(String token) =>
+      get('/user/sns/$token');
+
   Future<Response<ServerResult<dynamic>>> putUserNick(
           String token, String nick) =>
       put('/user/nick', {
@@ -36,6 +39,13 @@ class UserRepository extends GetConnect {
           String token, String sns) =>
       delete('/user/sns/$token?camp=$sns');
 
+  Future<Response<ServerResult<dynamic>>> postUserArea(
+          String token, int areaBit) =>
+      post('/user/favorite', {
+        "token": token,
+        "area_bit": areaBit,
+      });
+
   Future<Response<ServerResult<dynamic>>> postUserFavoriteList(
           String token, String campId) =>
       post('/user/favorite', {
@@ -49,4 +59,7 @@ class UserRepository extends GetConnect {
 
   Future<Response<ServerResult<dynamic>>> getPushInfoWith(String token) =>
       get('/user/push/$token');
+
+  Future<Response<ServerResult<dynamic>>> signOutUser(String token) =>
+      delete('/user/$token');
 }

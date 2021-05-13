@@ -48,15 +48,21 @@ class HomeController extends GetxController {
   void onReady() {
     super.onReady();
     initData();
+
+    Constants.auth.authStateChanges().listen((user) {
+      if (user != null) {
+        initData();
+      }
+    });
   }
 
   void initData() async {
-    final user = await Constants.auth.authStateChanges().first;
+    print("홈 데이터 로드");
+    final user = Constants.auth.currentUser;
     if (user != null) {
       await Constants.user.value.login(user);
     }
 
-    Constants.selectedArea = await getCampAreaData();
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
       showOneBtnAlert(context, result.statusText, "재시도", reload);
@@ -73,7 +79,7 @@ class HomeController extends GetxController {
 
   void reload() async {
     isLoading.value = true;
-    final result = await repo.getSiteInfo(Constants.selectedArea);
+    final result = await repo.getSiteInfo(Constants.user.value.info.myArea);
     if (result.hasError) {
       showOneBtnAlert(context, result.statusText, "재시도", reload);
       return;
@@ -130,13 +136,13 @@ class HomeController extends GetxController {
   }
 
   void updateAccpetedCampInfo() {
-    if (Constants.selectedArea.isEmpty) {
+    if (Constants.user.value.info.myArea.isEmpty) {
       accpetedCampInfo = Map.from(Constants.campInfo);
     } else {
       accpetedCampInfo.clear();
       for (final key in Constants.campInfo.keys) {
         final info = Constants.campInfo[key];
-        if (Constants.selectedArea.contains(info.area)) {
+        if (Constants.user.value.info.myArea.contains(info.area)) {
           accpetedCampInfo[key] = info;
         }
       }

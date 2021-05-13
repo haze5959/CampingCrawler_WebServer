@@ -51,18 +51,3 @@ CampArea fromString(String str) {
       return CampArea.all;
   }
 }
-
-void saveCampAreaData(List<CampArea> areaList) async {
-  // 값 저장
-  final prefs = await SharedPreferences.getInstance();
-  final areaListStr = areaList.map((area) => area.toString()).toList();
-
-  prefs.setStringList("CAMP_AREA", areaListStr);
-}
-
-Future<List<CampArea>> getCampAreaData() async {
-  // 값 로드
-  final prefs = await SharedPreferences.getInstance();
-  final areaListStr = prefs.getStringList("CAMP_AREA") ?? [];
-  return areaListStr.map((areaStr) => fromString(areaStr)).toList();
-}

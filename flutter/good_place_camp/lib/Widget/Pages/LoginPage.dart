@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import "package:flutter_brand_icons/flutter_brand_icons.dart";
-import 'package:good_place_camp/Constants.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/LoginController.dart';

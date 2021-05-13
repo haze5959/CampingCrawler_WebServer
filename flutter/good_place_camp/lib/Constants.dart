@@ -17,6 +17,5 @@ class Constants {
   static bool isPhoneSize = false;
   static Map<String, CampInfo> campInfo = {};
   static Rx<CampUser> user = CampUser(false).obs;
-  static List<CampArea> selectedArea;
   static FirebaseAuth auth = FirebaseAuth.instance;
 }

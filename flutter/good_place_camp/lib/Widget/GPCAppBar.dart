@@ -9,6 +9,7 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
 import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
+import 'package:good_place_camp/Widget/Pages/UserInfoPage.dart';
 
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
@@ -57,7 +58,7 @@ class GPCAppBar extends AppBar {
                         return [
                           CheckedPopupMenuItem(
                             value: CampArea.all,
-                            checked: Constants.selectedArea.isEmpty,
+                            checked: Constants.user.value.info.myArea.isEmpty,
                             child: Text(
                               CampArea.all.toAreaString(),
                             ),
@@ -65,14 +66,14 @@ class GPCAppBar extends AppBar {
                           CheckedPopupMenuItem(
                             value: CampArea.seoul,
                             checked:
-                                Constants.selectedArea.contains(CampArea.seoul),
+                                Constants.user.value.info.myArea.contains(CampArea.seoul),
                             child: Text(
                               CampArea.seoul.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.gyeonggi,
-                            checked: Constants.selectedArea
+                            checked: Constants.user.value.info.myArea
                                 .contains(CampArea.gyeonggi),
                             child: Text(
                               CampArea.gyeonggi.toAreaString(),
@@ -80,7 +81,7 @@ class GPCAppBar extends AppBar {
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.inchoen,
-                            checked: Constants.selectedArea
+                            checked: Constants.user.value.info.myArea
                                 .contains(CampArea.inchoen),
                             child: Text(
                               CampArea.inchoen.toAreaString(),
@@ -88,7 +89,7 @@ class GPCAppBar extends AppBar {
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.chungnam,
-                            checked: Constants.selectedArea
+                            checked: Constants.user.value.info.myArea
                                 .contains(CampArea.chungnam),
                             child: Text(
                               CampArea.chungnam.toAreaString(),
@@ -96,7 +97,7 @@ class GPCAppBar extends AppBar {
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.chungbuk,
-                            checked: Constants.selectedArea
+                            checked: Constants.user.value.info.myArea
                                 .contains(CampArea.chungbuk),
                             child: Text(
                               CampArea.chungbuk.toAreaString(),
@@ -104,7 +105,7 @@ class GPCAppBar extends AppBar {
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.gangwon,
-                            checked: Constants.selectedArea
+                            checked: Constants.user.value.info.myArea
                                 .contains(CampArea.gangwon),
                             child: Text(
                               CampArea.gangwon.toAreaString(),
@@ -145,7 +146,7 @@ class GPCAppBar extends AppBar {
                         if (!Constants.user.value.isLogin) {
                           showRequiredLoginAlert();
                         } else {
-                          Get.to(CampListPage(isFavoritePage: true));
+                          Get.to(UserInfoPage());
                         }
                       },
                       // tooltip: "알림 설정",
@@ -158,18 +159,18 @@ class GPCAppBar extends AppBar {
 
     switch (area) {
       case CampArea.all:
-        Constants.selectedArea.clear();
+        Constants.user.value.info.myArea.clear();
         break;
       default:
-        if (Constants.selectedArea.contains(area)) {
-          Constants.selectedArea.remove(area);
+        if (Constants.user.value.info.myArea.contains(area)) {
+          Constants.user.value.info.myArea.remove(area);
         } else {
-          Constants.selectedArea.add(area);
+          Constants.user.value.info.myArea.add(area);
         }
         break;
     }
 
-    saveCampAreaData(Constants.selectedArea);
+    Constants.user.value.saveMyArea();
 
     c.reload();
   }
