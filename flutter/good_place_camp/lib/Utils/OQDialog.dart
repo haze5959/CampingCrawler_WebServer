@@ -277,21 +277,23 @@ void showChangeNickAlert() {
 
   RxBool hasErr = false.obs;
 
-  String errText = "내용을 입력해주세요.";
+  RxString errText = "내용을 입력해주세요.".obs;
 
   bool _validateText() {
     if (bodyControler.text.length == 0) {
-      errText = "내용을 입력해주세요.";
+      errText.value = "내용을 입력해주세요.";
       hasErr.value = true;
       return false;
-    } else if (bodyControler.text.length == 10) {
-      errText = "10글자 이하로 줄여주세요.";
+    } else if (bodyControler.text.length > 10) {
+      errText.value = "10글자 이하로 줄여주세요.";
       hasErr.value = true;
       return false;
     }
 
     return true;
   }
+
+  bodyControler.text = Constants.user.value.info.nick;
 
   showDialog(
       context: Get.context,
@@ -303,7 +305,7 @@ void showChangeNickAlert() {
                   decoration: InputDecoration(
                       hintText: "닉네임...",
                       labelText: '닉네임',
-                      errorText: hasErr.value ? errText : null),
+                      errorText: hasErr.value ? errText.value : null),
                 ))
           ]),
           actions: [
@@ -314,7 +316,7 @@ void showChangeNickAlert() {
               },
             ),
             TextButton(
-              child: Text("확인"),
+              child: Text("설정하기"),
               onPressed: () async {
                 if (_validateText()) {
                   final idToken =
