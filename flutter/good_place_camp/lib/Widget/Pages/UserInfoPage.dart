@@ -206,7 +206,7 @@ class UserInfoPage extends StatelessWidget {
               Text("구글 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               Spacer(),
-              if (c.linkedSNS.contains("google")) ...[
+              if (c.linkedSNS.contains("google.com")) ...[
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text("연동중입니다.",
@@ -224,7 +224,12 @@ class UserInfoPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 15))
                         ]),
                   ),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    final result = await c.unlinkProvider("google.com");
+                    if (result) {
+                      c.linkedSNS.remove("google.com");
+                    }
+                  },
                 )
               ] else
                 OutlinedButton(
@@ -239,7 +244,12 @@ class UserInfoPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 15))
                         ]),
                   ),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    final result = await c.linkWithGoogle();
+                    if (result) {
+                      c.linkedSNS.add("google.com");
+                    }
+                  },
                 )
             ])),
         SizedBox(height: 20),
@@ -253,20 +263,51 @@ class UserInfoPage extends StatelessWidget {
               Text("페이스북 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               Spacer(),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(primary: Colors.black),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("연동하기",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
-                      ]),
-                ),
-                onPressed: () async {},
-              )
+              if (c.linkedSNS.contains("facebook.com")) ...[
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text("연동중입니다.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15))),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("해제하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {
+                    final result = await c.unlinkProvider("facebook.com");
+                    if (result) {
+                      c.linkedSNS.remove("facebook.com");
+                    }
+                  },
+                )
+              ] else
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("연동하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {
+                    final result = await c.linkWithFacebook();
+                    if (result) {
+                      c.linkedSNS.add("facebook.com");
+                    }
+                  },
+                )
             ])),
         SizedBox(height: 20),
         if (!GetPlatform.isAndroid)
@@ -281,20 +322,53 @@ class UserInfoPage extends StatelessWidget {
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 Spacer(),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("연동하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
-                        ]),
-                  ),
-                  onPressed: () async {},
-                )
+                if (c.linkedSNS.contains("apple.com")) ...[
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text("연동중입니다.",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15))),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(primary: Colors.black),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("해제하기",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15))
+                          ]),
+                    ),
+                    onPressed: () async {
+                      final result = await c.unlinkProvider("apple.com");
+                      if (result) {
+                        c.linkedSNS.remove("apple.com");
+                      }
+                    },
+                  )
+                ] else
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(primary: Colors.black),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("연동하기",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15))
+                          ]),
+                    ),
+                    onPressed: () async {
+                      final result = await c.linkWithApple();
+                      if (result) {
+                        c.linkedSNS.add("apple.com");
+                      }
+                    },
+                  )
               ])),
       ],
     );

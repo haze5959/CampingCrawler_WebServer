@@ -25,20 +25,8 @@ class UserInfoController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-
-  // getUserLinkedSNS 이거 다 만들면 넣어라!!!!!!!
-    // isLoading.value = true;
-    // final idToken = await Constants.user.value.firebaseUser.getIdToken();
-    // final result = await repo.getUserLinkedSNS(idToken);
-    // if (result.hasError) {
-    //   showOneBtnAlert(Get.context, result.statusText, "재시도", reload);
-    // } else if (!result.body.result) {
-    //   showOneBtnAlert(Get.context, result.body.msg, "재시도", reload);
-    // }
-
-    // isLoading.value = false;
-    linkedSNS.add("google");
-
+    final providerList = Constants.user.value.firebaseUser.providerData;
+    linkedSNS.value = providerList.map((info) => info.providerId).toList();
   }
 
   void reload() async {
@@ -68,7 +56,7 @@ class UserInfoController extends GetxController {
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;
-      return null;
+      return false;
     }
   }
 
@@ -86,14 +74,24 @@ class UserInfoController extends GetxController {
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;
-      return null;
+      return false;
     }
   }
 
   Future<bool> linkWithApple() async {
     isLoading.value = true;
     try {
-      if (GetPlatform.isIOS) {
+      if (GetPlatform.isWeb) {
+        // Create and configure an OAuthProvider for Sign In with Apple.
+        final provider = OAuthProvider("apple.com");
+        provider.setCustomParameters({"locale": "kr"});
+
+        // Sign in the user with Firebase.
+        final appleCredential = await Constants.auth.signInWithPopup(provider);
+
+        isLoading.value = false;
+        return _checkSuccess(appleCredential.credential);
+      } else if (GetPlatform.isIOS) {
         // To prevent replay attacks with the credential returned from Apple, we
         // include a nonce in the credential request. When signing in in with
         // Firebase, the nonce in the id token returned by Apple, is expected to
@@ -115,21 +113,37 @@ class UserInfoController extends GetxController {
           rawNonce: rawNonce,
         );
 
+        isLoading.value = false;
         return _checkSuccess(oauthCredential);
       } else {
         // 안드로이드는 지원 안함
-        return null;
+        return false;
       }
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;
-      return null;
+      return false;
     }
   }
 
   Future<bool> _checkSuccess(AuthCredential cred) async {
     try {
       await Constants.user.value.firebaseUser.linkWithCredential(cred);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      _authEceptionHandler(e.code);
+      return false;
+    }
+  }
+
+  Future<bool> unlinkProvider(String providerId) async {
+    if (linkedSNS.length < 2) {
+      showOneBtnAlert(Get.context, "로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.", "확인", () {});
+      return false;
+    }
+
+    try {
+      await Constants.user.value.firebaseUser.unlink(providerId);
       return true;
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
@@ -164,6 +178,9 @@ class UserInfoController extends GetxController {
         return;
       case "invalid-credential":
         showOneBtnAlert(Get.context, "연동에 실패하였습니다.", "확인", () {});
+        return;
+      case "no-such-provider":
+        showOneBtnAlert(Get.context, "이미 해제되었습니다.", "확인", () {});
         return;
       default:
         showOneBtnAlert(Get.context, "로그인에 실패하였습니다. ($errCode", "확인", () {});
