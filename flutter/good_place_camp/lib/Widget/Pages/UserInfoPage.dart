@@ -24,14 +24,18 @@ class UserInfoPage extends StatelessWidget {
                 title: Text("마이페이지"),
                 actions: [],
               ),
-              body: SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
-                child: Center(
-                    child: Container(
-                        constraints: BoxConstraints(maxWidth: 500),
-                        child: Obx(
-                            () => _buildInfoContent(Constants.user.value)))),
-              ));
+              body: Obx(() => Stack(children: [
+                    SingleChildScrollView(
+                      physics: ClampingScrollPhysics(),
+                      child: Center(
+                          child: Container(
+                              constraints: BoxConstraints(maxWidth: 500),
+                              child: Obx(() =>
+                                  _buildInfoContent(Constants.user.value)))),
+                    ),
+                    if (c.isLoading.value)
+                      Center(child: CircularProgressIndicator())
+                  ])));
         });
   }
 
@@ -310,66 +314,61 @@ class UserInfoPage extends StatelessWidget {
                 )
             ])),
         SizedBox(height: 20),
-        if (!GetPlatform.isAndroid)
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Row(children: [
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  child: Icon(BrandIcons.apple, size: 15, color: Colors.black)),
+              Text("애플 로그인",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Spacer(),
+              if (c.linkedSNS.contains("apple.com")) ...[
                 Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child:
-                        Icon(BrandIcons.apple, size: 15, color: Colors.black)),
-                Text("애플 로그인",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                Spacer(),
-                if (c.linkedSNS.contains("apple.com")) ...[
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("연동중입니다.",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15))),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(primary: Colors.black),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("해제하기",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15))
-                          ]),
-                    ),
-                    onPressed: () async {
-                      final result = await c.unlinkProvider("apple.com");
-                      if (result) {
-                        c.linkedSNS.remove("apple.com");
-                      }
-                    },
-                  )
-                ] else
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(primary: Colors.black),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("연동하기",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15))
-                          ]),
-                    ),
-                    onPressed: () async {
-                      final result = await c.linkWithApple();
-                      if (result) {
-                        c.linkedSNS.add("apple.com");
-                      }
-                    },
-                  )
-              ])),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text("연동중입니다.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15))),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("해제하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {
+                    final result = await c.unlinkProvider("apple.com");
+                    if (result) {
+                      c.linkedSNS.remove("apple.com");
+                    }
+                  },
+                )
+              ] else
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("연동하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {
+                    final result = await c.linkWithApple();
+                    if (result) {
+                      c.linkedSNS.add("apple.com");
+                    }
+                  },
+                )
+            ])),
       ],
     );
   }

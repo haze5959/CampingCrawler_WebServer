@@ -20,7 +20,7 @@ class UserInfoController extends GetxController {
 
   RxList<String> linkedSNS = RxList<String>();
 
-  RxBool isLoading = true.obs;
+  RxBool isLoading = false.obs;
 
   @override
   void onReady() async {
@@ -82,16 +82,11 @@ class UserInfoController extends GetxController {
     isLoading.value = true;
     try {
       if (GetPlatform.isWeb) {
-        // Create and configure an OAuthProvider for Sign In with Apple.
-        final provider = OAuthProvider("apple.com");
-        provider.setCustomParameters({"locale": "kr"});
-
-        // Sign in the user with Firebase.
-        final appleCredential = await Constants.auth.signInWithPopup(provider);
-
+        // 웹 지원 안함
+        showOneBtnAlert(Get.context, "웹에서는 지원하지 않습니다.", "확인", () {});
         isLoading.value = false;
-        return _checkSuccess(appleCredential.credential);
-      } else if (GetPlatform.isIOS) {
+        return false;
+      } else if (GetPlatform.isIOS || GetPlatform.isMacOS) {
         // To prevent replay attacks with the credential returned from Apple, we
         // include a nonce in the credential request. When signing in in with
         // Firebase, the nonce in the id token returned by Apple, is expected to
@@ -117,6 +112,8 @@ class UserInfoController extends GetxController {
         return _checkSuccess(oauthCredential);
       } else {
         // 안드로이드는 지원 안함
+        showOneBtnAlert(Get.context, "아이폰 앱에서만 지원됩니다.", "확인", () {});
+        isLoading.value = false;
         return false;
       }
     } on FirebaseAuthException catch (e) {

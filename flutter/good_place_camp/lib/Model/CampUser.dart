@@ -20,8 +20,14 @@ class CampUser {
 
   Future<bool> login(User user) async {
     firebaseUser = user;
-    isLogin = true;
-    return reloadInfo();
+    final result = await reloadInfo();
+    if (result) {
+      isLogin = true;
+      return true;
+    } else {
+      logout();
+      return false;
+    }
   }
 
   void logout() {
@@ -52,20 +58,25 @@ class CampUser {
   }
 
   Future<bool> reloadInfo() async {
-    final idToken = await firebaseUser.getIdToken();
-    // 유저정보 가져오는 로직
-    final result = await repo.getUserInfo(idToken);
-    if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "확인", () {});
-      return false;
-    } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+    try {
+      final idToken = await firebaseUser.getIdToken();
+      // 유저정보 가져오는 로직
+      final result = await repo.getUserInfo(idToken);
+      if (result.hasError) {
+        showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+        return false;
+      } else if (!result.body.result) {
+        showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+        return false;
+      }
+
+      info = CampUserInfo.fromJson(result.body.data);
+      Constants.user.refresh();
+      return true;
+    } catch (e) {
+      print(e);
       return false;
     }
-
-    info = CampUserInfo.fromJson(result.body.data);
-    Constants.user.refresh();
-    return true;
   }
 
   Future<bool> saveMyArea() async {
