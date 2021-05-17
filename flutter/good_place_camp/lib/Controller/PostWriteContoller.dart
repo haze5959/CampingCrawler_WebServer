@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'package:good_place_camp/Repository/PostsRepository.dart';
 
 class PostWriteContoller extends GetxController {
-  PostsRepository repo = PostsRepository();
+  final PostsRepository repo = PostsRepository();
 
   RxString nick = "익명의 캠퍼".obs;
   TextEditingController titleControler = new TextEditingController();

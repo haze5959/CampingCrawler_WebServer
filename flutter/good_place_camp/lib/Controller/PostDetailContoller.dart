@@ -17,7 +17,7 @@ class PostDetailContoller extends GetxController {
     reload();
   }
 
-  PostsRepository repo = PostsRepository();
+  final PostsRepository repo = PostsRepository();
 
   Post posts;
   List<Comment> commentList = [];

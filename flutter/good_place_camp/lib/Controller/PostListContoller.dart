@@ -20,7 +20,7 @@ class PostListContoller extends GetxController {
     }
   }
 
-  PostsRepository repo = PostsRepository();
+  final PostsRepository repo = PostsRepository();
 
   RxList<Post> postList = RxList<Post>.empty();
 

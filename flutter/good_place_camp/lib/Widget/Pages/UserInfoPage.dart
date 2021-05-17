@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import "package:flutter_brand_icons/flutter_brand_icons.dart";
+import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/UserInfoController.dart';
+
+// Models
 import 'package:good_place_camp/Model/CampUser.dart';
-import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';

@@ -16,7 +16,7 @@ import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Repository/UserRepository.dart';
 
 class UserInfoController extends GetxController {
-  UserRepository repo = UserRepository();
+  final UserRepository repo = UserRepository();
 
   RxList<String> linkedSNS = RxList<String>();
 

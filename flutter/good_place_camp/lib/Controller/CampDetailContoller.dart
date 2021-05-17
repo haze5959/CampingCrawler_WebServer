@@ -18,8 +18,8 @@ class CampDetailContoller extends GetxController {
     reload();
   }
 
-  SiteRepository repo = SiteRepository();
-  UserRepository userRepo = UserRepository();
+  final SiteRepository repo = SiteRepository();
+  final UserRepository userRepo = UserRepository();
 
   SiteInfo siteInfo;
 

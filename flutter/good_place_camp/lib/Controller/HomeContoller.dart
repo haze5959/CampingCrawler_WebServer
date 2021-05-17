@@ -20,8 +20,8 @@ import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
 
 class HomeController extends GetxController {
-  SiteRepository repo = SiteRepository();
-  PostsRepository postRepo = PostsRepository();
+  final SiteRepository repo = SiteRepository();
+  final PostsRepository postRepo = PostsRepository();
 
   List<SiteInfo> siteInfoList = <SiteInfo>[];
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
