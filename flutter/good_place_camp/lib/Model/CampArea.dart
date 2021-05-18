@@ -10,7 +10,7 @@ enum CampArea {
   gangwon,
 }
 
-extension ParseToString on CampArea {
+extension CampAreaParse on CampArea {
   String toAreaString() {
     switch (this) {
       case CampArea.all:
@@ -30,6 +30,11 @@ extension ParseToString on CampArea {
       default:
         return "";
     }
+  }
+
+  static List<CampArea> fromJsonArr(args) {
+    final argList = List<String>.from(args);
+    return argList.map((arg) => fromString(arg));
   }
 }
 

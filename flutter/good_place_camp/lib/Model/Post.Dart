@@ -113,7 +113,7 @@ int toInt(PostType type) {
   }
 }
 
-extension ParseToString on PostType {
+extension PostTypeParse on PostType {
   String toPostTypeString() {
     switch (this) {
       case PostType.notice:
@@ -123,6 +123,8 @@ extension ParseToString on PostType {
       case PostType.question:
         return "문의/질문";
       case PostType.secret:
+        return "비밀글";
+      default:
         return "비밀글";
     }
   }

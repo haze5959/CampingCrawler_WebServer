@@ -17,8 +17,8 @@ class UserRepository extends GetConnect {
   Future<Response<ServerResult<dynamic>>> getUserFavoriteList(String token) =>
       get('/user/favorite/$token');
 
-  Future<Response<ServerResult<dynamic>>> getUserLinkedSNS(String token) =>
-      get('/user/sns/$token');
+  Future<Response<ServerResult<dynamic>>> getUserPushInfo(String token) =>
+      get('/user/push/$token');
 
   Future<Response<ServerResult<dynamic>>> putUserNick(
           String token, String nick) =>
@@ -26,18 +26,6 @@ class UserRepository extends GetConnect {
         "token": token,
         "nick": nick,
       });
-
-  Future<Response<ServerResult<dynamic>>> putSnsInterworking(
-          String token, String sns) =>
-      put('/user/sns', {
-        "token": token,
-        "sns": sns,
-      });
-
-  // SNS 연동이 하나만 남았다면 계정이 삭제된다고 꼭 명시해야한다!
-  Future<Response<ServerResult<dynamic>>> deleteSnsInterworking(
-          String token, String sns) =>
-      delete('/user/sns/$token?camp=$sns');
 
   Future<Response<ServerResult<dynamic>>> postUserArea(
           String token, int areaBit) =>
@@ -56,9 +44,6 @@ class UserRepository extends GetConnect {
   Future<Response<ServerResult<dynamic>>> deleteUserFavoriteList(
           String token, String campId) =>
       delete('/user/favorite/$token?camp=$campId');
-
-  Future<Response<ServerResult<dynamic>>> getPushInfoWith(String token) =>
-      get('/user/push/$token');
 
   Future<Response<ServerResult<dynamic>>> signOutUser(String token) =>
       delete('/user/$token');

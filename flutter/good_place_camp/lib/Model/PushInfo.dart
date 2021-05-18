@@ -2,37 +2,42 @@
 import 'package:good_place_camp/Model/CampArea.dart';
 
 class PushInfo {
-  final bool usePush;
-
   final List<CampArea> favoriteArea; // 토큰형식으로
-  final bool useOnlyHoliday; // 주말 빈자리만 알림
+  final bool usePushOnArea;
+  final bool useOnlyHolidayOnArea; // 주말 빈자리만 알림
+  final bool useOnlyInMonthOnArea; // 한달 내 자리알림만
 
   final List<String> favoriteSite; // 토큰형식으로
+  final bool usePushOnSite;
+  final bool useOnlyHolidayOnSite; // 주말 빈자리만 알림
+  final bool useOnlyInMonthOnSite; // 한달 내 자리알림만
   final bool reservationDayPush; // 관심캠핑장만 알려줌
 
   PushInfo(
-    this.usePush,
     this.favoriteArea,
-    this.useOnlyHoliday,
+    this.usePushOnArea,
+    this.useOnlyHolidayOnArea,
+    this.useOnlyInMonthOnArea,
     this.favoriteSite,
+    this.usePushOnSite,
+    this.useOnlyHolidayOnSite,
+    this.useOnlyInMonthOnSite,
     this.reservationDayPush,
   );
 
-  PushInfo.fromJson(Map<String, dynamic> json)
-      : usePush = json['usePush'],
-        favoriteArea = json['favoriteArea'],
-        useOnlyHoliday = json['useOnlyHoliday'],
-        favoriteSite = json['favoriteSite'],
+  PushInfo._fromJson(Map<String, dynamic> json)
+      : favoriteArea = CampAreaParse.fromJsonArr(json['favorite_area']),
+        usePushOnArea = json['use_push_onArea'],
+        useOnlyHolidayOnArea = json['useOnlyHolidayOnArea'],
+        useOnlyInMonthOnArea = json['useOnlyInMonthOnArea'],
+        favoriteSite = List<String>.from(json['favoriteSite']),
+        usePushOnSite = json['usePushOnSite'],
+        useOnlyHolidayOnSite = json['useOnlyHolidayOnSite'],
+        useOnlyInMonthOnSite = json['useOnlyInMonthOnSite'],
         reservationDayPush = json['reservationDayPush'];
 
-  static Map<String, PushInfo> fromJsonArr(jsonStr) {
-    var pushInfoMap = Map<String, PushInfo>();
-    final maps = Map<String, dynamic>.from(jsonStr);
-    for (final key in maps.keys) {
-      final json = Map<String, dynamic>.from(maps[key]);
-      pushInfoMap[key] = PushInfo.fromJson(json);
-    }
-
-    return pushInfoMap;
+  static PushInfo fromJson(jsonStr) {
+    final map = Map<String, dynamic>.from(jsonStr);
+    return PushInfo._fromJson(map);
   }
 }

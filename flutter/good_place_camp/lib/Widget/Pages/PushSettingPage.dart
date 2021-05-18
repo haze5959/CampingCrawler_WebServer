@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:good_place_camp/Model/PushInfo.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/PushContoller.dart';
 
 // Models
-import 'package:good_place_camp/Model/CampUser.dart';
+import 'package:good_place_camp/Model/CampArea.dart';
 
 class PushSettingPage extends StatelessWidget {
   @override
@@ -28,8 +29,8 @@ class PushSettingPage extends StatelessWidget {
                       child: Center(
                           child: Container(
                               constraints: BoxConstraints(maxWidth: 500),
-                              child: Obx(() =>
-                                  _buildInfoContent(Constants.user.value)))),
+                              child: Obx(
+                                  () => _buildInfoContent(c.pushInfo.value)))),
                     ),
                     if (c.isLoading.value)
                       Center(child: CircularProgressIndicator())
@@ -37,27 +38,27 @@ class PushSettingPage extends StatelessWidget {
         });
   }
 
-  Widget _buildInfoContent(CampUser user) {
+  Widget _buildInfoContent(PushInfo info) {
     return Column(
       children: [
         SizedBox(height: 50),
-        _buildETCInfo(user),
+        _buildETCInfo(info),
         SizedBox(height: 50),
-        _buildETCInfo(user),
+        _buildETCInfo(info),
         SizedBox(height: 50),
-        _buildETCInfo(user),
+        _buildETCInfo(info),
         SizedBox(height: 50),
       ],
     );
   }
 
-  Widget _buildETCInfo(CampUser user) {
+  Widget _buildETCInfo(PushInfo info) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("기타",
+            child: Text("지역별",
                 style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
@@ -70,29 +71,18 @@ class PushSettingPage extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
-              Text("-",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-              Spacer(),
-              // 로그아웃
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(primary: Colors.black),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("로그아웃",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
-                      ]),
-                ),
-                onPressed: () async {
-                  showTwoBtnAlert(Get.context, "로그아웃 하시겠습니까?", "로그아웃", () {
-                    user.logout();
-                    Get.back();
-                  });
-                },
-              )
+              for (var area in info.favoriteArea)
+                InputChip(
+                  onPressed: () {},
+                  onDeleted: () {},
+                  avatar: const Icon(
+                    Icons.directions_bike,
+                    size: 20,
+                    color: Colors.black54,
+                  ),
+                  deleteIconColor: Colors.black54,
+                  label: Text(area.toAreaString()),
+                )
             ])),
         SizedBox(height: 20),
         Padding(
