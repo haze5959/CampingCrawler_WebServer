@@ -78,28 +78,11 @@ class CampUser {
       return false;
     }
   }
-
-  Future<bool> saveMyArea() async {
-    final idToken = await firebaseUser.getIdToken();
-    final areaBit = 0; // 지역 비트 연산 값 넣기!!!
-
-    final result = await repo.postUserArea(idToken, areaBit);
-    if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "확인", () {});
-      return false;
-    } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
-      return false;
-    }
-
-    return true;
-  }
 }
 
 class CampUserInfo {
   String nick;
   CampRating level;
-  List<CampArea> myArea = [];
   bool usePushSubscription = false;
   List<String> favoriteList = [];
 
@@ -108,7 +91,6 @@ class CampUserInfo {
   CampUserInfo.fromJson(Map<String, dynamic> json)
       : nick = json['nick'],
         level = CampRatingParser.fromInt(json['auth_level']);
-  // myArea = json['area'];
   // usePushSubscription = json['push_subscription'];
   // favoriteList = json['favoriteList']
 

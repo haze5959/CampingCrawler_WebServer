@@ -11,10 +11,10 @@ import 'package:good_place_camp/Controller/PushContoller.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 
 class PushSettingPage extends StatelessWidget {
+  final PushContoller c = PushContoller();
+
   @override
   Widget build(BuildContext context) {
-    final PushContoller c = PushContoller();
-
     return GetBuilder<PushContoller>(
         init: c,
         builder: (_) {
@@ -82,41 +82,117 @@ class PushSettingPage extends StatelessWidget {
                   ),
                   deleteIconColor: Colors.black54,
                   label: Text(area.toAreaString()),
-                )
+                ),
+              PopupMenuButton<CampArea>(
+                tooltip: "지역필터",
+                icon: Icon(Icons.filter_list_rounded),
+                itemBuilder: (context) {
+                  return [
+                    CheckedPopupMenuItem(
+                      value: CampArea.all,
+                      checked: info.favoriteArea.isEmpty,
+                      child: Text(
+                        CampArea.all.toAreaString(),
+                      ),
+                    ),
+                    CheckedPopupMenuItem(
+                      value: CampArea.seoul,
+                      checked: info.favoriteArea.contains(CampArea.seoul),
+                      child: Text(
+                        CampArea.seoul.toAreaString(),
+                      ),
+                    ),
+                    CheckedPopupMenuItem(
+                      value: CampArea.gyeonggi,
+                      checked: info.favoriteArea.contains(CampArea.gyeonggi),
+                      child: Text(
+                        CampArea.gyeonggi.toAreaString(),
+                      ),
+                    ),
+                    CheckedPopupMenuItem(
+                      value: CampArea.inchoen,
+                      checked: info.favoriteArea.contains(CampArea.inchoen),
+                      child: Text(
+                        CampArea.inchoen.toAreaString(),
+                      ),
+                    ),
+                    CheckedPopupMenuItem(
+                      value: CampArea.chungnam,
+                      checked: info.favoriteArea.contains(CampArea.chungnam),
+                      child: Text(
+                        CampArea.chungnam.toAreaString(),
+                      ),
+                    ),
+                    CheckedPopupMenuItem(
+                      value: CampArea.chungbuk,
+                      checked: info.favoriteArea.contains(CampArea.chungbuk),
+                      child: Text(
+                        CampArea.chungbuk.toAreaString(),
+                      ),
+                    ),
+                    CheckedPopupMenuItem(
+                      value: CampArea.gangwon,
+                      checked: info.favoriteArea.contains(CampArea.gangwon),
+                      child: Text(
+                        CampArea.gangwon.toAreaString(),
+                      ),
+                    ),
+                  ];
+                },
+                onSelected: (area) => c.editArea(area),
+              )
             ])),
         SizedBox(height: 20),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
-              Text("-",
+              Text("지역별 알림 사용하기",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               Spacer(),
-              // 탈퇴
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(primary: Colors.black),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("탈퇴하기",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
-                      ]),
-                ),
-                onPressed: () async {
-                  showTwoBtnAlert(Get.context, "정말 탈퇴하시겠습니까?ㅠ", "로그아웃",
-                      () async {
-                    final isSuccess = await user.signout();
-                    if (isSuccess) {
-                      showOneBtnAlert(
-                          Get.context, "탈퇴되었습니다. \n이용해주셔서 감사합니다.", "확인", () {
-                        Get.back();
-                      });
-                    }
-                  });
+              Switch(
+                value: info.usePushOnArea,
+                onChanged: (value) {
+                  c.pushInfo.value.usePushOnArea = value;
+                  c.updatePushSetting();
                 },
               )
+            ])),
+        AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              if (info.usePushOnArea) ...[
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(children: [
+                      Text("주말/공휴일 빈자리만 알림",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15)),
+                      Spacer(),
+                      Switch(
+                        value: info.useOnlyHolidayOnArea,
+                        onChanged: (value) {
+                          c.pushInfo.value.useOnlyHolidayOnArea = value;
+                          c.updatePushSetting();
+                        },
+                      )
+                    ])),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(children: [
+                      Text("30일 내 자리만 알림",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15)),
+                      Spacer(),
+                      Switch(
+                        value: info.useOnlyInMonthOnArea,
+                        onChanged: (value) {
+                          c.pushInfo.value.useOnlyInMonthOnArea = value;
+                          c.updatePushSetting();
+                        },
+                      )
+                    ])),
+              ]
             ]))
       ],
     );

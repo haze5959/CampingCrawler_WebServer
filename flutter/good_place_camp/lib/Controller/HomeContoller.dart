@@ -4,7 +4,7 @@ import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/SiteRepository.dart';
@@ -14,7 +14,6 @@ import 'package:good_place_camp/Repository/PostsRepository.dart';
 import 'package:good_place_camp/Model/SiteInfo.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Model/Post.dart';
-import 'package:good_place_camp/Model/CampUser.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
@@ -57,6 +56,11 @@ class HomeController extends GetxController {
   }
 
   void initData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final areaBit = prefs.getInt(MY_AREA_BIT_KEY) ?? 0;
+    final myArea = fromBit(areaBit);
+    Constants.myArea = myArea;
+
     print("홈 데이터 로드");
     final user = Constants.auth.currentUser;
     if (user != null) {
@@ -79,19 +83,6 @@ class HomeController extends GetxController {
 
   void reload() async {
     isLoading.value = true;
-    final result = await repo.getSiteInfo(Constants.user.value.info.myArea);
-    if (result.hasError) {
-      showOneBtnAlert(context, result.statusText, "재시도", reload);
-      return;
-    } else if (!result.body.result) {
-      showOneBtnAlert(context, result.body.msg, "재시도", reload);
-      return;
-    }
-
-    var siteInfo = SiteInfo.fromJsonArr(result.body.data);
-    updateEvents(siteInfo);
-    siteInfoList = siteInfo;
-
     updateAccpetedCampInfo();
     updatePostList();
     isLoading.value = false;
@@ -136,13 +127,13 @@ class HomeController extends GetxController {
   }
 
   void updateAccpetedCampInfo() {
-    if (Constants.user.value.info.myArea.isEmpty) {
+    if (Constants.myArea.isEmpty) {
       accpetedCampInfo = Map.from(Constants.campInfo);
     } else {
       accpetedCampInfo.clear();
       for (final key in Constants.campInfo.keys) {
         final info = Constants.campInfo[key];
-        if (Constants.user.value.info.myArea.contains(info.area)) {
+        if (Constants.myArea.contains(info.area)) {
           accpetedCampInfo[key] = info;
         }
       }

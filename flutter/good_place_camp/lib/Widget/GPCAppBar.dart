@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -58,55 +59,54 @@ class GPCAppBar extends AppBar {
                         return [
                           CheckedPopupMenuItem(
                             value: CampArea.all,
-                            checked: Constants.user.value.info.myArea.isEmpty,
+                            checked: Constants.myArea.isEmpty,
                             child: Text(
                               CampArea.all.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.seoul,
-                            checked:
-                                Constants.user.value.info.myArea.contains(CampArea.seoul),
+                            checked: Constants.myArea.contains(CampArea.seoul),
                             child: Text(
                               CampArea.seoul.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.gyeonggi,
-                            checked: Constants.user.value.info.myArea
-                                .contains(CampArea.gyeonggi),
+                            checked:
+                                Constants.myArea.contains(CampArea.gyeonggi),
                             child: Text(
                               CampArea.gyeonggi.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.inchoen,
-                            checked: Constants.user.value.info.myArea
-                                .contains(CampArea.inchoen),
+                            checked:
+                                Constants.myArea.contains(CampArea.inchoen),
                             child: Text(
                               CampArea.inchoen.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.chungnam,
-                            checked: Constants.user.value.info.myArea
-                                .contains(CampArea.chungnam),
+                            checked:
+                                Constants.myArea.contains(CampArea.chungnam),
                             child: Text(
                               CampArea.chungnam.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.chungbuk,
-                            checked: Constants.user.value.info.myArea
-                                .contains(CampArea.chungbuk),
+                            checked:
+                                Constants.myArea.contains(CampArea.chungbuk),
                             child: Text(
                               CampArea.chungbuk.toAreaString(),
                             ),
                           ),
                           CheckedPopupMenuItem(
                             value: CampArea.gangwon,
-                            checked: Constants.user.value.info.myArea
-                                .contains(CampArea.gangwon),
+                            checked:
+                                Constants.myArea.contains(CampArea.gangwon),
                             child: Text(
                               CampArea.gangwon.toAreaString(),
                             ),
@@ -154,23 +154,26 @@ class GPCAppBar extends AppBar {
                   ]
                 ])));
 
-  static void onSelected(CampArea area) {
+  static void onSelected(CampArea area) async {
     final HomeController c = Get.find();
 
     switch (area) {
       case CampArea.all:
-        Constants.user.value.info.myArea.clear();
+        Constants.myArea.clear();
         break;
       default:
-        if (Constants.user.value.info.myArea.contains(area)) {
-          Constants.user.value.info.myArea.remove(area);
+        if (Constants.myArea.contains(area)) {
+          Constants.myArea.remove(area);
         } else {
-          Constants.user.value.info.myArea.add(area);
+          Constants.myArea.add(area);
         }
         break;
     }
-
-    Constants.user.value.saveMyArea();
+    final bit = Constants.myArea
+        .map((element) => element.toBit())
+        .reduce((value, element) => value + element);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(MY_AREA_BIT_KEY, bit);
 
     c.reload();
   }
