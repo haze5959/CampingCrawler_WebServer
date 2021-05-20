@@ -13,7 +13,7 @@ class PushContoller extends GetxController {
   final UserRepository repo = UserRepository();
 
   Rx<PushInfo> pushInfo =
-      PushInfo([], false, false, false, [], false, false, false, false).obs;
+      PushInfo(false, false, false, false, false, false, false).obs;
   RxBool isLoading = false.obs;
 
   @override
