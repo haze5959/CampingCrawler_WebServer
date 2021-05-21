@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Model
@@ -90,7 +91,52 @@ class LoginController extends GetxController {
             FacebookAuthProvider.credential(result.token);
 
         // Once signed in, return the UserCredential
-        final cred = await Constants.auth.signInWithCredential(facebookAuthCredential);
+        final cred =
+            await Constants.auth.signInWithCredential(facebookAuthCredential);
+        isLoading.value = false;
+        return _checkSuccess(cred);
+      }
+    } on FirebaseAuthException catch (e) {
+      _authEceptionHandler(e.code);
+      isLoading.value = false;
+      return null;
+    }
+  }
+
+  Future<bool> logInWithTwitter() async {
+    isLoading.value = true;
+    try {
+      if (GetPlatform.isWeb) {
+        // Create a new provider
+        TwitterAuthProvider twitterProvider = TwitterAuthProvider();
+
+        // Once signed in, return the UserCredential
+        final cred = await FirebaseAuth.instance.signInWithPopup(twitterProvider);
+        isLoading.value = false;
+        return _checkSuccess(cred);
+      } else {
+        // 네이티브
+        // Create a TwitterLogin instance
+        final TwitterLogin twitterLogin = new TwitterLogin(
+          consumerKey: '<your consumer key>',
+          consumerSecret: ' <your consumer secret>',
+        );
+
+        // Trigger the sign-in flow
+        final TwitterLoginResult loginResult = await twitterLogin.authorize();
+
+        // Get the Logged In session
+        final TwitterSession twitterSession = loginResult.session;
+
+        // Create a credential from the access token
+        final twitterAuthCredential = TwitterAuthProvider.credential(
+          accessToken: twitterSession.token,
+          secret: twitterSession.secret,
+        );
+
+        // Once signed in, return the UserCredential
+        final cred = await FirebaseAuth.instance
+            .signInWithCredential(twitterAuthCredential);
         isLoading.value = false;
         return _checkSuccess(cred);
       }

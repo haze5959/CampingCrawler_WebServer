@@ -80,7 +80,7 @@ CampArea fromString(String str) {
 
 List<CampArea> fromBit(int bit) {
   List<CampArea> areaList = [];
-  while (bit == 0) {
+  while (bit > 0) {
     if (bit >= CampArea.gangwon.toBit()) {
       bit = -CampArea.gangwon.toBit();
       areaList.add(CampArea.gangwon);

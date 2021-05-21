@@ -59,7 +59,7 @@ class HomeController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final areaBit = prefs.getInt(MY_AREA_BIT_KEY) ?? 0;
     final myArea = fromBit(areaBit);
-    Constants.myArea = myArea;
+    Constants.myArea = myArea.obs;
 
     print("홈 데이터 로드");
     final user = Constants.auth.currentUser;
@@ -69,10 +69,10 @@ class HomeController extends GetxController {
 
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
-      showOneBtnAlert(context, result.statusText, "재시도", reload);
+      showOneBtnAlert(context, "서버가 불안정합니다. 잠시 후에 다시 시도해주세요.", "재시도", initData);
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(context, result.body.msg, "재시도", reload);
+      showOneBtnAlert(context, result.body.msg, "재시도", initData);
       return;
     }
 
