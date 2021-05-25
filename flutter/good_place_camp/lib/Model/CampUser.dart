@@ -85,12 +85,15 @@ class CampUserInfo {
   CampRating level;
   bool usePushSubscription = false;
   List<String> favoriteList = [];
+  List<CampArea> favoriteAreaList = [];
 
   CampUserInfo();
 
   CampUserInfo.fromJson(Map<String, dynamic> json)
       : nick = json['nick'],
         level = CampRatingParser.fromInt(json['auth_level']);
+        
+        //favoriteAreaList = fromBit(json['favorite_area'])
   // usePushSubscription = json['push_subscription'];
   // favoriteList = json['favoriteList']
 

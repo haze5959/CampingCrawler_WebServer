@@ -10,9 +10,6 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:good_place_camp/Constants.dart';
 
-// Model
-import 'package:good_place_camp/Model/CampUser.dart';
-
 // Repository
 import 'package:good_place_camp/Repository/UserRepository.dart';
 
@@ -118,8 +115,8 @@ class LoginController extends GetxController {
         // 네이티브
         // Create a TwitterLogin instance
         final TwitterLogin twitterLogin = new TwitterLogin(
-          consumerKey: '<your consumer key>',
-          consumerSecret: ' <your consumer secret>',
+          consumerKey: 'j2gXD3JP3TG30s7oSAHrO4wp9',
+          consumerSecret: 'USe1iu6VZh5w5zR55xlOje4olsOuA6GYwJ6jPMqjmfKDQ3jcjD',
         );
 
         // Trigger the sign-in flow

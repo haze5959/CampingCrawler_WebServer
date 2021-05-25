@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
-import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Model
 import 'package:good_place_camp/Model/PushInfo.dart';
+import 'package:good_place_camp/Model/CampArea.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/UserRepository.dart';
@@ -14,6 +14,7 @@ class PushContoller extends GetxController {
 
   Rx<PushInfo> pushInfo =
       PushInfo(false, false, false, false, false, false, false).obs;
+
   RxBool isLoading = false.obs;
 
   @override
@@ -40,7 +41,7 @@ class PushContoller extends GetxController {
 
   void editArea(CampArea area) async {
     isLoading.value = true;
-    var editedArea = pushInfo.value.favoriteArea;
+    final editedArea = Constants.user.value.info.favoriteAreaList;
 
     switch (area) {
       case CampArea.all:
@@ -71,7 +72,7 @@ class PushContoller extends GetxController {
       return;
     }
 
-    pushInfo.value.favoriteArea = editedArea;
+    Constants.user.value.info.favoriteAreaList = editedArea;
   }
 
   void updatePushSetting() async {

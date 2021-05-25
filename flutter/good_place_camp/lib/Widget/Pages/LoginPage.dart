@@ -89,6 +89,23 @@ class LoginPage extends StatelessWidget {
                               }
                             }),
                         SizedBox(height: 20),
+                        ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                minimumSize: Size(340, 50)),
+                            icon: const Icon(BrandIcons.twitter, size: 16, color: Colors.blueAccent),
+                            label: Text("Twitter으로 계속하기",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.blueAccent,
+                                    fontSize: 16)),
+                            onPressed: () async {
+                              final isSuccess = await c.logInWithTwitter();
+                              if (isSuccess) {
+                                Get.back();
+                              }
+                            }),
+                        SizedBox(height: 20),
                         if (!GetPlatform.isAndroid)
                           ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(

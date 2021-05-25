@@ -66,7 +66,7 @@ class HomeController extends GetxController {
     if (user != null) {
       await Constants.user.value.login(user);
     }
-
+  
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
       showOneBtnAlert(context, "서버가 불안정합니다. 잠시 후에 다시 시도해주세요.", "재시도", initData);

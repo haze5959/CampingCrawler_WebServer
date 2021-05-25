@@ -321,6 +321,63 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  child: Icon(BrandIcons.twitter,
+                      size: 15, color: Colors.blue[700])),
+              Text("트위터 로그인",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Spacer(),
+              if (c.linkedSNS.contains("twitter.com")) ...[
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text("연동중입니다.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15))),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("해제하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {
+                    final result = await c.unlinkProvider("twitter.com");
+                    if (result) {
+                      c.linkedSNS.remove("twitter.com");
+                    }
+                  },
+                )
+              ] else
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("연동하기",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                        ]),
+                  ),
+                  onPressed: () async {
+                    final result = await c.linkWithFacebook();
+                    if (result) {
+                      c.linkedSNS.add("facebook.com");
+                    }
+                  },
+                )
+            ])),
+        SizedBox(height: 20),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                   child: Icon(BrandIcons.apple, size: 15, color: Colors.black)),
               Text("애플 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),

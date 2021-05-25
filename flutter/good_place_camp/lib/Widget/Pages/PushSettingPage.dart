@@ -71,7 +71,7 @@ class PushSettingPage extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
-              for (var area in info.favoriteArea)
+              for (var area in Constants.user.value.info.favoriteAreaList)
                 InputChip(
                   onPressed: () {},
                   onDeleted: () {},
@@ -90,49 +90,49 @@ class PushSettingPage extends StatelessWidget {
                   return [
                     CheckedPopupMenuItem(
                       value: CampArea.all,
-                      checked: info.favoriteArea.isEmpty,
+                      checked: Constants.user.value.info.favoriteAreaList.isEmpty,
                       child: Text(
                         CampArea.all.toAreaString(),
                       ),
                     ),
                     CheckedPopupMenuItem(
                       value: CampArea.seoul,
-                      checked: info.favoriteArea.contains(CampArea.seoul),
+                      checked: Constants.user.value.info.favoriteAreaList.contains(CampArea.seoul),
                       child: Text(
                         CampArea.seoul.toAreaString(),
                       ),
                     ),
                     CheckedPopupMenuItem(
                       value: CampArea.gyeonggi,
-                      checked: info.favoriteArea.contains(CampArea.gyeonggi),
+                      checked: Constants.user.value.info.favoriteAreaList.contains(CampArea.gyeonggi),
                       child: Text(
                         CampArea.gyeonggi.toAreaString(),
                       ),
                     ),
                     CheckedPopupMenuItem(
                       value: CampArea.inchoen,
-                      checked: info.favoriteArea.contains(CampArea.inchoen),
+                      checked: Constants.user.value.info.favoriteAreaList.contains(CampArea.inchoen),
                       child: Text(
                         CampArea.inchoen.toAreaString(),
                       ),
                     ),
                     CheckedPopupMenuItem(
                       value: CampArea.chungnam,
-                      checked: info.favoriteArea.contains(CampArea.chungnam),
+                      checked: Constants.user.value.info.favoriteAreaList.contains(CampArea.chungnam),
                       child: Text(
                         CampArea.chungnam.toAreaString(),
                       ),
                     ),
                     CheckedPopupMenuItem(
                       value: CampArea.chungbuk,
-                      checked: info.favoriteArea.contains(CampArea.chungbuk),
+                      checked: Constants.user.value.info.favoriteAreaList.contains(CampArea.chungbuk),
                       child: Text(
                         CampArea.chungbuk.toAreaString(),
                       ),
                     ),
                     CheckedPopupMenuItem(
                       value: CampArea.gangwon,
-                      checked: info.favoriteArea.contains(CampArea.gangwon),
+                      checked: Constants.user.value.info.favoriteAreaList.contains(CampArea.gangwon),
                       child: Text(
                         CampArea.gangwon.toAreaString(),
                       ),

@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
@@ -78,6 +79,35 @@ class UserInfoController extends GetxController {
     }
   }
 
+  Future<bool> linkWithTwitter() async {
+    isLoading.value = true;
+    try {
+      // Create a TwitterLogin instance
+      final TwitterLogin twitterLogin = new TwitterLogin(
+        consumerKey: 'j2gXD3JP3TG30s7oSAHrO4wp9',
+        consumerSecret: 'USe1iu6VZh5w5zR55xlOje4olsOuA6GYwJ6jPMqjmfKDQ3jcjD',
+      );
+
+      // Trigger the sign-in flow
+      final TwitterLoginResult loginResult = await twitterLogin.authorize();
+
+      // Get the Logged In session
+      final TwitterSession twitterSession = loginResult.session;
+
+      final twitterAuthCredential = TwitterAuthProvider.credential(
+        accessToken: twitterSession.token,
+        secret: twitterSession.secret,
+      );
+
+      isLoading.value = false;
+      return _checkSuccess(twitterAuthCredential);
+    } on FirebaseAuthException catch (e) {
+      _authEceptionHandler(e.code);
+      isLoading.value = false;
+      return false;
+    }
+  }
+
   Future<bool> linkWithApple() async {
     isLoading.value = true;
     try {
@@ -135,7 +165,8 @@ class UserInfoController extends GetxController {
 
   Future<bool> unlinkProvider(String providerId) async {
     if (linkedSNS.length < 2) {
-      showOneBtnAlert(Get.context, "로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.", "확인", () {});
+      showOneBtnAlert(
+          Get.context, "로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.", "확인", () {});
       return false;
     }
 
