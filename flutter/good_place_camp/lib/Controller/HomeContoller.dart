@@ -22,9 +22,12 @@ class HomeController extends GetxController {
   final SiteRepository repo = SiteRepository();
   final PostsRepository postRepo = PostsRepository();
 
+  // 사이트별 가능한 날짜 리스트
   List<SiteInfo> siteInfoList = <SiteInfo>[];
+
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
 
+  // 해당 지역의 캠핑장 리스트
   Map<String, CampInfo> accpetedCampInfo = Map<String, CampInfo>();
 
   RxList<Post> noticeList = RxList<Post>.empty();
@@ -66,7 +69,7 @@ class HomeController extends GetxController {
     if (user != null) {
       await Constants.user.value.login(user);
     }
-  
+
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
       showOneBtnAlert(context, "서버가 불안정합니다. 잠시 후에 다시 시도해주세요.", "재시도", initData);
@@ -84,12 +87,13 @@ class HomeController extends GetxController {
   void reload() async {
     isLoading.value = true;
     updateAccpetedCampInfo();
-    updatePostList();
+    await updateCampSiteAvailDates();
+    await updatePostList();
     isLoading.value = false;
     update();
   }
 
-  void updatePostList() async {
+  Future<void> updatePostList() async {
     // 게시물 로드
     final postResult = await postRepo.getFirstPagePostsList();
     if (postResult.hasError) {
@@ -124,6 +128,21 @@ class HomeController extends GetxController {
         events[DateTime.parse(date)] = list;
       }
     }
+  }
+
+  Future<void> updateCampSiteAvailDates() async {
+    final result = await repo.getSiteInfo(Constants.myArea);
+    if (result.hasError) {
+      showOneBtnAlert(context, result.statusText, "재시도", reload);
+      return;
+    } else if (!result.body.result) {
+      showOneBtnAlert(context, result.body.msg, "재시도", reload);
+      return;
+    }
+
+    var siteInfo = SiteInfo.fromJsonArr(result.body.data);
+    updateEvents(siteInfo);
+    siteInfoList = siteInfo;
   }
 
   void updateAccpetedCampInfo() {

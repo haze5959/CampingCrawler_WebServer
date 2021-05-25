@@ -322,7 +322,7 @@ class UserInfoPage extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                   child: Icon(BrandIcons.twitter,
-                      size: 15, color: Colors.blue[700])),
+                      size: 15, color: Colors.lightBlue[700])),
               Text("트위터 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               Spacer(),

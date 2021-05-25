@@ -333,6 +333,8 @@ void showChangeNickAlert() {
 
                   Navigator.of(context).pop();
 
+                  Constants.user.value.info.nick = bodyControler.text;
+
                   showOneBtnAlert(context, "변경되었습니다.", "닫기", () {});
                 }
               },
