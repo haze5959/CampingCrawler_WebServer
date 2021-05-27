@@ -45,8 +45,8 @@ class PostsRepository extends GetConnect {
       });
 
   Future<Response<ServerResult<dynamic>>> postCommentWith(
-          int postId, String nick, String comment) =>
-      post('/comment', {"post_id": postId, "nick": nick, "comment": comment});
+          int postId, String nick, String comment, String token) =>
+      post('/comment', {"post_id": postId, "nick": nick, "comment": comment, "token": token});
 
   Future<Response<ServerResult<dynamic>>> postReportWith(
           String id, String body) =>

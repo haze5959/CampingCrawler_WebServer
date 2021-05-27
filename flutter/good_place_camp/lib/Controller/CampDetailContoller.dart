@@ -97,9 +97,7 @@ class CampDetailContoller extends GetxController {
   }
 
   void onClickFavorite() async {
-    if (Constants.user != null) {
-      showRequiredLoginAlert();
-    } else {
+    if (Constants.user.value.isLogin) {
       if (Constants.user.value.info.favoriteList.contains(siteName)) {
         // 즐겨찾기 삭제 api
         final idToken = await Constants.user.value.firebaseUser.getIdToken();
@@ -129,6 +127,8 @@ class CampDetailContoller extends GetxController {
         Constants.user.value.info.favoriteList.add(siteName);
         isFavorite(true);
       }
+    } else {
+      showRequiredLoginAlert();
     }
   }
 }

@@ -156,10 +156,12 @@ class GPCAppBar extends AppBar {
 
   static void onSelected(CampArea area) async {
     final HomeController c = Get.find();
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(area);
     switch (area) {
       case CampArea.all:
         Constants.myArea.clear();
+        prefs.setInt(MY_AREA_BIT_KEY, 0);
         break;
       default:
         if (Constants.myArea.contains(area)) {
@@ -167,13 +169,13 @@ class GPCAppBar extends AppBar {
         } else {
           Constants.myArea.add(area);
         }
+
+        final bit = Constants.myArea
+            .map((element) => element.toBit())
+            .reduce((value, element) => value + element);
+        prefs.setInt(MY_AREA_BIT_KEY, bit);
         break;
     }
-    final bit = Constants.myArea
-        .map((element) => element.toBit())
-        .reduce((value, element) => value + element);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt(MY_AREA_BIT_KEY, bit);
 
     c.reload();
   }

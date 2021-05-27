@@ -112,8 +112,12 @@ class CommentWidget extends StatelessWidget {
                         }
 
                         final repo = PostsRepository();
+                        final token = Constants.user.value.isLogin
+                            ? await Constants.user.value.firebaseUser
+                                .getIdToken()
+                            : null;
                         final result = await repo.postCommentWith(
-                            postId, nickControler.text, body);
+                            postId, nickControler.text, body, token);
 
                         if (result.hasError) {
                           showOneBtnAlert(

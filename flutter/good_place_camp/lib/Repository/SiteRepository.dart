@@ -18,12 +18,13 @@ class SiteRepository extends GetConnect {
 
   Future<Response<ServerResult<dynamic>>> getSiteInfo(List<CampArea> areaList) {
     var url = "/camp";
-    Iterable<int>.generate(areaList.length).forEach((index) => {
-          if (index == 0)
-            url += "?area=${areaList[index].toString()}"
-          else
-            url += "&area=${areaList[index].toString()}"
-        });
+
+    if (areaList.length > 0) {
+      final bit = areaList
+          .map((element) => element.toBit())
+          .reduce((value, element) => value + element);
+      url += "?area_bit=$bit";
+    }
 
     return get(url);
   }

@@ -43,17 +43,14 @@ class PushContoller extends GetxController {
     isLoading.value = true;
     final editedArea = Constants.user.value.info.favoriteAreaList;
 
-    switch (area) {
-      case CampArea.all:
-        editedArea.clear();
-        break;
-      default:
-        if (editedArea.contains(area)) {
-          editedArea.remove(area);
-        } else {
-          editedArea.add(area);
-        }
-        break;
+    if (area == CampArea.all) {
+      editedArea.clear();
+    } else {
+      if (editedArea.contains(area)) {
+        editedArea.remove(area);
+      } else {
+        editedArea.add(area);
+      }
     }
 
     final areaBit = editedArea
@@ -61,7 +58,7 @@ class PushContoller extends GetxController {
         .reduce((value, element) => value + element);
 
     final token = await Constants.user.value.firebaseUser.getIdToken();
-    final result = await repo.postUserArea(token, areaBit);
+    final result = await repo.putUserArea(token, areaBit);
     isLoading.value = false;
 
     if (result.hasError) {

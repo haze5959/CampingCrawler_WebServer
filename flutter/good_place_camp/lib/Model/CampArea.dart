@@ -1,18 +1,16 @@
 enum CampArea {
-  all,
   seoul,
   gyeonggi,
   inchoen,
   chungnam,
   chungbuk,
   gangwon,
+  all
 }
 
 extension CampAreaParse on CampArea {
   String toAreaString() {
     switch (this) {
-      case CampArea.all:
-        return "전체";
       case CampArea.seoul:
         return "서울";
       case CampArea.gyeonggi:
@@ -25,6 +23,8 @@ extension CampAreaParse on CampArea {
         return "충북";
       case CampArea.gangwon:
         return "강원";
+      case CampArea.all:
+        return "전체";
       default:
         return "";
     }
@@ -34,8 +34,6 @@ extension CampAreaParse on CampArea {
   // 32  16   8    4    2    1
   int toBit() {
     switch (this) {
-      case CampArea.all:
-        return 0;
       case CampArea.seoul:
         return 1;
       case CampArea.gyeonggi:
@@ -61,17 +59,17 @@ extension CampAreaParse on CampArea {
 
 CampArea fromString(String str) {
   switch (str) {
-    case "CampArea.seoul":
+    case "seoul":
       return CampArea.seoul;
-    case "CampArea.gyeonggi":
+    case "gyeonggi":
       return CampArea.gyeonggi;
-    case "CampArea.inchoen":
+    case "inchoen":
       return CampArea.inchoen;
-    case "CampArea.chungnam":
+    case "chungnam":
       return CampArea.chungnam;
-    case "CampArea.chungbuk":
+    case "chungbuk":
       return CampArea.chungbuk;
-    case "CampArea.gangwon":
+    case "gangwon":
       return CampArea.gangwon;
     default:
       return CampArea.all;

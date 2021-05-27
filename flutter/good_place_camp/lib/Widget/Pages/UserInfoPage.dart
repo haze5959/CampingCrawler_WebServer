@@ -496,7 +496,7 @@ class UserInfoPage extends StatelessWidget {
                       ]),
                 ),
                 onPressed: () async {
-                  showTwoBtnAlert(Get.context, "정말 탈퇴하시겠습니까?ㅠ", "로그아웃",
+                  showTwoBtnAlert(Get.context, "정말 탈퇴하시겠습니까?ㅠ", "탈퇴하기",
                       () async {
                     final isSuccess = await user.signout();
                     if (isSuccess) {

@@ -42,11 +42,11 @@ class UserRepository extends GetConnect {
         "reservation_day_push": info.reservationDayPush
       });
 
-  Future<Response<ServerResult<dynamic>>> postUserArea(
+  Future<Response<ServerResult<dynamic>>> putUserArea(
           String token, int areaBit) =>
-      post('/user/favorite', {
+      put('/user', {
         "token": token,
-        "area_bit": areaBit,
+        "area_bit": areaBit
       });
 
   Future<Response<ServerResult<dynamic>>> postUserFavoriteList(
@@ -58,7 +58,7 @@ class UserRepository extends GetConnect {
 
   Future<Response<ServerResult<dynamic>>> deleteUserFavoriteList(
           String token, String campId) =>
-      delete('/user/favorite/$token?camp=$campId');
+      delete('/user/favorite/$token?camp_id=$campId');
 
   Future<Response<ServerResult<dynamic>>> signOutUser(String token) =>
       delete('/user/$token');

@@ -288,6 +288,11 @@ void showChangeNickAlert() {
       errText.value = "10글자 이하로 줄여주세요.";
       hasErr.value = true;
       return false;
+    } else if (bodyControler.text
+        .contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      errText.value = "특수문자를 제외해주세요.";
+      hasErr.value = true;
+      return false;
     }
 
     return true;
@@ -335,7 +340,9 @@ void showChangeNickAlert() {
 
                   Constants.user.value.info.nick = bodyControler.text;
 
-                  showOneBtnAlert(context, "변경되었습니다.", "닫기", () {});
+                  showOneBtnAlert(context, "변경되었습니다.", "닫기", () {
+                    Constants.user.refresh();
+                  });
                 }
               },
             )

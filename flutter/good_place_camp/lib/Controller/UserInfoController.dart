@@ -39,6 +39,14 @@ class UserInfoController extends GetxController {
 
   Future<bool> linkWithGoogle() async {
     isLoading.value = true;
+
+    if (GetPlatform.isWeb) {
+      // 웹 지원 안함
+      showOneBtnAlert(Get.context, "웹에서는 지원하지 않습니다.", "확인", () {});
+      isLoading.value = false;
+      return false;
+    }
+    
     try {
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
@@ -63,6 +71,14 @@ class UserInfoController extends GetxController {
 
   Future<bool> linkWithFacebook() async {
     isLoading.value = true;
+
+    if (GetPlatform.isWeb) {
+      // 웹 지원 안함
+      showOneBtnAlert(Get.context, "웹에서는 지원하지 않습니다.", "확인", () {});
+      isLoading.value = false;
+      return false;
+    }
+
     try {
       final AccessToken result = await FacebookAuth.instance.login();
 
@@ -81,6 +97,13 @@ class UserInfoController extends GetxController {
 
   Future<bool> linkWithTwitter() async {
     isLoading.value = true;
+    if (GetPlatform.isWeb) {
+      // 웹 지원 안함
+      showOneBtnAlert(Get.context, "웹에서는 지원하지 않습니다.", "확인", () {});
+      isLoading.value = false;
+      return false;
+    }
+
     try {
       // Create a TwitterLogin instance
       final TwitterLogin twitterLogin = new TwitterLogin(
