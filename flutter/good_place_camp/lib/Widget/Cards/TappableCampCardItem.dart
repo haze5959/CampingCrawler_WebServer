@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
@@ -60,7 +61,7 @@ class TappableCampCardItem extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: Ink.image(
-                  image: AssetImage('assets/${siteInfo.site}.jpg'),
+                  image: CachedNetworkImageProvider("$IMAGE_URL/${siteInfo.site}.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
@@ -29,8 +30,7 @@ class SimpleCampCardItem extends StatelessWidget {
                 Navigator.push<void>(
                   context,
                   CupertinoPageRoute(
-                    builder: (context) => CampDetailPage(siteName: siteName)
-                  ),
+                      builder: (context) => CampDetailPage(siteName: siteName)),
                 );
               },
               splashColor:
@@ -57,7 +57,7 @@ class SimpleCampCardItem extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Ink.image(
-                image: AssetImage('assets/$siteName.jpg'),
+                image: CachedNetworkImageProvider("$IMAGE_URL/$siteName.jpg"),
                 fit: BoxFit.cover,
               ),
             ),

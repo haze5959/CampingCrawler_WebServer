@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/CampDetailContoller.dart';
@@ -106,7 +107,7 @@ class CampDetailPage extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: Ink.image(
-                  image: AssetImage('assets/${c.siteInfo.site}.jpg'),
+                  image: CachedNetworkImageProvider("$IMAGE_URL/${c.siteInfo.site}.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),
