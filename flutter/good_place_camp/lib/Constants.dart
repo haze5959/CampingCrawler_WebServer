@@ -15,7 +15,7 @@ const String MY_AREA_BIT_KEY = "MY_AREA_BIT_KEY";
 
 const Duration timeOutSec = Duration(seconds: 30);
 
-const String IMAGE_URL = "http://haze5959.iptime.org:8000/images";
+const String IMAGE_URL = "http://haze5959.iptime.org:5980/images";
 
 class Constants {
   static bool isPhoneSize = false;

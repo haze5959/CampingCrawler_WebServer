@@ -31,7 +31,8 @@ class TappableCampCardItem extends StatelessWidget {
                 Navigator.push<void>(
                   context,
                   CupertinoPageRoute(
-                    builder: (context) => CampDetailPage(siteName: siteInfo.site),
+                    builder: (context) =>
+                        CampDetailPage(siteName: siteInfo.site),
                   ),
                 );
               },
@@ -60,9 +61,16 @@ class TappableCampCardItem extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child: Ink.image(
-                  image: CachedNetworkImageProvider("$IMAGE_URL/${siteInfo.site}.jpg"),
+                child: CachedNetworkImage(
+                  imageUrl: "$IMAGE_URL/${siteInfo.site}.jpg",
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) =>
+                      Image.asset('assets/Camp_Default.png'),
                   fit: BoxFit.cover,
+                  fadeInCurve: Curves.easeIn,
+                  fadeInDuration: Duration(seconds: 2),
+                  fadeOutCurve: Curves.easeOut,
+                  fadeOutDuration: Duration(seconds: 2),
                 ),
               ),
               Positioned(
@@ -98,14 +106,15 @@ class TappableCampCardItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Tooltip(
-                      message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
-                      child: Text(
-                        "예약정보 수집 시간 - ${siteInfo.updatedDate}",
-                        style: addrStyle,
-                      ),
-                    ),
+                  message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
+                  child: Text(
+                    "예약정보 수집 시간 - ${siteInfo.updatedDate}",
+                    style: addrStyle,
+                  ),
+                ),
                 Text("${Constants.campInfo[siteInfo.site].desc}", maxLines: 2),
-                Text("${Constants.campInfo[siteInfo.site].addr}", style: addrStyle)
+                Text("${Constants.campInfo[siteInfo.site].addr}",
+                    style: addrStyle)
               ],
             ),
           ),

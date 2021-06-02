@@ -56,9 +56,15 @@ class SimpleCampCardItem extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: Ink.image(
-                image: CachedNetworkImageProvider("$IMAGE_URL/$siteName.jpg"),
+              child: CachedNetworkImage(
+                imageUrl: "$IMAGE_URL/$siteName.jpg",
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Image.asset('assets/Camp_Default.png'), 
                 fit: BoxFit.cover,
+                fadeInCurve: Curves.easeIn,
+                fadeInDuration: Duration(seconds: 2),
+                fadeOutCurve: Curves.easeOut,
+                fadeOutDuration: Duration(seconds: 2),
               ),
             ),
             Positioned(
