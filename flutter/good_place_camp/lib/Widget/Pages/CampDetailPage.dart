@@ -108,7 +108,6 @@ class CampDetailPage extends StatelessWidget {
               Positioned.fill(
                 child: CachedNetworkImage(
                   imageUrl: "$IMAGE_URL/${c.siteInfo.site}.jpg",
-                  placeholder: (context, url) => CircularProgressIndicator(),
                   errorWidget: (context, url, error) =>
                       Image.asset('assets/Camp_Default.png'),
                   fit: BoxFit.cover,
