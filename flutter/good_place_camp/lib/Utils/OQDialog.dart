@@ -289,8 +289,8 @@ void showChangeNickAlert() {
       hasErr.value = true;
       return false;
     } else if (bodyControler.text
-        .contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      errText.value = "특수문자를 제외해주세요.";
+        .contains(new RegExp(r'[!@#$%^&*(),.?":{}|<> ]'))) {
+      errText.value = "특수문자 및 공백을 제외해주세요.";
       hasErr.value = true;
       return false;
     }

@@ -21,7 +21,7 @@ class SimpleCampCardItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: SizedBox(
-          width: CALENDER_WIDTH,
+          width: CARD_WIDTH,
           height: CARD_HEIGHT,
           child: Card(
             clipBehavior: Clip.antiAlias,

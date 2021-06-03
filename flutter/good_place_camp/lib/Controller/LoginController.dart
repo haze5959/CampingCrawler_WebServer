@@ -196,7 +196,7 @@ class LoginController extends GetxController {
 
   Future<bool> _checkSuccess(UserCredential cred) async {
     if (cred != null && cred.user != null) {
-      return await Constants.user.value.login(cred.user);
+      return await Constants.user.value.login(cred.user) ?? false;
     } else {
       showOneBtnAlert(Get.context, "로그인에 실패하였습니다.", "확인", () {});
       return false;

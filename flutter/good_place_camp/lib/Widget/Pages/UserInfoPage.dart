@@ -27,14 +27,15 @@ class UserInfoPage extends StatelessWidget {
                 actions: [],
               ),
               body: Obx(() => Stack(children: [
-                    SingleChildScrollView(
-                      physics: ClampingScrollPhysics(),
-                      child: Center(
-                          child: Container(
-                              constraints: BoxConstraints(maxWidth: 500),
-                              child: Obx(() =>
-                                  _buildInfoContent(Constants.user.value)))),
-                    ),
+                    if (Constants.user.value.isLogin)
+                      SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),
+                        child: Center(
+                            child: Container(
+                                constraints: BoxConstraints(maxWidth: 500),
+                                child:
+                                    _buildInfoContent(Constants.user.value))),
+                      ),
                     if (c.isLoading.value)
                       Center(child: CircularProgressIndicator())
                   ])));
@@ -469,8 +470,8 @@ class UserInfoPage extends StatelessWidget {
                 ),
                 onPressed: () async {
                   showTwoBtnAlert(Get.context, "로그아웃 하시겠습니까?", "로그아웃", () {
-                    user.logout();
                     Get.back();
+                    user.logout();
                   });
                 },
               )

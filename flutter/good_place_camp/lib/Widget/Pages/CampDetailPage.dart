@@ -51,7 +51,7 @@ class CampDetailPage extends StatelessWidget {
                       SizedBox(height: 20),
                       _buildCalender(context, c),
                       SizedBox(height: 20),
-                      if (GetPlatform.isMobile)
+                      if (!GetPlatform.isWeb)
                         SizedBox(
                             height: CALENDER_WIDTH,
                             child: GoogleMap(

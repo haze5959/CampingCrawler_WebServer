@@ -15,6 +15,23 @@ import 'package:good_place_camp/Widget/Pages/UserInfoPage.dart';
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
 
+enum GPCAppBarMenu { favorite, push, account }
+
+extension GPCAppBarMenuParse on GPCAppBarMenu {
+  String toTitle() {
+    switch (this) {
+      case GPCAppBarMenu.favorite:
+        return "즐겨찾기";
+      case GPCAppBarMenu.push:
+        return "알림 설정";
+      case GPCAppBarMenu.account:
+        return "계정 정보";
+      default:
+        return "";
+    }
+  }
+}
+
 class GPCAppBar extends AppBar {
   final String pageName;
   final bool showFilter;
@@ -45,114 +62,154 @@ class GPCAppBar extends AppBar {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                   ),
                   Spacer(),
-                  if (!Constants.isPhoneSize) ...[
+                  if (Constants.isPhoneSize) ...[
+                    if (showFilter) _buildAreaFilter(),
+                    SizedBox(width: 20),
+                    PopupMenuButton<GPCAppBarMenu>(
+                      color: Colors.lightGreen[50],
+                      padding: EdgeInsets.zero,
+                      onSelected: (menu) {
+                        switch (menu) {
+                          case GPCAppBarMenu.favorite:
+                            _gotoFavoritePage();
+                            break;
+                          case GPCAppBarMenu.push:
+                            _gotoPushPage();
+                            break;
+                          case GPCAppBarMenu.account:
+                            _gotoAccountPage();
+                            break;
+                          default:
+                        }
+                      },
+                      itemBuilder: (context) => <PopupMenuItem<GPCAppBarMenu>>[
+                        if (Constants.user.value.isLogin)
+                          PopupMenuItem<GPCAppBarMenu>(
+                            enabled: false,
+                            child: Text("${Constants.user.value.info.nick} 님"),
+                          ),
+                        PopupMenuItem<GPCAppBarMenu>(
+                          value: GPCAppBarMenu.favorite,
+                          child: Row(children: [
+                            Icon(Icons.star, color: Colors.lightGreen,),
+                            SizedBox(width: 10),
+                            Text(
+                              GPCAppBarMenu.favorite.toTitle(),
+                            )
+                          ]),
+                        ),
+                        PopupMenuItem<GPCAppBarMenu>(
+                          value: GPCAppBarMenu.push,
+                          child: Row(children: [
+                            Icon(Icons.notifications, color: Colors.lightGreen,),
+                            SizedBox(width: 10),
+                            Text(
+                              GPCAppBarMenu.push.toTitle(),
+                            )
+                          ]),
+                        ),
+                        PopupMenuItem<GPCAppBarMenu>(
+                          value: GPCAppBarMenu.account,
+                          child: Row(children: [
+                            Icon(Icons.account_circle, color: Colors.lightGreen,),
+                            SizedBox(width: 10),
+                            Text(
+                              GPCAppBarMenu.account.toTitle(),
+                            )
+                          ]),
+                        ),
+                      ],
+                    )
+                  ] else ...[
                     Obx(() => Text(Constants.user.value.isLogin
                         ? "${Constants.user.value.info.nick} 님"
                         : "")),
-                    SizedBox(width: GetPlatform.isWeb ? 20 : 0),
-                  ],
-                  if (showFilter)
-                    PopupMenuButton<CampArea>(
-                      tooltip: "지역필터",
-                      icon: Icon(Icons.filter_list_rounded),
-                      itemBuilder: (context) {
-                        return [
-                          CheckedPopupMenuItem(
-                            value: CampArea.all,
-                            checked: Constants.myArea.isEmpty,
-                            child: Text(
-                              CampArea.all.toAreaString(),
-                            ),
-                          ),
-                          CheckedPopupMenuItem(
-                            value: CampArea.seoul,
-                            checked: Constants.myArea.contains(CampArea.seoul),
-                            child: Text(
-                              CampArea.seoul.toAreaString(),
-                            ),
-                          ),
-                          CheckedPopupMenuItem(
-                            value: CampArea.gyeonggi,
-                            checked:
-                                Constants.myArea.contains(CampArea.gyeonggi),
-                            child: Text(
-                              CampArea.gyeonggi.toAreaString(),
-                            ),
-                          ),
-                          CheckedPopupMenuItem(
-                            value: CampArea.inchoen,
-                            checked:
-                                Constants.myArea.contains(CampArea.inchoen),
-                            child: Text(
-                              CampArea.inchoen.toAreaString(),
-                            ),
-                          ),
-                          CheckedPopupMenuItem(
-                            value: CampArea.chungnam,
-                            checked:
-                                Constants.myArea.contains(CampArea.chungnam),
-                            child: Text(
-                              CampArea.chungnam.toAreaString(),
-                            ),
-                          ),
-                          CheckedPopupMenuItem(
-                            value: CampArea.chungbuk,
-                            checked:
-                                Constants.myArea.contains(CampArea.chungbuk),
-                            child: Text(
-                              CampArea.chungbuk.toAreaString(),
-                            ),
-                          ),
-                          CheckedPopupMenuItem(
-                            value: CampArea.gangwon,
-                            checked:
-                                Constants.myArea.contains(CampArea.gangwon),
-                            child: Text(
-                              CampArea.gangwon.toAreaString(),
-                            ),
-                          ),
-                        ];
-                      },
-                      onSelected: (area) => onSelected(area),
-                    ),
-                  if (isMain) ...[
-                    SizedBox(width: GetPlatform.isWeb ? 20 : 0),
-                    IconButton(
-                      tooltip: "즐겨찾기",
-                      icon: const Icon(Icons.star),
-                      onPressed: () {
-                        if (!Constants.user.value.isLogin) {
-                          showRequiredLoginAlert();
-                        } else {
-                          Get.to(CampListPage(isFavoritePage: true));
-                        }
-                      },
-                      // tooltip: "알림 설정",
-                    ),
-                    SizedBox(width: GetPlatform.isWeb ? 20 : 0),
-                    IconButton(
-                      tooltip: "알림 설정",
-                      icon: const Icon(Icons.notifications),
-                      onPressed: () {
-                        Get.to(PushPromotionPage());
-                      },
-                      // tooltip: "알림 설정",
-                    ),
-                    SizedBox(width: GetPlatform.isWeb ? 20 : 0),
-                    IconButton(
-                      tooltip: "계정 정보",
-                      icon: const Icon(Icons.account_circle),
-                      onPressed: () {
-                        if (!Constants.user.value.isLogin) {
-                          showRequiredLoginAlert();
-                        } else {
-                          Get.to(UserInfoPage());
-                        }
-                      },
-                      // tooltip: "알림 설정",
-                    ),
+                    SizedBox(width: 20),
+                    if (showFilter) _buildAreaFilter(),
+                    if (isMain) ...[
+                      SizedBox(width: 20),
+                      IconButton(
+                        tooltip: GPCAppBarMenu.favorite.toTitle(),
+                        icon: Icon(Icons.star),
+                        onPressed: _gotoFavoritePage,
+                      ),
+                      SizedBox(width: 20),
+                      IconButton(
+                        tooltip: GPCAppBarMenu.push.toTitle(),
+                        icon: Icon(Icons.notifications),
+                        onPressed: _gotoPushPage,
+                      ),
+                      SizedBox(width: 20),
+                      IconButton(
+                        tooltip: GPCAppBarMenu.account.toTitle(),
+                        icon: Icon(Icons.account_circle),
+                        onPressed: _gotoAccountPage,
+                      ),
+                    ]
                   ]
                 ])));
+
+  static Widget _buildAreaFilter() {
+    return PopupMenuButton<CampArea>(
+      tooltip: "지역필터",
+      color: Colors.lightGreen[50],
+      icon: Icon(Icons.filter_list_rounded),
+      itemBuilder: (context) {
+        return [
+          CheckedPopupMenuItem(
+            value: CampArea.all,
+            checked: Constants.myArea.isEmpty,
+            child: Text(
+              CampArea.all.toAreaString(),
+            ),
+          ),
+          CheckedPopupMenuItem(
+            value: CampArea.seoul,
+            checked: Constants.myArea.contains(CampArea.seoul),
+            child: Text(
+              CampArea.seoul.toAreaString(),
+            ),
+          ),
+          CheckedPopupMenuItem(
+            value: CampArea.gyeonggi,
+            checked: Constants.myArea.contains(CampArea.gyeonggi),
+            child: Text(
+              CampArea.gyeonggi.toAreaString(),
+            ),
+          ),
+          CheckedPopupMenuItem(
+            value: CampArea.inchoen,
+            checked: Constants.myArea.contains(CampArea.inchoen),
+            child: Text(
+              CampArea.inchoen.toAreaString(),
+            ),
+          ),
+          CheckedPopupMenuItem(
+            value: CampArea.chungnam,
+            checked: Constants.myArea.contains(CampArea.chungnam),
+            child: Text(
+              CampArea.chungnam.toAreaString(),
+            ),
+          ),
+          CheckedPopupMenuItem(
+            value: CampArea.chungbuk,
+            checked: Constants.myArea.contains(CampArea.chungbuk),
+            child: Text(
+              CampArea.chungbuk.toAreaString(),
+            ),
+          ),
+          CheckedPopupMenuItem(
+            value: CampArea.gangwon,
+            checked: Constants.myArea.contains(CampArea.gangwon),
+            child: Text(
+              CampArea.gangwon.toAreaString(),
+            ),
+          ),
+        ];
+      },
+      onSelected: (area) => onSelected(area),
+    );
+  }
 
   static void onSelected(CampArea area) async {
     final HomeController c = Get.find();
@@ -178,5 +235,25 @@ class GPCAppBar extends AppBar {
     }
 
     c.reload();
+  }
+
+  static void _gotoFavoritePage() {
+    if (!Constants.user.value.isLogin) {
+      showRequiredLoginAlert();
+    } else {
+      Get.to(CampListPage(isFavoritePage: true));
+    }
+  }
+
+  static void _gotoPushPage() {
+    Get.to(PushPromotionPage());
+  }
+
+  static void _gotoAccountPage() {
+    if (!Constants.user.value.isLogin) {
+      showRequiredLoginAlert();
+    } else {
+      Get.to(UserInfoPage());
+    }
   }
 }
