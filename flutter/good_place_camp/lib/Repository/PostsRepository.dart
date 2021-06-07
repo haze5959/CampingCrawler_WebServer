@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Model
 import 'package:good_place_camp/Model/ServerResult.dart';
@@ -12,7 +13,8 @@ class PostsRepository extends GetConnect {
   }
 
   Future<Response<ServerResult<dynamic>>> getFirstPagePostsList() {
-    return get('/home');
+    return get<ServerResult<dynamic>>('/home')
+        .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
   }
 
   Future<Response<ServerResult<dynamic>>> getAllPostsSimpleList(
@@ -25,30 +27,39 @@ class PostsRepository extends GetConnect {
             url += "&type=${toInt(typeList[index])}"
         });
 
-    return get(url);
+    return get<ServerResult<dynamic>>(url)
+        .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
   }
 
   Future<Response<ServerResult<dynamic>>> getPostsWith(int id) =>
-      get('/post/$id');
+      get<ServerResult<dynamic>>('/post/$id')
+          .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
 
   Future<Response<ServerResult<dynamic>>> getSecretPostsWith(
           int id, String token) =>
-      get('/post/$id?token=$token');
+      get<ServerResult<dynamic>>('/post/$id?token=$token')
+          .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
 
   Future<Response<ServerResult<dynamic>>> postPostsWith(
           int type, String title, String body, String token) =>
-      post('/post', {
+      post<ServerResult<dynamic>>('/post', {
         "type": type,
         "title": title,
         "body": body,
         "token": token
-      });
+      }).timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
 
   Future<Response<ServerResult<dynamic>>> postCommentWith(
           int postId, String nick, String comment, String token) =>
-      post('/comment', {"post_id": postId, "nick": nick, "comment": comment, "token": token});
+      post<ServerResult<dynamic>>('/comment', {
+        "post_id": postId,
+        "nick": nick,
+        "comment": comment,
+        "token": token
+      }).timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
 
   Future<Response<ServerResult<dynamic>>> postReportWith(
           String id, String body) =>
-      post('/report', {"id": id, "body": body});
+      post<ServerResult<dynamic>>('/report', {"id": id, "body": body})
+          .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
 }

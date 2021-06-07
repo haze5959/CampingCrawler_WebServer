@@ -29,7 +29,7 @@ class CalenderWidget extends StatelessWidget {
   Widget _buildHorizenCalendar(HomeController s, BuildContext context) {
     return Scrollbar(
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(right: 10),
+            padding: EdgeInsets.only(right: 10),
             scrollDirection: Axis.horizontal,
             physics: ClampingScrollPhysics(),
             child: Row(
@@ -65,31 +65,24 @@ class CalenderWidget extends StatelessWidget {
                                           rightChevronVisible: false),
                                       builders: CalendarBuilders(
                                         selectedDayBuilder: (context, date, _) {
-                                          return AnimatedContainer(
-                                            duration: const Duration(
-                                                milliseconds: 250),
+                                          return Container(
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
-                                                color: s.selectedDay.month ==
-                                                        s
-                                                            .calendarControllerList[
-                                                                index]
-                                                            .focusedDay
-                                                            .month
-                                                    ? Colors.blueAccent
-                                                    : isToday(date)
-                                                        ? const Color(
-                                                            0xFF9FA8DA)
-                                                        : null),
+                                                color: _isToday(date)
+                                                    ? const Color(0xFF9FA8DA)
+                                                    : null),
                                             margin: const EdgeInsets.all(6.0),
                                             alignment: Alignment.center,
                                             child: Text('${date.day}',
-                                                style: isToday(date)
+                                                style: _isToday(date)
                                                     ? TextStyle().copyWith(
                                                         color: Colors.white,
                                                         fontSize: 16.0,
                                                       )
-                                                    : null),
+                                                    : _isWeekend(date)
+                                                        ? TextStyle(
+                                                            color: Colors.red)
+                                                        : null),
                                           );
                                         },
                                         markersBuilder:
@@ -149,36 +142,29 @@ class CalenderWidget extends StatelessWidget {
                                         rightChevronVisible: false),
                                     builders: CalendarBuilders(
                                       selectedDayBuilder: (context, date, _) {
-                                        return AnimatedContainer(
-                                          duration:
-                                              const Duration(milliseconds: 250),
+                                        return Container(
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: s.selectedDay.month ==
-                                                      s
-                                                          .calendarControllerList[
-                                                              index]
-                                                          .focusedDay
-                                                          .month
-                                                  ? Colors.blueAccent
-                                                  : isToday(date)
-                                                      ? const Color(0xFF9FA8DA)
-                                                      : null),
+                                              color: _isToday(date)
+                                                  ? const Color(0xFF9FA8DA)
+                                                  : null),
                                           margin: const EdgeInsets.all(6.0),
                                           alignment: Alignment.center,
                                           child: Text('${date.day}',
-                                              style: isToday(date)
+                                              style: _isToday(date)
                                                   ? TextStyle().copyWith(
                                                       color: Colors.white,
                                                       fontSize: 16.0,
                                                     )
-                                                  : null),
+                                                  : _isWeekend(date)
+                                                      ? TextStyle(
+                                                          color: Colors.red)
+                                                      : null),
                                         );
                                       },
                                       markersBuilder:
                                           (context, date, events, holidays) {
                                         final children = <Widget>[];
-
                                         if (events.isNotEmpty) {
                                           children.add(
                                             Positioned(
@@ -222,9 +208,17 @@ class CalenderWidget extends StatelessWidget {
     );
   }
 
-  bool isToday(DateTime date) {
+  bool _isToday(DateTime date) {
     final today = DateTime.now();
     if (date.month == today.month && date.day == today.day) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool _isWeekend(DateTime date) {
+    if (date.weekday == 6 || date.weekday == 7) {
       return true;
     } else {
       return false;

@@ -40,8 +40,6 @@ class HomeController extends GetxController {
     CalendarController()
   ];
 
-  DateTime selectedDay = DateTime.now();
-
   RxBool isLoading = true.obs;
 
   BuildContext context;
@@ -90,7 +88,6 @@ class HomeController extends GetxController {
     await updateCampSiteAvailDates();
     await updatePostList();
     isLoading.value = false;
-    update();
   }
 
   Future<void> updatePostList() async {
@@ -159,19 +156,16 @@ class HomeController extends GetxController {
     }
   }
 
-  void onDaySelected(DateTime day, List events, List holidays) {
-    selectedDay = day;
-    update();
-
+  void onDaySelected(DateTime day, List _, List holidays) {
     if (events.length > 0) {
-      final List<SiteInfo> siteInfoList = events;
+      // final List<SiteInfo> siteInfoList = events;
 
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 1), () {
         showModalBottomSheet<void>(
           isScrollControlled: true,
           context: context,
           builder: (context) {
-            return BottomSheetContent(date: day, infoList: siteInfoList);
+            return BottomSheetContent(date: DateTime(day.year, day.month, day.day), events: events);
           },
         );
       });

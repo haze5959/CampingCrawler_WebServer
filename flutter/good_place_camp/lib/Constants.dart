@@ -5,12 +5,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
+import 'package:good_place_camp/Model/ServerResult.dart';
 
 const double MAX_WIDTH = 1000;
 const double CALENDER_WIDTH = 320;
 const double CARD_HEIGHT = 280;
 const double CARD_WIDTH = 280;
 const double MAIN_PADDING = 50;
+
+const TIMEOUT_SEC = Duration(seconds: 10);
+Response<ServerResult<dynamic>> timeoutResponse() {
+  return Response(statusCode: 408);
+}
 
 const String MY_AREA_BIT_KEY = "MY_AREA_BIT_KEY";
 
