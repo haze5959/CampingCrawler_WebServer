@@ -49,7 +49,8 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
-                                      child: Text("작성자: ${c.nick.value}",
+                                      child: Text(
+                                          "작성자: ${Constants.user.value.isLogin ? Constants.user.value.info.nick : '익명의 캠퍼'}",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 12)),

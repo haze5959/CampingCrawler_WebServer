@@ -82,7 +82,7 @@ class CampDetailPage extends StatelessWidget {
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
                           showReportAlert(
-                              Get.context, "camp_${c.siteInfo.site}");
+                              Get.context, "${c.siteInfo.site}");
                         },
                       ),
                       FooterWidget()

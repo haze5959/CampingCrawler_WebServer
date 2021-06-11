@@ -11,7 +11,6 @@ import 'package:good_place_camp/Repository/PostsRepository.dart';
 class PostWriteContoller extends GetxController {
   final PostsRepository repo = PostsRepository();
 
-  RxString nick = "익명의 캠퍼".obs;
   TextEditingController titleControler = new TextEditingController();
   TextEditingController bodyControler = new TextEditingController();
 
@@ -22,17 +21,11 @@ class PostWriteContoller extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    Constants.user.update((val) {
-      nick.value = val.isLogin ? val.info.nick : "익명의 캠퍼";
-    });
 
     reload();
   }
 
   void reload() async {
-    if (Constants.user.value.isLogin) {
-      nick.value = Constants.user.value.info.nick;
-    }
   }
 
   void makePosts() async {

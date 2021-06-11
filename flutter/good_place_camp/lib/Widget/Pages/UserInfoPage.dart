@@ -172,9 +172,9 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("명당캠핑 알림 서비스 구독하러 가기",
+                          Text("명당캠핑 알림 서비스 구독하기",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                                  fontWeight: FontWeight.bold, fontSize: 14))
                         ]),
                   ),
                   onPressed: () async {

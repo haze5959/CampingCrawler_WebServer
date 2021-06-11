@@ -5,20 +5,21 @@ import 'package:good_place_camp/Constants.dart';
 
 // Cards
 import 'package:good_place_camp/Widget/Cards/TappableCampCardItem.dart';
+import 'package:good_place_camp/Widget/Cards/PromotionCardItem.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
 
 class BottomSheetContent extends StatelessWidget {
   DateTime currentDate;
-  RxList<SiteInfo> currentInfoList;
+  RxList<SiteInfo> currentInfoList = <SiteInfo>[].obs;
   Map<DateTime, List<SiteInfo>> allEvents;
 
   final isFullScreen = false.obs;
 
   BottomSheetContent({DateTime date, Map<DateTime, List<SiteInfo>> events}) {
     currentDate = date;
-    currentInfoList = events[date].obs;
+    currentInfoList.value = events[date] ?? [];
     allEvents = events;
   }
 
@@ -41,28 +42,34 @@ class BottomSheetContent extends StatelessWidget {
                           icon: Icon(Icons.chevron_left_outlined, size: 18),
                           label: Text(
                             "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate.add(Duration(days: -1)))}",
+                            style: TextStyle(color: Colors.black),
                           ),
                           onPressed: () {
                             currentDate = currentDate.add(Duration(days: -1));
-                            currentInfoList.value = allEvents[currentDate];
+                            currentInfoList.value =
+                                allEvents[currentDate] ?? <SiteInfo>[];
                           },
                         ),
                         Spacer(),
                         Icon(Icons.calendar_today_outlined, size: 16),
                         SizedBox(width: 3),
                         Text(
-                          "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)}",
+                          Constants.isPhoneSize
+                              ? "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate)}"
+                              : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)}",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Spacer(),
                         OutlinedButton.icon(
                           icon: Text(
                             "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate.add(Duration(days: 1)))}",
+                            style: TextStyle(color: Colors.black),
                           ),
                           label: Icon(Icons.chevron_right_outlined, size: 18),
                           onPressed: () {
                             currentDate = currentDate.add(Duration(days: 1));
-                            currentInfoList.value = allEvents[currentDate];
+                            currentInfoList.value =
+                                allEvents[currentDate] ?? <SiteInfo>[];
                           },
                         ),
                       ]),
@@ -84,12 +91,15 @@ class BottomSheetContent extends StatelessWidget {
                   child: Container(
                       constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                       child: ListView.builder(
-                        itemCount: currentInfoList.length,
+                        itemCount: currentInfoList.length + 1,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title:
-                                _buildListCell(context, currentInfoList[index]),
-                          );
+                          if (index < currentInfoList.length) {
+                            return ListTile(
+                                title: _buildListCell(
+                                    context, currentInfoList[index]));
+                          } else {
+                            return ListTile(title: PromotionCardItem());
+                          }
                         },
                       )),
                 ),

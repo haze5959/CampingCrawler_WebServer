@@ -157,18 +157,15 @@ class HomeController extends GetxController {
   }
 
   void onDaySelected(DateTime day, List _, List holidays) {
-    if (events.length > 0) {
-      // final List<SiteInfo> siteInfoList = events;
-
-      Future.delayed(const Duration(milliseconds: 1), () {
-        showModalBottomSheet<void>(
-          isScrollControlled: true,
-          context: context,
-          builder: (context) {
-            return BottomSheetContent(date: DateTime(day.year, day.month, day.day), events: events);
-          },
-        );
-      });
-    }
+    Future.delayed(const Duration(milliseconds: 1), () {
+      showModalBottomSheet<void>(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return BottomSheetContent(
+              date: DateTime(day.year, day.month, day.day), events: events);
+        },
+      );
+    });
   }
 }

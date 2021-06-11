@@ -140,6 +140,7 @@ void showReportAlert(BuildContext context, String id) {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          title: Text("id: $id", style: TextStyle(color: Colors.grey, fontSize: 12),),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
             Obx(() => TextField(
                   controller: bodyControler,

@@ -91,7 +91,10 @@ class GPCAppBar extends AppBar {
                         PopupMenuItem<GPCAppBarMenu>(
                           value: GPCAppBarMenu.favorite,
                           child: Row(children: [
-                            Icon(Icons.star, color: Colors.lightGreen,),
+                            Icon(
+                              Icons.star,
+                              color: Colors.lightGreen,
+                            ),
                             SizedBox(width: 10),
                             Text(
                               GPCAppBarMenu.favorite.toTitle(),
@@ -101,7 +104,10 @@ class GPCAppBar extends AppBar {
                         PopupMenuItem<GPCAppBarMenu>(
                           value: GPCAppBarMenu.push,
                           child: Row(children: [
-                            Icon(Icons.notifications, color: Colors.lightGreen,),
+                            Icon(
+                              Icons.notifications,
+                              color: Colors.lightGreen,
+                            ),
                             SizedBox(width: 10),
                             Text(
                               GPCAppBarMenu.push.toTitle(),
@@ -111,7 +117,10 @@ class GPCAppBar extends AppBar {
                         PopupMenuItem<GPCAppBarMenu>(
                           value: GPCAppBarMenu.account,
                           child: Row(children: [
-                            Icon(Icons.account_circle, color: Colors.lightGreen,),
+                            Icon(
+                              Icons.account_circle,
+                              color: Colors.lightGreen,
+                            ),
                             SizedBox(width: 10),
                             Text(
                               GPCAppBarMenu.account.toTitle(),
@@ -214,7 +223,7 @@ class GPCAppBar extends AppBar {
   static void onSelected(CampArea area) async {
     final HomeController c = Get.find();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(area);
+
     switch (area) {
       case CampArea.all:
         Constants.myArea.clear();
@@ -227,10 +236,16 @@ class GPCAppBar extends AppBar {
           Constants.myArea.add(area);
         }
 
-        final bit = Constants.myArea
-            .map((element) => element.toBit())
-            .reduce((value, element) => value + element);
-        prefs.setInt(MY_AREA_BIT_KEY, bit);
+        if (Constants.myArea.length > 0) {
+          final bit = Constants.myArea
+                  .map((element) => element.toBit())
+                  .reduce((value, element) => value + element) ??
+              0;
+          prefs.setInt(MY_AREA_BIT_KEY, bit);
+        } else {
+          prefs.setInt(MY_AREA_BIT_KEY, 0);
+        }
+
         break;
     }
 

@@ -18,27 +18,6 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
   final HomeController c = Get.find();
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-
-    switch (state) {
-      case AppLifecycleState.resumed:
-        // print("app in resumed");
-        c.reload();
-        break;
-      case AppLifecycleState.inactive:
-        // print("app in inactive");
-        break;
-      case AppLifecycleState.paused:
-        // print("app in paused");
-        break;
-      case AppLifecycleState.detached:
-        // print("app in detached");
-        break;
-    }
-  }
-
-  @override
   Widget build(context) {
     WidgetsBinding.instance.addObserver(this);
     c.context = context;
