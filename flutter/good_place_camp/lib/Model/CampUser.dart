@@ -60,12 +60,15 @@ class CampUser {
   Future<bool> reloadInfo() async {
     try {
       final idToken = await firebaseUser.getIdToken();
+      print(idToken);
       // 유저정보 가져오는 로직
       final result = await repo.getUserInfo(idToken);
       if (result.hasError) {
+        print("reloadInfo fail - " + result.statusText);
         showOneBtnAlert(Get.context, result.statusText, "확인", () {});
         return false;
       } else if (!result.body.result) {
+        print("reloadInfo result fail - " + result.body.msg);
         showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
         return false;
       }
