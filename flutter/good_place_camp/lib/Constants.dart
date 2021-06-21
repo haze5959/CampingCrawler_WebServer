@@ -21,6 +21,8 @@ Response<ServerResult<dynamic>> timeoutResponse() {
 const String MY_AREA_BIT_KEY = "MY_AREA_BIT_KEY";
 
 const String IMAGE_URL = "http://haze5959.iptime.org:5980/images";
+const String BASE_URL = "http://haze5959.iptime.org:8000";
+// const String BASE_URL = "http://localhost:8000"; // 테스트용
 
 class Constants {
   static bool isPhoneSize = false;

@@ -9,7 +9,7 @@ class PostsRepository extends GetConnect {
   @override
   PostsRepository() {
     httpClient.defaultDecoder = ServerResult.fromJson;
-    httpClient.baseUrl = 'http://haze5959.iptime.org:8000';
+    httpClient.baseUrl = BASE_URL;
   }
 
   Future<Response<ServerResult<dynamic>>> getFirstPagePostsList() {

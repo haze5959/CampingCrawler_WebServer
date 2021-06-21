@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
@@ -49,7 +50,10 @@ class HomeController extends GetxController {
     super.onReady();
     initData();
 
-    Constants.auth.authStateChanges().listen((user) {
+    Constants.auth
+        .authStateChanges()
+        .debounceTime(Duration(microseconds: 500))
+        .listen((user) {
       if (user != null) {
         initData();
       }

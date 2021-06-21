@@ -59,7 +59,7 @@ class LoginController extends GetxController {
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;
-      return null;
+      return false;
     }
   }
 
@@ -96,7 +96,7 @@ class LoginController extends GetxController {
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;
-      return null;
+      return false;
     }
   }
 
@@ -140,7 +140,7 @@ class LoginController extends GetxController {
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;
-      return null;
+      return false;
     }
   }
 
@@ -185,18 +185,18 @@ class LoginController extends GetxController {
         return _checkSuccess(cred);
       } else {
         // 안드로이드는 지원 안함
-        return null;
+        return false;
       }
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;
-      return null;
+      return false;
     }
   }
 
   Future<bool> _checkSuccess(UserCredential cred) async {
     if (cred != null && cred.user != null) {
-      return await Constants.user.value.login(cred.user) ?? false;
+      return true;
     } else {
       showOneBtnAlert(Get.context, "로그인에 실패하였습니다.", "확인", () {});
       return false;

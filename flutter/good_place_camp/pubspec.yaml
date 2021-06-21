@@ -37,6 +37,8 @@ dependencies:
 
   flutter_brand_icons:
 
+  rxdart:
+
   crypto: ^3.0.0
 
   flutter_inapp_purchase:

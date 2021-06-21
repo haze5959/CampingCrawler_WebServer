@@ -9,7 +9,7 @@ class UserRepository extends GetConnect {
   @override
   UserRepository() {
     httpClient.defaultDecoder = ServerResult.fromJson;
-    httpClient.baseUrl = 'http://haze5959.iptime.org:8000';
+    httpClient.baseUrl = BASE_URL;
   }
 
   // 만약 해당 토큰에 관한 유저정보가 없다면 새로 만든다.

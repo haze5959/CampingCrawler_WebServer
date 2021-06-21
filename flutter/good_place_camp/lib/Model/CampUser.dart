@@ -49,7 +49,6 @@ class CampUser {
       return false;
     }
 
-    await firebaseUser.delete();
     isLogin = false;
     firebaseUser = null;
     info = CampUserInfo();
@@ -60,7 +59,6 @@ class CampUser {
   Future<bool> reloadInfo() async {
     try {
       final idToken = await firebaseUser.getIdToken();
-      print(idToken);
       // 유저정보 가져오는 로직
       final result = await repo.getUserInfo(idToken);
       if (result.hasError) {
