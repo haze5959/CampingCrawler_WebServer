@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
+import 'package:good_place_camp/Utils/DateUtils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 // Controller
@@ -152,7 +153,7 @@ class CampDetailPage extends StatelessWidget {
                 Tooltip(
                   message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
                   child: Text(
-                    "예약정보 수집 시간 - ${c.siteInfo.updatedDate}",
+                    "예약정보 수집 시간 - ${remainTime(c.siteInfo.updatedDate)}",
                     style: addrStyle,
                   ),
                 ),

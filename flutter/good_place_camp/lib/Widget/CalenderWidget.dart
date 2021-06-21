@@ -8,7 +8,7 @@ import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 // Utils
-import 'package:good_place_camp/Utils/AddMonths.dart';
+import 'package:good_place_camp/Utils/DateUtils.dart';
 
 class CalenderWidget extends StatelessWidget {
   final bool isVertical;
