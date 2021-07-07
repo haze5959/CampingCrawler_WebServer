@@ -24,7 +24,7 @@ class HomeController extends GetxController {
   final PostsRepository postRepo = PostsRepository();
 
   // 사이트별 가능한 날짜 리스트
-  List<SiteInfo> siteInfoList = <SiteInfo>[];
+  RxList<SiteInfo> siteInfoList = RxList<SiteInfo>.empty();
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
 
@@ -143,7 +143,7 @@ class HomeController extends GetxController {
 
     var siteInfo = SiteInfo.fromJsonArr(result.body.data);
     updateEvents(siteInfo);
-    siteInfoList = siteInfo;
+    siteInfoList.value  = siteInfo;
   }
 
   void updateAccpetedCampInfo() {

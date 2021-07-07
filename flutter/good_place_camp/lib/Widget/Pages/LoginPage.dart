@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
                         Padding(
                             padding: EdgeInsets.symmetric(horizontal: 40),
                             child: Text(
-                                "나만의 캠핑장 리스트를 빠르고 편리하게\n확인/알림 받을 수 있습니다!",
+                                "SNS 로그인으로 회원가입 절차 없이 바로 시작해보세요!\n나만의 캠핑장 리스트를 빠르고 편리하게\n확인/알림 받을 수 있습니다!",
                                 textAlign: TextAlign.center)),
                         Divider(
                           thickness: 1,

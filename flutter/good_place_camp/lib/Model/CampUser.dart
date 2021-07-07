@@ -71,6 +71,8 @@ class CampUser {
         return false;
       }
 
+      print(result.body.data);
+
       info = CampUserInfo.fromJson(result.body.data);
       Constants.user.refresh();
       return true;
@@ -84,7 +86,11 @@ class CampUser {
 class CampUserInfo {
   String nick;
   CampRating level;
-  bool usePushSubscription = false;
+  bool usePushSubscription = false; // TODO
+  bool usePushAreaOnHoliday = false;
+  bool usePushSiteOnHoliday = false;
+  bool usePushReservationDay = false;
+  bool usePushNotice = false;
   List<String> favoriteList = [];
   List<CampArea> favoriteAreaList = [];
 
@@ -92,22 +98,12 @@ class CampUserInfo {
 
   CampUserInfo.fromJson(Map<String, dynamic> json)
       : nick = json['nick'],
-        level = CampRatingParser.fromInt(json['auth_level']);
-        
-        //favoriteAreaList = fromBit(json['favorite_area'])
-  // usePushSubscription = json['push_subscription'];
-  // favoriteList = json['favoriteList']
-
-  static Map<String, CampUserInfo> fromJsonArr(jsonStr) {
-    var userMap = Map<String, CampUserInfo>();
-    final maps = Map<String, dynamic>.from(jsonStr);
-    for (final key in maps.keys) {
-      final json = Map<String, dynamic>.from(maps[key]);
-      userMap[key] = CampUserInfo.fromJson(json);
-    }
-
-    return userMap;
-  }
+        level = CampRatingParser.fromInt(json['auth_level']),
+        favoriteAreaList = fromBit(json['area_bit']),
+        usePushAreaOnHoliday = json['use_push_area_on_holiday'],
+        usePushSiteOnHoliday = json['use_push_site_on_holiday'],
+        usePushReservationDay = json['use_push_reservation_day'],
+        usePushNotice = json['use_push_notice'];
 }
 
 enum CampRating { level01, level02, level03, owner }

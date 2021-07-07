@@ -55,7 +55,7 @@ class CommentWidget extends StatelessWidget {
                       icon: Icon(Icons.report_gmailerrorred_outlined),
                       iconSize: 20,
                       onPressed: () {
-                        showReportAlert(Get.context, "comment_${comment.id}");
+                        showReportAlert(Get.context, "comment_${comment.id}", "댓글");
                       },
                     )
                   ])),

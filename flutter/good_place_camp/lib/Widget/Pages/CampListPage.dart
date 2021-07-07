@@ -36,35 +36,33 @@ class CampListPage extends StatelessWidget {
   }
 
   Widget _buildCampList(BuildContext context) {
-    return GetBuilder<HomeController>(
-        builder: (c) => ListView.builder(
-              itemCount: c.siteInfoList.length + 1,
-              itemBuilder: (context, index) {
-                if (index < c.siteInfoList.length) {
-                  return ListTile(
-                      title: TappableCampCardItem(
-                          siteInfo: c.siteInfoList[index]));
-                } else {
-                  return ListTile(title: PromotionCardItem());
-                }
-              },
-            ));
+    final HomeController c = Get.find();
+
+    return Obx(() => ListView.builder(
+          itemCount: c.siteInfoList.length + 1,
+          itemBuilder: (context, index) {
+            if (index < c.siteInfoList.length) {
+              return ListTile(
+                  title: TappableCampCardItem(siteInfo: c.siteInfoList[index]));
+            } else {
+              return ListTile(title: PromotionCardItem());
+            }
+          },
+        ));
   }
 
   Widget _buildFavoriteList(BuildContext context) {
-    final user = Constants.user;
-    return GetBuilder<HomeController>(
-        builder: (c) => ListView.builder(
-              itemCount: user.value.info.favoriteList.length + 1,
-              itemBuilder: (context, index) {
-                if (index < user.value.info.favoriteList.length) {
-                  return ListTile(
-                      title: SimpleCampCardItem(
-                          siteName: user.value.info.favoriteList[index]));
-                } else {
-                  return ListTile(title: PromotionCardItem());
-                }
-              },
-            ));
+    return Obx(() => ListView.builder(
+          itemCount: Constants.user.value.info.favoriteList.length + 1,
+          itemBuilder: (context, index) {
+            if (index < Constants.user.value.info.favoriteList.length) {
+              return ListTile(
+                  title: SimpleCampCardItem(
+                      siteName: Constants.user.value.info.favoriteList[index]));
+            } else {
+              return ListTile(title: PromotionCardItem());
+            }
+          },
+        ));
   }
 }

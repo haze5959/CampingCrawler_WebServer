@@ -71,7 +71,7 @@ class PostDetailPage extends StatelessWidget {
                   color: Colors.grey,
                   icon: Icon(Icons.report_gmailerrorred_outlined),
                   onPressed: () {
-                    showReportAlert(Get.context, "posts_$id");
+                    showReportAlert(Get.context, "posts_$id", "게시물");
                   },
                 ),
               ),

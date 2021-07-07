@@ -83,7 +83,7 @@ class CampDetailPage extends StatelessWidget {
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
                           showReportAlert(
-                              Get.context, "${c.siteInfo.site}");
+                              Get.context, "${c.siteInfo.site}", "캠핑장");
                         },
                       ),
                       FooterWidget()
@@ -99,7 +99,9 @@ class CampDetailPage extends StatelessWidget {
     final addrStyle = theme.textTheme.caption;
     final infoJson = Constants.campInfo[siteName];
 
-    return Column(
+    return Container(
+                      constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+                      child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
@@ -157,13 +159,16 @@ class CampDetailPage extends StatelessWidget {
                     style: addrStyle,
                   ),
                 ),
+                SizedBox(height: 3),
                 Tooltip(
                     message: "대략적인 내용이라 정확하지 않을 수도 있습니다.",
                     child: Text(
                       "예약 오픈일 - ${infoJson.reservationOpen}",
                       style: addrStyle,
                     )),
+                SizedBox(height: 3),
                 Text("${infoJson.desc}", maxLines: 2),
+                SizedBox(height: 3),
                 TextButton.icon(
                     icon: Icon(Icons.location_on, size: 20),
                     style: TextButton.styleFrom(
@@ -179,7 +184,7 @@ class CampDetailPage extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ));
   }
 
   Widget _buildButtons(CampDetailContoller c) {

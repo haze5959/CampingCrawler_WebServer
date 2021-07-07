@@ -121,7 +121,7 @@ void showPwAlert(
       });
 }
 
-void showReportAlert(BuildContext context, String id) {
+void showReportAlert(BuildContext context, String id, String type) {
   TextEditingController bodyControler = new TextEditingController();
   PostsRepository postRepo = PostsRepository();
 
@@ -140,13 +140,13 @@ void showReportAlert(BuildContext context, String id) {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("id: $id", style: TextStyle(color: Colors.grey, fontSize: 12),),
+          title: Text("신고 식별자: $id", style: TextStyle(color: Colors.grey, fontSize: 12),),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
             Obx(() => TextField(
                   controller: bodyControler,
                   decoration: InputDecoration(
-                      hintText: "신고 내용...",
-                      labelText: '신고 내용',
+                      hintText: "해당 $type의 신고 내용...",
+                      labelText: '해당 $type의 신고 내용',
                       errorText: hasErr.value ? "내용을 입력해주세요." : null),
                 ))
           ]),
