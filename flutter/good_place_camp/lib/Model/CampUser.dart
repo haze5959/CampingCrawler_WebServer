@@ -96,14 +96,17 @@ class CampUserInfo {
 
   CampUserInfo();
 
-  CampUserInfo.fromJson(Map<String, dynamic> json)
-      : nick = json['nick'],
-        level = CampRatingParser.fromInt(json['auth_level']),
-        favoriteAreaList = fromBit(json['area_bit']),
-        usePushAreaOnHoliday = json['use_push_area_on_holiday'],
-        usePushSiteOnHoliday = json['use_push_site_on_holiday'],
-        usePushReservationDay = json['use_push_reservation_day'],
-        usePushNotice = json['use_push_notice'];
+  CampUserInfo.fromJson(Map<String, dynamic> json) {
+    final userJson = json['user'];
+    nick = userJson['nick'];
+    level = CampRatingParser.fromInt(userJson['auth_level']);
+    favoriteAreaList = fromBit(userJson['area_bit']);
+    usePushAreaOnHoliday = userJson['use_push_area_on_holiday'] == 1;
+    usePushSiteOnHoliday = userJson['use_push_site_on_holiday'] == 1;
+    usePushReservationDay = userJson['use_push_reservation_day'] == 1;
+    usePushNotice = userJson['use_push_notice'] == 1;
+    favoriteList = List<String>.from(json['favorite']);
+  }
 }
 
 enum CampRating { level01, level02, level03, owner }

@@ -49,15 +49,48 @@ class CommentWidget extends StatelessWidget {
                     Text(_getDateStr(comment.editTime),
                         style: TextStyle(fontSize: 12)),
                     Spacer(),
-                    IconButton(
-                      tooltip: "신고하기",
-                      color: Colors.grey,
-                      icon: Icon(Icons.report_gmailerrorred_outlined),
-                      iconSize: 20,
-                      onPressed: () {
-                        showReportAlert(Get.context, "comment_${comment.id}", "댓글");
-                      },
-                    )
+                    if (comment.nick == Constants.user.value.info.nick)
+                      IconButton(
+                        tooltip: "삭제하기",
+                        color: Colors.grey,
+                        icon: Icon(Icons.delete),
+                        iconSize: 20,
+                        onPressed: () {
+                          showTwoBtnAlert(
+                              Get.context, "해당 댓글을 정말 삭제하시겠습니까?", "삭제", () async {
+                            final repo = PostsRepository();
+                            final token = Constants.user.value.isLogin
+                                ? await Constants.user.value.firebaseUser
+                                    .getIdToken()
+                                : null;
+                            final result = await repo.postCommentWith(
+                                postId, nickControler.text, body, token);
+
+                            if (result.hasError) {
+                              showOneBtnAlert(
+                                  Get.context, result.statusText, "확인", () {});
+                              return;
+                            } else if (!result.body.result) {
+                              showOneBtnAlert(
+                                  Get.context, result.body.msg, "확인", () {});
+                              return;
+                            }
+
+                            commentList.remove(comment);
+                          });
+                        },
+                      )
+                    else
+                      IconButton(
+                        tooltip: "신고하기",
+                        color: Colors.grey,
+                        icon: Icon(Icons.report_gmailerrorred_outlined),
+                        iconSize: 20,
+                        onPressed: () {
+                          showReportAlert(
+                              Get.context, "comment_${comment.id}", "댓글");
+                        },
+                      )
                   ])),
               Container(color: Colors.black12, height: 1),
               Padding(

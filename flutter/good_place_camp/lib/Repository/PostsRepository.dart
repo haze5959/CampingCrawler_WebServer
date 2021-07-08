@@ -62,4 +62,12 @@ class PostsRepository extends GetConnect {
           String id, String body) =>
       post<ServerResult<dynamic>>('/report', {"id": id, "body": body})
           .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+
+  Future<Response<ServerResult<dynamic>>> deletePosts(
+          String token, int id) =>
+      delete<ServerResult<dynamic>>('/user/favorite', {
+        "id": id,
+        "token": token
+      })
+          .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
 }
