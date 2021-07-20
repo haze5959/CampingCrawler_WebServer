@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
+import 'package:good_place_camp/Utils/DateUtils.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Repository
@@ -46,7 +46,7 @@ class CommentWidget extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text(comment.nick,
                             style: TextStyle(fontWeight: FontWeight.bold))),
-                    Text(_getDateStr(comment.editTime),
+                    Text(getRemainTime(comment.editTime),
                         style: TextStyle(fontSize: 12)),
                     Spacer(),
                     if (comment.nick == Constants.user.value.info.nick)
@@ -57,14 +57,15 @@ class CommentWidget extends StatelessWidget {
                         iconSize: 20,
                         onPressed: () {
                           showTwoBtnAlert(
-                              Get.context, "해당 댓글을 정말 삭제하시겠습니까?", "삭제", () async {
+                              Get.context, "해당 댓글을 정말 삭제하시겠습니까?", "삭제",
+                              () async {
                             final repo = PostsRepository();
                             final token = Constants.user.value.isLogin
                                 ? await Constants.user.value.firebaseUser
                                     .getIdToken()
                                 : null;
-                            final result = await repo.postCommentWith(
-                                postId, nickControler.text, body, token);
+                            final result = await repo.deleteComment(
+                                token, comment.id, postId);
 
                             if (result.hasError) {
                               showOneBtnAlert(
@@ -75,8 +76,9 @@ class CommentWidget extends StatelessWidget {
                                   Get.context, result.body.msg, "확인", () {});
                               return;
                             }
-
-                            commentList.remove(comment);
+                            showOneBtnAlert(Get.context, "삭제되었습니다.", "확인", () {
+                              commentList.remove(comment);
+                            });
                           });
                         },
                       )
@@ -181,11 +183,5 @@ class CommentWidget extends StatelessWidget {
                         InputDecoration(hintText: "댓글...", labelText: '댓글'),
                   ))
             ])));
-  }
-
-  String _getDateStr(DateTime date) {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
-    final String formatted = formatter.format(date);
-    return formatted;
   }
 }

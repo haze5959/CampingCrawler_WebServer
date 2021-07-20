@@ -111,7 +111,9 @@ class CampDetailContoller extends GetxController {
         }
 
         Constants.user.value.info.favoriteList.remove(siteName);
-        isFavorite(false);
+        showOneBtnAlert(Get.context, "즐겨찾기 목록에 삭제되었습니다.", "확인", () {
+          isFavorite(false);
+        });
       } else {
         // 즐겨찾기 추가 api
         final idToken = await Constants.user.value.firebaseUser.getIdToken();
@@ -125,7 +127,9 @@ class CampDetailContoller extends GetxController {
         }
 
         Constants.user.value.info.favoriteList.add(siteName);
-        isFavorite(true);
+        showOneBtnAlert(Get.context, "즐겨찾기 목록에 추가되었습니다.", "확인", () {
+          isFavorite(true);
+        });
       }
     } else {
       showRequiredLoginAlert();

@@ -63,11 +63,11 @@ class PostsRepository extends GetConnect {
       post<ServerResult<dynamic>>('/report', {"id": id, "body": body})
           .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
 
-  Future<Response<ServerResult<dynamic>>> deletePosts(
-          String token, int id) =>
-      delete<ServerResult<dynamic>>('/user/favorite', {
-        "id": id,
-        "token": token
-      })
+  Future<Response<ServerResult<dynamic>>> deletePosts(String token, int id) =>
+      delete<ServerResult<dynamic>>('/post/$token?id=$id')
+          .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+
+  Future<Response<ServerResult<dynamic>>> deleteComment(String token, int id, int postId) =>
+      delete<ServerResult<dynamic>>('/comment/$token?id=$id&post_id=$postId')
           .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
+import 'package:good_place_camp/Constants.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/PostDetailContoller.dart';
@@ -66,14 +67,33 @@ class PostDetailPage extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerRight,
-                child: IconButton(
-                  tooltip: "신고하기",
-                  color: Colors.grey,
-                  icon: Icon(Icons.report_gmailerrorred_outlined),
-                  onPressed: () {
-                    showReportAlert(Get.context, "posts_$id", "게시물");
-                  },
-                ),
+                child: posts.nick == Constants.user.value.info.nick
+                    ? IconButton(
+                        tooltip: "삭제하기",
+                        color: Colors.grey,
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          showTwoBtnAlert(
+                              Get.context, "해당 게시물을 정말 삭제하시겠습니까?", "삭제",
+                              () async {
+                            final isSuccess = await c.deletePosts();
+                            if (isSuccess) {
+                              showOneBtnAlert(Get.context, "삭제되었습니다.", "확인",
+                                  () {
+                                Get.back();
+                              });
+                            }
+                          });
+                        },
+                      )
+                    : IconButton(
+                        tooltip: "신고하기",
+                        color: Colors.grey,
+                        icon: Icon(Icons.report_gmailerrorred_outlined),
+                        onPressed: () {
+                          showReportAlert(Get.context, "posts_$id", "게시물");
+                        },
+                      ),
               ),
             ),
             Positioned(

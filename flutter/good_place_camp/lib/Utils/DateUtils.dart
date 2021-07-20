@@ -33,14 +33,14 @@ bool _isLeapYear(int year) =>
 
 String remainTime(String dateStr) {
   final date = _convertServerDate(dateStr);
-  return _getRemainTime(date);
+  return getRemainTime(date);
 }
 
 DateTime _convertServerDate(String dateStr) {
   return DateFormat('yyyy/M/d hh:mm').parse(dateStr);
 }
 
-String _getRemainTime(DateTime time) {
+String getRemainTime(DateTime time) {
   final now = DateTime.now();
   final diff = now.difference(time);
   if (diff.inDays > 0) {

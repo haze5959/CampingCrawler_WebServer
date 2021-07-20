@@ -51,7 +51,7 @@ class HomeController extends GetxController {
     initData();
 
     Constants.auth
-        .authStateChanges()
+        .userChanges()
         .debounceTime(Duration(microseconds: 500))
         .listen((user) {
       if (user != null) {

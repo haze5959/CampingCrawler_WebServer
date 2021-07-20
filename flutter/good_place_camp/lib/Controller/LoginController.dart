@@ -33,10 +33,13 @@ class LoginController extends GetxController {
         // Create a new provider
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-        // Once signed in, return the UserCredential
-        final cred = await Constants.auth.signInWithPopup(googleProvider);
-        isLoading.value = false;
-        return _checkSuccess(cred);
+        if (GetPlatform.isMobile) {
+          Constants.auth.signInWithRedirect(googleProvider);
+        } else {
+          final cred = await Constants.auth.signInWithPopup(googleProvider);
+          isLoading.value = false;
+          return _checkSuccess(cred);
+        }
       } else {
         // 네이티브
         final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
@@ -108,7 +111,8 @@ class LoginController extends GetxController {
         TwitterAuthProvider twitterProvider = TwitterAuthProvider();
 
         // Once signed in, return the UserCredential
-        final cred = await FirebaseAuth.instance.signInWithPopup(twitterProvider);
+        final cred =
+            await FirebaseAuth.instance.signInWithPopup(twitterProvider);
         isLoading.value = false;
         return _checkSuccess(cred);
       } else {

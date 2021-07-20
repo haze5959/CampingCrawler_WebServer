@@ -71,4 +71,21 @@ class PostDetailContoller extends GetxController {
 
     isLoading.value = false;
   }
+
+  Future<bool> deletePosts() async {
+    final token = Constants.user.value.isLogin
+        ? await Constants.user.value.firebaseUser.getIdToken()
+        : null;
+    final result = await repo.deletePosts(token, id);
+
+    if (result.hasError) {
+      showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+      return false;
+    } else if (!result.body.result) {
+      showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+      return false;
+    }
+
+    return true;
+  }
 }

@@ -42,7 +42,7 @@ class BottomSheetContent extends StatelessWidget {
                           icon: Icon(Icons.chevron_left_outlined, size: 18),
                           label: Text(
                             "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate.add(Duration(days: -1)))}",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.black, fontSize: 12),
                           ),
                           onPressed: () {
                             currentDate = currentDate.add(Duration(days: -1));
@@ -63,7 +63,7 @@ class BottomSheetContent extends StatelessWidget {
                         OutlinedButton.icon(
                           icon: Text(
                             "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate.add(Duration(days: 1)))}",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.black, fontSize: 12),
                           ),
                           label: Icon(Icons.chevron_right_outlined, size: 18),
                           onPressed: () {

@@ -110,7 +110,8 @@ class PushPromotionPage extends StatelessWidget {
           ]),
         ]),
         SizedBox(height: 30),
-        _buildButtonContent(context)
+        _buildButtonContent(context),
+        SizedBox(height: 30)
       ],
     );
   }
