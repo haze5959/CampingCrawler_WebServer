@@ -14,13 +14,18 @@ class BottomSheetContent extends StatelessWidget {
   DateTime currentDate;
   RxList<SiteInfo> currentInfoList = <SiteInfo>[].obs;
   Map<DateTime, List<SiteInfo>> allEvents;
+  Map<DateTime, List<String>> holidayList;
 
   final isFullScreen = false.obs;
 
-  BottomSheetContent({DateTime date, Map<DateTime, List<SiteInfo>> events}) {
+  BottomSheetContent(
+      {DateTime date,
+      Map<DateTime, List<SiteInfo>> events,
+      Map<DateTime, List<String>> holidays}) {
     currentDate = date;
     currentInfoList.value = events[date] ?? [];
     allEvents = events;
+    holidayList = holidays;
   }
 
   @override
@@ -51,14 +56,7 @@ class BottomSheetContent extends StatelessWidget {
                           },
                         ),
                         Spacer(),
-                        Icon(Icons.calendar_today_outlined, size: 16),
-                        SizedBox(width: 3),
-                        Text(
-                          Constants.isPhoneSize
-                              ? "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate)}"
-                              : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)}",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        _buildSelectedWidget(currentDate),
                         Spacer(),
                         OutlinedButton.icon(
                           icon: Text(
@@ -112,6 +110,36 @@ class BottomSheetContent extends StatelessWidget {
                 onPressed: () {
                   isFullScreen.toggle();
                 }))));
+  }
+
+  Widget _buildSelectedWidget(DateTime currentDate) {
+    for (final key in holidayList.keys) {
+      if (key.month == currentDate.month && key.day == currentDate.day) {
+        final holidayName = holidayList[key][0];
+        return Text(
+          Constants.isPhoneSize
+              ? "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate)} $holidayName"
+              : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)} $holidayName",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[400]),
+        );
+      }
+    }
+
+    if (currentDate.weekday == 6 || currentDate.weekday == 7) {
+      return Text(
+        Constants.isPhoneSize
+            ? "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate)}"
+            : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)}",
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[400]),
+      );
+    }
+
+    return Text(
+      Constants.isPhoneSize
+          ? "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate)}"
+          : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)}",
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
   }
 
   Widget _buildListCell(BuildContext context, SiteInfo siteInfo) {

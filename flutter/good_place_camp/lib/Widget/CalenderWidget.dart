@@ -7,6 +7,9 @@ import 'package:good_place_camp/Constants.dart';
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
+// Model
+import 'package:good_place_camp/Model/SiteInfo.dart';
+
 // Utils
 import 'package:good_place_camp/Utils/DateUtils.dart';
 
@@ -54,6 +57,7 @@ class CalenderWidget extends StatelessWidget {
                                       calendarController:
                                           s.calendarControllerList[index],
                                       events: s.events,
+                                      holidays: s.holidays,
                                       availableGestures: AvailableGestures.none,
                                       calendarStyle: CalendarStyle(
                                         outsideDaysVisible: false,
@@ -75,11 +79,12 @@ class CalenderWidget extends StatelessWidget {
                                             alignment: Alignment.center,
                                             child: Text('${date.day}',
                                                 style: _isToday(date)
-                                                    ? TextStyle().copyWith(
+                                                    ? TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 16.0,
                                                       )
-                                                    : _isWeekend(date)
+                                                    : _isWeekend(date,
+                                                            s.holidays.keys)
                                                         ? TextStyle(
                                                             color: Colors.red)
                                                         : null),
@@ -131,6 +136,7 @@ class CalenderWidget extends StatelessWidget {
                                     calendarController:
                                         s.calendarControllerList[index],
                                     events: s.events,
+                                    holidays: s.holidays,
                                     availableGestures: AvailableGestures.none,
                                     calendarStyle: CalendarStyle(
                                       outsideDaysVisible: false,
@@ -152,11 +158,12 @@ class CalenderWidget extends StatelessWidget {
                                           alignment: Alignment.center,
                                           child: Text('${date.day}',
                                               style: _isToday(date)
-                                                  ? TextStyle().copyWith(
+                                                  ? TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 16.0,
                                                     )
-                                                  : _isWeekend(date)
+                                                  : _isWeekend(
+                                                          date, s.holidays.keys)
                                                       ? TextStyle(
                                                           color: Colors.red)
                                                       : null),
@@ -217,7 +224,13 @@ class CalenderWidget extends StatelessWidget {
     }
   }
 
-  bool _isWeekend(DateTime date) {
+  bool _isWeekend(DateTime date, Iterable<DateTime> holidays) {
+    for (final holiday in holidays) {
+      if (date.month == holiday.month && date.day == holiday.day) {
+        return true;
+      }
+    }
+
     if (date.weekday == 6 || date.weekday == 7) {
       return true;
     } else {

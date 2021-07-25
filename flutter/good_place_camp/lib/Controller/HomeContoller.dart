@@ -27,6 +27,7 @@ class HomeController extends GetxController {
   RxList<SiteInfo> siteInfoList = RxList<SiteInfo>.empty();
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
+  Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
 
   // 해당 지역의 캠핑장 리스트
   Map<String, CampInfo> accpetedCampInfo = Map<String, CampInfo>();
@@ -110,7 +111,7 @@ class HomeController extends GetxController {
     postList.assignAll(postJson["posts"]);
   }
 
-  void updateEvents(List<SiteInfo> infoList) {
+  void updateEvents(List<SiteInfo> infoList, Map<String, String> holiday) {
     events.clear();
 
     for (var info in infoList) {
@@ -129,6 +130,11 @@ class HomeController extends GetxController {
         events[DateTime.parse(date)] = list;
       }
     }
+
+    // 공휴일 처리
+    holiday.forEach((key, value) {
+      holidays[DateTime.parse(key)] = [value];
+    });
   }
 
   Future<void> updateCampSiteAvailDates() async {
@@ -141,8 +147,9 @@ class HomeController extends GetxController {
       return;
     }
 
-    var siteInfo = SiteInfo.fromJsonArr(result.body.data);
-    updateEvents(siteInfo);
+    final siteInfo = SiteInfo.fromJsonArr(result.body.data["camps"]);
+    final holiday =  Map<String, String>.from(result.body.data["holiday"]);
+    updateEvents(siteInfo, holiday);
     siteInfoList.value  = siteInfo;
   }
 
@@ -160,14 +167,14 @@ class HomeController extends GetxController {
     }
   }
 
-  void onDaySelected(DateTime day, List _, List holidays) {
+  void onDaySelected(DateTime day, List _, List __) {
     Future.delayed(const Duration(milliseconds: 1), () {
       showModalBottomSheet<void>(
         isScrollControlled: true,
         context: context,
         builder: (context) {
           return BottomSheetContent(
-              date: DateTime(day.year, day.month, day.day), events: events);
+              date: DateTime(day.year, day.month, day.day), events: events, holidays: holidays);
         },
       );
     });

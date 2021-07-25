@@ -30,6 +30,7 @@ class CampDetailContoller extends GetxController {
   CalendarController calendarController = CalendarController();
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
+  Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
 
   void reload() async {
     isLoading.value = true;
@@ -42,8 +43,9 @@ class CampDetailContoller extends GetxController {
       return;
     }
 
-    siteInfo = SiteInfo.fromJson(result.body.data);
-    _updateEvents(siteInfo);
+    siteInfo = SiteInfo.fromJson(result.body.data["camp"]);
+    final holiday =  Map<String, String>.from(result.body.data["holiday"]);
+    _updateEvents(siteInfo, holiday);
 
     isFavorite(_checkFavorite());
     isLoading.value = false;
@@ -77,7 +79,7 @@ class CampDetailContoller extends GetxController {
     }
   }
 
-  void _updateEvents(SiteInfo info) {
+  void _updateEvents(SiteInfo info, Map<String, String> holiday) {
     events.clear();
 
     for (var date in info.availDates) {
@@ -86,6 +88,11 @@ class CampDetailContoller extends GetxController {
       }
       events[DateTime.parse(date)] = [info];
     }
+
+    // 공휴일 처리
+    holiday.forEach((key, value) {
+      holidays[DateTime.parse(key)] = [value];
+    });
   }
 
   bool _checkFavorite() {
