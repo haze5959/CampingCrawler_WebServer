@@ -73,12 +73,14 @@ class BottomSheetContent extends StatelessWidget {
                       ]),
                       SizedBox(height: 5),
                       Row(children: <Widget>[
-                        Icon(Icons.info_outline, color: Colors.grey, size: 15),
+                        Icon(Icons.info_outline,
+                            color: Colors.grey,
+                            size: Constants.isPhoneSize ? 10 : 15),
                         SizedBox(width: 3),
                         Text(
-                          "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
+                          "예약정보 수집은 원활한 예약 트래픽을 위하여 한시간마다 수집됩니다.",
                           style: TextStyle(
-                              fontSize: Constants.isPhoneSize ? 11 : 15,
+                              fontSize: Constants.isPhoneSize ? 10 : 15,
                               color: Colors.grey),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -116,12 +118,24 @@ class BottomSheetContent extends StatelessWidget {
     for (final key in holidayList.keys) {
       if (key.month == currentDate.month && key.day == currentDate.day) {
         final holidayName = holidayList[key][0];
-        return Text(
-          Constants.isPhoneSize
-              ? "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate)} $holidayName"
-              : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)} $holidayName",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[400]),
-        );
+        return Constants.isPhoneSize
+            ? Column(children: [
+                Text(
+                  DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.red[400]),
+                ),
+                Text(
+                  holidayName,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 12),
+                )
+              ])
+            : Text(
+                "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)} $holidayName",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.red[400]),
+              );
       }
     }
 

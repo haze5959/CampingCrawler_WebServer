@@ -24,12 +24,13 @@ class CampDetailContoller extends GetxController {
   SiteInfo siteInfo;
 
   Rx<bool> isFavorite = Rx<bool>(false);
+  RxString selectedSiteInfo = "".obs;
 
   RxBool isLoading = true.obs;
 
   CalendarController calendarController = CalendarController();
 
-  Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
+  Map<DateTime, List<String>> events = Map<DateTime, List<String>>();
   Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
 
   void reload() async {
@@ -44,7 +45,7 @@ class CampDetailContoller extends GetxController {
     }
 
     siteInfo = SiteInfo.fromJson(result.body.data["camp"]);
-    final holiday =  Map<String, String>.from(result.body.data["holiday"]);
+    final holiday = Map<String, String>.from(result.body.data["holiday"]);
     _updateEvents(siteInfo, holiday);
 
     isFavorite(_checkFavorite());
@@ -82,11 +83,15 @@ class CampDetailContoller extends GetxController {
   void _updateEvents(SiteInfo info, Map<String, String> holiday) {
     events.clear();
 
-    for (var date in info.availDates) {
-      if (date.isEmpty) {
+    for (var dateInfo in info.availDates) {
+      if (dateInfo.isEmpty) {
         break;
       }
-      events[DateTime.parse(date)] = [info];
+
+      final dateInfoArr = dateInfo.split(':');
+      final availDate = dateInfoArr[0];
+      final availSiteInfo = dateInfoArr[1];
+      events[DateTime.parse(availDate)] = [availSiteInfo];
     }
 
     // 공휴일 처리
@@ -140,6 +145,14 @@ class CampDetailContoller extends GetxController {
       }
     } else {
       showRequiredLoginAlert();
+    }
+  }
+
+  void onDaySelected(DateTime day, List siteInfo, List _) {
+    if (siteInfo.isEmpty) {
+      selectedSiteInfo.value = "";
+    } else {
+      selectedSiteInfo.value = "${day.month}월 ${day.day}일 - ${siteInfo[0]}";
     }
   }
 }

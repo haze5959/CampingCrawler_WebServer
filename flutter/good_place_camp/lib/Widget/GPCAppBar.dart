@@ -43,9 +43,9 @@ class GPCAppBar extends AppBar {
             backgroundColor: Colors.lightGreen.shade400,
             title: Container(
                 alignment: Alignment.center,
-                padding: GetPlatform.isWeb
-                    ? EdgeInsets.fromLTRB(15, 0, 15, 0)
-                    : EdgeInsets.zero,
+                padding: Constants.isPhoneSize
+                    ? EdgeInsets.zero
+                    : EdgeInsets.fromLTRB(15, 0, 15, 0),
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Row(children: <Widget>[
                   if (isMain)

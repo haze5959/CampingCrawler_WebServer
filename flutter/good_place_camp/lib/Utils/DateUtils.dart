@@ -43,7 +43,16 @@ DateTime _convertServerDate(String dateStr) {
 String getRemainTime(DateTime time) {
   final now = DateTime.now();
   final diff = now.difference(time);
-  if (diff.inDays > 0) {
+  if (diff.inDays > 365) {
+    final interval = (diff.inDays / 365).round();
+    return "$interval년 전";
+  } else if (diff.inDays > 30) {
+    final interval = (diff.inDays / 30).round();
+    return "$interval달 전";
+  } else if (diff.inDays > 7) {
+    final interval = (diff.inDays / 7).round();
+    return "$interval주 전";
+  } else if (diff.inDays > 0) {
     return "${diff.inDays}일 전";
   } else if (diff.inHours > 0) {
     return "${diff.inHours}시간 전";

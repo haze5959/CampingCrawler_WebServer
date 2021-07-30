@@ -51,6 +51,7 @@ class CampDetailPage extends StatelessWidget {
                       _buildButtons(c),
                       SizedBox(height: 20),
                       _buildCalender(context, c),
+                      _buildSelectedInfo(context, c),
                       SizedBox(height: 20),
                       if (!GetPlatform.isWeb)
                         SizedBox(
@@ -100,91 +101,91 @@ class CampDetailPage extends StatelessWidget {
     final infoJson = Constants.campInfo[siteName];
 
     return Container(
-                      constraints: BoxConstraints(maxWidth: MAX_WIDTH),
-                      child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 200,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: CachedNetworkImage(
-                  imageUrl: "$IMAGE_URL/${c.siteInfo.site}.jpg",
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/Camp_Default.png'),
-                  fit: BoxFit.cover,
-                  fadeInCurve: Curves.easeIn,
-                  fadeInDuration: Duration(seconds: 2),
-                  fadeOutCurve: Curves.easeOut,
-                  fadeOutDuration: Duration(seconds: 2),
-                ),
-              ),
-              Positioned(
-                bottom: 16,
-                left: 16,
-                right: 16,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      "${infoJson.name}",
-                      style: titleStyle,
+        constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 200,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: CachedNetworkImage(
+                      imageUrl: "$IMAGE_URL/${c.siteInfo.site}.jpg",
+                      errorWidget: (context, url, error) =>
+                          Image.asset('assets/Camp_Default.png'),
+                      fit: BoxFit.cover,
+                      fadeInCurve: Curves.easeIn,
+                      fadeInDuration: Duration(seconds: 2),
+                      fadeOutCurve: Curves.easeOut,
+                      fadeOutDuration: Duration(seconds: 2),
                     ),
                   ),
+                  Positioned(
+                    bottom: 16,
+                    left: 16,
+                    right: 16,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black26,
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          "${infoJson.name}",
+                          style: titleStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Description and share/explore buttons.
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: DefaultTextStyle(
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+                style: descriptionStyle,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Tooltip(
+                      message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
+                      child: Text(
+                        "예약정보 수집 시간 - ${remainTime(c.siteInfo.updatedDate)}",
+                        style: addrStyle,
+                      ),
+                    ),
+                    SizedBox(height: 3),
+                    Tooltip(
+                        message: "대략적인 내용이라 정확하지 않을 수도 있습니다.",
+                        child: Text(
+                          "예약 오픈일 - ${infoJson.reservationOpen}",
+                          style: addrStyle,
+                        )),
+                    SizedBox(height: 3),
+                    Text("${infoJson.desc}", maxLines: 2),
+                    SizedBox(height: 3),
+                    TextButton.icon(
+                        icon: Icon(Icons.location_on, size: 20),
+                        style: TextButton.styleFrom(
+                            minimumSize: Size(50, 20),
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                        onPressed: () {
+                          c.launchMap();
+                        },
+                        label: Text("${infoJson.addr}", style: addrStyle))
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-        // Description and share/explore buttons.
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: DefaultTextStyle(
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-            style: descriptionStyle,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Tooltip(
-                  message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
-                  child: Text(
-                    "예약정보 수집 시간 - ${remainTime(c.siteInfo.updatedDate)}",
-                    style: addrStyle,
-                  ),
-                ),
-                SizedBox(height: 3),
-                Tooltip(
-                    message: "대략적인 내용이라 정확하지 않을 수도 있습니다.",
-                    child: Text(
-                      "예약 오픈일 - ${infoJson.reservationOpen}",
-                      style: addrStyle,
-                    )),
-                SizedBox(height: 3),
-                Text("${infoJson.desc}", maxLines: 2),
-                SizedBox(height: 3),
-                TextButton.icon(
-                    icon: Icon(Icons.location_on, size: 20),
-                    style: TextButton.styleFrom(
-                        minimumSize: Size(50, 20),
-                        padding: EdgeInsets.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                    onPressed: () {
-                      c.launchMap();
-                    },
-                    label: Text("${infoJson.addr}", style: addrStyle))
-              ],
             ),
-          ),
-        ),
-      ],
-    ));
+          ],
+        ));
   }
 
   Widget _buildButtons(CampDetailContoller c) {
@@ -248,8 +249,14 @@ class CampDetailPage extends StatelessWidget {
                           return children;
                         },
                       ),
+                      onDaySelected: c.onDaySelected,
                       rowHeight: CALENDER_WIDTH / 6,
                     )))));
+  }
+
+  Widget _buildSelectedInfo(BuildContext context, CampDetailContoller c) {
+    return Container(
+        width: CALENDER_WIDTH, child: Text(c.selectedSiteInfo.value));
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {
