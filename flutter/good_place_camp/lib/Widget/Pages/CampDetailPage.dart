@@ -164,7 +164,7 @@ class CampDetailPage extends StatelessWidget {
                     Tooltip(
                         message: "대략적인 내용이라 정확하지 않을 수도 있습니다.",
                         child: Text(
-                          "예약 오픈일 - ${infoJson.reservationOpen}",
+                          "예약 오픈일 - ${getReservationOpenStr(infoJson.reservationOpen)}",
                           style: addrStyle,
                         )),
                     SizedBox(height: 3),

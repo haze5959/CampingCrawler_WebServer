@@ -11,7 +11,7 @@ import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
 import 'package:good_place_camp/Model/SiteInfo.dart';
 
 class TappableCampCardItem extends StatelessWidget {
-  final SiteInfo siteInfo;
+  final SiteDateInfo siteInfo;
 
   TappableCampCardItem({
     this.siteInfo,

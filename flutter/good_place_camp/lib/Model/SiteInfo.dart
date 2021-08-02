@@ -1,27 +1,38 @@
-class SiteInfo {
-  final String site;
+abstract class SiteInfo {
+  String site;
+}
+
+class SiteDateInfo implements SiteInfo {
+  String site;
   final List<String> availDates;
   final String updatedDate;
 
-  SiteInfo(
+  SiteDateInfo(
     this.site,
     this.availDates,
     this.updatedDate,
   );
 
-  SiteInfo._fromJson(Map<String, dynamic> json)
+  SiteDateInfo._fromJson(Map<String, dynamic> json)
       : site = json['site'],
         availDates = List<String>.from(json['availDates']),
         updatedDate = json['updatedDate'];
 
-  static List<SiteInfo> fromJsonArr(jsonStr) {
+  static List<SiteDateInfo> fromJsonArr(jsonStr) {
     final list = List<Map<String, dynamic>>.from(jsonStr);
-    final listSiteInfo = list.map((json) => SiteInfo._fromJson(json));
+    final listSiteInfo = list.map((json) => SiteDateInfo._fromJson(json));
     return listSiteInfo.toList();
   }
 
-  static SiteInfo fromJson(jsonStr) {
+  static SiteDateInfo fromJson(jsonStr) {
     final map = Map<String, dynamic>.from(jsonStr);
-    return SiteInfo._fromJson(map);
+    return SiteDateInfo._fromJson(map);
   }
+}
+
+class ReservationInfo implements SiteInfo {
+  String site;
+  final String desc;
+
+  ReservationInfo(this.site, this.desc);
 }

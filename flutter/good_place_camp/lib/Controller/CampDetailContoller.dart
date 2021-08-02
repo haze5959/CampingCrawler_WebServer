@@ -21,7 +21,7 @@ class CampDetailContoller extends GetxController {
   final SiteRepository repo = SiteRepository();
   final UserRepository userRepo = UserRepository();
 
-  SiteInfo siteInfo;
+  SiteDateInfo siteInfo;
 
   Rx<bool> isFavorite = Rx<bool>(false);
   RxString selectedSiteInfo = "".obs;
@@ -44,7 +44,7 @@ class CampDetailContoller extends GetxController {
       return;
     }
 
-    siteInfo = SiteInfo.fromJson(result.body.data["camp"]);
+    siteInfo = SiteDateInfo.fromJson(result.body.data["camp"]);
     final holiday = Map<String, String>.from(result.body.data["holiday"]);
     _updateEvents(siteInfo, holiday);
 
@@ -80,7 +80,7 @@ class CampDetailContoller extends GetxController {
     }
   }
 
-  void _updateEvents(SiteInfo info, Map<String, String> holiday) {
+  void _updateEvents(SiteDateInfo info, Map<String, String> holiday) {
     events.clear();
 
     for (var dateInfo in info.availDates) {

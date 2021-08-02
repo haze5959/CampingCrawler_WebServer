@@ -195,24 +195,75 @@ class CalenderWidget extends StatelessWidget {
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        color: Colors.blue[400],
-      ),
-      width: 16.0,
-      height: 16.0,
-      child: Center(
-        child: Text(
-          '${events.length}',
-          style: TextStyle().copyWith(
-            color: Colors.white,
-            fontSize: 12.0,
+    var dateInfoCount = 0;
+    var reservationInfoCount = 0;
+
+    for (final event in events) {
+      if (event is SiteDateInfo) {
+        dateInfoCount += 1;
+      } else {
+        reservationInfoCount += 1;
+      }
+    }
+
+    if (reservationInfoCount > 0) {
+      return Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.red[400],
+            ),
+            width: 20.0,
+            height: 16.0,
+            child: Center(
+              child: Text(
+                '$reservationInfoCount',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.0,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.blue[400],
+            ),
+            width: 20.0,
+            height: 16.0,
+            child: Center(
+              child: Text(
+                '$dateInfoCount',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.0,
+                ),
+              ),
+            ),
+          )
+        ],
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: Colors.blue[400],
+        ),
+        width: 20.0,
+        height: 16.0,
+        child: Center(
+          child: Text(
+            '$dateInfoCount',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12.0,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   bool _isToday(DateTime date) {

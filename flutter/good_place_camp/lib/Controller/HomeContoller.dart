@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Utils/DateUtils.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -89,7 +90,7 @@ class HomeController extends GetxController {
 
   void reload() async {
     isLoading.value = true;
-    updateAccpetedCampInfo();
+    _updateAccpetedCampInfo();
     await updateCampSiteAvailDates();
     await updatePostList();
     isLoading.value = false;
@@ -111,7 +112,7 @@ class HomeController extends GetxController {
     postList.assignAll(postJson["posts"]);
   }
 
-  void updateEvents(List<SiteInfo> infoList, Map<String, String> holiday) {
+  void _updateEvents(List<SiteDateInfo> infoList) {
     events.clear();
 
     for (var info in infoList) {
@@ -130,10 +131,32 @@ class HomeController extends GetxController {
         events[DateTime.parse(date)] = list;
       }
     }
+  }
 
+  void _updateHoliday(Map<String, String> holiday) {
     // 공휴일 처리
     holiday.forEach((key, value) {
       holidays[DateTime.parse(key)] = [value];
+    });
+  }
+
+  void _updateReservationDay() {
+    // 예약시작일 처리
+    accpetedCampInfo.forEach((key, value) {
+      final reservationDateList = getReservationOpenDate(value.reservationOpen);
+      if (reservationDateList.length > 0) {
+        for (final date in reservationDateList) {
+          final info = ReservationInfo(key, value.reservationOpen);
+          var list = events[date];
+          if (list == null) {
+            list = [info];
+          } else {
+            list.add(info);
+          }
+
+          events[date] = list;
+        }
+      }
     });
   }
 
@@ -147,13 +170,17 @@ class HomeController extends GetxController {
       return;
     }
 
-    final siteInfo = SiteInfo.fromJsonArr(result.body.data["camps"]);
-    final holiday =  Map<String, String>.from(result.body.data["holiday"]);
-    updateEvents(siteInfo, holiday);
-    siteInfoList.value  = siteInfo;
+    final siteInfo = SiteDateInfo.fromJsonArr(result.body.data["camps"]);
+    final holiday = Map<String, String>.from(result.body.data["holiday"]);
+    events.clear();
+    _updateEvents(siteInfo);
+    _updateHoliday(holiday);
+    _updateReservationDay();
+
+    siteInfoList.value = siteInfo;
   }
 
-  void updateAccpetedCampInfo() {
+  void _updateAccpetedCampInfo() {
     if (Constants.myArea.isEmpty) {
       accpetedCampInfo = Map.from(Constants.campInfo);
     } else {
@@ -174,7 +201,9 @@ class HomeController extends GetxController {
         context: context,
         builder: (context) {
           return BottomSheetContent(
-              date: DateTime(day.year, day.month, day.day), events: events, holidays: holidays);
+              date: DateTime(day.year, day.month, day.day),
+              events: events,
+              holidays: holidays);
         },
       );
     });
