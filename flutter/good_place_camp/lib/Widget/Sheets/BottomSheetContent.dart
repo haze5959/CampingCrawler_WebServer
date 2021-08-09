@@ -11,22 +11,14 @@ import 'package:good_place_camp/Widget/Cards/PromotionCardItem.dart';
 import 'package:good_place_camp/Model/SiteInfo.dart';
 
 class BottomSheetContent extends StatelessWidget {
-  DateTime currentDate;
-  RxList<SiteInfo> currentInfoList = <SiteInfo>[].obs;
-  Map<DateTime, List<SiteInfo>> allEvents;
-  Map<DateTime, List<String>> holidayList;
+  final Rx<DateTime> _currentDate;
+  final RxList<SiteInfo> _currentInfoList;
+  final Map<DateTime, List<SiteInfo>> _allEvents;
+  final Map<DateTime, List<String>> _holidayList;
 
   final isFullScreen = false.obs;
 
-  BottomSheetContent(
-      {DateTime date,
-      Map<DateTime, List<SiteInfo>> events,
-      Map<DateTime, List<String>> holidays}) {
-    currentDate = date;
-    currentInfoList.value = events[date] ?? [];
-    allEvents = events;
-    holidayList = holidays;
-  }
+  BottomSheetContent(this._currentDate, this._allEvents, this._holidayList, this._currentInfoList);
 
   @override
   Widget build(BuildContext context) {
@@ -46,28 +38,28 @@ class BottomSheetContent extends StatelessWidget {
                         OutlinedButton.icon(
                           icon: Icon(Icons.chevron_left_outlined, size: 18),
                           label: Text(
-                            "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate.add(Duration(days: -1)))}",
+                            "${DateFormat("MM-dd (EEE)", 'ko_KR').format(_currentDate.value.add(Duration(days: -1)))}",
                             style: TextStyle(color: Colors.black, fontSize: 12),
                           ),
                           onPressed: () {
-                            currentDate = currentDate.add(Duration(days: -1));
-                            currentInfoList.value =
-                                allEvents[currentDate] ?? <SiteInfo>[];
+                            _currentDate.value = _currentDate.value.add(Duration(days: -1));
+                            _currentInfoList.value =
+                                _allEvents[_currentDate.value] ?? <SiteInfo>[];
                           },
                         ),
                         Spacer(),
-                        _buildSelectedWidget(currentDate),
+                        _buildSelectedWidget(_currentDate.value),
                         Spacer(),
                         OutlinedButton.icon(
                           icon: Text(
-                            "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate.add(Duration(days: 1)))}",
+                            "${DateFormat("MM-dd (EEE)", 'ko_KR').format(_currentDate.value.add(Duration(days: 1)))}",
                             style: TextStyle(color: Colors.black, fontSize: 12),
                           ),
                           label: Icon(Icons.chevron_right_outlined, size: 18),
                           onPressed: () {
-                            currentDate = currentDate.add(Duration(days: 1));
-                            currentInfoList.value =
-                                allEvents[currentDate] ?? <SiteInfo>[];
+                            _currentDate.value = _currentDate.value.add(Duration(days: 1));
+                            _currentInfoList.value =
+                                _allEvents[_currentDate.value] ?? <SiteInfo>[];
                           },
                         ),
                       ]),
@@ -91,12 +83,12 @@ class BottomSheetContent extends StatelessWidget {
                   child: Container(
                       constraints: BoxConstraints(maxWidth: MAX_WIDTH),
                       child: ListView.builder(
-                        itemCount: currentInfoList.length + 1,
+                        itemCount: _currentInfoList.length + 1,
                         itemBuilder: (context, index) {
-                          if (index < currentInfoList.length) {
+                          if (index < _currentInfoList.length) {
                             return ListTile(
                                 title: _buildListCell(
-                                    context, currentInfoList[index]));
+                                    context, _currentInfoList[index]));
                           } else {
                             return ListTile(title: PromotionCardItem());
                           }
@@ -115,9 +107,9 @@ class BottomSheetContent extends StatelessWidget {
   }
 
   Widget _buildSelectedWidget(DateTime currentDate) {
-    for (final key in holidayList.keys) {
+    for (final key in _holidayList.keys) {
       if (key.month == currentDate.month && key.day == currentDate.day) {
-        final holidayName = holidayList[key][0];
+        final holidayName = _holidayList[key][0];
         return Constants.isPhoneSize
             ? Column(children: [
                 Text(
@@ -127,8 +119,7 @@ class BottomSheetContent extends StatelessWidget {
                 ),
                 Text(
                   holidayName,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 12),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 )
               ])
             : Text(

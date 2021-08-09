@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:get/get.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 
@@ -24,9 +25,13 @@ class CalenderWidget extends StatelessWidget {
         builder: (s) => Container(
             padding: EdgeInsets.only(bottom: 10),
             alignment: Alignment.center,
-            child: isVertical
-                ? _buildVerticalCalendar(s, context)
-                : _buildHorizenCalendar(s, context)));
+            child: Column(children: [
+              isVertical
+                  ? _buildVerticalCalendar(s, context)
+                  : _buildHorizenCalendar(s, context),
+              SizedBox(height: 10),
+              _buildEventsExLabel()
+            ])));
   }
 
   Widget _buildHorizenCalendar(HomeController s, BuildContext context) {
@@ -73,7 +78,7 @@ class CalenderWidget extends StatelessWidget {
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: _isToday(date)
-                                                    ? const Color(0xFF9FA8DA)
+                                                    ? Color(0xFF9FA8DA)
                                                     : null),
                                             margin: const EdgeInsets.all(6.0),
                                             alignment: Alignment.center,
@@ -264,6 +269,64 @@ class CalenderWidget extends StatelessWidget {
         ),
       );
     }
+  }
+
+  Widget _buildEventsExLabel() {
+    return Container(
+        constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+        child: Row(
+          mainAxisAlignment:
+              isVertical ? MainAxisAlignment.center : MainAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.red[400],
+              ),
+              child: Center(
+                child: TextButton(
+                  child: Text("예약 오픈일 표시",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.0,
+                      )),
+                  onPressed: () {
+                    showOneBtnAlert(
+                        Get.context,
+                        "예약일정을 오픈하는 캠핑장들의 개수를 표시합니다.\n더 자세한 일정은 해당 캠핑장 상세화면에서 확인하실 수 있습니다.",
+                        "확인",
+                        () {});
+                  },
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.blue[400],
+              ),
+              child: Center(
+                child: TextButton(
+                  child: Text("예약 가능 캠핑장 표시",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.0,
+                      )),
+                  onPressed: () {
+                    showOneBtnAlert(
+                        Get.context,
+                        "예약 가능한 캠핑장들의 개수를 표시합니다.\n예약정보 수집은 한시간 주기로 실행되며 이미 예약되었을 수도 있습니다.",
+                        "확인",
+                        () {});
+                  },
+                ),
+              ),
+            )
+          ],
+        ));
   }
 
   bool _isToday(DateTime date) {

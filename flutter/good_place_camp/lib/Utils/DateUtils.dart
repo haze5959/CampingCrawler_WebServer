@@ -164,7 +164,11 @@ List<DateTime> getReservationOpenDate(String reservationCode) {
     final openDayStr = infoArgs[1];
     if (openDayStr.isNotEmpty) {
       final openDay = int.parse(openDayStr);
-      final now = DateTime.now();
+      var now = DateTime.now();
+      if (now.day > openDay) {
+        now = addMonths(now, 1);
+      }
+
       final pivotDate = DateTime(now.year, now.month, openDay);
       return [0, 1].map<DateTime>((index) {
         return addMonths(pivotDate, index);
@@ -174,12 +178,6 @@ List<DateTime> getReservationOpenDate(String reservationCode) {
     }
   } else if (openInterval == 'W') {
     // 예약 간격이 매주일 경우
-    final intervalStr = infoArgs[4];
-    if (intervalStr.isEmpty) {
-      return [];
-    }
-    final interval = int.parse(intervalStr);
-
     final openWeek = infoArgs[1];
     var weekNum = DateTime.monday;
     if (openWeek.isNotEmpty) {
@@ -211,8 +209,11 @@ List<DateTime> getReservationOpenDate(String reservationCode) {
 
       final now = DateTime.now();
       var pivotDate = DateTime(now.year, now.month, now.day);
-      pivotDate = pivotDate.add((Duration(days: now.weekday - weekNum)));
-      return [0, 1, 2, 3, 4].map<DateTime>((index) {
+      pivotDate = pivotDate.add((Duration(days: weekNum - now.weekday)));
+      if (now.isAfter(pivotDate)) {
+        pivotDate = pivotDate.add(Duration(days: 7));
+      }
+      return [0, 1, 2, 3].map<DateTime>((index) {
         return pivotDate.add((Duration(days: 7 * index)));
       }).toList();
     }

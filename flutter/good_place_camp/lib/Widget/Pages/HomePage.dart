@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
                       child: Container(
                           alignment: Alignment.topCenter,
                           padding: EdgeInsets.only(
-                              top: MAIN_PADDING, bottom: MAIN_PADDING * 2),
+                              top: MAIN_PADDING, bottom: MAIN_PADDING),
                           decoration: BoxDecoration(
                               image: DecorationImage(
                             image: Constants.isPhoneSize
