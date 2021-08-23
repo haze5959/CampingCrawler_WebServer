@@ -203,14 +203,13 @@ class HomeController extends GetxController {
           () => showModalBottomSheet<void>(
               isScrollControlled: true,
               context: context,
-              builder: (context) => BottomSheetContent(selectedDate.obs, events,
-                  holidays, events[selectedDate].obs ?? [].obs)));
+              builder: (context) => BottomSheetContent(selectedDate.obs, events, holidays)));
     } else {
       showModalBottomSheet<void>(
           isScrollControlled: true,
           context: context,
           builder: (context) => BottomSheetContent(
-              selectedDate.obs, events, holidays, events[selectedDate].obs ?? [].obs));
+              selectedDate.obs, events, holidays));
     }
   }
 }
