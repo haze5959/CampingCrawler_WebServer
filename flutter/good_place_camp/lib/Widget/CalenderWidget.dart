@@ -286,7 +286,7 @@ class CalenderWidget extends StatelessWidget {
               ),
               child: Center(
                 child: TextButton(
-                  child: Text("예약 오픈일 표시",
+                  child: Text("예약일 오픈 캠핑장 표시",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,

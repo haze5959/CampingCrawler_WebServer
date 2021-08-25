@@ -23,8 +23,12 @@ void main() async {
 
 class Home extends StatelessWidget {
   Future<void> _initApp() async {
-    await Firebase.initializeApp();
-    return Constants.auth.setPersistence(Persistence.LOCAL);
+    if (GetPlatform.isWeb) {
+      await Firebase.initializeApp();
+      return Constants.auth.setPersistence(Persistence.LOCAL);
+    } else {
+      return Firebase.initializeApp();
+    }
   }
 
   @override

@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:twitter_login/twitter_login.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Repository
@@ -84,17 +84,24 @@ class LoginController extends GetxController {
       } else {
         // 네이티브
         // Trigger the sign-in flow
-        final AccessToken result = await FacebookAuth.instance.login();
+        final LoginResult result = await FacebookAuth.instance.login();
+        if (result.status == LoginStatus.success) {
+          // you are logged
+          final AccessToken accessToken = result.accessToken;
+          // Create a credential from the access token
+          final FacebookAuthCredential facebookAuthCredential =
+              FacebookAuthProvider.credential(accessToken.token);
 
-        // Create a credential from the access token
-        final FacebookAuthCredential facebookAuthCredential =
-            FacebookAuthProvider.credential(result.token);
-
-        // Once signed in, return the UserCredential
-        final cred =
-            await Constants.auth.signInWithCredential(facebookAuthCredential);
-        isLoading.value = false;
-        return _checkSuccess(cred);
+          // Once signed in, return the UserCredential
+          final cred =
+              await Constants.auth.signInWithCredential(facebookAuthCredential);
+          isLoading.value = false;
+          return _checkSuccess(cred);
+        } else {
+          _authEceptionHandler("unknown");
+          isLoading.value = false;
+          return false;
+        }
       }
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
@@ -117,29 +124,32 @@ class LoginController extends GetxController {
         return _checkSuccess(cred);
       } else {
         // 네이티브
-        // Create a TwitterLogin instance
-        final TwitterLogin twitterLogin = new TwitterLogin(
-          consumerKey: 'j2gXD3JP3TG30s7oSAHrO4wp9',
-          consumerSecret: 'USe1iu6VZh5w5zR55xlOje4olsOuA6GYwJ6jPMqjmfKDQ3jcjD',
-        );
-
         // Trigger the sign-in flow
-        final TwitterLoginResult loginResult = await twitterLogin.authorize();
+        final twitterLogin = TwitterLogin(
+            apiKey: 'j2gXD3JP3TG30s7oSAHrO4wp9',
+            apiSecretKey: 'USe1iu6VZh5w5zR55xlOje4olsOuA6GYwJ6jPMqjmfKDQ3jcjD',
+            redirectURI: "twitter-firebase-auth://");
+        final authResult = await twitterLogin.login();
+        switch (authResult.status) {
+          case TwitterLoginStatus.loggedIn:
+            final AuthCredential twitterAuthCredential =
+                TwitterAuthProvider.credential(
+                    accessToken: authResult.authToken,
+                    secret: authResult.authTokenSecret);
+            final userCredential = await FirebaseAuth.instance
+                .signInWithCredential(twitterAuthCredential);
+            isLoading.value = false;
+            return _checkSuccess(userCredential);
 
-        // Get the Logged In session
-        final TwitterSession twitterSession = loginResult.session;
-
-        // Create a credential from the access token
-        final twitterAuthCredential = TwitterAuthProvider.credential(
-          accessToken: twitterSession.token,
-          secret: twitterSession.secret,
-        );
-
-        // Once signed in, return the UserCredential
-        final cred = await FirebaseAuth.instance
-            .signInWithCredential(twitterAuthCredential);
-        isLoading.value = false;
-        return _checkSuccess(cred);
+          case TwitterLoginStatus.cancelledByUser:
+            isLoading.value = false;
+            _authEceptionHandler("popup-closed-by-user");
+            return false;
+          default:
+            isLoading.value = false;
+            _authEceptionHandler("unknown");
+            return false;
+        }
       }
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);

@@ -35,15 +35,13 @@ class PostListPage extends StatelessWidget {
                       itemCount: c.postList.length + 1,
                       itemBuilder: (context, index) {
                         if (index < c.postList.length) {
-                          return ListTile(
-                              title: _buildListCell(c.postList[index]));
+                          return _buildListCell(c.postList[index]);
                         } else {
                           c.fetchPosts();
-                          return ListTile(
-                              title: Center(
+                          return Center(
                                   child: Obx(() => c.isLastPage.value
                                       ? Text("마지막 글 입니다.")
-                                      : CircularProgressIndicator())));
+                                      : CircularProgressIndicator()));
                         }
                       },
                     )))),
@@ -59,15 +57,13 @@ class PostListPage extends StatelessWidget {
                       itemCount: c.postList.length + 1,
                       itemBuilder: (context, index) {
                         if (index < c.postList.length) {
-                          return ListTile(
-                              title: _buildListCell(c.postList[index]));
+                          return _buildListCell(c.postList[index]);
                         } else {
                           c.fetchPosts();
-                          return ListTile(
-                              title: Center(
+                          return Center(
                                   child: Obx(() => c.isLastPage.value
                                       ? Text("마지막 글 입니다.")
-                                      : CircularProgressIndicator())));
+                                      : CircularProgressIndicator()));
                         }
                       },
                     )))),

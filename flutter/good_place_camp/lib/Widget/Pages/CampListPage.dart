@@ -42,10 +42,9 @@ class CampListPage extends StatelessWidget {
           itemCount: c.siteInfoList.length + 1,
           itemBuilder: (context, index) {
             if (index < c.siteInfoList.length) {
-              return ListTile(
-                  title: TappableCampCardItem(siteInfo: c.siteInfoList[index]));
+              return TappableCampCardItem(siteInfo: c.siteInfoList[index]);
             } else {
-              return ListTile(title: PromotionCardItem());
+              return PromotionCardItem();
             }
           },
         ));
@@ -56,11 +55,10 @@ class CampListPage extends StatelessWidget {
           itemCount: Constants.user.value.info.favoriteList.length + 1,
           itemBuilder: (context, index) {
             if (index < Constants.user.value.info.favoriteList.length) {
-              return ListTile(
-                  title: SimpleCampCardItem(
-                      siteName: Constants.user.value.info.favoriteList[index]));
+              return SimpleCampCardItem(
+                      siteName: Constants.user.value.info.favoriteList[index]);
             } else {
-              return ListTile(title: PromotionCardItem());
+              return PromotionCardItem();
             }
           },
         ));

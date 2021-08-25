@@ -86,17 +86,45 @@ class BottomSheetContent extends StatelessWidget {
                   Expanded(
                     child: Container(
                         constraints: BoxConstraints(maxWidth: MAX_WIDTH),
-                        child: ListView.builder(
-                          itemCount: siteInfoList.length + 1,
-                          itemBuilder: (context, index) {
-                            if (index < siteInfoList.length) {
-                              return ListTile(
-                                  title: _buildListCell(siteInfoList[index]));
-                            } else {
-                              return ListTile(title: PromotionCardItem());
-                            }
-                          },
-                        )),
+                        child: ListView(children: [
+                          if (reservationInfoList.length > 0) ...[
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 30),
+                                child: Text(
+                                    "예약일 오픈 캠핑장(${reservationInfoList.length})",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                        color: Colors.red[400]))),
+                            Divider(
+                              color: Colors.red[400],
+                              thickness: 1,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                            for (final reservationInfo in reservationInfoList)
+                              TappableReservationInfoCardItem(
+                                  info: reservationInfo),
+                          ],
+                          if (siteInfoList.length > 0) ...[
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 30),
+                                child: Text("예약가능 캠핑장(${siteInfoList.length})",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                        color: Colors.blue[400]))),
+                            Divider(
+                              color: Colors.blue[400],
+                              thickness: 1,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                            for (final siteInfo in siteInfoList)
+                              TappableCampCardItem(siteInfo: siteInfo),
+                          ],
+                          PromotionCardItem()
+                        ])),
                   ),
                 ],
               ),
@@ -149,13 +177,5 @@ class BottomSheetContent extends StatelessWidget {
           : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)}",
       style: TextStyle(fontWeight: FontWeight.bold),
     );
-  }
-
-  // Widget _buildReservationInfoCell(ReservationInfo siteInfo) {
-  //   return TappableCampCardItem(siteInfo: siteInfo);
-  // }
-
-  Widget _buildListCell(SiteDateInfo siteInfo) {
-    return TappableCampCardItem(siteInfo: siteInfo);
   }
 }

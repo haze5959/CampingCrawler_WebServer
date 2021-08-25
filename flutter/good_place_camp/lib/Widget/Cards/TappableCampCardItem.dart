@@ -123,3 +123,113 @@ class TappableCampCardItem extends StatelessWidget {
     );
   }
 }
+
+class TappableReservationInfoCardItem extends StatelessWidget {
+  final ReservationInfo info;
+
+  TappableReservationInfoCardItem({
+    this.info,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: SizedBox(
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: () {
+                Navigator.push<void>(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => CampDetailPage(siteName: info.site),
+                  ),
+                );
+              },
+              splashColor:
+                  Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+              highlightColor: Colors.transparent,
+              child: _buildContent(context),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    final theme = Theme.of(context);
+    final titleStyle = theme.textTheme.headline5.copyWith(color: Colors.white);
+    final descriptionStyle = theme.textTheme.subtitle1;
+    final addrStyle = theme.textTheme.caption;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 200,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: CachedNetworkImage(
+                  imageUrl: "$IMAGE_URL/${info.site}.jpg",
+                  errorWidget: (context, url, error) =>
+                      Image.asset('assets/Camp_Default.png'),
+                  fit: BoxFit.cover,
+                  fadeInCurve: Curves.easeIn,
+                  fadeInDuration: Duration(seconds: 2),
+                  fadeOutCurve: Curves.easeOut,
+                  fadeOutDuration: Duration(seconds: 2),
+                ),
+              ),
+              Positioned(
+                bottom: 16,
+                left: 16,
+                right: 16,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      "${Constants.campInfo[info.site].name}",
+                      style: titleStyle,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        // Description and share/explore buttons.
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: DefaultTextStyle(
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+            style: descriptionStyle,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Tooltip(
+                  message: "예약 오픈일은 매시간 수집되는 항목이 아니라서 정확하지 않을 수도 있습니다.",
+                  child: Text(
+                    "예약 오픈일 - ${getReservationOpenStr(info.desc)}",
+                    style: addrStyle,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

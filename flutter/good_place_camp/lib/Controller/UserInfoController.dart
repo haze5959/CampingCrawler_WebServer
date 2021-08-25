@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:twitter_login/twitter_login.dart';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
@@ -46,7 +46,7 @@ class UserInfoController extends GetxController {
       isLoading.value = false;
       return false;
     }
-    
+
     try {
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
@@ -80,14 +80,22 @@ class UserInfoController extends GetxController {
     }
 
     try {
-      final AccessToken result = await FacebookAuth.instance.login();
+      final LoginResult result = await FacebookAuth.instance.login();
+      if (result.status == LoginStatus.success) {
+        // you are logged
+        final AccessToken accessToken = result.accessToken;
+        // Create a credential from the access token
+        final FacebookAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(accessToken.token);
 
-      // Create a credential from the access token
-      final FacebookAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(result.token);
-
-      isLoading.value = false;
-      return _checkSuccess(facebookAuthCredential);
+        // Once signed in, return the UserCredential
+        isLoading.value = false;
+        return _checkSuccess(facebookAuthCredential);
+      } else {
+        _authEceptionHandler("unknown");
+        isLoading.value = false;
+        return false;
+      }
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;
@@ -106,24 +114,29 @@ class UserInfoController extends GetxController {
 
     try {
       // Create a TwitterLogin instance
-      final TwitterLogin twitterLogin = new TwitterLogin(
-        consumerKey: 'j2gXD3JP3TG30s7oSAHrO4wp9',
-        consumerSecret: 'USe1iu6VZh5w5zR55xlOje4olsOuA6GYwJ6jPMqjmfKDQ3jcjD',
-      );
+      final twitterLogin = TwitterLogin(
+          apiKey: 'j2gXD3JP3TG30s7oSAHrO4wp9',
+          apiSecretKey: 'USe1iu6VZh5w5zR55xlOje4olsOuA6GYwJ6jPMqjmfKDQ3jcjD',
+          redirectURI: "twitter-firebase-auth://");
+      final authResult = await twitterLogin.login();
 
-      // Trigger the sign-in flow
-      final TwitterLoginResult loginResult = await twitterLogin.authorize();
-
-      // Get the Logged In session
-      final TwitterSession twitterSession = loginResult.session;
-
-      final twitterAuthCredential = TwitterAuthProvider.credential(
-        accessToken: twitterSession.token,
-        secret: twitterSession.secret,
-      );
-
-      isLoading.value = false;
-      return _checkSuccess(twitterAuthCredential);
+      switch (authResult.status) {
+        case TwitterLoginStatus.loggedIn:
+          final AuthCredential twitterAuthCredential =
+              TwitterAuthProvider.credential(
+                  accessToken: authResult.authToken,
+                  secret: authResult.authTokenSecret);
+          isLoading.value = false;
+          return _checkSuccess(twitterAuthCredential);
+        case TwitterLoginStatus.cancelledByUser:
+          isLoading.value = false;
+          _authEceptionHandler("popup-closed-by-user");
+          return false;
+        default:
+          isLoading.value = false;
+          _authEceptionHandler("unknown");
+          return false;
+      }
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
       isLoading.value = false;

@@ -22,16 +22,14 @@ dependencies:
 
   cached_network_image:
 
-  flutter_inappwebview:
+  google_maps_flutter: "^2.0.6"
 
-  google_maps_flutter:
-
-  firebase_core: "^1.1.0"
-  firebase_auth: "^1.2.0"
-  google_sign_in: "^4.5.1"
-  flutter_facebook_auth: "^1.0.0"
+  firebase_core: "^1.5.0"
+  firebase_auth: "^3.0.2"
+  google_sign_in: "^5.0.7"
+  flutter_facebook_auth: "^3.5.1"
   sign_in_with_apple:
-  flutter_twitter_login: ^1.1.0
+  twitter_login: ^4.0.1
 
   cupertino_icons: ^0.1.2
 
