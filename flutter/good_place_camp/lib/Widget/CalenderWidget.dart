@@ -278,53 +278,77 @@ class CalenderWidget extends StatelessWidget {
           mainAxisAlignment:
               isVertical ? MainAxisAlignment.center : MainAxisAlignment.start,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Colors.red[400],
-              ),
-              child: Center(
-                child: TextButton(
-                  child: Text("예약일 오픈 캠핑장 표시",
+            TextButton(
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.red[400],
+                    ),
+                    width: 20.0,
+                    height: 16.0,
+                    child: Center(
+                      child: Text(
+                        "N",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Text("다음 예약일 오픈 캠핑장 표시",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
                       )),
-                  onPressed: () {
-                    showOneBtnAlert(
-                        Get.context,
-                        "예약일정을 오픈하는 캠핑장들의 개수를 표시합니다.\n더 자세한 일정은 해당 캠핑장 상세화면에서 확인하실 수 있습니다.",
-                        "확인",
-                        () {});
-                  },
-                ),
+                ],
               ),
+              onPressed: () {
+                showOneBtnAlert(
+                    Get.context,
+                    "다음 예약일정을 오픈하는 캠핑장들의 개수를 표시합니다.\n더 자세한 일정은 해당 캠핑장 상세화면에서 확인하실 수 있습니다.",
+                    "확인",
+                    () {});
+              },
             ),
             SizedBox(width: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Colors.blue[400],
-              ),
-              child: Center(
-                child: TextButton(
-                  child: Text("예약 가능 캠핑장 표시",
+            TextButton(
+                child: Row(children: [
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.blue[400],
+                      ),
+                      width: 20.0,
+                      height: 16.0,
+                      child: Center(
+                        child: Text(
+                          "N",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      )),
+                  SizedBox(width: 5),
+                  Text("예약 가능 캠핑장 표시",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
-                      )),
-                  onPressed: () {
-                    showOneBtnAlert(
-                        Get.context,
-                        "예약 가능한 캠핑장들의 개수를 표시합니다.\n예약정보 수집은 한시간 주기로 실행되며 이미 예약되었을 수도 있습니다.",
-                        "확인",
-                        () {});
-                  },
-                ),
-              ),
-            )
+                      ))
+                ]),
+                onPressed: () {
+                  showOneBtnAlert(
+                      Get.context,
+                      "예약 가능한 캠핑장들의 개수를 표시합니다.\n예약정보 수집은 한시간 주기로 실행되며 이미 예약되었을 수도 있습니다.",
+                      "확인",
+                      () {});
+                })
           ],
         ));
   }

@@ -22,10 +22,9 @@ class BottomSheetContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final List<SiteDateInfo> siteInfoList =
-          _allEvents[_currentDate.value].whereType<SiteDateInfo>().toList();
-      final List<ReservationInfo> reservationInfoList =
-          _allEvents[_currentDate.value].whereType<ReservationInfo>().toList();
+      final currentEvents = _allEvents[_currentDate.value] ?? [];
+      final List<SiteDateInfo> siteInfoList = currentEvents.whereType<SiteDateInfo>().toList();
+      final List<ReservationInfo> reservationInfoList = currentEvents.whereType<ReservationInfo>().toList();
       return AnimatedContainer(
           duration: Duration(milliseconds: 200),
           height: isFullScreen.value
@@ -91,7 +90,7 @@ class BottomSheetContent extends StatelessWidget {
                             Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 30),
                                 child: Text(
-                                    "예약일 오픈 캠핑장(${reservationInfoList.length})",
+                                    "다음 예약일 오픈 캠핑장(${reservationInfoList.length})",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,
