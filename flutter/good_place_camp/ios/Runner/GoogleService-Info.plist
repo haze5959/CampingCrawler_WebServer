@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>877355439648-9v7esm8el3k3kd4qn56is4rq5fmiac88.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.877355439648-9v7esm8el3k3kd4qn56is4rq5fmiac88</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC_-pnSKWUebwRQ6OXJG_Ut2IA2P-uODus</string>
+	<key>GCM_SENDER_ID</key>
+	<string>877355439648</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.oq.goodPlaceCamp</string>
+	<key>PROJECT_ID</key>
+	<string>good-place-camp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>good-place-camp.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:877355439648:ios:ecd0ef098ff9a6db790e45</string>
+</dict>
+</plist>
