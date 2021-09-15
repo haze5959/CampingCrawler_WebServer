@@ -41,7 +41,7 @@ DateTime _convertServerDate(String dateStr) {
 }
 
 String getRemainTime(DateTime time) {
-  final now = DateTime.now();
+  final now = DateTime.now().toUtc().add(Duration(hours: 9));
   final diff = now.difference(time);
   if (diff.inDays > 365) {
     final interval = (diff.inDays / 365).round();
@@ -59,7 +59,7 @@ String getRemainTime(DateTime time) {
   } else if (diff.inMinutes > 0) {
     return "${diff.inMinutes}분 전";
   } else {
-    return "${diff.inSeconds}초 전";
+    return "방금 전";
   }
 }
 

@@ -19,29 +19,24 @@ class TappableCampCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SizedBox(
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () {
-                Navigator.push<void>(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) =>
-                        CampDetailPage(siteName: siteInfo.site),
-                  ),
-                );
-              },
-              splashColor:
-                  Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
-              highlightColor: Colors.transparent,
-              child: _buildContent(context),
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: SizedBox(
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () {
+              Navigator.push<void>(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => CampDetailPage(siteInfo.site),
+                ),
+              );
+            },
+            splashColor:
+                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+            highlightColor: Colors.transparent,
+            child: _buildContent(context),
           ),
         ),
       ),
@@ -133,28 +128,24 @@ class TappableReservationInfoCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SizedBox(
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () {
-                Navigator.push<void>(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) => CampDetailPage(siteName: info.site),
-                  ),
-                );
-              },
-              splashColor:
-                  Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
-              highlightColor: Colors.transparent,
-              child: _buildContent(context),
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: SizedBox(
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () {
+              Navigator.push<void>(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => CampDetailPage(info.site),
+                ),
+              );
+            },
+            splashColor:
+                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+            highlightColor: Colors.transparent,
+            child: _buildContent(context),
           ),
         ),
       ),

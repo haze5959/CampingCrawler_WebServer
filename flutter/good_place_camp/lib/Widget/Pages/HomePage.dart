@@ -22,42 +22,44 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     c.context = context;
 
-    return Obx(() => Stack(children: [
-          RefreshIndicator(
-              onRefresh: () async {
-                c.reload();
-                return;
-              },
-              child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
+    return Stack(children: [
+      RefreshIndicator(
+          onRefresh: () async {
+            c.reload();
+            return;
+          },
+          child: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
+              child: Container(
+                  child: Column(children: <Widget>[
+                ClipPath(
                   child: Container(
+                      alignment: Alignment.topCenter,
+                      padding: EdgeInsets.only(
+                          top: MAIN_PADDING, bottom: MAIN_PADDING),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: Constants.isPhoneSize
+                            ? AssetImage('assets/Banner02.jpg')
+                            : AssetImage('assets/Banner01.jpg'),
+                        fit: BoxFit.cover,
+                      )),
                       child: Column(children: <Widget>[
-                    ClipPath(
-                      child: Container(
-                          alignment: Alignment.topCenter,
-                          padding: EdgeInsets.only(
-                              top: MAIN_PADDING, bottom: MAIN_PADDING),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: Constants.isPhoneSize
-                                ? AssetImage('assets/Banner02.jpg')
-                                : AssetImage('assets/Banner01.jpg'),
-                            fit: BoxFit.cover,
-                          )),
-                          child: Column(children: <Widget>[
-                            if (!Constants.isPhoneSize) _buildIntroText(),
-                            SizedBox(height: 30),
-                            CalenderWidget(isVertical: Constants.isPhoneSize)
-                          ])),
-                      clipper: ZigzagClipPath(),
-                    ),
-                    RecommandSiteWidget(),
-                    RecentlyPostsWidget(isNotice: true),
-                    RecentlyPostsWidget(isNotice: false),
-                    FooterWidget()
-                  ])))),
-          if (c.isLoading.value) Center(child: CircularProgressIndicator())
-        ]));
+                        if (!Constants.isPhoneSize) _buildIntroText(),
+                        SizedBox(height: 30),
+                        CalenderWidget(isVertical: Constants.isPhoneSize)
+                      ])),
+                  clipper: ZigzagClipPath(),
+                ),
+                RecommandSiteWidget(),
+                RecentlyPostsWidget(isNotice: true),
+                RecentlyPostsWidget(isNotice: false),
+                FooterWidget()
+              ])))),
+      Obx(() => c.isLoading.value
+          ? Center(child: CircularProgressIndicator())
+          : Container(width: 0, height: 0))
+    ]);
   }
 
   Widget _buildIntroText() {

@@ -47,9 +47,23 @@ class RecommandSiteWidget extends StatelessWidget {
                     physics: ClampingScrollPhysics(),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: c.accpetedCampInfo.keys
-                            .map((key) => SimpleCampCardItem(siteName: key))
-                            .toList())),
+                        children: [
+                          for (final widget in _recommandSiteCardWidgets(
+                              c.accpetedCampInfo.keys))
+                            widget,
+                          IconButton(
+                            iconSize: 50,
+                            color: Colors.lightGreen.shade300,
+                            icon: Icon(Icons.more_horiz),
+                            onPressed: () {
+                              Navigator.push<void>(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => CampListPage(),
+                                  ));
+                            },
+                          )
+                        ])),
                 SizedBox(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -82,5 +96,13 @@ class RecommandSiteWidget extends StatelessWidget {
                     ))
               ]),
             ])));
+  }
+
+  Iterable<Widget> _recommandSiteCardWidgets(Iterable<String> siteKeys) {
+    var keyList = siteKeys.toList();
+    keyList.shuffle();
+    keyList.length = keyList.length > 5 ? 5 : keyList.length;
+    print(keyList.length);
+    return keyList.map((key) => SimpleCampCardItem(siteName: key));
   }
 }

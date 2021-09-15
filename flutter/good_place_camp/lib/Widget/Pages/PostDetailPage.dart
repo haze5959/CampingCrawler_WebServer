@@ -16,13 +16,11 @@ import 'package:good_place_camp/Model/Post.dart';
 class PostDetailPage extends StatelessWidget {
   final int id;
   final bool isSecret;
+  final PostDetailContoller c;
 
-  PostDetailContoller c;
-
-  PostDetailPage({this.id, this.isSecret = false}) {
+  PostDetailPage(this.id, {this.isSecret = false}) : 
     c = PostDetailContoller(id: id, isSecret: isSecret);
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

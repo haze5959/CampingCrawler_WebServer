@@ -16,7 +16,7 @@ import 'package:good_place_camp/Widget/FooterWidget.dart';
 class CampDetailPage extends StatelessWidget {
   final String siteName;
 
-  CampDetailPage({this.siteName});
+  CampDetailPage(this.siteName);
 
   @override
   Widget build(BuildContext context) {

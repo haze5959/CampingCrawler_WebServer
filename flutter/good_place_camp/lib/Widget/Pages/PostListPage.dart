@@ -74,8 +74,8 @@ class PostListPage extends StatelessWidget {
               child: Icon(Icons.edit),
               backgroundColor: Colors.lightGreen.shade400,
               onPressed: () async {
-                final result = await Get.to(PostWritePage());
-                if (result != null && result) {
+                bool result = await Get.to(PostWritePage());
+                if (result) {
                   c.fetchPosts(reset: true);
                 }
               }));
@@ -83,6 +83,6 @@ class PostListPage extends StatelessWidget {
   }
 
   Widget _buildListCell(Post info) {
-    return PostCardItem(info: info);
+    return PostCardItem(info);
   }
 }

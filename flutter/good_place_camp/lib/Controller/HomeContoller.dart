@@ -52,27 +52,19 @@ class HomeController extends GetxController {
     super.onReady();
     initData();
 
-    Constants.auth
-        .userChanges()
-        .debounceTime(Duration(microseconds: 500))
-        .listen((user) {
+    Constants.auth.userChanges().listen((user) {
       if (user != null) {
-        initData();
+        Constants.user.value.login(user);
       }
     });
   }
 
   void initData() async {
+    print("홈 데이터 로드");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final areaBit = prefs.getInt(MY_AREA_BIT_KEY) ?? 0;
     final myArea = fromBit(areaBit);
     Constants.myArea = myArea.obs;
-
-    print("홈 데이터 로드");
-    final user = Constants.auth.currentUser;
-    if (user != null) {
-      await Constants.user.value.login(user);
-    }
 
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
@@ -94,6 +86,7 @@ class HomeController extends GetxController {
     await updateCampSiteAvailDates();
     await updatePostList();
     isLoading.value = false;
+    update();
   }
 
   Future<void> updatePostList() async {
@@ -203,13 +196,14 @@ class HomeController extends GetxController {
           () => showModalBottomSheet<void>(
               isScrollControlled: true,
               context: context,
-              builder: (context) => BottomSheetContent(selectedDate.obs, events, holidays)));
+              builder: (context) =>
+                  BottomSheetContent(selectedDate.obs, events, holidays)));
     } else {
       showModalBottomSheet<void>(
           isScrollControlled: true,
           context: context,
-          builder: (context) => BottomSheetContent(
-              selectedDate.obs, events, holidays));
+          builder: (context) =>
+              BottomSheetContent(selectedDate.obs, events, holidays));
     }
   }
 }

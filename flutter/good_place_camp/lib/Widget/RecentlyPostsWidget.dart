@@ -33,13 +33,13 @@ class RecentlyPostsWidget extends StatelessWidget {
                 heroTag: isNotice ? "RecentlyNoticePosts" : "RecentlyPosts",
                 backgroundColor: Colors.lightGreen.shade300,
                 mini: true,
-                child: const Icon(Icons.list),
+                child: Icon(Icons.list),
                 onPressed: () async {
                   await Navigator.push<void>(
                       context,
                       CupertinoPageRoute(
-                    builder: (context) => PostListPage(isNotice: isNotice),
-                  ));
+                        builder: (context) => PostListPage(isNotice: isNotice),
+                      ));
 
                   c.updatePostList();
                 },
@@ -52,8 +52,8 @@ class RecentlyPostsWidget extends StatelessWidget {
                   mini: true,
                   child: const Icon(Icons.edit),
                   onPressed: () async {
-                    final result = await Get.to(PostWritePage());
-                    if (result != null && result) {
+                    bool result = await Get.to(PostWritePage());
+                    if (result) {
                       c.reload();
                     }
                   },
@@ -66,17 +66,26 @@ class RecentlyPostsWidget extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
                 scrollDirection: Axis.horizontal,
                 physics: ClampingScrollPhysics(),
-                child: isNotice
-                    ? Obx(() => Row(
+                child: Obx(() => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: c.noticeList
-                            .map((element) => PostCardItem(info: element))
-                            .toList()))
-                    : Obx(() => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: c.postList
-                            .map((element) => PostCardItem(info: element))
-                            .toList()))),
+                        children: [
+                          for (final item
+                              in isNotice ? c.noticeList : c.postList)
+                            PostCardItem(item),
+                          IconButton(
+                            iconSize: 50,
+                            color: Colors.lightGreen.shade300,
+                            icon: Icon(Icons.more_horiz),
+                            onPressed: () {
+                              Navigator.push<void>(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) =>
+                                        PostListPage(isNotice: isNotice),
+                                  ));
+                            },
+                          )
+                        ]))),
             SizedBox(
               child: DecoratedBox(
                 decoration: BoxDecoration(

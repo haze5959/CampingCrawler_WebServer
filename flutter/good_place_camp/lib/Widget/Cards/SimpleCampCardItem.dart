@@ -15,29 +15,25 @@ class SimpleCampCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SizedBox(
-          width: CARD_WIDTH,
-          height: CARD_HEIGHT,
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () {
-                Navigator.push<void>(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => CampDetailPage(siteName: siteName)),
-                );
-              },
-              splashColor:
-                  Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
-              highlightColor: Colors.transparent,
-              child: _buildContent(context),
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: SizedBox(
+        width: CARD_WIDTH,
+        height: CARD_HEIGHT,
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () {
+              Navigator.push<void>(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => CampDetailPage(siteName)),
+              );
+            },
+            splashColor:
+                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+            highlightColor: Colors.transparent,
+            child: _buildContent(context),
           ),
         ),
       ),
@@ -58,7 +54,8 @@ class SimpleCampCardItem extends StatelessWidget {
             Positioned.fill(
               child: CachedNetworkImage(
                 imageUrl: "$IMAGE_URL/$siteName.jpg",
-                errorWidget: (context, url, error) => Image.asset('assets/Camp_Default.png'), 
+                errorWidget: (context, url, error) =>
+                    Image.asset('assets/Camp_Default.png'),
                 fit: BoxFit.cover,
                 fadeInCurve: Curves.easeIn,
                 fadeInDuration: Duration(seconds: 2),

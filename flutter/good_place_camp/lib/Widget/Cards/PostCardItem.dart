@@ -12,48 +12,42 @@ import 'package:good_place_camp/Model/Post.dart';
 class PostCardItem extends StatelessWidget {
   final Post info;
 
-  PostCardItem({
-    this.info,
-  });
+  PostCardItem(this.info);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SizedBox(
-          width: CARD_WIDTH,
-          height: CARD_HEIGHT,
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () {
-                if (info.type == PostType.secret) {
-                  if (!Constants.user.value.isLogin) {
-                    showRequiredLoginAlert();
-                  } else {
-                    Navigator.push<void>(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) =>
-                              PostDetailPage(id: info.id, isSecret: true)),
-                    );
-                  }
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: SizedBox(
+        width: CARD_WIDTH,
+        height: CARD_HEIGHT,
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () {
+              if (info.type == PostType.secret) {
+                if (!Constants.user.value.isLogin) {
+                  showRequiredLoginAlert();
                 } else {
                   Navigator.push<void>(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => PostDetailPage(id: info.id)),
+                        builder: (context) =>
+                            PostDetailPage(info.id, isSecret: true)),
                   );
                 }
-              },
-              splashColor:
-                  Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
-              highlightColor: Colors.transparent,
-              child: _buildContent(context),
-            ),
+              } else {
+                Navigator.push<void>(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => PostDetailPage(info.id)),
+                );
+              }
+            },
+            splashColor:
+                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+            highlightColor: Colors.transparent,
+            child: _buildContent(context),
           ),
         ),
       ),

@@ -28,6 +28,12 @@ class PostListContoller extends GetxController {
   RxBool isLastPage = false.obs;
 
   void fetchPosts({bool reset = false}) async {
+    if (reset) {
+      pageNum = 0;
+      postList.clear();
+      isLastPage.value = false;
+    }
+
     if (!isLastPage.value) {
       isLoading.value = true;
 
@@ -44,13 +50,8 @@ class PostListContoller extends GetxController {
       if (postListData.length == 0) {
         isLastPage.value = true;
       } else {
-        if (reset) {
-          postList.assignAll(postListData);
-          pageNum = 1;
-        } else {
-          postList.addAll(postListData);
-          pageNum += 1;
-        }
+        postList.addAll(postListData);
+        pageNum += 1;
       }
 
       isLoading.value = false;

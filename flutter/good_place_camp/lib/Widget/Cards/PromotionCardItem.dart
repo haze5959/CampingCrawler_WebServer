@@ -7,28 +7,24 @@ import 'package:good_place_camp/Widget/Pages/PostWritePage.dart';
 class PromotionCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SizedBox(
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () {
-                Navigator.push<void>(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) => PostWritePage(),
-                  ),
-                );
-              },
-              splashColor:
-                  Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
-              highlightColor: Colors.transparent,
-              child: _buildContent(context),
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: SizedBox(
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () {
+              Navigator.push<void>(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => PostWritePage(),
+                ),
+              );
+            },
+            splashColor:
+                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+            highlightColor: Colors.transparent,
+            child: _buildContent(context),
           ),
         ),
       ),
