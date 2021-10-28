@@ -80,7 +80,7 @@ class PushPromotionPage extends StatelessWidget {
             Icon(Icons.check, size: 16),
             SizedBox(width: 5),
             Text(
-              "즐겨찾기 된 캠핑장의 새로운 예약정보",
+              "즐겨찾기 된 캠핑장의 새로운 예약정보 알림",
               style: theme.textTheme.subtitle2,
             ),
           ]),
@@ -88,7 +88,7 @@ class PushPromotionPage extends StatelessWidget {
             Icon(Icons.check, size: 16),
             SizedBox(width: 5),
             Text(
-              "지역별 캠핑장의 새로운 예약정보",
+              "지역별 캠핑장의 새로운 예약정보 알림",
               style: theme.textTheme.subtitle2,
             ),
           ]),

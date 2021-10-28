@@ -179,7 +179,17 @@ class CampDetailPage extends StatelessWidget {
                         onPressed: () {
                           c.launchMap();
                         },
-                        label: Text("${infoJson.addr}", style: addrStyle))
+                        label: Text("${infoJson.addr}", style: addrStyle)),
+                    TextButton.icon(
+                        icon: Icon(Icons.call, size: 20),
+                        style: TextButton.styleFrom(
+                            minimumSize: Size(50, 20),
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                        onPressed: () {
+                          c.callPhoneNum();
+                        },
+                        label: Text("${infoJson.phone}", style: addrStyle))
                   ],
                 ),
               ),

@@ -83,7 +83,7 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                       ),
                                     ),
                                     if (c.postType.value == 2)
-                                      Text("ℹ️ 비밀글은 운영자만 확인할 수 있습니다."),
+                                      Text("ℹ️ 비밀글은 작성자와 관리자만 확인할 수 있습니다."),
                                     TextField(
                                       controller: c.titleControler,
                                       decoration: InputDecoration(

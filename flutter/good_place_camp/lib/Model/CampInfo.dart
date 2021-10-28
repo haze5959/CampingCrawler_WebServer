@@ -4,6 +4,7 @@ class CampInfo {
   final String name;
   final String desc;
   final String addr;
+  final String phone;
   final double lat;
   final double lon;
   final CampArea area;
@@ -15,6 +16,7 @@ class CampInfo {
     this.name,
     this.desc,
     this.addr,
+    this.phone,
     this.lat,
     this.lon,
     this.area,
@@ -27,6 +29,7 @@ class CampInfo {
       : name = json['name'],
         desc = json['desc'],
         addr = json['addr'],
+        phone = json['phone'],
         lat = json['lat'],
         lon = json['lon'],
         area = fromString(json['area']),

@@ -71,8 +71,6 @@ class CampUser {
         return false;
       }
 
-      print(result.body.data);
-
       info = CampUserInfo.fromJson(result.body.data);
       Constants.user.refresh();
       return true;

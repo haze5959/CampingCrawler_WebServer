@@ -38,18 +38,17 @@ class PostDetailContoller extends GetxController {
             () => Navigator.pop(Get.context));
         return;
       } else if (!postsResult.body.result) {
-        showOneBtnAlert(Get.context, postsResult.body.msg, "확인",
+        if (postsResult.body.msg == "Auth Fail") {
+          showOneBtnAlert(Get.context, "비밀글은 작성자만 확인할 수 있습니다.", "확인",
             () => Navigator.pop(Get.context));
+        } else {
+          showOneBtnAlert(Get.context, postsResult.body.msg, "확인",
+            () => Navigator.pop(Get.context));
+        }
         return;
       }
 
       board = Board.fromJson(postsResult.body.data);
-
-      if (board.post == null) {
-        showOneBtnAlert(Get.context, "비밀번호가 일치하지 않습니다.", "확인",
-            () => Navigator.pop(Get.context));
-        return;
-      }
     } else {
       final postsResult = await repo.getPostsWith(id);
 

@@ -102,7 +102,6 @@ class RecommandSiteWidget extends StatelessWidget {
     var keyList = siteKeys.toList();
     keyList.shuffle();
     keyList.length = keyList.length > 5 ? 5 : keyList.length;
-    print(keyList.length);
     return keyList.map((key) => SimpleCampCardItem(siteName: key));
   }
 }

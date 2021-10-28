@@ -80,6 +80,10 @@ class CampDetailContoller extends GetxController {
     }
   }
 
+  void callPhoneNum() async {
+    launch("tel://${Constants.campInfo[siteName].phone}");
+  }
+
   void _updateEvents(SiteDateInfo info, Map<String, String> holiday) {
     events.clear();
 
@@ -155,7 +159,7 @@ class CampDetailContoller extends GetxController {
     }
 
     final info = siteInfo[0] as String;
-    
+
     if (info.isEmpty) {
       selectedSiteInfo.value = "${day.month}월 ${day.day}일 - 자리 상세정보 미지원";
     } else {
