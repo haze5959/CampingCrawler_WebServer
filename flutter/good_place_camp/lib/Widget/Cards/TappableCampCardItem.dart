@@ -81,7 +81,7 @@ class TappableCampCardItem extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
                     child: Text(
-                      "${Constants.campInfo[siteInfo.site].name}",
+                      "${Constants.campSimpleInfo[siteInfo.site].name}",
                       style: titleStyle,
                     ),
                   ),
@@ -107,8 +107,7 @@ class TappableCampCardItem extends StatelessWidget {
                     style: addrStyle,
                   ),
                 ),
-                Text("${Constants.campInfo[siteInfo.site].desc}", maxLines: 2),
-                Text("${Constants.campInfo[siteInfo.site].addr}",
+                Text("${Constants.campSimpleInfo[siteInfo.site].addr}",
                     style: addrStyle)
               ],
             ),
@@ -161,7 +160,7 @@ class TappableReservationInfoCardItem extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            "${Constants.campInfo[info.site].name}",
+            "${Constants.campSimpleInfo[info.site].name}",
             style: titleStyle,
           ),
           Tooltip(

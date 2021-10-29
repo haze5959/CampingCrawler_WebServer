@@ -26,7 +26,7 @@ const String BASE_URL = "http://haze5959.iptime.org:8000";
 
 class Constants {
   static bool isPhoneSize = false;
-  static Map<String, CampInfo> campInfo = {};
+  static Map<String, CampSimpleInfo> campSimpleInfo = {};
   static Rx<CampUser> user = CampUser(false).obs;
   static RxList<CampArea> myArea = [].obs;
   static FirebaseAuth auth = FirebaseAuth.instance;

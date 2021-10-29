@@ -21,7 +21,7 @@ class CampDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CampDetailContoller c = CampDetailContoller(siteName: siteName);
-    final infoJson = Constants.campInfo[siteName];
+    final infoJson = Constants.campSimpleInfo[siteName];
 
     return Scaffold(
         appBar: AppBar(
@@ -70,12 +70,12 @@ class CampDetailPage extends StatelessWidget {
                               markers: {
                                 Marker(
                                   markerId: MarkerId(""),
-                                  position: LatLng(infoJson.lat, infoJson.lon),
-                                  infoWindow: InfoWindow(title: infoJson.name),
+                                  position: LatLng(c.campInfo.lat, c.campInfo.lon),
+                                  infoWindow: InfoWindow(title: c.campInfo.name),
                                 )
                               },
                               initialCameraPosition: CameraPosition(
-                                target: LatLng(infoJson.lat, infoJson.lon),
+                                target: LatLng(c.campInfo.lat, c.campInfo.lon),
                                 zoom: 14.0,
                               ),
                             )),
@@ -98,7 +98,6 @@ class CampDetailPage extends StatelessWidget {
     final titleStyle = theme.textTheme.headline5.copyWith(color: Colors.white);
     final descriptionStyle = theme.textTheme.subtitle1;
     final addrStyle = theme.textTheme.caption;
-    final infoJson = Constants.campInfo[siteName];
 
     return Container(
         constraints: BoxConstraints(maxWidth: MAX_WIDTH),
@@ -134,7 +133,7 @@ class CampDetailPage extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
-                          "${infoJson.name}",
+                          "${c.campInfo.name}",
                           style: titleStyle,
                         ),
                       ),
@@ -164,11 +163,11 @@ class CampDetailPage extends StatelessWidget {
                     Tooltip(
                         message: "예약 오픈일은 매시간 수집되는 항목이 아니라서 정확하지 않을 수도 있습니다.",
                         child: Text(
-                          "예약 오픈일 - ${getReservationOpenStr(infoJson.reservationOpen)}",
+                          "예약 오픈일 - ${getReservationOpenStr(c.campInfo.reservationOpen)}",
                           style: addrStyle,
                         )),
                     SizedBox(height: 3),
-                    Text("${infoJson.desc}", maxLines: 2),
+                    Text("${c.campInfo.desc}", maxLines: 2),
                     SizedBox(height: 3),
                     TextButton.icon(
                         icon: Icon(Icons.location_on, size: 20),
@@ -179,7 +178,7 @@ class CampDetailPage extends StatelessWidget {
                         onPressed: () {
                           c.launchMap();
                         },
-                        label: Text("${infoJson.addr}", style: addrStyle)),
+                        label: Text("${c.campInfo.addr}", style: addrStyle)),
                     TextButton.icon(
                         icon: Icon(Icons.call, size: 20),
                         style: TextButton.styleFrom(
@@ -189,7 +188,7 @@ class CampDetailPage extends StatelessWidget {
                         onPressed: () {
                           c.callPhoneNum();
                         },
-                        label: Text("${infoJson.phone}", style: addrStyle))
+                        label: Text("${c.campInfo.phone}", style: addrStyle))
                   ],
                 ),
               ),

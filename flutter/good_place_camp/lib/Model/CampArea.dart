@@ -50,26 +50,21 @@ extension CampAreaParse on CampArea {
         return 0;
     }
   }
-
-  static List<CampArea> fromJsonArr(args) {
-    final argList = List<String>.from(args);
-    return argList.map((arg) => fromString(arg));
-  }
 }
 
-CampArea fromString(String str) {
-  switch (str) {
-    case "seoul":
+CampArea fromAreaInt(int areaInt) {
+  switch (areaInt) {
+    case 1:
       return CampArea.seoul;
-    case "gyeonggi":
+    case 2:
       return CampArea.gyeonggi;
-    case "inchoen":
+    case 4:
       return CampArea.inchoen;
-    case "chungnam":
+    case 8:
       return CampArea.chungnam;
-    case "chungbuk":
+    case 16:
       return CampArea.chungbuk;
-    case "gangwon":
+    case 32:
       return CampArea.gangwon;
     default:
       return CampArea.all;

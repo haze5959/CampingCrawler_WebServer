@@ -32,7 +32,7 @@ class CampInfo {
         phone = json['phone'],
         lat = json['lat'],
         lon = json['lon'],
-        area = fromString(json['area']),
+        area = fromAreaInt(json['area']),
         homepageUrl = json['homepage_url'],
         reservationUrl = json['reservation_url'],
         reservationOpen = json['reservation_open'];
@@ -43,6 +43,37 @@ class CampInfo {
     for (final key in maps.keys) {
       final json = Map<String, dynamic>.from(maps[key]);
       campInfoMap[key] = CampInfo.fromJson(json);
+    }
+
+    return campInfoMap;
+  }
+}
+
+class CampSimpleInfo {
+  final String name;
+  final String addr;
+  final CampArea area;
+  final String reservationOpen;
+
+  CampSimpleInfo(
+    this.name,
+    this.addr,
+    this.area,
+    this.reservationOpen,
+  );
+
+  CampSimpleInfo.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        addr = json['addr'],
+        area = fromAreaInt(json['area']),
+        reservationOpen = json['reservation_open'];
+
+  static Map<String, CampSimpleInfo> fromJsonArr(jsonStr) {
+    var campInfoMap = Map<String, CampSimpleInfo>();
+    final maps = Map<String, dynamic>.from(jsonStr);
+    for (final key in maps.keys) {
+      final json = Map<String, dynamic>.from(maps[key]);
+      campInfoMap[key] = CampSimpleInfo.fromJson(json);
     }
 
     return campInfoMap;

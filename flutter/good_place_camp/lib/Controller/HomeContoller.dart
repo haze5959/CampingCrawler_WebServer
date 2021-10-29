@@ -31,7 +31,7 @@ class HomeController extends GetxController {
   Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
 
   // 해당 지역의 캠핑장 리스트
-  Map<String, CampInfo> accpetedCampInfo = Map<String, CampInfo>();
+  Map<String, CampSimpleInfo> accpetedCampInfo = Map<String, CampSimpleInfo>();
 
   RxList<Post> noticeList = RxList<Post>.empty();
   RxList<Post> postList = RxList<Post>.empty();
@@ -75,7 +75,7 @@ class HomeController extends GetxController {
       return;
     }
 
-    Constants.campInfo = CampInfo.fromJsonArr(result.body.data);
+    Constants.campSimpleInfo = CampSimpleInfo.fromJsonArr(result.body.data);
 
     reload();
   }
@@ -175,11 +175,11 @@ class HomeController extends GetxController {
 
   void _updateAccpetedCampInfo() {
     if (Constants.myArea.isEmpty) {
-      accpetedCampInfo = Map.from(Constants.campInfo);
+      accpetedCampInfo = Map.from(Constants.campSimpleInfo);
     } else {
       accpetedCampInfo.clear();
-      for (final key in Constants.campInfo.keys) {
-        final info = Constants.campInfo[key];
+      for (final key in Constants.campSimpleInfo.keys) {
+        final info = Constants.campSimpleInfo[key];
         if (Constants.myArea.contains(info.area)) {
           accpetedCampInfo[key] = info;
         }

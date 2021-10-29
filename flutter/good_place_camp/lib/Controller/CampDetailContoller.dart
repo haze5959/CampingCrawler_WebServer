@@ -10,6 +10,7 @@ import 'package:good_place_camp/Repository/UserRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
+import 'package:good_place_camp/Model/CampInfo.dart';
 
 class CampDetailContoller extends GetxController {
   final String siteName;
@@ -21,6 +22,7 @@ class CampDetailContoller extends GetxController {
   final SiteRepository repo = SiteRepository();
   final UserRepository userRepo = UserRepository();
 
+  CampInfo campInfo;
   SiteDateInfo siteInfo;
 
   Rx<bool> isFavorite = Rx<bool>(false);
@@ -45,6 +47,7 @@ class CampDetailContoller extends GetxController {
     }
 
     siteInfo = SiteDateInfo.fromJson(result.body.data["camp"]);
+    campInfo = CampInfo.fromJson(result.body.data["info"]);
     final holiday = Map<String, String>.from(result.body.data["holiday"]);
     _updateEvents(siteInfo, holiday);
 
@@ -53,7 +56,7 @@ class CampDetailContoller extends GetxController {
   }
 
   void launchHomepageURL() async {
-    final url = Constants.campInfo[siteName].homepageUrl;
+    final url = campInfo.homepageUrl;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -62,7 +65,7 @@ class CampDetailContoller extends GetxController {
   }
 
   void launchReservationURL() async {
-    final url = Constants.campInfo[siteName].reservationUrl;
+    final url = campInfo.reservationUrl;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -72,7 +75,7 @@ class CampDetailContoller extends GetxController {
 
   void launchMap() async {
     final url =
-        "http://map.naver.com/?zoom=6&query=${Uri.encodeComponent(Constants.campInfo[siteName].addr)}";
+        "http://map.naver.com/?zoom=6&query=${Uri.encodeComponent(campInfo.addr)}";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -81,7 +84,7 @@ class CampDetailContoller extends GetxController {
   }
 
   void callPhoneNum() async {
-    launch("tel://${Constants.campInfo[siteName].phone}");
+    launch("tel://${campInfo.phone}");
   }
 
   void _updateEvents(SiteDateInfo info, Map<String, String> holiday) {

@@ -76,7 +76,7 @@ class SimpleCampCardItem extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    "${Constants.campInfo[siteName].name}",
+                    "${Constants.campSimpleInfo[siteName].name}",
                     style: titleStyle,
                   ),
                 ),
@@ -94,12 +94,7 @@ class SimpleCampCardItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${Constants.campInfo[siteName].desc}",
-                style: descriptionStyle,
-                maxLines: 2,
-              ),
-              Text("${Constants.campInfo[siteName].addr}", style: addrStyle)
+              Text("${Constants.campSimpleInfo[siteName].addr}", style: addrStyle)
             ],
           ),
         ),
