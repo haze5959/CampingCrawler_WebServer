@@ -1,13 +1,30 @@
-class Post {
-  final int id;
-  final PostType type;
-  final String title;
-  final String body;
-  final String nick;
-  final DateTime editTime;
-  final int commentCount;
+import 'package:json_annotation/json_annotation.dart';
 
-  Post(
+@JsonSerializable()
+class HomeInfo {
+  List<Post> noticeList;
+  List<Post> postList;
+
+  HomeInfo({
+    this.noticeList,
+    this.postList,
+  });
+
+  factory HomeInfo.fromJson(Map<String, dynamic> json) => _$HomeInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$HomeInfoToJson(this);
+}
+
+@JsonSerializable()
+class Post {
+  int id;
+  int type; // final PostType type;
+  String title;
+  String body;
+  String nick;
+  DateTime editTime;
+  int commentCount;
+
+  Post({
     this.id,
     this.type,
     this.title,
@@ -15,37 +32,40 @@ class Post {
     this.nick,
     this.editTime,
     this.commentCount,
-  );
+  });
 
-  Post._fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int,
-        type = fromInt(json['type'] as int),
-        title = json['title'],
-        body = json['body'],
-        nick = json['nick'],
-        editTime =
-            DateTime.parse(json['edit_time']), // '1974-03-20 00:00:00.000'
-        commentCount = json['comment_count'];
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  Map<String, dynamic> toJson() => _$PostToJson(this);
 
-  static List<Post> fromJsonArr(jsonStr) {
-    final list = List<Map<String, dynamic>>.from(jsonStr);
-    final listPostInfo = list.map((json) => Post._fromJson(json));
-    return listPostInfo.toList();
-  }
+  // Post._fromJson(Map<String, dynamic> json)
+  //     : id = json['id'] as int,
+  //       type = fromInt(json['type'] as int),
+  //       title = json['title'],
+  //       body = json['body'],
+  //       nick = json['nick'],
+  //       editTime =
+  //           DateTime.parse(json['edit_time']), // '1974-03-20 00:00:00.000'
+  //       commentCount = json['comment_count'];
 
-  static Post fromJson(jsonStr) {
-    final map = Map<String, dynamic>.from(jsonStr);
-    return Post._fromJson(map);
-  }
+  // static List<Post> fromJsonArr(jsonStr) {
+  //   final list = List<Map<String, dynamic>>.from(jsonStr);
+  //   final listPostInfo = list.map((json) => Post._fromJson(json));
+  //   return listPostInfo.toList();
+  // }
 
-  static Map<String, List<Post>> fromJsonToHomePosts(jsonStr) {
-    final map = Map<String, dynamic>.from(jsonStr);
-    final homePosts = {
-      "notice": Post.fromJsonArr(map['notice']),
-      "posts": Post.fromJsonArr(map['posts'])
-    };
-    return homePosts;
-  }
+  // static Post fromJson(jsonStr) {
+  //   final map = Map<String, dynamic>.from(jsonStr);
+  //   return Post._fromJson(map);
+  // }
+
+  // static Map<String, List<Post>> fromJsonToHomePosts(jsonStr) {
+  //   final map = Map<String, dynamic>.from(jsonStr);
+  //   final homePosts = {
+  //     "notice": Post.fromJsonArr(map['notice']),
+  //     "posts": Post.fromJsonArr(map['posts'])
+  //   };
+  //   return homePosts;
+  // }
 }
 
 class Comment {

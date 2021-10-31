@@ -16,6 +16,9 @@ dependencies:
       
   get:
 
+  retrofit: any
+  logger: any
+
   table_calendar:
 
   url_launcher:
@@ -44,6 +47,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  retrofit_generator: any
+  build_runner: any
 
 flutter:
   uses-material-design: true
