@@ -1,24 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
 
-@JsonSerializable()
+@JsonSerializable(genericArgumentFactories: true)
 class ServerResult<DataType> {
-  bool result;
-  String msg;
-  DataType data;
+  final bool result;
+  final String msg;
+  final DataType? data;
 
-  ServerResult({this.result, this.msg, this.data});
+  ServerResult({
+    required this.result, 
+    required this.msg, 
+    this.data
+    });
 
-  factory ServerResult.fromJson(Map<String, dynamic> json) => _$ServerResultFromJson(json);
-  Map<String, dynamic> toJson() => _$ServerResultToJson(this);
-  // ServerResult.fromMap(Map<String, dynamic> json)
-  //     : result = json['result'] ?? false,
-  //       msg = json['msg'] is String ?  json['msg'] : "서버가 불안정합니다. 잠시 후에 다시 시도해주세요.",
-  //       data = json['data'] as DataType;
-
-  // static ServerResult<DataType> fromJson<DataType>(jsonStr) {
-  //   final maps = Map<String, dynamic>.from(jsonStr);
-  //   final result = ServerResult<DataType>.fromMap(maps);
-
-  //   return result;
-  // }
+  factory ServerResult.fromJson(Map<String, dynamic> json, DataType Function(Object? json) fromJsonT) => _$ServerResultFromJson(json, fromJsonT);
+  Map<String, dynamic> toJson(Object? Function(DataType value) toJsonT) => _$ServerResultToJson(this, toJsonT);
 }

@@ -501,8 +501,7 @@ class UserInfoPage extends StatelessWidget {
                       () async {
                     final isSuccess = await user.signout();
                     if (isSuccess) {
-                      showOneBtnAlert(
-                          Get.context, "탈퇴되었습니다. \n이용해주셔서 감사합니다.", "확인", () {
+                      showOneBtnAlert("탈퇴되었습니다. \n이용해주셔서 감사합니다.", "확인", () {
                         Get.back();
                       });
                     }

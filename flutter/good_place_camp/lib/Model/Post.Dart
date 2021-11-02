@@ -1,73 +1,32 @@
 import 'package:json_annotation/json_annotation.dart';
 
-@JsonSerializable()
-class HomeInfo {
-  List<Post> noticeList;
-  List<Post> postList;
 
-  HomeInfo({
-    this.noticeList,
-    this.postList,
-  });
-
-  factory HomeInfo.fromJson(Map<String, dynamic> json) => _$HomeInfoFromJson(json);
-  Map<String, dynamic> toJson() => _$HomeInfoToJson(this);
-}
 
 @JsonSerializable()
 class Post {
-  int id;
-  int type; // final PostType type;
-  String title;
-  String body;
-  String nick;
-  DateTime editTime;
-  int commentCount;
+  final int id;
+  final int type; // final PostType type;
+  final String title;
+  final String body;
+  final String nick;
+  final DateTime editTime;
+  final int commentCount;
 
   Post({
-    this.id,
-    this.type,
-    this.title,
-    this.body,
-    this.nick,
-    this.editTime,
-    this.commentCount,
+    required this.id,
+    required this.type,
+    required this.title,
+    required this.body,
+    required this.nick,
+    required this.editTime,
+    required this.commentCount,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   Map<String, dynamic> toJson() => _$PostToJson(this);
-
-  // Post._fromJson(Map<String, dynamic> json)
-  //     : id = json['id'] as int,
-  //       type = fromInt(json['type'] as int),
-  //       title = json['title'],
-  //       body = json['body'],
-  //       nick = json['nick'],
-  //       editTime =
-  //           DateTime.parse(json['edit_time']), // '1974-03-20 00:00:00.000'
-  //       commentCount = json['comment_count'];
-
-  // static List<Post> fromJsonArr(jsonStr) {
-  //   final list = List<Map<String, dynamic>>.from(jsonStr);
-  //   final listPostInfo = list.map((json) => Post._fromJson(json));
-  //   return listPostInfo.toList();
-  // }
-
-  // static Post fromJson(jsonStr) {
-  //   final map = Map<String, dynamic>.from(jsonStr);
-  //   return Post._fromJson(map);
-  // }
-
-  // static Map<String, List<Post>> fromJsonToHomePosts(jsonStr) {
-  //   final map = Map<String, dynamic>.from(jsonStr);
-  //   final homePosts = {
-  //     "notice": Post.fromJsonArr(map['notice']),
-  //     "posts": Post.fromJsonArr(map['posts'])
-  //   };
-  //   return homePosts;
-  // }
 }
 
+@JsonSerializable()
 class Comment {
   final int id;
   final int postId;
@@ -75,26 +34,32 @@ class Comment {
   final String nick;
   final String comment;
 
-  Comment(this.id, this.postId, this.editTime, this.nick, this.comment);
+  Comment({
+    required this.id, 
+    required this.postId, 
+    required this.editTime, 
+    required this.nick, 
+    required this.comment
+    });
 
-  Comment._fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int,
-        postId = json['post_id'] as int,
-        editTime = DateTime.parse(json['edit_time']),
-        nick = json['nick'],
-        comment = json['comment'];
-
-  static List<Comment> fromJsonArr(jsonStr) {
-    final list = List<Map<String, dynamic>>.from(jsonStr);
-    final listCommentInfo = list.map((json) => Comment._fromJson(json));
-    return listCommentInfo.toList();
-  }
-
-  static Comment fromJson(jsonStr) {
-    final map = Map<String, dynamic>.from(jsonStr);
-    return Comment._fromJson(map);
-  }
+  factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
+  Map<String, dynamic> toJson() => _$CommentToJson(this);
 }
+
+@JsonSerializable()
+class Board {
+  final Post post;
+  final List<Comment> commentList;
+
+  Board({
+    required this.post, 
+    required this.commentList
+  });
+
+  factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
+  Map<String, dynamic> toJson() => _$BoardToJson(this);
+}
+
 
 enum PostType {
   notice, // 공지
@@ -147,23 +112,5 @@ extension PostTypeParse on PostType {
       default:
         return "비밀글";
     }
-  }
-}
-
-class Board {
-  final Post post;
-  final List<Comment> commentList;
-
-  Board(this.post, this.commentList);
-
-  Board._fromJson(Map<String, dynamic> json)
-      : post = json['posts'] != null ? Post.fromJson(json['posts']) : null,
-        commentList = json['comments'] != null
-            ? Comment.fromJsonArr(json['comments'])
-            : null;
-
-  static Board fromJson(jsonStr) {
-    final map = Map<String, dynamic>.from(jsonStr);
-    return Board._fromJson(map);
   }
 }

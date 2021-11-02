@@ -15,11 +15,6 @@ abstract class PostsRepository {
   @GET("/home")
   Future<ServerResult<HomeInfo>> getHomeInfo();
 
-  // Future<Response<ServerResult<dynamic>>> getFirstPagePostsList() {
-  //   return get<ServerResult<dynamic>>('/home')
-  //       .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
-  // }
-// 
   // Future<Response<ServerResult<dynamic>>> getAllPostsSimpleList(
   //     int page, List<PostType> typeList) {
   //   var url = '/post/list/$page';

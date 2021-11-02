@@ -1,34 +1,35 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class PushInfo {
-  bool usePushOnArea;
-  bool useOnlyHolidayOnArea; // 주말 빈자리만 알림
-  bool useOnlyInMonthOnArea; // 한달 내 자리알림만
+  final bool usePushOnArea;
+  final bool useOnlyHolidayOnArea; // 주말 빈자리만 알림
+  final bool useOnlyInMonthOnArea; // 한달 내 자리알림만
 
-  bool usePushOnSite;
-  bool useOnlyHolidayOnSite; // 주말 빈자리만 알림
-  bool useOnlyInMonthOnSite; // 한달 내 자리알림만
-  bool reservationDayPush; // 관심캠핑장만 알려줌
+  final bool usePushOnSite;
+  final bool useOnlyHolidayOnSite; // 주말 빈자리만 알림
+  final bool useOnlyInMonthOnSite; // 한달 내 자리알림만
+  final bool reservationDayPush; // 관심캠핑장만 알려줌
 
-  PushInfo(
-    this.usePushOnArea,
-    this.useOnlyHolidayOnArea,
-    this.useOnlyInMonthOnArea,
-    this.usePushOnSite,
-    this.useOnlyHolidayOnSite,
-    this.useOnlyInMonthOnSite,
-    this.reservationDayPush,
-  );
+  PushInfo({
+    required this.usePushOnArea,
+    required this.useOnlyHolidayOnArea,
+    required this.useOnlyInMonthOnArea,
+    required this.usePushOnSite,
+    required this.useOnlyHolidayOnSite,
+    required this.useOnlyInMonthOnSite,
+    required this.reservationDayPush,
+  });
 
-  PushInfo._fromJson(Map<String, dynamic> json)
-      : usePushOnArea = json['use_push_on_area'],
-        useOnlyHolidayOnArea = json['use_only_holiday_on_area'],
-        useOnlyInMonthOnArea = json['use_only_in_month_on_area'],
-        usePushOnSite = json['use_push_on_site'],
-        useOnlyHolidayOnSite = json['use_only_holiday_on_site'],
-        useOnlyInMonthOnSite = json['use_only_in_month_on_site'],
-        reservationDayPush = json['use_reservation_day_push'];
+  factory PushInfo.fromJson(Map<String, dynamic> json) => _$PushInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$PushInfoToJson(this);
 
-  static PushInfo fromJson(jsonStr) {
-    final map = Map<String, dynamic>.from(jsonStr);
-    return PushInfo._fromJson(map);
-  }
+  // PushInfo._fromJson(Map<String, dynamic> json)
+  //     : usePushOnArea = json['use_push_on_area'],
+  //       useOnlyHolidayOnArea = json['use_only_holiday_on_area'],
+  //       useOnlyInMonthOnArea = json['use_only_in_month_on_area'],
+  //       usePushOnSite = json['use_push_on_site'],
+  //       useOnlyHolidayOnSite = json['use_only_holiday_on_site'],
+  //       useOnlyInMonthOnSite = json['use_only_in_month_on_site'],
+  //       reservationDayPush = json['use_reservation_day_push'];
 }

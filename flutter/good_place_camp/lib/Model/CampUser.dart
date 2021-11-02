@@ -1,6 +1,7 @@
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:get/get.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/UserRepository.dart';
@@ -11,10 +12,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class CampUser {
   bool isLogin;
-  User firebaseUser;
+  User? firebaseUser;
   CampUserInfo info = CampUserInfo();
 
-  CampUser(this.isLogin);
+  CampUser({required this.isLogin, this.firebaseUser});
 
   UserRepository repo = UserRepository();
 
@@ -39,21 +40,26 @@ class CampUser {
   }
 
   Future<bool> signout() async {
-    final idToken = await firebaseUser.getIdToken();
-    final result = await repo.signOutUser(idToken);
-    if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "확인", () {});
-      return false;
-    } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+    User? user = firebaseUser;
+    if (user != null) {
+      final idToken = await user.getIdToken();
+      final result = await repo.signOutUser(idToken);
+      if (result.hasError) {
+        showOneBtnAlert(result.statusText, "확인", () {});
+        return false;
+      } else if (!result.body.result) {
+        showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+        return false;
+      }
+
+      isLogin = false;
+      firebaseUser = null;
+      info = CampUserInfo();
+      Constants.user.refresh();
+      return true;
+    } else {
       return false;
     }
-
-    isLogin = false;
-    firebaseUser = null;
-    info = CampUserInfo();
-    Constants.user.refresh();
-    return true;
   }
 
   Future<bool> reloadInfo() async {
@@ -81,30 +87,44 @@ class CampUser {
   }
 }
 
+@JsonSerializable()
 class CampUserInfo {
-  String nick;
-  CampRating level;
-  bool usePushSubscription = false; // TODO
-  bool usePushAreaOnHoliday = false;
-  bool usePushSiteOnHoliday = false;
-  bool usePushReservationDay = false;
-  bool usePushNotice = false;
-  List<String> favoriteList = [];
-  List<CampArea> favoriteAreaList = [];
+  String? nick;
+  CampRating? level;
+  bool? usePushSubscription = false; // TODO
+  bool? usePushAreaOnHoliday = false;
+  bool? usePushSiteOnHoliday = false;
+  bool? usePushReservationDay = false;
+  bool? usePushNotice = false;
+  List<String>? favoriteList = [];
+  List<CampArea>? favoriteAreaList = [];
 
-  CampUserInfo();
+  CampUserInfo(
+      {this.nick,
+      this.level,
+      this.usePushSubscription,
+      this.usePushAreaOnHoliday,
+      this.usePushSiteOnHoliday,
+      this.usePushReservationDay,
+      this.usePushNotice,
+      this.favoriteList,
+      this.favoriteAreaList});
 
-  CampUserInfo.fromJson(Map<String, dynamic> json) {
-    final userJson = json['user'];
-    nick = userJson['nick'];
-    level = CampRatingParser.fromInt(userJson['auth_level']);
-    favoriteAreaList = fromBit(userJson['area_bit']);
-    usePushAreaOnHoliday = userJson['use_push_area_on_holiday'] == 1;
-    usePushSiteOnHoliday = userJson['use_push_site_on_holiday'] == 1;
-    usePushReservationDay = userJson['use_push_reservation_day'] == 1;
-    usePushNotice = userJson['use_push_notice'] == 1;
-    favoriteList = List<String>.from(json['favorite']);
-  }
+  factory CampUserInfo.fromJson(Map<String, dynamic> json) =>
+      _$CampUserInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$CampUserInfoToJson(this);
+
+  // CampUserInfo.fromJson(Map<String, dynamic> json) {
+  //   final userJson = json['user'];
+  //   nick = userJson['nick'];
+  //   level = CampRatingParser.fromInt(userJson['auth_level']);
+  //   favoriteAreaList = fromBit(userJson['area_bit']);
+  //   usePushAreaOnHoliday = userJson['use_push_area_on_holiday'] == 1;
+  //   usePushSiteOnHoliday = userJson['use_push_site_on_holiday'] == 1;
+  //   usePushReservationDay = userJson['use_push_reservation_day'] == 1;
+  //   usePushNotice = userJson['use_push_notice'] == 1;
+  //   favoriteList = List<String>.from(json['favorite']);
+  // }
 }
 
 enum CampRating { level01, level02, level03, owner }

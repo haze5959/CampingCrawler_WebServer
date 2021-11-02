@@ -36,13 +36,6 @@ class HomeController extends GetxController {
   RxList<Post> noticeList = RxList<Post>.empty();
   RxList<Post> postList = RxList<Post>.empty();
 
-  List<CalendarController> calendarControllerList = [
-    CalendarController(),
-    CalendarController(),
-    CalendarController(),
-    CalendarController()
-  ];
-
   RxBool isLoading = true.obs;
 
   BuildContext context;

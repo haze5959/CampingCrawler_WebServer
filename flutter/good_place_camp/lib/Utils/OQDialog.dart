@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/PostsRepository.dart';
@@ -14,10 +15,10 @@ import 'package:good_place_camp/Repository/UserRepository.dart';
 // Widgets
 import 'package:good_place_camp/Widget/Pages/LoginPage.dart';
 
-void showOneBtnAlert(BuildContext context, String msg, String btnText,
+void showOneBtnAlert(String msg, String btnText,
     Function() confirmAction) {
   showDialog(
-      context: context,
+      context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Text(
@@ -36,10 +37,10 @@ void showOneBtnAlert(BuildContext context, String msg, String btnText,
       });
 }
 
-void showTwoBtnAlert(BuildContext context, String msg, String btnText,
+void showTwoBtnAlert(String msg, String btnText,
     Function() confirmAction) {
   showDialog(
-      context: context,
+      context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Text(
@@ -64,8 +65,7 @@ void showTwoBtnAlert(BuildContext context, String msg, String btnText,
       });
 }
 
-void showPwAlert(
-    BuildContext context, String msg, Function(String pw) confirmAction) {
+void showPwAlert(String msg, Function(String pw) confirmAction) {
   TextEditingController pwControler = new TextEditingController();
 
   RxBool hasErr = false.obs;
@@ -80,7 +80,7 @@ void showPwAlert(
   }
 
   showDialog(
-      context: context,
+      context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -164,16 +164,16 @@ void showReportAlert(BuildContext context, String id, String type) {
                   final result =
                       await postRepo.postReportWith(id, bodyControler.text);
                   if (result.hasError) {
-                    showOneBtnAlert(context, result.statusText, "닫기", () {});
+                    showOneBtnAlert(result.statusText, "닫기", () {});
                     return;
                   } else if (!result.body.result) {
-                    showOneBtnAlert(context, result.body.msg, "닫기", () {});
+                    showOneBtnAlert(result.body.msg, "닫기", () {});
                     return;
                   }
 
                   Navigator.of(context).pop();
 
-                  showOneBtnAlert(context, "신고되었습니다.", "닫기", () {});
+                  showOneBtnAlert("신고되었습니다.", "닫기", () {});
                 }
               },
             )
@@ -184,7 +184,7 @@ void showReportAlert(BuildContext context, String id, String type) {
 
 void showRequiredLoginAlert() {
   showDialog(
-      context: Get.context,
+      context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Text(
@@ -215,7 +215,7 @@ void showRequiredLoginAlert() {
 void showRatingInfoAlert() {
   const double cellWidth = 250;
   showDialog(
-      context: Get.context,
+      context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Column(
@@ -299,10 +299,10 @@ void showChangeNickAlert() {
     return true;
   }
 
-  bodyControler.text = Constants.user.value.info.nick;
+  bodyControler.text = Constants.user.value.info.nick ?? "";
 
   showDialog(
-      context: Get.context,
+      context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -324,16 +324,16 @@ void showChangeNickAlert() {
             TextButton(
               child: Text("설정하기"),
               onPressed: () async {
-                if (_validateText()) {
-                  final idToken =
-                      await Constants.user.value.firebaseUser.getIdToken();
+                User? user = Constants.user.value.firebaseUser;
+                if (_validateText() && user != null) {
+                  final idToken = await user.getIdToken();
                   final result =
                       await repo.putUserNick(idToken, bodyControler.text);
                   if (result.hasError) {
-                    showOneBtnAlert(context, result.statusText, "닫기", () {});
+                    showOneBtnAlert(result.statusText, "닫기", () {});
                     return;
                   } else if (!result.body.result) {
-                    showOneBtnAlert(context, result.body.msg, "닫기", () {});
+                    showOneBtnAlert(result.body.msg, "닫기", () {});
                     return;
                   }
 
@@ -341,7 +341,7 @@ void showChangeNickAlert() {
 
                   Constants.user.value.info.nick = bodyControler.text;
 
-                  showOneBtnAlert(context, "변경되었습니다.", "닫기", () {
+                  showOneBtnAlert("변경되었습니다.", "닫기", () {
                     Constants.user.refresh();
                   });
                 }

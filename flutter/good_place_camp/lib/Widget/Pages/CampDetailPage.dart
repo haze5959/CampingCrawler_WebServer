@@ -232,7 +232,6 @@ class CampDetailPage extends StatelessWidget {
                     width: CALENDER_WIDTH,
                     child: TableCalendar(
                       locale: Localizations.localeOf(context).languageCode,
-                      calendarController: c.calendarController,
                       events: c.events,
                       holidays: c.holidays,
                       availableGestures: AvailableGestures.horizontalSwipe,

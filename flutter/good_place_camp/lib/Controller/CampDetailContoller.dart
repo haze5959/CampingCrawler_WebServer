@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Repository
@@ -29,8 +28,6 @@ class CampDetailContoller extends GetxController {
   RxString selectedSiteInfo = "".obs;
 
   RxBool isLoading = true.obs;
-
-  CalendarController calendarController = CalendarController();
 
   Map<DateTime, List<String>> events = Map<DateTime, List<String>>();
   Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();

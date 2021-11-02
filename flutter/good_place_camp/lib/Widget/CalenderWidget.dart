@@ -59,8 +59,6 @@ class CalenderWidget extends StatelessWidget {
                                           .languageCode,
                                       initialSelectedDay:
                                           addMonths(DateTime.now(), index),
-                                      calendarController:
-                                          s.calendarControllerList[index],
                                       events: s.events,
                                       holidays: s.holidays,
                                       availableGestures: AvailableGestures.none,
@@ -138,8 +136,6 @@ class CalenderWidget extends StatelessWidget {
                                         .languageCode,
                                     initialSelectedDay:
                                         addMonths(DateTime.now(), index),
-                                    calendarController:
-                                        s.calendarControllerList[index],
                                     events: s.events,
                                     holidays: s.holidays,
                                     availableGestures: AvailableGestures.none,
