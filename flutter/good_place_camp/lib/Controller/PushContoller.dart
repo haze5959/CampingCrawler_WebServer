@@ -27,10 +27,10 @@ class PushContoller extends GetxController {
     final token = await Constants.user.value.firebaseUser.getIdToken();
     final result = await repo.getUserPushInfo(token);
     if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "뒤로가기", Get.back);
+      showOneBtnAlert(result.statusText, "뒤로가기", Get.back);
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "뒤로가기", Get.back);
+      showOneBtnAlert(result.body.msg, "뒤로가기", Get.back);
       return;
     }
 
@@ -62,10 +62,10 @@ class PushContoller extends GetxController {
     isLoading.value = false;
 
     if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+      showOneBtnAlert(result.statusText, "확인", () {});
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+      showOneBtnAlert(result.body.msg, "확인", () {});
       return;
     }
 
@@ -80,10 +80,10 @@ class PushContoller extends GetxController {
     isLoading.value = false;
 
     if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+      showOneBtnAlert(result.statusText, "확인", () {});
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+      showOneBtnAlert(result.body.msg, "확인", () {});
       return;
     }
   }

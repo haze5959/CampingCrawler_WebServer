@@ -31,7 +31,7 @@ class PostWriteContoller extends GetxController {
     final body = bodyControler.text;
 
     if (title.length == 0 || body.length == 0) {
-      showOneBtnAlert(Get.context, "제목과 내용을 입력해주세요.", "확인", () {});
+      showOneBtnAlert("제목과 내용을 입력해주세요.", "확인", () {});
       return;
     }
 
@@ -45,12 +45,12 @@ class PostWriteContoller extends GetxController {
         postType.value + 1, title, body, token);
 
     if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "확인", () {
+      showOneBtnAlert(result.statusText, "확인", () {
         isLoading.value = false;
       });
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "확인", () {
+      showOneBtnAlert(result.body.msg, "확인", () {
         isLoading.value = false;
       });
       return;
@@ -58,7 +58,7 @@ class PostWriteContoller extends GetxController {
 
     isLoading.value = false;
 
-    showOneBtnAlert(Get.context, "등록되었습니다.", "확인", () {
+    showOneBtnAlert("등록되었습니다.", "확인", () {
       Get.back(result: true);
     });
   }

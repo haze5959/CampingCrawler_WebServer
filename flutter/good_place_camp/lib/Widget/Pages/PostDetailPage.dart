@@ -76,7 +76,7 @@ class PostDetailPage extends StatelessWidget {
                               () async {
                             final isSuccess = await c.deletePosts();
                             if (isSuccess) {
-                              showOneBtnAlert(Get.context, "삭제되었습니다.", "확인",
+                              showOneBtnAlert("삭제되었습니다.", "확인",
                                   () {
                                 Get.back();
                               });

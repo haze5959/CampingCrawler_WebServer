@@ -48,7 +48,7 @@ class CampUser {
         showOneBtnAlert(result.statusText, "확인", () {});
         return false;
       } else if (!result.body.result) {
-        showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+        showOneBtnAlert(result.body.msg, "확인", () {});
         return false;
       }
 
@@ -69,11 +69,11 @@ class CampUser {
       final result = await repo.getUserInfo(idToken);
       if (result.hasError) {
         print("reloadInfo fail - " + result.statusText);
-        showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+        showOneBtnAlert(result.statusText, "확인", () {});
         return false;
       } else if (!result.body.result) {
         print("reloadInfo result fail - " + result.body.msg);
-        showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+        showOneBtnAlert(result.body.msg, "확인", () {});
         return false;
       }
 

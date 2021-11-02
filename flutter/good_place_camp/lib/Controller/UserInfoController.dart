@@ -42,7 +42,7 @@ class UserInfoController extends GetxController {
 
     if (GetPlatform.isWeb) {
       // 웹 지원 안함
-      showOneBtnAlert(Get.context, "웹에서는 지원하지 않습니다.", "확인", () {});
+      showOneBtnAlert("웹에서는 지원하지 않습니다.", "확인", () {});
       isLoading.value = false;
       return false;
     }
@@ -74,7 +74,7 @@ class UserInfoController extends GetxController {
 
     if (GetPlatform.isWeb) {
       // 웹 지원 안함
-      showOneBtnAlert(Get.context, "웹에서는 지원하지 않습니다.", "확인", () {});
+      showOneBtnAlert("웹에서는 지원하지 않습니다.", "확인", () {});
       isLoading.value = false;
       return false;
     }
@@ -107,7 +107,7 @@ class UserInfoController extends GetxController {
     isLoading.value = true;
     if (GetPlatform.isWeb) {
       // 웹 지원 안함
-      showOneBtnAlert(Get.context, "웹에서는 지원하지 않습니다.", "확인", () {});
+      showOneBtnAlert("웹에서는 지원하지 않습니다.", "확인", () {});
       isLoading.value = false;
       return false;
     }
@@ -149,7 +149,7 @@ class UserInfoController extends GetxController {
     try {
       if (GetPlatform.isWeb) {
         // 웹 지원 안함
-        showOneBtnAlert(Get.context, "웹에서는 지원하지 않습니다.", "확인", () {});
+        showOneBtnAlert("웹에서는 지원하지 않습니다.", "확인", () {});
         isLoading.value = false;
         return false;
       } else if (GetPlatform.isIOS || GetPlatform.isMacOS) {
@@ -178,7 +178,7 @@ class UserInfoController extends GetxController {
         return _checkSuccess(oauthCredential);
       } else {
         // 안드로이드는 지원 안함
-        showOneBtnAlert(Get.context, "아이폰 앱에서만 지원됩니다.", "확인", () {});
+        showOneBtnAlert("아이폰 앱에서만 지원됩니다.", "확인", () {});
         isLoading.value = false;
         return false;
       }
@@ -201,8 +201,7 @@ class UserInfoController extends GetxController {
 
   Future<bool> unlinkProvider(String providerId) async {
     if (linkedSNS.length < 2) {
-      showOneBtnAlert(
-          Get.context, "로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.", "확인", () {});
+      showOneBtnAlert("로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.", "확인", () {});
       return false;
     }
 
@@ -235,19 +234,19 @@ class UserInfoController extends GetxController {
   void _authEceptionHandler(String errCode) {
     switch (errCode) {
       case "popup-closed-by-user":
-        showOneBtnAlert(Get.context, "사용자 취소", "확인", () {});
+        showOneBtnAlert("사용자 취소", "확인", () {});
         return;
       case "provider-already-linked":
-        showOneBtnAlert(Get.context, "이미 연동 된 로그인입니다.", "확인", () {});
+        showOneBtnAlert("이미 연동 된 로그인입니다.", "확인", () {});
         return;
       case "invalid-credential":
-        showOneBtnAlert(Get.context, "연동에 실패하였습니다.", "확인", () {});
+        showOneBtnAlert("연동에 실패하였습니다.", "확인", () {});
         return;
       case "no-such-provider":
-        showOneBtnAlert(Get.context, "이미 해제되었습니다.", "확인", () {});
+        showOneBtnAlert("이미 해제되었습니다.", "확인", () {});
         return;
       default:
-        showOneBtnAlert(Get.context, "로그인에 실패하였습니다. ($errCode", "확인", () {});
+        showOneBtnAlert("로그인에 실패하였습니다. ($errCode", "확인", () {});
     }
   }
 }

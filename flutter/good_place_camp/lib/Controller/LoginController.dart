@@ -212,7 +212,7 @@ class LoginController extends GetxController {
     if (cred != null && cred.user != null) {
       return true;
     } else {
-      showOneBtnAlert(Get.context, "로그인에 실패하였습니다.", "확인", () {});
+      showOneBtnAlert("로그인에 실패하였습니다.", "확인", () {});
       return false;
     }
   }
@@ -237,10 +237,10 @@ class LoginController extends GetxController {
   void _authEceptionHandler(String errCode) {
     switch (errCode) {
       case "popup-closed-by-user":
-        showOneBtnAlert(Get.context, "사용자 취소", "확인", () {});
+        showOneBtnAlert("사용자 취소", "확인", () {});
         return;
       default:
-        showOneBtnAlert(Get.context, "로그인에 실패하였습니다. ($errCode", "확인", () {});
+        showOneBtnAlert("로그인에 실패하였습니다. ($errCode", "확인", () {});
     }
   }
 }

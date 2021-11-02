@@ -36,10 +36,10 @@ class CampDetailContoller extends GetxController {
     isLoading.value = true;
     final result = await repo.getSiteInfoWith(siteName);
     if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "재시도", reload);
+      showOneBtnAlert(result.statusText, "재시도", reload);
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "재시도", reload);
+      showOneBtnAlert(result.body.msg, "재시도", reload);
       return;
     }
 
@@ -119,15 +119,15 @@ class CampDetailContoller extends GetxController {
         final idToken = await Constants.user.value.firebaseUser.getIdToken();
         final result = await userRepo.deleteUserFavoriteList(idToken, siteName);
         if (result.hasError) {
-          showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+          showOneBtnAlert(result.statusText, "확인", () {});
           return;
         } else if (!result.body.result) {
-          showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+          showOneBtnAlert(result.body.msg, "확인", () {});
           return;
         }
 
         Constants.user.value.info.favoriteList.remove(siteName);
-        showOneBtnAlert(Get.context, "즐겨찾기 목록에 삭제되었습니다.", "확인", () {
+        showOneBtnAlert("즐겨찾기 목록에 삭제되었습니다.", "확인", () {
           isFavorite(false);
         });
       } else {
@@ -135,15 +135,15 @@ class CampDetailContoller extends GetxController {
         final idToken = await Constants.user.value.firebaseUser.getIdToken();
         final result = await userRepo.postUserFavoriteList(idToken, siteName);
         if (result.hasError) {
-          showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+          showOneBtnAlert(result.statusText, "확인", () {});
           return;
         } else if (!result.body.result) {
-          showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+          showOneBtnAlert(result.body.msg, "확인", () {});
           return;
         }
 
         Constants.user.value.info.favoriteList.add(siteName);
-        showOneBtnAlert(Get.context, "즐겨찾기 목록에 추가되었습니다.", "확인", () {
+        showOneBtnAlert("즐겨찾기 목록에 추가되었습니다.", "확인", () {
           isFavorite(true);
         });
       }

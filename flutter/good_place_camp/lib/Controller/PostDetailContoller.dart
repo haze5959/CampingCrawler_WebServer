@@ -34,15 +34,15 @@ class PostDetailContoller extends GetxController {
       final postsResult = await repo.getSecretPostsWith(id, token);
 
       if (postsResult.hasError) {
-        showOneBtnAlert(Get.context, postsResult.statusText, "확인",
+        showOneBtnAlert(postsResult.statusText, "확인",
             () => Navigator.pop(Get.context));
         return;
       } else if (!postsResult.body.result) {
         if (postsResult.body.msg == "Auth Fail") {
-          showOneBtnAlert(Get.context, "비밀글은 작성자만 확인할 수 있습니다.", "확인",
+          showOneBtnAlert("비밀글은 작성자만 확인할 수 있습니다.", "확인",
             () => Navigator.pop(Get.context));
         } else {
-          showOneBtnAlert(Get.context, postsResult.body.msg, "확인",
+          showOneBtnAlert(postsResult.body.msg, "확인",
             () => Navigator.pop(Get.context));
         }
         return;
@@ -53,11 +53,11 @@ class PostDetailContoller extends GetxController {
       final postsResult = await repo.getPostsWith(id);
 
       if (postsResult.hasError) {
-        showOneBtnAlert(Get.context, postsResult.statusText, "확인",
+        showOneBtnAlert(postsResult.statusText, "확인",
             () => Navigator.pop(Get.context));
         return;
       } else if (!postsResult.body.result) {
-        showOneBtnAlert(Get.context, postsResult.body.msg, "확인",
+        showOneBtnAlert(postsResult.body.msg, "확인",
             () => Navigator.pop(Get.context));
         return;
       }
@@ -78,10 +78,10 @@ class PostDetailContoller extends GetxController {
     final result = await repo.deletePosts(token, id);
 
     if (result.hasError) {
-      showOneBtnAlert(Get.context, result.statusText, "확인", () {});
+      showOneBtnAlert(result.statusText, "확인", () {});
       return false;
     } else if (!result.body.result) {
-      showOneBtnAlert(Get.context, result.body.msg, "확인", () {});
+      showOneBtnAlert(result.body.msg, "확인", () {});
       return false;
     }
 

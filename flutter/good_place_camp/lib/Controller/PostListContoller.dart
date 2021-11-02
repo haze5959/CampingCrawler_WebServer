@@ -39,10 +39,10 @@ class PostListContoller extends GetxController {
 
       final result = await repo.getAllPostsSimpleList(pageNum, typeList);
       if (result.hasError) {
-        showOneBtnAlert(Get.context, result.statusText, "재시도", fetchPosts);
+        showOneBtnAlert(result.statusText, "재시도", fetchPosts);
         return;
       } else if (!result.body.result) {
-        showOneBtnAlert(Get.context, result.body.msg, "재시도", fetchPosts);
+        showOneBtnAlert(result.body.msg, "재시도", fetchPosts);
         return;
       }
 

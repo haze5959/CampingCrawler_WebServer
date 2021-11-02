@@ -61,10 +61,10 @@ class HomeController extends GetxController {
 
     final result = await repo.getAllSiteJson();
     if (result.hasError) {
-      showOneBtnAlert(context, "서버가 불안정합니다. 잠시 후에 다시 시도해주세요.", "재시도", initData);
+      showOneBtnAlert("서버가 불안정합니다. 잠시 후에 다시 시도해주세요.", "재시도", initData);
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(context, result.body.msg, "재시도", initData);
+      showOneBtnAlert(result.body.msg, "재시도", initData);
       return;
     }
 
@@ -86,10 +86,10 @@ class HomeController extends GetxController {
     // 게시물 로드
     final postResult = await postRepo.getFirstPagePostsList();
     if (postResult.hasError) {
-      showOneBtnAlert(context, postResult.statusText, "재시도", reload);
+      showOneBtnAlert(postResult.statusText, "재시도", reload);
       return;
     } else if (!postResult.body.result) {
-      showOneBtnAlert(context, postResult.body.msg, "재시도", reload);
+      showOneBtnAlert(postResult.body.msg, "재시도", reload);
       return;
     }
 
@@ -149,10 +149,10 @@ class HomeController extends GetxController {
   Future<void> updateCampSiteAvailDates() async {
     final result = await repo.getSiteInfo(Constants.myArea);
     if (result.hasError) {
-      showOneBtnAlert(context, result.statusText, "재시도", reload);
+      showOneBtnAlert(result.statusText, "재시도", reload);
       return;
     } else if (!result.body.result) {
-      showOneBtnAlert(context, result.body.msg, "재시도", reload);
+      showOneBtnAlert(result.body.msg, "재시도", reload);
       return;
     }
 

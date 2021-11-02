@@ -56,8 +56,7 @@ class CommentWidget extends StatelessWidget {
                         icon: Icon(Icons.delete),
                         iconSize: 20,
                         onPressed: () {
-                          showTwoBtnAlert(
-                              Get.context, "해당 댓글을 정말 삭제하시겠습니까?", "삭제",
+                          showTwoBtnAlert("해당 댓글을 정말 삭제하시겠습니까?", "삭제",
                               () async {
                             final repo = PostsRepository();
                             final token = Constants.user.value.isLogin
@@ -76,7 +75,7 @@ class CommentWidget extends StatelessWidget {
                                   Get.context, result.body.msg, "확인", () {});
                               return;
                             }
-                            showOneBtnAlert(Get.context, "삭제되었습니다.", "확인", () {
+                            showOneBtnAlert("삭제되었습니다.", "확인", () {
                               commentList.remove(comment);
                             });
                           });
@@ -141,8 +140,7 @@ class CommentWidget extends StatelessWidget {
                         final body = bodyControler.text;
 
                         if (body.length == 0) {
-                          showOneBtnAlert(
-                              Get.context, "내용을 입력해주세요.", "확인", () {});
+                          showOneBtnAlert("내용을 입력해주세요.", "확인", () {});
                           return;
                         }
 
@@ -155,12 +153,10 @@ class CommentWidget extends StatelessWidget {
                             postId, nickControler.text, body, token);
 
                         if (result.hasError) {
-                          showOneBtnAlert(
-                              Get.context, result.statusText, "확인", () {});
+                          showOneBtnAlert(result.statusText, "확인", () {});
                           return;
                         } else if (!result.body.result) {
-                          showOneBtnAlert(
-                              Get.context, result.body.msg, "확인", () {});
+                          showOneBtnAlert(result.body.msg, "확인", () {});
                           return;
                         }
 
