@@ -1,40 +1,25 @@
-import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:retrofit/retrofit.dart';
+import 'package:dio/dio.dart';
 
 // Model
 import 'package:good_place_camp/Model/ServerResult.dart';
+import 'package:good_place_camp/Model/SiteInfo.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
+import 'package:good_place_camp/Model/CampInfo.dart';
 
-class SiteRepository extends GetConnect {
-  @override
-  SiteRepository() {
-    httpClient.defaultDecoder = ServerResult.fromJson;
-    httpClient.baseUrl = BASE_URL;
-  }
+part 'SiteRepository.g.dart';
 
-  Future<Response<ServerResult<dynamic>>> getAllSiteInfo() =>
-      get<ServerResult<dynamic>>('/camp')
-          .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+@RestApi(baseUrl: BASE_URL)
+abstract class SiteRepository {
+  factory SiteRepository(Dio dio, {String baseUrl}) = _SiteRepository;
 
-  Future<Response<ServerResult<dynamic>>> getSiteInfoWith(String site) =>
-      get<ServerResult<dynamic>>('/camp/$site')
-          .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+  @GET("/camp/{site}")
+  Future<ServerResult<SiteDateInfo>> getSiteInfo(@Path() String site);
 
-  Future<Response<ServerResult<dynamic>>> getSiteInfo(List<CampArea> areaList) {
-    var url = "/camp";
+  @GET("/camp")
+  Future<ServerResult<List<SiteDateInfo>>> getSiteInfoWithArea(@Query("area_bit") List<CampArea> areaList);
 
-    if (areaList.length > 0) {
-      final bit = areaList
-          .map((element) => element.toBit())
-          .reduce((value, element) => value + element);
-      url += "?area_bit=$bit";
-    }
-
-    return get<ServerResult<dynamic>>(url)
-        .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
-  }
-
-  Future<Response<ServerResult<dynamic>>> getAllSiteJson() =>
-      get<ServerResult<dynamic>>('/info', contentType: "application/json")
-          .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+  @GET("/info")
+  Future<ServerResult<List<CampSimpleInfo>>> getAllSiteJson();
 }

@@ -1,25 +1,38 @@
 import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
+class HomeInfo {
+  final List<Post> noticeList;
+  final List<Post> postList;
 
+  HomeInfo({
+    required this.noticeList,
+    required this.postList,
+  });
+
+  factory HomeInfo.fromJson(Map<String, dynamic> json) =>
+      _$HomeInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$HomeInfoToJson(this);
+}
 
 @JsonSerializable()
 class Post {
-  final int id;
+  final int? id;
   final int type; // final PostType type;
   final String title;
   final String body;
-  final String nick;
-  final DateTime editTime;
-  final int commentCount;
+  final String? nick;
+  final DateTime? editTime;
+  final int? commentCount;
 
   Post({
-    required this.id,
+    this.id,
     required this.type,
     required this.title,
     required this.body,
-    required this.nick,
-    required this.editTime,
-    required this.commentCount,
+    this.nick,
+    this.editTime,
+    this.commentCount,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
@@ -28,21 +41,21 @@ class Post {
 
 @JsonSerializable()
 class Comment {
-  final int id;
+  final int? id;
   final int postId;
-  final DateTime editTime;
+  final DateTime? editTime;
   final String nick;
   final String comment;
 
-  Comment({
-    required this.id, 
-    required this.postId, 
-    required this.editTime, 
-    required this.nick, 
-    required this.comment
-    });
+  Comment(
+      {this.id,
+      required this.postId,
+      this.editTime,
+      required this.nick,
+      required this.comment});
 
-  factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
+  factory Comment.fromJson(Map<String, dynamic> json) =>
+      _$CommentFromJson(json);
   Map<String, dynamic> toJson() => _$CommentToJson(this);
 }
 
@@ -51,15 +64,11 @@ class Board {
   final Post post;
   final List<Comment> commentList;
 
-  Board({
-    required this.post, 
-    required this.commentList
-  });
+  Board({required this.post, required this.commentList});
 
   factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
   Map<String, dynamic> toJson() => _$BoardToJson(this);
 }
-
 
 enum PostType {
   notice, // 공지

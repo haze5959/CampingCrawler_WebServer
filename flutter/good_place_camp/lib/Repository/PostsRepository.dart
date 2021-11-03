@@ -15,57 +15,42 @@ abstract class PostsRepository {
   @GET("/home")
   Future<ServerResult<HomeInfo>> getHomeInfo();
 
-  // Future<Response<ServerResult<dynamic>>> getAllPostsSimpleList(
-  //     int page, List<PostType> typeList) {
-  //   var url = '/post/list/$page';
-  //   Iterable<int>.generate(typeList.length).forEach((index) => {
-  //         if (index == 0)
-  //           url += "?type=${toInt(typeList[index])}"
-  //         else
-  //           url += "&type=${toInt(typeList[index])}"
-  //       });
+  @GET("/post/list/{page}")
+  Future<ServerResult<List<Post>>> getAllPostsSimpleList(
+    @Path() String page,
+    @Query("url") List<PostType> typeList);
 
-  //   return get<ServerResult<dynamic>>(url)
-  //       .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
-  // }
+  @GET("/post/{id}")
+  Future<ServerResult<Post>> getPosts(@Path() int id);
 
-  // Future<Response<ServerResult<dynamic>>> getPostsWith(int id) =>
-  //     get<ServerResult<dynamic>>('/post/$id')
-  //         .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+  @GET("/post/{id}")
+  Future<ServerResult<Post>> getSecretPosts(
+    @Path() int id,
+    @Query("token") String token);
 
-  // Future<Response<ServerResult<dynamic>>> getSecretPostsWith(
-  //         int id, String token) =>
-  //     get<ServerResult<dynamic>>('/post/$id?token=$token')
-  //         .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+  @POST("/post")
+  Future<ServerResult> createPosts(
+    @Field() Post posts,
+    @Field() String token);
 
-  // Future<Response<ServerResult<dynamic>>> postPostsWith(
-  //         int type, String title, String body, String token) =>
-  //     post<ServerResult<dynamic>>('/post', {
-  //       "type": type,
-  //       "title": title,
-  //       "body": body,
-  //       "token": token
-  //     }).timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+  @POST("/post")
+  Future<ServerResult> createComment(
+    @Field() Comment commnet,
+    @Field() String token);
 
-  // Future<Response<ServerResult<dynamic>>> postCommentWith(
-  //         int postId, String nick, String comment, String token) =>
-  //     post<ServerResult<dynamic>>('/comment', {
-  //       "post_id": postId,
-  //       "nick": nick,
-  //       "comment": comment,
-  //       "token": token
-  //     }).timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+  @POST("/report")
+  Future<ServerResult> createReport(
+    @Field() String id,
+    @Field() String token);
 
-  // Future<Response<ServerResult<dynamic>>> postReportWith(
-  //         String id, String body) =>
-  //     post<ServerResult<dynamic>>('/report', {"id": id, "body": body})
-  //         .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+  @DELETE("/post/{id}")
+  Future<ServerResult> deletePosts(
+    @Path() int id,
+    @Query("token") String token);
 
-  // Future<Response<ServerResult<dynamic>>> deletePosts(String token, int id) =>
-  //     delete<ServerResult<dynamic>>('/post/$token?id=$id')
-  //         .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
-
-  // Future<Response<ServerResult<dynamic>>> deleteComment(String token, int id, int postId) =>
-  //     delete<ServerResult<dynamic>>('/comment/$token?id=$id&post_id=$postId')
-  //         .timeout(TIMEOUT_SEC, onTimeout: timeoutResponse);
+  @DELETE("/comment/{id}")
+  Future<ServerResult> deleteComment(
+    @Path() int id,
+    @Query("token") String token,
+    @Query("post_id") String postId);
 }
