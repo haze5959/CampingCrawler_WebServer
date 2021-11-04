@@ -1,5 +1,8 @@
-import 'package:good_place_camp/Model/CampArea.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'CampInfo.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class CampInfo {
   final String name;
   final String desc;
@@ -7,75 +10,56 @@ class CampInfo {
   final String phone;
   final double lat;
   final double lon;
-  final CampArea area;
+  final int areaBit;
   final String homepageUrl;
   final String reservationUrl;
   final String reservationOpen;
 
-  CampInfo(
-    this.name,
-    this.desc,
-    this.addr,
-    this.phone,
-    this.lat,
-    this.lon,
-    this.area,
-    this.homepageUrl,
-    this.reservationUrl,
-    this.reservationOpen,
-  );
+  CampInfo({
+    required this.name,
+    required this.desc,
+    required this.addr,
+    required this.phone,
+    required this.lat,
+    required this.lon,
+    required this.areaBit,
+    required this.homepageUrl,
+    required this.reservationUrl,
+    required this.reservationOpen,
+  });
 
-  CampInfo.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        desc = json['desc'],
-        addr = json['addr'],
-        phone = json['phone'],
-        lat = json['lat'],
-        lon = json['lon'],
-        area = fromAreaInt(json['area']),
-        homepageUrl = json['homepage_url'],
-        reservationUrl = json['reservation_url'],
-        reservationOpen = json['reservation_open'];
-
-  static Map<String, CampInfo> fromJsonArr(jsonStr) {
-    var campInfoMap = Map<String, CampInfo>();
-    final maps = Map<String, dynamic>.from(jsonStr);
-    for (final key in maps.keys) {
-      final json = Map<String, dynamic>.from(maps[key]);
-      campInfoMap[key] = CampInfo.fromJson(json);
-    }
-
-    return campInfoMap;
-  }
+  factory CampInfo.fromJson(Map<String, dynamic> json) =>
+      _$CampInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$CampInfoToJson(this);
 }
 
+@JsonSerializable(fieldRename: FieldRename.snake)
 class CampSimpleInfo {
+  final String key;
   final String name;
   final String addr;
-  final CampArea area;
+  final int areaBit;
   final String reservationOpen;
 
-  CampSimpleInfo(
-    this.name,
-    this.addr,
-    this.area,
-    this.reservationOpen,
-  );
+  CampSimpleInfo({
+    required this.key,
+    required this.name,
+    required this.addr,
+    required this.areaBit,
+    required this.reservationOpen,
+  });
 
-  CampSimpleInfo.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        addr = json['addr'],
-        area = fromAreaInt(json['area']),
-        reservationOpen = json['reservation_open'];
+  factory CampSimpleInfo.fromJson(Map<String, dynamic> json) =>
+      _$CampSimpleInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$CampSimpleInfoToJson(this);
+}
 
-  static Map<String, CampSimpleInfo> fromJsonArr(jsonStr) {
-    var campInfoMap = Map<String, CampSimpleInfo>();
-    final maps = Map<String, dynamic>.from(jsonStr);
-    for (final key in maps.keys) {
-      final json = Map<String, dynamic>.from(maps[key]);
-      campInfoMap[key] = CampSimpleInfo.fromJson(json);
-    }
+Map<String, CampSimpleInfo> toCampInfoMap(List<CampSimpleInfo> list) {
+  Map<String, CampSimpleInfo> infoMap = Map<String, CampSimpleInfo>();
 
-    return campInfoMap;
+  for (var info in list) {
+    infoMap[info.key] = info;
   }
+
+  return infoMap;
 }

@@ -16,42 +16,40 @@ class _SiteRepository implements SiteRepository {
   String? baseUrl;
 
   @override
-  Future<ServerResult<SiteDateInfo>> getSiteInfo(site) async {
+  Future<ServerResult<SiteDetailInfo>> getSiteInfo(site) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ServerResult<SiteDateInfo>>(
+        _setStreamType<ServerResult<SiteDetailInfo>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/camp/$site',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ServerResult<SiteDateInfo>.fromJson(
+    final value = ServerResult<SiteDetailInfo>.fromJson(
       _result.data!,
-      (json) => SiteDateInfo.fromJson(json as Map<String, dynamic>),
+      (json) => SiteDetailInfo.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }
 
   @override
-  Future<ServerResult<List<SiteDateInfo>>> getSiteInfoWithArea(areaList) async {
+  Future<ServerResult<SiteListInfo>> getSiteInfoWithArea(areaList) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'area_bit': areaList};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ServerResult<List<SiteDateInfo>>>(
+        _setStreamType<ServerResult<SiteListInfo>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/camp',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ServerResult<List<SiteDateInfo>>.fromJson(
-        _result.data!,
-        (json) => (json as List<dynamic>)
-            .map<SiteDateInfo>(
-                (i) => SiteDateInfo.fromJson(i as Map<String, dynamic>))
-            .toList());
+    final value = ServerResult<SiteListInfo>.fromJson(
+      _result.data!,
+      (json) => SiteListInfo.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 

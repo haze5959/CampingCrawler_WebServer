@@ -10,15 +10,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
-// Models
-import 'package:good_place_camp/Model/CampUser.dart';
-
-// Repository
-import 'package:good_place_camp/Repository/UserRepository.dart';
-
 class UserInfoController extends GetxController {
-  final UserRepository repo = UserRepository();
-
   RxList<String> linkedSNS = RxList<String>();
 
   RxBool isLoading = false.obs;
@@ -26,8 +18,9 @@ class UserInfoController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    final providerList = Constants.user.value.firebaseUser.providerData;
-    linkedSNS.value = providerList.map((info) => info.providerId).toList();
+    final providerList = Constants.user.value.firebaseUser?.providerData;
+    linkedSNS.value =
+        providerList?.map((info) => info.providerId).toList() ?? [];
   }
 
   void reload() async {
@@ -48,16 +41,16 @@ class UserInfoController extends GetxController {
     }
 
     try {
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
       // Create a new credential
-      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
       );
 
       isLoading.value = false;
@@ -83,10 +76,10 @@ class UserInfoController extends GetxController {
       final LoginResult result = await FacebookAuth.instance.login();
       if (result.status == LoginStatus.success) {
         // you are logged
-        final AccessToken accessToken = result.accessToken;
+        final AccessToken? accessToken = result.accessToken;
         // Create a credential from the access token
-        final FacebookAuthCredential facebookAuthCredential =
-            FacebookAuthProvider.credential(accessToken.token);
+        final OAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(accessToken?.token ?? "");
 
         // Once signed in, return the UserCredential
         isLoading.value = false;
@@ -124,8 +117,8 @@ class UserInfoController extends GetxController {
         case TwitterLoginStatus.loggedIn:
           final AuthCredential twitterAuthCredential =
               TwitterAuthProvider.credential(
-                  accessToken: authResult.authToken,
-                  secret: authResult.authTokenSecret);
+                  accessToken: authResult.authToken ?? "",
+                  secret: authResult.authTokenSecret ?? "");
           isLoading.value = false;
           return _checkSuccess(twitterAuthCredential);
         case TwitterLoginStatus.cancelledByUser:
@@ -191,7 +184,7 @@ class UserInfoController extends GetxController {
 
   Future<bool> _checkSuccess(AuthCredential cred) async {
     try {
-      await Constants.user.value.firebaseUser.linkWithCredential(cred);
+      await Constants.user.value.firebaseUser?.linkWithCredential(cred);
       return true;
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);
@@ -206,7 +199,7 @@ class UserInfoController extends GetxController {
     }
 
     try {
-      await Constants.user.value.firebaseUser.unlink(providerId);
+      await Constants.user.value.firebaseUser?.unlink(providerId);
       return true;
     } on FirebaseAuthException catch (e) {
       _authEceptionHandler(e.code);

@@ -10,7 +10,7 @@ class SimpleCampCardItem extends StatelessWidget {
   final String siteName;
 
   SimpleCampCardItem({
-    this.siteName,
+    required this.siteName,
   });
 
   @override
@@ -42,7 +42,7 @@ class SimpleCampCardItem extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.subtitle1.copyWith(color: Colors.white);
+    final titleStyle = theme.textTheme.subtitle1!.copyWith(color: Colors.white);
     final descriptionStyle = theme.textTheme.bodyText2;
     final addrStyle = theme.textTheme.caption;
 

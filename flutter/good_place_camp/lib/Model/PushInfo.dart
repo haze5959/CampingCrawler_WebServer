@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'PushInfo.g.dart';
+
 @JsonSerializable()
 class PushInfo {
   final bool usePushOnArea;

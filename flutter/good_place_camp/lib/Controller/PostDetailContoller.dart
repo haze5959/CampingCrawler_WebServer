@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
-
-// Repository
-import 'package:good_place_camp/Repository/PostsRepository.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
@@ -13,13 +11,11 @@ class PostDetailContoller extends GetxController {
   final int id;
   final bool isSecret;
 
-  PostDetailContoller({this.id, this.isSecret = false}) {
+  PostDetailContoller({required this.id, this.isSecret = false}) {
     reload();
   }
 
-  final PostsRepository repo = PostsRepository();
-
-  Post posts;
+  Post? posts;
   List<Comment> commentList = [];
 
   RxBool isLoading = true.obs;
@@ -30,39 +26,37 @@ class PostDetailContoller extends GetxController {
     Board board;
 
     if (isSecret) {
-      final token = await Constants.user.value.firebaseUser.getIdToken();
-      final postsResult = await repo.getSecretPostsWith(id, token);
-
-      if (postsResult.hasError) {
-        showOneBtnAlert(postsResult.statusText, "확인",
-            () => Navigator.pop(Get.context));
-        return;
-      } else if (!postsResult.body.result) {
-        if (postsResult.body.msg == "Auth Fail") {
-          showOneBtnAlert("비밀글은 작성자만 확인할 수 있습니다.", "확인",
-            () => Navigator.pop(Get.context));
+      final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
+      final res = await ApiRepo.posts.getSecretPosts(id, token);
+      final data = res.data;
+      if (!res.result) {
+        if (res.msg == "Auth Fail") {
+          showOneBtnAlert(
+              "비밀글은 작성자만 확인할 수 있습니다.", "확인", () => Navigator.pop(Get.context!));
         } else {
-          showOneBtnAlert(postsResult.body.msg, "확인",
-            () => Navigator.pop(Get.context));
+          showOneBtnAlert(res.msg, "확인", () => Navigator.pop(Get.context!));
         }
         return;
+      } else if (data == null) {
+        print("reloadInfo result fail - " + res.msg);
+        showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
+        return;
       }
 
-      board = Board.fromJson(postsResult.body.data);
+      board = data;
     } else {
-      final postsResult = await repo.getPostsWith(id);
-
-      if (postsResult.hasError) {
-        showOneBtnAlert(postsResult.statusText, "확인",
-            () => Navigator.pop(Get.context));
+      final res = await ApiRepo.posts.getPosts(id);
+      final data = res.data;
+      if (!res.result) {
+        showOneBtnAlert(res.msg, "확인", () => Navigator.pop(Get.context!));
         return;
-      } else if (!postsResult.body.result) {
-        showOneBtnAlert(postsResult.body.msg, "확인",
-            () => Navigator.pop(Get.context));
+      } else if (data == null) {
+        print("reloadInfo result fail - " + res.msg);
+        showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
         return;
       }
 
-      board = Board.fromJson(postsResult.body.data);
+      board = data;
     }
 
     posts = board.post;
@@ -73,15 +67,12 @@ class PostDetailContoller extends GetxController {
 
   Future<bool> deletePosts() async {
     final token = Constants.user.value.isLogin
-        ? await Constants.user.value.firebaseUser.getIdToken()
-        : null;
-    final result = await repo.deletePosts(token, id);
+        ? await Constants.user.value.firebaseUser?.getIdToken() ?? ""
+        : "";
+    final res = await ApiRepo.posts.deletePosts(id, token);
 
-    if (result.hasError) {
-      showOneBtnAlert(result.statusText, "확인", () {});
-      return false;
-    } else if (!result.body.result) {
-      showOneBtnAlert(result.body.msg, "확인", () {});
+    if (!res.result) {
+      showOneBtnAlert(res.msg, "확인", () {});
       return false;
     }
 

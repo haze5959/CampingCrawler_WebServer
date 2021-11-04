@@ -9,22 +9,10 @@ import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
 import 'package:good_place_camp/Constants.dart';
-
-// Repository
-import 'package:good_place_camp/Repository/UserRepository.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 class LoginController extends GetxController {
-  final UserRepository repo = UserRepository();
-
-  LoginController() {
-    reload();
-  }
-
   RxBool isLoading = true.obs;
-
-  void reload() async {
-    isLoading.value = false;
-  }
 
   Future<bool> logInWithGoogle() async {
     isLoading.value = true;
@@ -34,7 +22,10 @@ class LoginController extends GetxController {
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
         if (GetPlatform.isMobile) {
-          Constants.auth.signInWithRedirect(googleProvider);
+          await Constants.auth.signInWithRedirect(googleProvider);
+          final cred = await Constants.auth.getRedirectResult();
+          isLoading.value = false;
+          return _checkSuccess(cred);
         } else {
           final cred = await Constants.auth.signInWithPopup(googleProvider);
           isLoading.value = false;
@@ -42,14 +33,18 @@ class LoginController extends GetxController {
         }
       } else {
         // 네이티브
-        final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        if (googleUser == null) {
+          _authEceptionHandler("not-found-user");
+          return false;
+        }
 
         // Obtain the auth details from the request
         final GoogleSignInAuthentication googleAuth =
             await googleUser.authentication;
 
         // Create a new credential
-        final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        final OAuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
@@ -87,10 +82,10 @@ class LoginController extends GetxController {
         final LoginResult result = await FacebookAuth.instance.login();
         if (result.status == LoginStatus.success) {
           // you are logged
-          final AccessToken accessToken = result.accessToken;
+          final AccessToken? accessToken = result.accessToken;
           // Create a credential from the access token
-          final FacebookAuthCredential facebookAuthCredential =
-              FacebookAuthProvider.credential(accessToken.token);
+          final OAuthCredential facebookAuthCredential =
+              FacebookAuthProvider.credential(accessToken?.token ?? "");
 
           // Once signed in, return the UserCredential
           final cred =
@@ -134,8 +129,8 @@ class LoginController extends GetxController {
           case TwitterLoginStatus.loggedIn:
             final AuthCredential twitterAuthCredential =
                 TwitterAuthProvider.credential(
-                    accessToken: authResult.authToken,
-                    secret: authResult.authTokenSecret);
+                    accessToken: authResult.authToken ?? "",
+                    secret: authResult.authTokenSecret ?? "");
             final userCredential = await FirebaseAuth.instance
                 .signInWithCredential(twitterAuthCredential);
             isLoading.value = false;

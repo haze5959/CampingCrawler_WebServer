@@ -216,6 +216,9 @@ List<DateTime> getReservationOpenDate(String reservationCode) {
       return [0, 1, 2, 3].map<DateTime>((index) {
         return pivotDate.add((Duration(days: 7 * index)));
       }).toList();
+    } else {
+      print("DateUtill param error!!!");
+      return [];
     }
   } else {
     return [];

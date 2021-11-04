@@ -17,40 +17,30 @@ abstract class PostsRepository {
 
   @GET("/post/list/{page}")
   Future<ServerResult<List<Post>>> getAllPostsSimpleList(
-    @Path() String page,
-    @Query("url") List<PostType> typeList);
+      @Path() int page, @Query("url") List<PostType> typeList);
 
   @GET("/post/{id}")
-  Future<ServerResult<Post>> getPosts(@Path() int id);
+  Future<ServerResult<Board>> getPosts(@Path() int id);
 
   @GET("/post/{id}")
-  Future<ServerResult<Post>> getSecretPosts(
-    @Path() int id,
-    @Query("token") String token);
+  Future<ServerResult<Board>> getSecretPosts(
+      @Path() int id, @Query("token") String token);
 
   @POST("/post")
-  Future<ServerResult> createPosts(
-    @Field() Post posts,
-    @Field() String token);
+  Future<ServerResult> createPosts(@Field() Post posts, @Field() String token);
 
   @POST("/post")
   Future<ServerResult> createComment(
-    @Field() Comment commnet,
-    @Field() String token);
+      @Field() Comment commnet, @Field() String token);
 
   @POST("/report")
-  Future<ServerResult> createReport(
-    @Field() String id,
-    @Field() String token);
+  Future<ServerResult> createReport(@Field() String id, @Field() String token);
 
   @DELETE("/post/{id}")
   Future<ServerResult> deletePosts(
-    @Path() int id,
-    @Query("token") String token);
+      @Path() int id, @Query("token") String token);
 
   @DELETE("/comment/{id}")
-  Future<ServerResult> deleteComment(
-    @Path() int id,
-    @Query("token") String token,
-    @Query("post_id") String postId);
+  Future<ServerResult> deleteComment(@Path() int id,
+      @Query("token") String token, @Query("post_id") String postId);
 }

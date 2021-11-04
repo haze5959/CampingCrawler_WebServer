@@ -25,7 +25,7 @@ class PostCardItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () {
-              if (info.type == PostType.secret) {
+              if (info.getPostType() == PostType.secret) {
                 if (!Constants.user.value.isLogin) {
                   showRequiredLoginAlert();
                 } else {
@@ -33,14 +33,14 @@ class PostCardItem extends StatelessWidget {
                     context,
                     CupertinoPageRoute(
                         builder: (context) =>
-                            PostDetailPage(info.id, isSecret: true)),
+                            PostDetailPage(info.id!, isSecret: true)),
                   );
                 }
               } else {
                 Navigator.push<void>(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => PostDetailPage(info.id)),
+                      builder: (context) => PostDetailPage(info.id!)),
                 );
               }
             },
@@ -56,7 +56,7 @@ class PostCardItem extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.subtitle1.copyWith(color: Colors.white);
+    final titleStyle = theme.textTheme.subtitle1!.copyWith(color: Colors.white);
     final descriptionStyle = theme.textTheme.bodyText2;
     final addrStyle = theme.textTheme.caption;
 
@@ -84,7 +84,7 @@ class PostCardItem extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    info.type.toPostTypeString(),
+                    info.getPostType().toPostTypeString(),
                     style: titleStyle,
                   ),
                 ),
@@ -114,7 +114,7 @@ class PostCardItem extends StatelessWidget {
         child: DefaultTextStyle(
           softWrap: false,
           overflow: TextOverflow.ellipsis,
-          style: descriptionStyle,
+          style: descriptionStyle!,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

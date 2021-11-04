@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-@JsonSerializable()
+part 'Post.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class HomeInfo {
   final List<Post> noticeList;
   final List<Post> postList;
@@ -15,10 +17,10 @@ class HomeInfo {
   Map<String, dynamic> toJson() => _$HomeInfoToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Post {
   final int? id;
-  final int type; // final PostType type;
+  final int type;
   final String title;
   final String body;
   final String? nick;
@@ -35,11 +37,15 @@ class Post {
     this.commentCount,
   });
 
+  PostType getPostType() {
+    return fromInt(type);
+  }
+
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   Map<String, dynamic> toJson() => _$PostToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Comment {
   final int? id;
   final int postId;
@@ -59,7 +65,7 @@ class Comment {
   Map<String, dynamic> toJson() => _$CommentToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Board {
   final Post post;
   final List<Comment> commentList;

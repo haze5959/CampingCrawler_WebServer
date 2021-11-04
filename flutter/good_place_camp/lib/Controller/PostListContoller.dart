@@ -1,26 +1,25 @@
 import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
-
-// Repository
-import 'package:good_place_camp/Repository/PostsRepository.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
 
 class PostListContoller extends GetxController {
   final bool isNotice;
-  List<PostType> typeList;
+  final List<PostType> typeList;
   int pageNum = 0;
 
-  PostListContoller({this.isNotice}) {
+  PostListContoller._(this.isNotice, this.typeList);
+
+  factory PostListContoller(bool isNotice) {
     if (isNotice) {
-      typeList = [PostType.notice];
+      return PostListContoller._(isNotice, [PostType.notice]);
     } else {
-      typeList = [PostType.question, PostType.request, PostType.secret];
+      return PostListContoller._(
+          isNotice, [PostType.question, PostType.request, PostType.secret]);
     }
   }
-
-  final PostsRepository repo = PostsRepository();
 
   RxList<Post> postList = RxList<Post>.empty();
 
@@ -37,20 +36,21 @@ class PostListContoller extends GetxController {
     if (!isLastPage.value) {
       isLoading.value = true;
 
-      final result = await repo.getAllPostsSimpleList(pageNum, typeList);
-      if (result.hasError) {
-        showOneBtnAlert(result.statusText, "재시도", fetchPosts);
+      final res = await ApiRepo.posts.getAllPostsSimpleList(pageNum, typeList);
+      final data = res.data;
+      if (!res.result) {
+        showOneBtnAlert(res.msg, "확인", () {});
         return;
-      } else if (!result.body.result) {
-        showOneBtnAlert(result.body.msg, "재시도", fetchPosts);
+      } else if (data == null) {
+        print("reloadInfo result fail - " + res.msg);
+        showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
         return;
       }
 
-      final postListData = Post.fromJsonArr(result.body.data);
-      if (postListData.length == 0) {
+      if (data.length == 0) {
         isLastPage.value = true;
       } else {
-        postList.addAll(postListData);
+        postList.addAll(data);
         pageNum += 1;
       }
 

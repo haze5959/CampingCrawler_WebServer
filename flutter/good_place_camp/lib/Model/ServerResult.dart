@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'ServerResult.g.dart';
+
 @JsonSerializable(genericArgumentFactories: true)
 class ServerResult<DataType> {
   final bool result;

@@ -41,7 +41,7 @@ abstract class UserRepository {
   @POST("/user/favorite")
   Future<ServerResult> postUserFavoriteList(
     @Field() String token,
-    @Field() int campId);
+    @Field() String campId);
 
   @DELETE("/user/favorite/{camp_id}")
   Future<ServerResult> deleteUserFavoriteList(

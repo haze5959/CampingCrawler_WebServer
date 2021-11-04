@@ -16,79 +16,78 @@ class _PostsRepository implements PostsRepository {
   String? baseUrl;
 
   @override
-  Future<ServerResult<dynamic>> getHomeInfo() async {
+  Future<ServerResult<HomeInfo>> getHomeInfo() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ServerResult<dynamic>>(
+        _setStreamType<ServerResult<HomeInfo>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/home',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ServerResult<dynamic>.fromJson(
+    final value = ServerResult<HomeInfo>.fromJson(
       _result.data!,
-      (json) => json as dynamic,
+      (json) => HomeInfo.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }
 
   @override
-  Future<ServerResult<List<dynamic>>> getAllPostsSimpleList(
-      page, typeList) async {
+  Future<ServerResult<List<Post>>> getAllPostsSimpleList(page, typeList) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'url': typeList};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ServerResult<List<dynamic>>>(
+        _setStreamType<ServerResult<List<Post>>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/post/list/$page',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ServerResult<List<dynamic>>.fromJson(
+    final value = ServerResult<List<Post>>.fromJson(
         _result.data!,
         (json) => (json as List<dynamic>)
-            .map<dynamic>((i) => i as Map<String, dynamic>)
+            .map<Post>((i) => Post.fromJson(i as Map<String, dynamic>))
             .toList());
     return value;
   }
 
   @override
-  Future<ServerResult<dynamic>> getPosts(id) async {
+  Future<ServerResult<Board>> getPosts(id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ServerResult<dynamic>>(
+        _setStreamType<ServerResult<Board>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/post/$id',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ServerResult<dynamic>.fromJson(
+    final value = ServerResult<Board>.fromJson(
       _result.data!,
-      (json) => json as dynamic,
+      (json) => Board.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }
 
   @override
-  Future<ServerResult<dynamic>> getSecretPosts(id, token) async {
+  Future<ServerResult<Board>> getSecretPosts(id, token) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'token': token};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ServerResult<dynamic>>(
+        _setStreamType<ServerResult<Board>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/post/$id',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ServerResult<dynamic>.fromJson(
+    final value = ServerResult<Board>.fromJson(
       _result.data!,
-      (json) => json as dynamic,
+      (json) => Board.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }

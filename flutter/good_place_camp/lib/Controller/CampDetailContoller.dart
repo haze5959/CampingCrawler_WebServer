@@ -2,10 +2,7 @@ import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
-
-// Repository
-import 'package:good_place_camp/Repository/SiteRepository.dart';
-import 'package:good_place_camp/Repository/UserRepository.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
@@ -14,15 +11,12 @@ import 'package:good_place_camp/Model/CampInfo.dart';
 class CampDetailContoller extends GetxController {
   final String siteName;
 
-  CampDetailContoller({this.siteName}) {
+  CampDetailContoller({required this.siteName}) {
     reload();
   }
 
-  final SiteRepository repo = SiteRepository();
-  final UserRepository userRepo = UserRepository();
-
-  CampInfo campInfo;
-  SiteDateInfo siteInfo;
+  CampInfo? campInfo;
+  SiteDateInfo? siteInfo;
 
   Rx<bool> isFavorite = Rx<bool>(false);
   RxString selectedSiteInfo = "".obs;
@@ -34,26 +28,27 @@ class CampDetailContoller extends GetxController {
 
   void reload() async {
     isLoading.value = true;
-    final result = await repo.getSiteInfoWith(siteName);
-    if (result.hasError) {
-      showOneBtnAlert(result.statusText, "재시도", reload);
+    final res = await ApiRepo.site.getSiteInfo(siteName);
+    final data = res.data;
+    if (!res.result) {
+      showOneBtnAlert(res.msg, "확인", () {});
       return;
-    } else if (!result.body.result) {
-      showOneBtnAlert(result.body.msg, "재시도", reload);
+    } else if (data == null) {
+      print("reloadInfo result fail - " + res.msg);
+      showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
       return;
     }
 
-    siteInfo = SiteDateInfo.fromJson(result.body.data["camp"]);
-    campInfo = CampInfo.fromJson(result.body.data["info"]);
-    final holiday = Map<String, String>.from(result.body.data["holiday"]);
-    _updateEvents(siteInfo, holiday);
+    siteInfo = data.site;
+    campInfo = data.camp;
+    _updateEvents(data.site, data.holiday);
 
     isFavorite(_checkFavorite());
     isLoading.value = false;
   }
 
   void launchHomepageURL() async {
-    final url = campInfo.homepageUrl;
+    final url = campInfo?.homepageUrl ?? "";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -62,7 +57,7 @@ class CampDetailContoller extends GetxController {
   }
 
   void launchReservationURL() async {
-    final url = campInfo.reservationUrl;
+    final url = campInfo?.reservationUrl ?? "";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -72,7 +67,7 @@ class CampDetailContoller extends GetxController {
 
   void launchMap() async {
     final url =
-        "http://map.naver.com/?zoom=6&query=${Uri.encodeComponent(campInfo.addr)}";
+        "http://map.naver.com/?zoom=6&query=${Uri.encodeComponent(campInfo?.addr ?? "")}";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -81,7 +76,7 @@ class CampDetailContoller extends GetxController {
   }
 
   void callPhoneNum() async {
-    launch("tel://${campInfo.phone}");
+    launch("tel://${campInfo?.phone ?? ""}");
   }
 
   void _updateEvents(SiteDateInfo info, Map<String, String> holiday) {
@@ -105,44 +100,41 @@ class CampDetailContoller extends GetxController {
   }
 
   bool _checkFavorite() {
-    if (Constants.user != null) {
-      return Constants.user.value.info.favoriteList.contains(siteName);
-    } else {
-      return false;
-    }
+    return Constants.user.value.info.favoriteList?.contains(siteName) ?? false;
   }
 
   void onClickFavorite() async {
+    final user = Constants.user.value.firebaseUser;
+    if (user == null) {
+      showRequiredLoginAlert();
+      return;
+    }
+
     if (Constants.user.value.isLogin) {
-      if (Constants.user.value.info.favoriteList.contains(siteName)) {
+      if (_checkFavorite()) {
         // 즐겨찾기 삭제 api
-        final idToken = await Constants.user.value.firebaseUser.getIdToken();
-        final result = await userRepo.deleteUserFavoriteList(idToken, siteName);
-        if (result.hasError) {
-          showOneBtnAlert(result.statusText, "확인", () {});
-          return;
-        } else if (!result.body.result) {
-          showOneBtnAlert(result.body.msg, "확인", () {});
+        final idToken = await user.getIdToken();
+        final res =
+            await ApiRepo.user.deleteUserFavoriteList(idToken, siteName);
+        if (!res.result) {
+          showOneBtnAlert(res.msg, "확인", () {});
           return;
         }
 
-        Constants.user.value.info.favoriteList.remove(siteName);
+        Constants.user.value.info.favoriteList?.remove(siteName);
         showOneBtnAlert("즐겨찾기 목록에 삭제되었습니다.", "확인", () {
           isFavorite(false);
         });
       } else {
         // 즐겨찾기 추가 api
-        final idToken = await Constants.user.value.firebaseUser.getIdToken();
-        final result = await userRepo.postUserFavoriteList(idToken, siteName);
-        if (result.hasError) {
-          showOneBtnAlert(result.statusText, "확인", () {});
-          return;
-        } else if (!result.body.result) {
-          showOneBtnAlert(result.body.msg, "확인", () {});
+        final idToken = await user.getIdToken();
+        final res = await ApiRepo.user.postUserFavoriteList(idToken, siteName);
+        if (!res.result) {
+          showOneBtnAlert(res.msg, "확인", () {});
           return;
         }
 
-        Constants.user.value.info.favoriteList.add(siteName);
+        Constants.user.value.info.favoriteList?.add(siteName);
         showOneBtnAlert("즐겨찾기 목록에 추가되었습니다.", "확인", () {
           isFavorite(true);
         });

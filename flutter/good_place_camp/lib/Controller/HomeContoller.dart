@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-// Repository
-import 'package:good_place_camp/Repository/SiteRepository.dart';
-import 'package:good_place_camp/Repository/PostsRepository.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
@@ -21,24 +16,20 @@ import 'package:good_place_camp/Model/Post.dart';
 import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
 
 class HomeController extends GetxController {
-  final SiteRepository repo = SiteRepository();
-  final PostsRepository postRepo = PostsRepository();
-
   // 사이트별 가능한 날짜 리스트
   RxList<SiteInfo> siteInfoList = RxList<SiteInfo>.empty();
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
   Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
 
+  List<CampSimpleInfo> allCampInfo = <CampSimpleInfo>[];
   // 해당 지역의 캠핑장 리스트
-  Map<String, CampSimpleInfo> accpetedCampInfo = Map<String, CampSimpleInfo>();
+  List<CampSimpleInfo> accpetedCampInfo = <CampSimpleInfo>[];
 
   RxList<Post> noticeList = RxList<Post>.empty();
   RxList<Post> postList = RxList<Post>.empty();
 
   RxBool isLoading = true.obs;
-
-  BuildContext context;
 
   @override
   void onReady() {
@@ -59,16 +50,19 @@ class HomeController extends GetxController {
     final myArea = fromBit(areaBit);
     Constants.myArea = myArea.obs;
 
-    final result = await repo.getAllSiteJson();
-    if (result.hasError) {
-      showOneBtnAlert("서버가 불안정합니다. 잠시 후에 다시 시도해주세요.", "재시도", initData);
+    final res = await ApiRepo.site.getAllSiteJson();
+    final data = res.data;
+    if (!res.result) {
+      showOneBtnAlert(res.msg, "확인", () {});
       return;
-    } else if (!result.body.result) {
-      showOneBtnAlert(result.body.msg, "재시도", initData);
+    } else if (data == null) {
+      print("reloadInfo result fail - " + res.msg);
+      showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
       return;
     }
 
-    Constants.campSimpleInfo = CampSimpleInfo.fromJsonArr(result.body.data);
+    allCampInfo = data;
+    Constants.campInfoMap = toCampInfoMap(data);
 
     reload();
   }
@@ -84,18 +78,19 @@ class HomeController extends GetxController {
 
   Future<void> updatePostList() async {
     // 게시물 로드
-    final postResult = await postRepo.getFirstPagePostsList();
-    if (postResult.hasError) {
-      showOneBtnAlert(postResult.statusText, "재시도", reload);
+    final res = await ApiRepo.posts.getHomeInfo();
+    final data = res.data;
+    if (!res.result) {
+      showOneBtnAlert(res.msg, "확인", () {});
       return;
-    } else if (!postResult.body.result) {
-      showOneBtnAlert(postResult.body.msg, "재시도", reload);
+    } else if (data == null) {
+      print("reloadInfo result fail - " + res.msg);
+      showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
       return;
     }
 
-    final postJson = Post.fromJsonToHomePosts(postResult.body.data);
-    noticeList.assignAll(postJson["notice"]);
-    postList.assignAll(postJson["posts"]);
+    noticeList.value = data.noticeList;
+    postList.value = data.postList;
   }
 
   void _updateEvents(List<SiteDateInfo> infoList) {
@@ -128,16 +123,17 @@ class HomeController extends GetxController {
 
   void _updateReservationDay() {
     // 예약시작일 처리
-    accpetedCampInfo.forEach((key, value) {
-      final reservationDateList = getReservationOpenDate(value.reservationOpen);
+    accpetedCampInfo.forEach((info) {
+      final reservationDateList = getReservationOpenDate(info.reservationOpen);
       if (reservationDateList.length > 0) {
         for (final date in reservationDateList) {
-          final info = ReservationInfo(key, value.reservationOpen);
+          final reservationInfo =
+              ReservationInfo(info.key, info.reservationOpen);
           var list = events[date];
           if (list == null) {
-            list = [info];
+            list = [reservationInfo];
           } else {
-            list.add(info);
+            list.add(reservationInfo);
           }
 
           events[date] = list;
@@ -147,34 +143,33 @@ class HomeController extends GetxController {
   }
 
   Future<void> updateCampSiteAvailDates() async {
-    final result = await repo.getSiteInfo(Constants.myArea);
-    if (result.hasError) {
-      showOneBtnAlert(result.statusText, "재시도", reload);
+    final res = await ApiRepo.site.getSiteInfoWithArea(Constants.myArea);
+    final data = res.data;
+    if (!res.result) {
+      showOneBtnAlert(res.msg, "확인", () {});
       return;
-    } else if (!result.body.result) {
-      showOneBtnAlert(result.body.msg, "재시도", reload);
+    } else if (data == null) {
+      print("reloadInfo result fail - " + res.msg);
+      showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
       return;
     }
 
-    final siteInfo = SiteDateInfo.fromJsonArr(result.body.data["camps"]);
-    final holiday = Map<String, String>.from(result.body.data["holiday"]);
     events.clear();
-    _updateEvents(siteInfo);
-    _updateHoliday(holiday);
+    _updateEvents(data.sites);
+    _updateHoliday(data.holiday);
     _updateReservationDay();
 
-    siteInfoList.value = siteInfo;
+    siteInfoList.value = data.sites;
   }
 
   void _updateAccpetedCampInfo() {
     if (Constants.myArea.isEmpty) {
-      accpetedCampInfo = Map.from(Constants.campSimpleInfo);
+      accpetedCampInfo = allCampInfo;
     } else {
       accpetedCampInfo.clear();
-      for (final key in Constants.campSimpleInfo.keys) {
-        final info = Constants.campSimpleInfo[key];
-        if (Constants.myArea.contains(info.area)) {
-          accpetedCampInfo[key] = info;
+      for (final info in allCampInfo) {
+        if (Constants.myArea.contains(fromAreaInt(info.areaBit))) {
+          accpetedCampInfo.add(info);
         }
       }
     }
@@ -188,13 +183,13 @@ class HomeController extends GetxController {
           const Duration(milliseconds: 1),
           () => showModalBottomSheet<void>(
               isScrollControlled: true,
-              context: context,
+              context: Get.context!,
               builder: (context) =>
                   BottomSheetContent(selectedDate.obs, events, holidays)));
     } else {
       showModalBottomSheet<void>(
           isScrollControlled: true,
-          context: context,
+          context: Get.context!,
           builder: (context) =>
               BottomSheetContent(selectedDate.obs, events, holidays));
     }

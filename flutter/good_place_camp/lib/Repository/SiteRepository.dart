@@ -15,10 +15,10 @@ abstract class SiteRepository {
   factory SiteRepository(Dio dio, {String baseUrl}) = _SiteRepository;
 
   @GET("/camp/{site}")
-  Future<ServerResult<SiteDateInfo>> getSiteInfo(@Path() String site);
+  Future<ServerResult<SiteDetailInfo>> getSiteInfo(@Path() String site);
 
   @GET("/camp")
-  Future<ServerResult<List<SiteDateInfo>>> getSiteInfoWithArea(@Query("area_bit") List<CampArea> areaList);
+  Future<ServerResult<SiteListInfo>> getSiteInfoWithArea(@Query("area_bit") List<CampArea> areaList);
 
   @GET("/info")
   Future<ServerResult<List<CampSimpleInfo>>> getAllSiteJson();

@@ -1,14 +1,15 @@
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
-import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Repository
-import 'package:good_place_camp/Repository/UserRepository.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+part 'CampUser.g.dart';
 
 class CampUser {
   bool isLogin;
@@ -16,8 +17,6 @@ class CampUser {
   CampUserInfo info = CampUserInfo();
 
   CampUser({required this.isLogin, this.firebaseUser});
-
-  UserRepository repo = UserRepository();
 
   Future<bool> login(User user) async {
     firebaseUser = user;
@@ -43,12 +42,9 @@ class CampUser {
     User? user = firebaseUser;
     if (user != null) {
       final idToken = await user.getIdToken();
-      final result = await repo.signOutUser(idToken);
-      if (result.hasError) {
-        showOneBtnAlert(result.statusText, "확인", () {});
-        return false;
-      } else if (!result.body.result) {
-        showOneBtnAlert(result.body.msg, "확인", () {});
+      final res = await ApiRepo.user.deleteUser(idToken);
+      if (!res.result) {
+        showOneBtnAlert(res.msg, "확인", () {});
         return false;
       }
 
@@ -63,21 +59,28 @@ class CampUser {
   }
 
   Future<bool> reloadInfo() async {
+    User? user = firebaseUser;
+    if (user == null) {
+      return false;
+    }
+
     try {
-      final idToken = await firebaseUser.getIdToken();
+      final idToken = await user.getIdToken();
       // 유저정보 가져오는 로직
-      final result = await repo.getUserInfo(idToken);
-      if (result.hasError) {
-        print("reloadInfo fail - " + result.statusText);
-        showOneBtnAlert(result.statusText, "확인", () {});
+      final res = await ApiRepo.user.getUserInfo(idToken);
+      final data = res.data;
+
+      if (!res.result) {
+        print("reloadInfo result fail - " + res.msg);
+        showOneBtnAlert(res.msg, "확인", () {});
         return false;
-      } else if (!result.body.result) {
-        print("reloadInfo result fail - " + result.body.msg);
-        showOneBtnAlert(result.body.msg, "확인", () {});
+      } else if (data == null) {
+        print("reloadInfo result fail - " + res.msg);
+        showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
         return false;
       }
 
-      info = CampUserInfo.fromJson(result.body.data);
+      info = data;
       Constants.user.refresh();
       return true;
     } catch (e) {
@@ -91,12 +94,26 @@ class CampUser {
 class CampUserInfo {
   String? nick;
   CampRating? level;
+
+  @JsonKey(name: 'use_push_subscription')
   bool? usePushSubscription = false; // TODO
+
+  @JsonKey(name: 'use_push_area_on_holiday')
   bool? usePushAreaOnHoliday = false;
+
+  @JsonKey(name: 'use_push_site_on_holiday')
   bool? usePushSiteOnHoliday = false;
+
+  @JsonKey(name: 'use_push_reservation_day')
   bool? usePushReservationDay = false;
+
+  @JsonKey(name: 'use_push_notice')
   bool? usePushNotice = false;
+
+  @JsonKey(name: 'favorite')
   List<String>? favoriteList = [];
+
+  @JsonKey(name: 'favorite_area')
   List<CampArea>? favoriteAreaList = [];
 
   CampUserInfo(
@@ -113,18 +130,6 @@ class CampUserInfo {
   factory CampUserInfo.fromJson(Map<String, dynamic> json) =>
       _$CampUserInfoFromJson(json);
   Map<String, dynamic> toJson() => _$CampUserInfoToJson(this);
-
-  // CampUserInfo.fromJson(Map<String, dynamic> json) {
-  //   final userJson = json['user'];
-  //   nick = userJson['nick'];
-  //   level = CampRatingParser.fromInt(userJson['auth_level']);
-  //   favoriteAreaList = fromBit(userJson['area_bit']);
-  //   usePushAreaOnHoliday = userJson['use_push_area_on_holiday'] == 1;
-  //   usePushSiteOnHoliday = userJson['use_push_site_on_holiday'] == 1;
-  //   usePushReservationDay = userJson['use_push_reservation_day'] == 1;
-  //   usePushNotice = userJson['use_push_notice'] == 1;
-  //   favoriteList = List<String>.from(json['favorite']);
-  // }
 }
 
 enum CampRating { level01, level02, level03, owner }

@@ -7,16 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-// Repository
-import 'package:good_place_camp/Repository/PostsRepository.dart';
-import 'package:good_place_camp/Repository/UserRepository.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/LoginPage.dart';
 
-void showOneBtnAlert(String msg, String btnText,
-    Function() confirmAction) {
+void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
   showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
@@ -37,8 +33,7 @@ void showOneBtnAlert(String msg, String btnText,
       });
 }
 
-void showTwoBtnAlert(String msg, String btnText,
-    Function() confirmAction) {
+void showTwoBtnAlert(String msg, String btnText, Function() confirmAction) {
   showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
@@ -123,8 +118,6 @@ void showPwAlert(String msg, Function(String pw) confirmAction) {
 
 void showReportAlert(BuildContext context, String id, String type) {
   TextEditingController bodyControler = new TextEditingController();
-  PostsRepository postRepo = PostsRepository();
-
   RxBool hasErr = false.obs;
 
   bool _validateText() {
@@ -140,7 +133,10 @@ void showReportAlert(BuildContext context, String id, String type) {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("신고 식별자: $id", style: TextStyle(color: Colors.grey, fontSize: 12),),
+          title: Text(
+            "신고 식별자: $id",
+            style: TextStyle(color: Colors.grey, fontSize: 12),
+          ),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
             Obx(() => TextField(
                   controller: bodyControler,
@@ -161,13 +157,10 @@ void showReportAlert(BuildContext context, String id, String type) {
               child: Text("확인"),
               onPressed: () async {
                 if (_validateText()) {
-                  final result =
-                      await postRepo.postReportWith(id, bodyControler.text);
-                  if (result.hasError) {
-                    showOneBtnAlert(result.statusText, "닫기", () {});
-                    return;
-                  } else if (!result.body.result) {
-                    showOneBtnAlert(result.body.msg, "닫기", () {});
+                  final res =
+                      await ApiRepo.posts.createReport(id, bodyControler.text);
+                  if (!res.result) {
+                    showOneBtnAlert(res.msg, "확인", () {});
                     return;
                   }
 
@@ -274,7 +267,6 @@ void showRatingInfoAlert() {
 
 void showChangeNickAlert() {
   TextEditingController bodyControler = new TextEditingController();
-  UserRepository repo = UserRepository();
 
   RxBool hasErr = false.obs;
 
@@ -327,18 +319,14 @@ void showChangeNickAlert() {
                 User? user = Constants.user.value.firebaseUser;
                 if (_validateText() && user != null) {
                   final idToken = await user.getIdToken();
-                  final result =
-                      await repo.putUserNick(idToken, bodyControler.text);
-                  if (result.hasError) {
-                    showOneBtnAlert(result.statusText, "닫기", () {});
-                    return;
-                  } else if (!result.body.result) {
-                    showOneBtnAlert(result.body.msg, "닫기", () {});
+                  final res = await ApiRepo.user
+                      .putUserNick(idToken, bodyControler.text);
+                  if (!res.result) {
+                    showOneBtnAlert(res.msg, "확인", () {});
                     return;
                   }
 
                   Navigator.of(context).pop();
-
                   Constants.user.value.info.nick = bodyControler.text;
 
                   showOneBtnAlert("변경되었습니다.", "닫기", () {

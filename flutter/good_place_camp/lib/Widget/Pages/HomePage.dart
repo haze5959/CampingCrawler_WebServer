@@ -20,7 +20,6 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
   @override
   Widget build(context) {
     WidgetsBinding.instance.addObserver(this);
-    c.context = context;
 
     return Stack(children: [
       RefreshIndicator(
