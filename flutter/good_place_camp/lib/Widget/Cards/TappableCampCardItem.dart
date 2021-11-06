@@ -14,7 +14,7 @@ class TappableCampCardItem extends StatelessWidget {
   final SiteDateInfo siteInfo;
 
   TappableCampCardItem({
-    this.siteInfo,
+    required this.siteInfo,
   });
 
   @override
@@ -45,8 +45,8 @@ class TappableCampCardItem extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.headline5.copyWith(color: Colors.white);
-    final descriptionStyle = theme.textTheme.subtitle1;
+    final titleStyle = theme.textTheme.headline5!.copyWith(color: Colors.white);
+    final descriptionStyle = theme.textTheme.subtitle1!;
     final addrStyle = theme.textTheme.caption;
 
     return Column(
@@ -81,7 +81,7 @@ class TappableCampCardItem extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
                     child: Text(
-                      "${Constants.campSimpleInfo[siteInfo.site].name}",
+                      Constants.campInfoMap[siteInfo.site]?.name ?? "_",
                       style: titleStyle,
                     ),
                   ),
@@ -107,7 +107,7 @@ class TappableCampCardItem extends StatelessWidget {
                     style: addrStyle,
                   ),
                 ),
-                Text("${Constants.campSimpleInfo[siteInfo.site].addr}",
+                Text(Constants.campInfoMap[siteInfo.site]?.addr ?? "_",
                     style: addrStyle)
               ],
             ),
@@ -122,7 +122,7 @@ class TappableReservationInfoCardItem extends StatelessWidget {
   final ReservationInfo info;
 
   TappableReservationInfoCardItem({
-    this.info,
+    required this.info,
   });
 
   @override
@@ -160,7 +160,7 @@ class TappableReservationInfoCardItem extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            "${Constants.campSimpleInfo[info.site].name}",
+            Constants.campInfoMap[info.site]?.name ?? "_",
             style: titleStyle,
           ),
           Tooltip(

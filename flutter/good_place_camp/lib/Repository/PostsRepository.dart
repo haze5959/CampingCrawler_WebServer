@@ -42,5 +42,5 @@ abstract class PostsRepository {
 
   @DELETE("/comment/{id}")
   Future<ServerResult> deleteComment(@Path() int id,
-      @Query("token") String token, @Query("post_id") String postId);
+      @Query("token") String token, @Query("post_id") int postId);
 }

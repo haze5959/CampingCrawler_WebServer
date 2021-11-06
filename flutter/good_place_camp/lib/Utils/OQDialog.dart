@@ -116,7 +116,7 @@ void showPwAlert(String msg, Function(String pw) confirmAction) {
       });
 }
 
-void showReportAlert(BuildContext context, String id, String type) {
+void showReportAlert(String id, String type) {
   TextEditingController bodyControler = new TextEditingController();
   RxBool hasErr = false.obs;
 
@@ -130,7 +130,7 @@ void showReportAlert(BuildContext context, String id, String type) {
   }
 
   showDialog(
-      context: context,
+      context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(

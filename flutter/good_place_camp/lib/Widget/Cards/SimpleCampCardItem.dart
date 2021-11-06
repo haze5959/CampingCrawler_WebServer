@@ -43,7 +43,7 @@ class SimpleCampCardItem extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
     final titleStyle = theme.textTheme.subtitle1!.copyWith(color: Colors.white);
-    final descriptionStyle = theme.textTheme.bodyText2;
+    final descriptionStyle = theme.textTheme.bodyText2!;
     final addrStyle = theme.textTheme.caption;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -76,7 +76,7 @@ class SimpleCampCardItem extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    "${Constants.campSimpleInfo[siteName].name}",
+                    Constants.campInfoMap[siteName]?.name ?? "_",
                     style: titleStyle,
                   ),
                 ),
@@ -94,7 +94,8 @@ class SimpleCampCardItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${Constants.campSimpleInfo[siteName].addr}", style: addrStyle)
+              Text(Constants.campInfoMap[siteName]?.addr ?? "",
+                  style: addrStyle)
             ],
           ),
         ),

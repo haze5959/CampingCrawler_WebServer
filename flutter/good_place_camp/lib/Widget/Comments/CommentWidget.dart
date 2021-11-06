@@ -1,11 +1,11 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
 import 'package:good_place_camp/Constants.dart';
-
-// Repository
-import 'package:good_place_camp/Repository/PostsRepository.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
@@ -13,9 +13,10 @@ import 'package:good_place_camp/Model/Post.dart';
 class CommentWidget extends StatelessWidget {
   final int postId;
   final bool canWrite;
-  RxList<Comment> commentList;
+  final RxList<Comment> commentList;
 
-  CommentWidget({this.postId, this.commentList, this.canWrite = true});
+  CommentWidget(
+      {required this.postId, required this.commentList, this.canWrite = true});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class CommentWidget extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text(comment.nick,
                             style: TextStyle(fontWeight: FontWeight.bold))),
-                    Text(getRemainTime(comment.editTime),
+                    Text(getRemainTime(comment.editTime ?? DateTime.now()),
                         style: TextStyle(fontSize: 12)),
                     Spacer(),
                     if (comment.nick == Constants.user.value.info.nick)
@@ -58,26 +59,22 @@ class CommentWidget extends StatelessWidget {
                         onPressed: () {
                           showTwoBtnAlert("해당 댓글을 정말 삭제하시겠습니까?", "삭제",
                               () async {
-                            final repo = PostsRepository();
-                            final token = Constants.user.value.isLogin
-                                ? await Constants.user.value.firebaseUser
-                                    .getIdToken()
-                                : null;
-                            final result = await repo.deleteComment(
-                                token, comment.id, postId);
+                            final user = Constants.user.value.firebaseUser;
+                            if (user != null) {
+                              final token = await user.getIdToken();
+                              final res = await ApiRepo.posts
+                                  .deleteComment(comment.id!, token, postId);
+                              if (!res.result) {
+                                showOneBtnAlert(res.msg, "확인", () {});
+                                return;
+                              }
 
-                            if (result.hasError) {
-                              showOneBtnAlert(
-                                  Get.context, result.statusText, "확인", () {});
-                              return;
-                            } else if (!result.body.result) {
-                              showOneBtnAlert(
-                                  Get.context, result.body.msg, "확인", () {});
-                              return;
+                              showOneBtnAlert("삭제되었습니다.", "확인", () {
+                                commentList.remove(comment);
+                              });
+                            } else {
+                              showRequiredLoginAlert();
                             }
-                            showOneBtnAlert("삭제되었습니다.", "확인", () {
-                              commentList.remove(comment);
-                            });
                           });
                         },
                       )
@@ -88,8 +85,7 @@ class CommentWidget extends StatelessWidget {
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         iconSize: 20,
                         onPressed: () {
-                          showReportAlert(
-                              Get.context, "comment_${comment.id}", "댓글");
+                          showReportAlert("comment_${comment.id}", "댓글");
                         },
                       )
                   ])),
@@ -105,7 +101,7 @@ class CommentWidget extends StatelessWidget {
     TextEditingController bodyControler = new TextEditingController();
 
     nickControler.text = Constants.user.value.isLogin
-        ? Constants.user.value.info.nick
+        ? Constants.user.value.info.nick!
         : "익명의 캠퍼";
 
     return Padding(
@@ -144,26 +140,24 @@ class CommentWidget extends StatelessWidget {
                           return;
                         }
 
-                        final repo = PostsRepository();
-                        final token = Constants.user.value.isLogin
-                            ? await Constants.user.value.firebaseUser
-                                .getIdToken()
-                            : null;
-                        final result = await repo.postCommentWith(
-                            postId, nickControler.text, body, token);
+                        final user = Constants.user.value.firebaseUser;
+                        if (user != null) {
+                          final token = Constants.user.value.isLogin
+                              ? await user.getIdToken()
+                              : "";
+                          final comment = Comment(
+                              postId: postId,
+                              nick: nickControler.text,
+                              comment: body);
+                          final res =
+                              await ApiRepo.posts.createComment(comment, token);
+                          if (!res.result) {
+                            showOneBtnAlert(res.msg, "확인", () {});
+                            return;
+                          }
 
-                        if (result.hasError) {
-                          showOneBtnAlert(result.statusText, "확인", () {});
-                          return;
-                        } else if (!result.body.result) {
-                          showOneBtnAlert(result.body.msg, "확인", () {});
-                          return;
+                          commentList.insert(0, comment);
                         }
-
-                        commentList.insert(
-                            0,
-                            Comment(0, postId, DateTime.now(),
-                                nickControler.text, bodyControler.text));
                       },
                       child: Text("등록하기"),
                     )
