@@ -144,18 +144,23 @@ class CampDetailContoller extends GetxController {
     }
   }
 
-  void onDaySelected(DateTime day, List siteInfo, List _) {
-    if (siteInfo.isEmpty) {
+  List<String> getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
+
+  void onDaySelected(DateTime selectDay, DateTime _) {
+    if (siteInfo == null) {
       selectedSiteInfo.value = "";
       return;
     }
 
-    final info = siteInfo[0] as String;
+    final info = events[selectDay]?[0];
 
-    if (info.isEmpty) {
-      selectedSiteInfo.value = "${day.month}월 ${day.day}일 - 자리 상세정보 미지원";
+    if (info != null && info.isEmpty) {
+      selectedSiteInfo.value =
+          "${selectDay.month}월 ${selectDay.day}일 - 자리 상세정보 미지원";
     } else {
-      selectedSiteInfo.value = "${day.month}월 ${day.day}일 - $info";
+      selectedSiteInfo.value = "${selectDay.month}월 ${selectDay.day}일 - $info";
     }
   }
 }

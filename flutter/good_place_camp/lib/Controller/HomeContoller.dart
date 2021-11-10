@@ -17,7 +17,7 @@ import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
 
 class HomeController extends GetxController {
   // 사이트별 가능한 날짜 리스트
-  RxList<SiteInfo> siteInfoList = RxList<SiteInfo>.empty();
+  RxList<SiteDateInfo> siteInfoList = RxList<SiteDateInfo>.empty();
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
   Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
@@ -175,8 +175,12 @@ class HomeController extends GetxController {
     }
   }
 
-  void onDaySelected(DateTime day, List _, List __) {
-    final selectedDate = DateTime(day.year, day.month, day.day);
+  List<SiteInfo> getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
+
+  void onDaySelected(DateTime selectDay, DateTime _) {
+    final selectedDate = DateTime(selectDay.year, selectDay.month, selectDay.day);
 
     if (GetPlatform.isWeb) {
       Future.delayed(

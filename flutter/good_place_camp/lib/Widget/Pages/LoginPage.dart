@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import "package:flutter_brand_icons/flutter_brand_icons.dart";
 
 // Controller
 import 'package:good_place_camp/Controller/LoginController.dart';
@@ -17,9 +16,8 @@ class LoginPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
             physics: ClampingScrollPhysics(),
-            child: Obx(() => Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
+            child: Obx(() =>
+                Stack(alignment: AlignmentDirectional.center, children: [
                   Center(
                     child: Container(
                         constraints: BoxConstraints(maxWidth: 600),
@@ -64,7 +62,9 @@ class LoginPage extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.deepOrange[700],
                                     minimumSize: Size(340, 50)),
-                                icon: const Icon(BrandIcons.google, size: 16),
+                                icon: ImageIcon(
+                                    AssetImage("images/Camp_Default.png"),
+                                    size: 16),
                                 label: Text("Google로 계속하기",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -81,7 +81,9 @@ class LoginPage extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.blue[700],
                                     minimumSize: Size(340, 50)),
-                                icon: const Icon(BrandIcons.facebook, size: 16),
+                                icon: ImageIcon(
+                                    AssetImage("images/Camp_Default.png"),
+                                    size: 16),
                                 label: Text("Facebook으로 계속하기",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -98,7 +100,9 @@ class LoginPage extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.lightBlue[600],
                                     minimumSize: Size(340, 50)),
-                                icon: const Icon(BrandIcons.twitter, size: 16),
+                                icon: ImageIcon(
+                                    AssetImage("images/Camp_Default.png"),
+                                    size: 16),
                                 label: Text("Twitter으로 계속하기",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -116,8 +120,8 @@ class LoginPage extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.black,
                                       minimumSize: Size(340, 50)),
-                                  icon: const Icon(
-                                    BrandIcons.apple,
+                                  icon: ImageIcon(
+                                    AssetImage("images/Camp_Default.png"),
                                     size: 16,
                                     color: Colors.white,
                                   ),

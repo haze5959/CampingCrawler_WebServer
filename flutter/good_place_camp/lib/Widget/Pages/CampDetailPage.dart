@@ -13,6 +13,9 @@ import 'package:good_place_camp/Controller/CampDetailContoller.dart';
 // Widgets
 import 'package:good_place_camp/Widget/FooterWidget.dart';
 
+// Utils
+import 'package:good_place_camp/Utils/DateUtils.dart';
+
 class CampDetailPage extends StatelessWidget {
   final String siteName;
 
@@ -21,7 +24,7 @@ class CampDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CampDetailContoller c = CampDetailContoller(siteName: siteName);
-    final infoJson = Constants.campSimpleInfo[siteName];
+    final infoJson = Constants.campInfoMap[siteName]!;
 
     return Scaffold(
         appBar: AppBar(
@@ -70,12 +73,14 @@ class CampDetailPage extends StatelessWidget {
                               markers: {
                                 Marker(
                                   markerId: MarkerId(""),
-                                  position: LatLng(c.campInfo.lat, c.campInfo.lon),
-                                  infoWindow: InfoWindow(title: c.campInfo.name),
+                                  position:
+                                      LatLng(c.campInfo!.lat, c.campInfo!.lon),
+                                  infoWindow: InfoWindow(title: infoJson.name),
                                 )
                               },
                               initialCameraPosition: CameraPosition(
-                                target: LatLng(c.campInfo.lat, c.campInfo.lon),
+                                target:
+                                    LatLng(c.campInfo!.lat, c.campInfo!.lon),
                                 zoom: 14.0,
                               ),
                             )),
@@ -83,8 +88,7 @@ class CampDetailPage extends StatelessWidget {
                         label: Text("${infoJson.name} 잘못된 정보 신고하기"),
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
-                          showReportAlert(
-                              Get.context, "${c.siteInfo.site}", "캠핑장");
+                          showReportAlert("${infoJson.key}", "캠핑장");
                         },
                       ),
                       FooterWidget()
@@ -95,8 +99,8 @@ class CampDetailPage extends StatelessWidget {
 
   Widget _buildInfoContent(BuildContext context, CampDetailContoller c) {
     final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.headline5.copyWith(color: Colors.white);
-    final descriptionStyle = theme.textTheme.subtitle1;
+    final titleStyle = theme.textTheme.headline5!.copyWith(color: Colors.white);
+    final descriptionStyle = theme.textTheme.subtitle1!;
     final addrStyle = theme.textTheme.caption;
 
     return Container(
@@ -110,7 +114,7 @@ class CampDetailPage extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: CachedNetworkImage(
-                      imageUrl: "$IMAGE_URL/${c.siteInfo.site}.jpg",
+                      imageUrl: "$IMAGE_URL/${c.siteInfo!.site}.jpg",
                       errorWidget: (context, url, error) =>
                           Image.asset('assets/Camp_Default.png'),
                       fit: BoxFit.cover,
@@ -133,7 +137,7 @@ class CampDetailPage extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
-                          "${c.campInfo.name}",
+                          "${c.campInfo!.name}",
                           style: titleStyle,
                         ),
                       ),
@@ -155,7 +159,7 @@ class CampDetailPage extends StatelessWidget {
                     Tooltip(
                       message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
                       child: Text(
-                        "예약정보 수집 시간 - ${remainTime(c.siteInfo.updatedDate)}",
+                        "예약정보 수집 시간 - ${remainTime(c.siteInfo!.updatedDate)}",
                         style: addrStyle,
                       ),
                     ),
@@ -163,11 +167,11 @@ class CampDetailPage extends StatelessWidget {
                     Tooltip(
                         message: "예약 오픈일은 매시간 수집되는 항목이 아니라서 정확하지 않을 수도 있습니다.",
                         child: Text(
-                          "예약 오픈일 - ${getReservationOpenStr(c.campInfo.reservationOpen)}",
+                          "예약 오픈일 - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
                           style: addrStyle,
                         )),
                     SizedBox(height: 3),
-                    Text("${c.campInfo.desc}", maxLines: 2),
+                    Text("${c.campInfo!.desc}", maxLines: 2),
                     SizedBox(height: 3),
                     TextButton.icon(
                         icon: Icon(Icons.location_on, size: 20),
@@ -178,7 +182,7 @@ class CampDetailPage extends StatelessWidget {
                         onPressed: () {
                           c.launchMap();
                         },
-                        label: Text("${c.campInfo.addr}", style: addrStyle)),
+                        label: Text("${c.campInfo!.addr}", style: addrStyle)),
                     TextButton.icon(
                         icon: Icon(Icons.call, size: 20),
                         style: TextButton.styleFrom(
@@ -188,7 +192,7 @@ class CampDetailPage extends StatelessWidget {
                         onPressed: () {
                           c.callPhoneNum();
                         },
-                        label: Text("${c.campInfo.phone}", style: addrStyle))
+                        label: Text("${c.campInfo!.phone}", style: addrStyle))
                   ],
                 ),
               ),
@@ -232,29 +236,32 @@ class CampDetailPage extends StatelessWidget {
                     width: CALENDER_WIDTH,
                     child: TableCalendar(
                       locale: Localizations.localeOf(context).languageCode,
-                      events: c.events,
-                      holidays: c.holidays,
+                      focusedDay: DateTime.now(),
+                      firstDay: DateTime.now(),
+                      lastDay: addMonths(DateTime.now(), 3),
+                      eventLoader: (day) {
+                        return c.getEventsForDay(day);
+                      },
+                      holidayPredicate: (day) {
+                        return c.holidays.containsKey(day);
+                      },
                       availableGestures: AvailableGestures.horizontalSwipe,
                       calendarStyle: CalendarStyle(
                         outsideDaysVisible: false,
                       ),
                       headerStyle: HeaderStyle(
-                          centerHeaderTitle: true, formatButtonVisible: false),
-                      builders: CalendarBuilders(
-                        markersBuilder: (context, date, events, holidays) {
-                          final children = <Widget>[];
-
+                          titleCentered: true, formatButtonVisible: false),
+                      calendarBuilders: CalendarBuilders(
+                        markerBuilder: (context, date, events) {
                           if (events.isNotEmpty) {
-                            children.add(
-                              Positioned(
-                                right: 1,
-                                bottom: 1,
-                                child: _buildEventsMarker(date, events),
-                              ),
+                            return Positioned(
+                              right: 1,
+                              bottom: 1,
+                              child: _buildEventsMarker(date, events),
                             );
+                          } else {
+                            return null;
                           }
-
-                          return children;
                         },
                       ),
                       onDaySelected: c.onDaySelected,

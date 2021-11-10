@@ -17,7 +17,7 @@ import 'package:good_place_camp/Utils/DateUtils.dart';
 class CalenderWidget extends StatelessWidget {
   final bool isVertical;
 
-  CalenderWidget({this.isVertical});
+  CalenderWidget({required this.isVertical});
 
   @override
   Widget build(context) {
@@ -57,21 +57,27 @@ class CalenderWidget extends StatelessWidget {
                                     child: TableCalendar(
                                       locale: Localizations.localeOf(context)
                                           .languageCode,
-                                      initialSelectedDay:
+                                      focusedDay:
                                           addMonths(DateTime.now(), index),
-                                      events: s.events,
-                                      holidays: s.holidays,
+                                      firstDay: _getFirstDay(index),
+                                      lastDay: _getLastDay(index),
+                                      eventLoader: (day) {
+                                        return s.getEventsForDay(day);
+                                      },
+                                      holidayPredicate: (day) {
+                                        return s.holidays.containsKey(day);
+                                      },
                                       availableGestures: AvailableGestures.none,
                                       calendarStyle: CalendarStyle(
                                         outsideDaysVisible: false,
                                       ),
                                       headerStyle: HeaderStyle(
-                                          centerHeaderTitle: true,
+                                          titleCentered: true,
                                           formatButtonVisible: false,
                                           leftChevronVisible: false,
                                           rightChevronVisible: false),
-                                      builders: CalendarBuilders(
-                                        selectedDayBuilder: (context, date, _) {
+                                      calendarBuilders: CalendarBuilders(
+                                        selectedBuilder: (context, date, _) {
                                           return Container(
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
@@ -93,22 +99,17 @@ class CalenderWidget extends StatelessWidget {
                                                         : null),
                                           );
                                         },
-                                        markersBuilder:
-                                            (context, date, events, holidays) {
-                                          final children = <Widget>[];
-
+                                        markerBuilder: (context, date, events) {
                                           if (events.isNotEmpty) {
-                                            children.add(
-                                              Positioned(
-                                                right: 1,
-                                                bottom: 1,
-                                                child: _buildEventsMarker(
-                                                    date, events),
-                                              ),
+                                            return Positioned(
+                                              right: 1,
+                                              bottom: 1,
+                                              child: _buildEventsMarker(
+                                                  date, events),
                                             );
+                                          } else {
+                                            return null;
                                           }
-
-                                          return children;
                                         },
                                       ),
                                       onDaySelected: s.onDaySelected,
@@ -134,21 +135,27 @@ class CalenderWidget extends StatelessWidget {
                                   child: TableCalendar(
                                     locale: Localizations.localeOf(context)
                                         .languageCode,
-                                    initialSelectedDay:
+                                    focusedDay:
                                         addMonths(DateTime.now(), index),
-                                    events: s.events,
-                                    holidays: s.holidays,
+                                    firstDay: _getFirstDay(index),
+                                    lastDay: _getLastDay(index),
+                                    eventLoader: (day) {
+                                      return s.getEventsForDay(day);
+                                    },
+                                    holidayPredicate: (day) {
+                                      return s.holidays.containsKey(day);
+                                    },
                                     availableGestures: AvailableGestures.none,
                                     calendarStyle: CalendarStyle(
                                       outsideDaysVisible: false,
                                     ),
                                     headerStyle: HeaderStyle(
-                                        centerHeaderTitle: true,
+                                        titleCentered: true,
                                         formatButtonVisible: false,
                                         leftChevronVisible: false,
                                         rightChevronVisible: false),
-                                    builders: CalendarBuilders(
-                                      selectedDayBuilder: (context, date, _) {
+                                    calendarBuilders: CalendarBuilders(
+                                      selectedBuilder: (context, date, _) {
                                         return Container(
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
@@ -170,21 +177,17 @@ class CalenderWidget extends StatelessWidget {
                                                       : null),
                                         );
                                       },
-                                      markersBuilder:
-                                          (context, date, events, holidays) {
-                                        final children = <Widget>[];
+                                      markerBuilder: (context, date, events) {
                                         if (events.isNotEmpty) {
-                                          children.add(
-                                            Positioned(
-                                              right: 1,
-                                              bottom: 1,
-                                              child: _buildEventsMarker(
-                                                  date, events),
-                                            ),
+                                          return Positioned(
+                                            right: 1,
+                                            bottom: 1,
+                                            child: _buildEventsMarker(
+                                                date, events),
                                           );
+                                        } else {
+                                          return null;
                                         }
-
-                                        return children;
                                       },
                                     ),
                                     onDaySelected: s.onDaySelected,
@@ -369,9 +372,14 @@ class CalenderWidget extends StatelessWidget {
       return false;
     }
   }
+
+  DateTime _getFirstDay(int index) {
+    final date = addMonths(DateTime.now(), index);
+    return DateTime(date.year, date.month, 1);
+  }
+
+  DateTime _getLastDay(int index) {
+    final date = addMonths(DateTime.now(), index);
+    return DateTime(date.year, date.month, 31);
+  }
 }
-
-// 참고
-// https://velog.io/@adbr/flutter-tablecalendar-builders-example
-
-// https://stackoverflow.com/questions/64976106/how-to-set-the-locale-property-to-tablecalendar-widget
