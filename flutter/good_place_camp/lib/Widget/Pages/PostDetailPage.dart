@@ -39,14 +39,14 @@ class PostDetailPage extends StatelessWidget {
                       currentFocus.unfocus();
                     }
                   },
-                  child: _buildContent(context, c.posts, c.commentList)))),
+                  child: _buildContent(context, c.posts!, c.commentList)))),
     );
   }
 
   Widget _buildContent(
       BuildContext context, Post posts, List<Comment> commentList) {
     final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.subtitle1.copyWith(color: Colors.white);
+    final titleStyle = theme.textTheme.subtitle1!.copyWith(color: Colors.white);
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SizedBox(
@@ -71,8 +71,7 @@ class PostDetailPage extends StatelessWidget {
                         color: Colors.grey,
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          showTwoBtnAlert(
-                              Get.context, "해당 게시물을 정말 삭제하시겠습니까?", "삭제",
+                          showTwoBtnAlert("해당 게시물을 정말 삭제하시겠습니까?", "삭제",
                               () async {
                             final isSuccess = await c.deletePosts();
                             if (isSuccess) {
@@ -89,7 +88,7 @@ class PostDetailPage extends StatelessWidget {
                         color: Colors.grey,
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
-                          showReportAlert(Get.context, "posts_$id", "게시물");
+                          showReportAlert("posts_$id", "게시물");
                         },
                       ),
               ),
@@ -107,7 +106,7 @@ class PostDetailPage extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    posts.type.toPostTypeString(),
+                    posts.toPostTypeString(),
                     style: titleStyle,
                   ),
                 ),
@@ -126,7 +125,7 @@ class PostDetailPage extends StatelessWidget {
               style: theme.textTheme.headline4,
             ),
             Text("닉네임: ${posts.nick}", style: theme.textTheme.subtitle1),
-            Text("작성일: ${_getDateStr(posts.editTime)}",
+            Text("작성일: ${_getDateStr(posts.editTime ?? DateTime.now())}",
                 style: theme.textTheme.caption),
             const Divider(thickness: 1),
             SizedBox(height: 20),

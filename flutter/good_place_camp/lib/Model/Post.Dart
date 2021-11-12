@@ -38,7 +38,22 @@ class Post {
   });
 
   PostType getPostType() {
-    return fromInt(type);
+    switch (type) {
+      case 0:
+        return PostType.notice;
+      case 1:
+        return PostType.request;
+      case 2:
+        return PostType.question;
+      case 3:
+        return PostType.secret;
+      default:
+        return PostType.secret;
+    }
+  }
+
+  String toPostTypeString() {
+    return getPostType().toPostTypeString();
   }
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
@@ -81,36 +96,6 @@ enum PostType {
   request, // 캠핑장 요청
   question, // 문의
   secret, // 비밀글
-}
-
-PostType fromInt(int val) {
-  switch (val) {
-    case 0:
-      return PostType.notice;
-    case 1:
-      return PostType.request;
-    case 2:
-      return PostType.question;
-    case 3:
-      return PostType.secret;
-    default:
-      return PostType.secret;
-  }
-}
-
-int toInt(PostType type) {
-  switch (type) {
-    case PostType.notice:
-      return 0;
-    case PostType.request:
-      return 1;
-    case PostType.question:
-      return 2;
-    case PostType.secret:
-      return 3;
-    default:
-      return 3;
-  }
 }
 
 extension PostTypeParse on PostType {

@@ -49,7 +49,7 @@ class RecommandSiteWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           for (final widget in _recommandSiteCardWidgets(
-                              c.accpetedCampInfo.keys))
+                              c.accpetedCampInfo.map((e) => e.key)))
                             widget,
                           IconButton(
                             iconSize: 50,

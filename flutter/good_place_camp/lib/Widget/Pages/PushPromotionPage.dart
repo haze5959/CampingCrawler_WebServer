@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:good_place_camp/Constants.dart';
-import "package:flutter_brand_icons/flutter_brand_icons.dart";
-import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
+// import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 // 모바일이면 매월 2천원 구독으로 쏼라쏼라
 class PushPromotionPage extends StatelessWidget {
@@ -44,7 +43,7 @@ class PushPromotionPage extends StatelessWidget {
           ),
         ),
         Text("명당캠핑 알림 서비스",
-            style: theme.textTheme.headline4
+            style: theme.textTheme.headline4!
                 .copyWith(fontWeight: FontWeight.bold)),
         SizedBox(height: 20),
         Divider(
@@ -58,7 +57,7 @@ class PushPromotionPage extends StatelessWidget {
                 GetPlatform.isIOS
                     ? "아이폰으로 매 시간 업데이트 되는\n캠핑장 자리 알림을 받아보세요!"
                     : "스마트폰으로 매 시간 업데이트 되는\n캠핑장 자리 알림을 받아보세요!",
-                style: theme.textTheme.subtitle1
+                style: theme.textTheme.subtitle1!
                     .copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center)),
         Divider(
@@ -124,7 +123,7 @@ class PushPromotionPage extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
-              icon: const Icon(BrandIcons.googleplay, size: 30),
+              icon: ImageIcon(AssetImage("images/Camp_Default.png"), size: 30),
               label: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Column(
@@ -152,7 +151,7 @@ class PushPromotionPage extends StatelessWidget {
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
-              icon: const Icon(BrandIcons.apple, size: 30),
+              icon: ImageIcon(AssetImage("images/Camp_Default.png"), size: 30),
               label: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Column(

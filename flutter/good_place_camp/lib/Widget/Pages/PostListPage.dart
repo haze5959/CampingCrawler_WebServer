@@ -18,11 +18,11 @@ import 'package:good_place_camp/Model/Post.dart';
 class PostListPage extends StatelessWidget {
   final bool isNotice; // 공지사항 뷰인지
 
-  PostListPage({this.isNotice});
+  PostListPage({required this.isNotice});
 
   @override
   Widget build(BuildContext context) {
-    final PostListContoller c = PostListContoller(isNotice: isNotice);
+    final PostListContoller c = PostListContoller(isNotice);
 
     if (isNotice) {
       return Scaffold(

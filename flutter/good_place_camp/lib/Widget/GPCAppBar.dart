@@ -37,7 +37,7 @@ class GPCAppBar extends AppBar {
   final bool showFilter;
   final bool isMain;
 
-  GPCAppBar({this.pageName, this.showFilter, this.isMain = false})
+  GPCAppBar({required this.pageName, required this.showFilter, this.isMain = false})
       : super(
             centerTitle: true,
             backgroundColor: Colors.lightGreen.shade400,
@@ -239,8 +239,7 @@ class GPCAppBar extends AppBar {
         if (Constants.myArea.length > 0) {
           final bit = Constants.myArea
                   .map((element) => element.toBit())
-                  .reduce((value, element) => value + element) ??
-              0;
+                  .reduce((value, element) => value + element);
           prefs.setInt(MY_AREA_BIT_KEY, bit);
         } else {
           prefs.setInt(MY_AREA_BIT_KEY, 0);

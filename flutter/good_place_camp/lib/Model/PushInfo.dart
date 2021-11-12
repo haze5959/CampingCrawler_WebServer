@@ -4,14 +4,14 @@ part 'PushInfo.g.dart';
 
 @JsonSerializable()
 class PushInfo {
-  final bool usePushOnArea;
-  final bool useOnlyHolidayOnArea; // 주말 빈자리만 알림
-  final bool useOnlyInMonthOnArea; // 한달 내 자리알림만
+  bool usePushOnArea;
+  bool useOnlyHolidayOnArea; // 주말 빈자리만 알림
+  bool useOnlyInMonthOnArea; // 한달 내 자리알림만
 
-  final bool usePushOnSite;
-  final bool useOnlyHolidayOnSite; // 주말 빈자리만 알림
-  final bool useOnlyInMonthOnSite; // 한달 내 자리알림만
-  final bool reservationDayPush; // 관심캠핑장만 알려줌
+  bool usePushOnSite;
+  bool useOnlyHolidayOnSite; // 주말 빈자리만 알림
+  bool useOnlyInMonthOnSite; // 한달 내 자리알림만
+  bool reservationDayPush; // 관심캠핑장만 알려줌
 
   PushInfo({
     required this.usePushOnArea,

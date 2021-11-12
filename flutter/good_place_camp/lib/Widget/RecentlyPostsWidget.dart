@@ -14,7 +14,7 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 class RecentlyPostsWidget extends StatelessWidget {
   final bool isNotice; // 공지사항 뷰인지
 
-  RecentlyPostsWidget({this.isNotice});
+  RecentlyPostsWidget({required this.isNotice});
 
   @override
   Widget build(context) {

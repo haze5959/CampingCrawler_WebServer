@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
-import "package:flutter_brand_icons/flutter_brand_icons.dart";
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Controller
@@ -85,7 +84,7 @@ class UserInfoPage extends StatelessWidget {
                 style: OutlinedButton.styleFrom(primary: Colors.black),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Text(user.info.nick,
+                  child: Text(user.info.nick ?? "",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 ),
@@ -112,7 +111,7 @@ class UserInfoPage extends StatelessWidget {
                     ),
                   )),
               Spacer(),
-              Text(user.info.level.getLevelText(),
+              Text(user.info.level?.getLevelText() ?? "",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
             ]))
       ],
@@ -139,7 +138,7 @@ class UserInfoPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
               // 구독하러가기 or 푸시설정 바로가기
-              if (user.info.usePushSubscription) ...[
+              if (user.info.usePushSubscription ?? false) ...[
                 Text("명당캠핑 알림 서비스 구독 중",
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -208,7 +207,7 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: Icon(BrandIcons.google,
+                  child: ImageIcon(AssetImage("images/Camp_Default.png"),
                       size: 15, color: Colors.deepOrange[700])),
               Text("구글 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -265,7 +264,7 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: Icon(BrandIcons.facebook,
+                  child: ImageIcon(AssetImage("images/Camp_Default.png"),
                       size: 15, color: Colors.blue[700])),
               Text("페이스북 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -322,7 +321,7 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: Icon(BrandIcons.twitter,
+                  child: ImageIcon(AssetImage("images/Camp_Default.png"),
                       size: 15, color: Colors.lightBlue[700])),
               Text("트위터 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -379,7 +378,8 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: Icon(BrandIcons.apple, size: 15, color: Colors.black)),
+                  child: ImageIcon(AssetImage("images/Camp_Default.png"),
+                      size: 15, color: Colors.black)),
               Text("애플 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               Spacer(),
@@ -469,7 +469,7 @@ class UserInfoPage extends StatelessWidget {
                       ]),
                 ),
                 onPressed: () async {
-                  showTwoBtnAlert(Get.context, "로그아웃 하시겠습니까?", "로그아웃", () {
+                  showTwoBtnAlert("로그아웃 하시겠습니까?", "로그아웃", () {
                     Get.back();
                     user.logout();
                   });
@@ -497,8 +497,7 @@ class UserInfoPage extends StatelessWidget {
                       ]),
                 ),
                 onPressed: () async {
-                  showTwoBtnAlert(Get.context, "정말 탈퇴하시겠습니까?ㅠ", "탈퇴하기",
-                      () async {
+                  showTwoBtnAlert("정말 탈퇴하시겠습니까?ㅠ", "탈퇴하기", () async {
                     final isSuccess = await user.signout();
                     if (isSuccess) {
                       showOneBtnAlert("탈퇴되었습니다. \n이용해주셔서 감사합니다.", "확인", () {

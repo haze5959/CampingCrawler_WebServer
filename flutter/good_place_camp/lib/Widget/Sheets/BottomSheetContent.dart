@@ -28,7 +28,7 @@ class BottomSheetContent extends StatelessWidget {
       return AnimatedContainer(
           duration: Duration(milliseconds: 200),
           height: isFullScreen.value
-              ? context.height - Get.context.mediaQueryPadding.top
+              ? context.height - (Get.context?.mediaQueryPadding.top ?? 0)
               : context.height / 2 + 100,
           child: Scaffold(
               body: Column(
@@ -140,7 +140,7 @@ class BottomSheetContent extends StatelessWidget {
   Widget _buildSelectedWidget(DateTime currentDate) {
     for (final key in _holidayList.keys) {
       if (key.month == currentDate.month && key.day == currentDate.day) {
-        final holidayName = _holidayList[key][0];
+        final holidayName = _holidayList[key]?[0] ?? "";
         return Constants.isPhoneSize
             ? Column(children: [
                 Text(

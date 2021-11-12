@@ -8,7 +8,15 @@ import 'package:good_place_camp/Model/PushInfo.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 
 class PushContoller extends GetxController {
-  Rx<PushInfo?> pushInfo = null.obs;
+  Rx<PushInfo> pushInfo = PushInfo(
+          usePushOnArea: false,
+          useOnlyHolidayOnArea: false,
+          useOnlyInMonthOnArea: false,
+          usePushOnSite: false,
+          useOnlyHolidayOnSite: false,
+          useOnlyInMonthOnSite: false,
+          reservationDayPush: false)
+      .obs;
 
   RxBool isLoading = false.obs;
 
