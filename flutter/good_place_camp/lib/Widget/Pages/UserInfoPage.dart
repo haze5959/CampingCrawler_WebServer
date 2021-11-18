@@ -207,7 +207,7 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: ImageIcon(AssetImage("images/Camp_Default.png"),
+                  child: ImageIcon(AssetImage("assets/ico_google.png"),
                       size: 15, color: Colors.deepOrange[700])),
               Text("구글 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -264,7 +264,7 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: ImageIcon(AssetImage("images/Camp_Default.png"),
+                  child: ImageIcon(AssetImage("assets/ico_facebook.png"),
                       size: 15, color: Colors.blue[700])),
               Text("페이스북 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -321,7 +321,7 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: ImageIcon(AssetImage("images/Camp_Default.png"),
+                  child: ImageIcon(AssetImage("assets/ico_twitter.png"),
                       size: 15, color: Colors.lightBlue[700])),
               Text("트위터 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -378,7 +378,7 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: ImageIcon(AssetImage("images/Camp_Default.png"),
+                  child: ImageIcon(AssetImage("assets/ico_apple.png"),
                       size: 15, color: Colors.black)),
               Text("애플 로그인",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),

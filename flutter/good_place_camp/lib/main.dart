@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,11 +15,13 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(GetMaterialApp(home: Home(), localizationsDelegates: [
-    GlobalMaterialLocalizations.delegate,
-  ], supportedLocales: [
-    const Locale('ko', 'KR')
-  ]));
+  await EasyLocalization.ensureInitialized();
+
+  runApp(EasyLocalization(
+      supportedLocales: [Locale('ko', 'KR')],
+      path: 'assets/translations',
+      fallbackLocale: Locale('ko', 'KR'),
+      child: Home()));
 }
 
 class Home extends StatelessWidget {
@@ -32,6 +35,14 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(context) {
+    return GetMaterialApp(
+        home: _body(),
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale);
+  }
+
+  Widget _body() {
     return FutureBuilder(
       future: _initApp(),
       builder: (context, snapshot) {

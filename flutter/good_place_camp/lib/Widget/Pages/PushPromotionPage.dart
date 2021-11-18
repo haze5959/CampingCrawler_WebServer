@@ -123,7 +123,7 @@ class PushPromotionPage extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
-              icon: ImageIcon(AssetImage("images/Camp_Default.png"), size: 30),
+              icon: ImageIcon(AssetImage("assets/ico_google.png"), size: 30),
               label: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Column(
@@ -151,7 +151,7 @@ class PushPromotionPage extends StatelessWidget {
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
-              icon: ImageIcon(AssetImage("images/Camp_Default.png"), size: 30),
+              icon: ImageIcon(AssetImage("assets/ico_apple.png"), size: 30),
               label: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Column(

@@ -63,7 +63,7 @@ class LoginPage extends StatelessWidget {
                                     primary: Colors.deepOrange[700],
                                     minimumSize: Size(340, 50)),
                                 icon: ImageIcon(
-                                    AssetImage("images/Camp_Default.png"),
+                                    AssetImage("assets/ico_google.png"),
                                     size: 16),
                                 label: Text("Google로 계속하기",
                                     style: TextStyle(
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
                                     primary: Colors.blue[700],
                                     minimumSize: Size(340, 50)),
                                 icon: ImageIcon(
-                                    AssetImage("images/Camp_Default.png"),
+                                    AssetImage("assets/ico_facebook.png"),
                                     size: 16),
                                 label: Text("Facebook으로 계속하기",
                                     style: TextStyle(
@@ -101,7 +101,7 @@ class LoginPage extends StatelessWidget {
                                     primary: Colors.lightBlue[600],
                                     minimumSize: Size(340, 50)),
                                 icon: ImageIcon(
-                                    AssetImage("images/Camp_Default.png"),
+                                    AssetImage("assets/ico_twitter.png"),
                                     size: 16),
                                 label: Text("Twitter으로 계속하기",
                                     style: TextStyle(
@@ -121,7 +121,7 @@ class LoginPage extends StatelessWidget {
                                       primary: Colors.black,
                                       minimumSize: Size(340, 50)),
                                   icon: ImageIcon(
-                                    AssetImage("images/Camp_Default.png"),
+                                    AssetImage("assets/ico_apple.png"),
                                     size: 16,
                                     color: Colors.white,
                                   ),
