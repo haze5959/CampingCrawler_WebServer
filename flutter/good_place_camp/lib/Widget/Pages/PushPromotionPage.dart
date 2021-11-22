@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:good_place_camp/Constants.dart';
 // import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';

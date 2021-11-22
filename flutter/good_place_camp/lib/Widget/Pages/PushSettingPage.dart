@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Model/PushInfo.dart';
-import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/PushContoller.dart';

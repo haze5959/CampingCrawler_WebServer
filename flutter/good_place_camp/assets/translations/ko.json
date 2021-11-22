@@ -1,0 +1,59 @@
+{
+    "title": "명당캠핑",
+    "confirm": "확인",
+    "cancel": "취소",
+    "open": "열기",
+    "close": "닫기",
+    "retry": "재시도",
+    "update": "업데이트",   
+    "notification": "알림",
+    "password": "비밀번호",
+
+    "net_error": "네트워크에 연결되지 않았습니다. {}",
+    "net_timeout": "네트워크 연결이 원활하지 않습니다. 네트워크 상태를 확인해주세요.",
+    "server_error": "서버에 접속할 수 없습니다. 잠시 후 다시 이용 바랍니다. {}",
+    "settings_error": "설정 정보를 가져올 수 없습니다.",
+    "web_no_available": "웹에서는 지원하지 않습니다.",
+    "android_no_available": "안드로이드에서는 지원하지 않습니다.",
+    "ios_no_available": "아이폰에서는 지원하지 않습니다.",
+
+    "favorite_add": "즐겨찾기 목록에 추가되었습니다.",
+    "favorite_delete": "즐겨찾기 목록에 삭제되었습니다.",
+
+    "camp_detail_no_detail": "{month}월 {day}일 - 자리 상세정보 미지원",
+    "camp_detail": "{month}월 {day}일 - {info}",
+
+    "login_fail": "로그인에 실패하였습니다. {}",
+    "login_cancel": "사용자 취소",
+    "login_sns_cancel_error": "로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.",
+    "login_already_link": "이미 연동 된 로그인입니다.",
+    "login_alreay_unlink": "이미 해제되었습니다.",
+    "login_fail_link": "연동에 실패하였습니다.",
+
+    "posts_secret_unvisible": "비밀글은 작성자만 확인할 수 있습니다.",
+    "posts_no_contents": "제목과 내용을 입력해주세요.",
+    "posts_success": "등록되었습니다.",
+
+    "camp_level_1": "노지캠퍼",
+    "camp_level_2": "명당캠퍼 🏕",
+    "camp_level_3": "카라반캠퍼 🏅",
+    "camp_level_4": "명당지기 🧑‍💻",
+    
+    "board_notice": "공지사항",
+    "board_request": "요청사항",
+    "board_question": "문의/질문",
+    "board_secret": "비밀글",
+
+    "dialog_pw_rules": "6자리 숫자",
+    "dialog_pw_rules_msg": "6자리의 숫자를 입력해주세요.",
+    "dialog_report_id": "신고 식별자: {}",
+    "dialog_": "",
+    "dialog_": "",
+    "dialog_": "",
+    "dialog_": "",
+    "dialog_": "",
+    "dialog_": "",
+    "dialog_": "",
+    
+    "aaa": ""
+}

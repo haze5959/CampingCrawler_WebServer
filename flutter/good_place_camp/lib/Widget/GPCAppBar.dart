@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';

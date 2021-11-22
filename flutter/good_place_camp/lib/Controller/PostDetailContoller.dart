@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
@@ -31,15 +32,17 @@ class PostDetailContoller extends GetxController {
       final data = res.data;
       if (!res.result) {
         if (res.msg == "Auth Fail") {
-          showOneBtnAlert(
-              "비밀글은 작성자만 확인할 수 있습니다.", "확인", () => Navigator.pop(Get.context!));
+          showOneBtnAlert("posts_secret_unvisible".tr(), "confirm".tr(),
+              () => Navigator.pop(Get.context!));
         } else {
-          showOneBtnAlert(res.msg, "확인", () => Navigator.pop(Get.context!));
+          showOneBtnAlert(
+              res.msg, "confirm".tr(), () => Navigator.pop(Get.context!));
         }
         return;
       } else if (data == null) {
         print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
+        showOneBtnAlert(
+            "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
         return;
       }
 
@@ -48,11 +51,13 @@ class PostDetailContoller extends GetxController {
       final res = await ApiRepo.posts.getPosts(id);
       final data = res.data;
       if (!res.result) {
-        showOneBtnAlert(res.msg, "확인", () => Navigator.pop(Get.context!));
+        showOneBtnAlert(
+            res.msg, "confirm".tr(), () => Navigator.pop(Get.context!));
         return;
       } else if (data == null) {
         print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
+        showOneBtnAlert(
+            "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
         return;
       }
 
@@ -72,7 +77,7 @@ class PostDetailContoller extends GetxController {
     final res = await ApiRepo.posts.deletePosts(id, token);
 
     if (!res.result) {
-      showOneBtnAlert(res.msg, "확인", () {});
+      showOneBtnAlert(res.msg, "confirm".tr(), () {});
       return false;
     }
 

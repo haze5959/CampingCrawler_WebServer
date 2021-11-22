@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -55,10 +54,9 @@ class Home extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           final HomeController c = Get.put(HomeController());
           Constants.isPhoneSize = context.mediaQuerySize.width < MAX_WIDTH;
-
           return Scaffold(
               appBar:
-                  GPCAppBar(pageName: "명당캠핑", showFilter: true, isMain: true),
+                  GPCAppBar(pageName: 'TITLE'.tr(), showFilter: true, isMain: true),
               body: Center(child: HomePage()),
               backgroundColor: Colors.lightGreen.shade50);
         }

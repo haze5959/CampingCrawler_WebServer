@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 part 'Post.g.dart';
 
@@ -102,15 +103,15 @@ extension PostTypeParse on PostType {
   String toPostTypeString() {
     switch (this) {
       case PostType.notice:
-        return "공지사항";
+        return "board_notice".tr();
       case PostType.request:
-        return "요청사항";
+        return "board_request".tr();
       case PostType.question:
-        return "문의/질문";
+        return "board_question".tr();
       case PostType.secret:
-        return "비밀글";
+        return "board_secret".tr();
       default:
-        return "비밀글";
+        return "board_secret".tr();
     }
   }
 }

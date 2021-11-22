@@ -1,6 +1,7 @@
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/ApiRepository.dart';
@@ -44,7 +45,7 @@ class CampUser {
       final idToken = await user.getIdToken();
       final res = await ApiRepo.user.deleteUser(idToken);
       if (!res.result) {
-        showOneBtnAlert(res.msg, "확인", () {});
+        showOneBtnAlert(res.msg, "confirm".tr(), () {});
         return false;
       }
 
@@ -72,11 +73,11 @@ class CampUser {
 
       if (!res.result) {
         print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert(res.msg, "확인", () {});
+        showOneBtnAlert(res.msg, "confirm".tr(), () {});
         return false;
       } else if (data == null) {
         print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
+        showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {});
         return false;
       }
 
@@ -153,15 +154,15 @@ extension CampRatingParser on CampRating {
   String getLevelText() {
     switch (this) {
       case CampRating.level01:
-        return "노지캠퍼";
+        return "camp_level_1".tr();
       case CampRating.level02:
-        return "명당캠퍼 🏕";
+        return "camp_level_2".tr();
       case CampRating.level03:
-        return "카라반캠퍼 🏅";
+        return "camp_level_3".tr();
       case CampRating.owner:
-        return "명당지기 🧑‍💻";
+        return "camp_level_4".tr();
       default:
-        return "노지캠퍼";
+        return "camp_level_1".tr();
     }
   }
 }

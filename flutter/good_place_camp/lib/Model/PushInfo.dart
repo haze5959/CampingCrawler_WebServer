@@ -25,13 +25,4 @@ class PushInfo {
 
   factory PushInfo.fromJson(Map<String, dynamic> json) => _$PushInfoFromJson(json);
   Map<String, dynamic> toJson() => _$PushInfoToJson(this);
-
-  // PushInfo._fromJson(Map<String, dynamic> json)
-  //     : usePushOnArea = json['use_push_on_area'],
-  //       useOnlyHolidayOnArea = json['use_only_holiday_on_area'],
-  //       useOnlyInMonthOnArea = json['use_only_in_month_on_area'],
-  //       usePushOnSite = json['use_push_on_site'],
-  //       useOnlyHolidayOnSite = json['use_only_holiday_on_site'],
-  //       useOnlyInMonthOnSite = json['use_only_in_month_on_site'],
-  //       reservationDayPush = json['use_reservation_day_push'];
 }

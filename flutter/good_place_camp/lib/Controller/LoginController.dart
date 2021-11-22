@@ -1,5 +1,6 @@
 import 'package:good_place_camp/Utils/OQDialog.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -9,7 +10,6 @@ import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
 import 'package:good_place_camp/Constants.dart';
-import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 class LoginController extends GetxController {
   RxBool isLoading = true.obs;
@@ -207,7 +207,7 @@ class LoginController extends GetxController {
     if (cred != null && cred.user != null) {
       return true;
     } else {
-      showOneBtnAlert("로그인에 실패하였습니다.", "확인", () {});
+      showOneBtnAlert("login_fail".tr(args: [""]), "confirm".tr(), () {});
       return false;
     }
   }
@@ -232,10 +232,11 @@ class LoginController extends GetxController {
   void _authEceptionHandler(String errCode) {
     switch (errCode) {
       case "popup-closed-by-user":
-        showOneBtnAlert("사용자 취소", "확인", () {});
+        showOneBtnAlert("login_cancel".tr(), "confirm".tr(), () {});
         return;
       default:
-        showOneBtnAlert("로그인에 실패하였습니다. ($errCode", "확인", () {});
+        showOneBtnAlert(
+            "login_fail".tr(args: [errCode]), "confirm".tr(), () {});
     }
   }
 }

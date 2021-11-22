@@ -1,4 +1,5 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
 
@@ -39,11 +40,11 @@ class PostListContoller extends GetxController {
       final res = await ApiRepo.posts.getAllPostsSimpleList(pageNum, typeList);
       final data = res.data;
       if (!res.result) {
-        showOneBtnAlert(res.msg, "확인", () {});
+        showOneBtnAlert(res.msg, "confirm".tr(), () {});
         return;
       } else if (data == null) {
         print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
+        showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {});
         return;
       }
 

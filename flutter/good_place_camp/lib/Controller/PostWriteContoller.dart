@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Model/Post.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
@@ -18,7 +19,7 @@ class PostWriteContoller extends GetxController {
     final body = bodyControler.text;
 
     if (title.length == 0 || body.length == 0) {
-      showOneBtnAlert("제목과 내용을 입력해주세요.", "확인", () {});
+      showOneBtnAlert("posts_no_contents".tr(), "confirm".tr(), () {});
       return;
     }
 
@@ -31,11 +32,11 @@ class PostWriteContoller extends GetxController {
     final newPosts = Post(type: postType.value + 1, title: title, body: body);
     final res = await ApiRepo.posts.createPosts(newPosts, token);
     if (res.result) {
-      showOneBtnAlert("등록되었습니다.", "확인", () {
+      showOneBtnAlert("posts_success".tr(), "confirm".tr(), () {
         Get.back(result: true);
       });
     } else {
-      showOneBtnAlert(res.msg, "확인", () {});
+      showOneBtnAlert(res.msg, "confirm".tr(), () {});
     }
 
     isLoading.value = false;

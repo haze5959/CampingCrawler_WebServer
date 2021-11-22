@@ -1,4 +1,5 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
@@ -31,11 +32,12 @@ class CampDetailContoller extends GetxController {
     final res = await ApiRepo.site.getSiteInfo(siteName);
     final data = res.data;
     if (!res.result) {
-      showOneBtnAlert(res.msg, "확인", () {});
+      showOneBtnAlert(res.msg, "confirm".tr(), () {});
       return;
     } else if (data == null) {
       print("reloadInfo result fail - " + res.msg);
-      showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {});
+      showOneBtnAlert(
+          "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
       return;
     }
 
@@ -117,12 +119,12 @@ class CampDetailContoller extends GetxController {
         final res =
             await ApiRepo.user.deleteUserFavoriteList(idToken, siteName);
         if (!res.result) {
-          showOneBtnAlert(res.msg, "확인", () {});
+          showOneBtnAlert(res.msg, "confirm".tr(), () {});
           return;
         }
 
         Constants.user.value.info.favoriteList?.remove(siteName);
-        showOneBtnAlert("즐겨찾기 목록에 삭제되었습니다.", "확인", () {
+        showOneBtnAlert("favorite_delete".tr(), "확인", () {
           isFavorite(false);
         });
       } else {
@@ -130,12 +132,12 @@ class CampDetailContoller extends GetxController {
         final idToken = await user.getIdToken();
         final res = await ApiRepo.user.postUserFavoriteList(idToken, siteName);
         if (!res.result) {
-          showOneBtnAlert(res.msg, "확인", () {});
+          showOneBtnAlert(res.msg, "confirm".tr(), () {});
           return;
         }
 
         Constants.user.value.info.favoriteList?.add(siteName);
-        showOneBtnAlert("즐겨찾기 목록에 추가되었습니다.", "확인", () {
+        showOneBtnAlert("favorite_add".tr(), "confirm".tr(), () {
           isFavorite(true);
         });
       }
@@ -157,10 +159,16 @@ class CampDetailContoller extends GetxController {
     final info = events[selectDay]?[0];
 
     if (info != null && info.isEmpty) {
-      selectedSiteInfo.value =
-          "${selectDay.month}월 ${selectDay.day}일 - 자리 상세정보 미지원";
+      selectedSiteInfo.value = "camp_detail_no_detail".tr(namedArgs: {
+        'month': selectDay.month.toString(),
+        'day': selectDay.day.toString()
+      });
     } else {
-      selectedSiteInfo.value = "${selectDay.month}월 ${selectDay.day}일 - $info";
+      selectedSiteInfo.value = "camp_detail".tr(namedArgs: {
+        'month': selectDay.month.toString(),
+        'day': selectDay.day.toString(),
+        'info': info ?? ""
+      });
     }
   }
 }

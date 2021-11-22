@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

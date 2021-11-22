@@ -1,4 +1,5 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -35,7 +36,7 @@ class UserInfoController extends GetxController {
 
     if (GetPlatform.isWeb) {
       // 웹 지원 안함
-      showOneBtnAlert("웹에서는 지원하지 않습니다.", "확인", () {});
+      showOneBtnAlert("web_no_available".tr(), "confirm".tr(), () {});
       isLoading.value = false;
       return false;
     }
@@ -67,7 +68,7 @@ class UserInfoController extends GetxController {
 
     if (GetPlatform.isWeb) {
       // 웹 지원 안함
-      showOneBtnAlert("웹에서는 지원하지 않습니다.", "확인", () {});
+      showOneBtnAlert("web_no_available".tr(), "confirm".tr(), () {});
       isLoading.value = false;
       return false;
     }
@@ -100,7 +101,7 @@ class UserInfoController extends GetxController {
     isLoading.value = true;
     if (GetPlatform.isWeb) {
       // 웹 지원 안함
-      showOneBtnAlert("웹에서는 지원하지 않습니다.", "확인", () {});
+      showOneBtnAlert("web_no_available".tr(), "confirm".tr(), () {});
       isLoading.value = false;
       return false;
     }
@@ -142,7 +143,7 @@ class UserInfoController extends GetxController {
     try {
       if (GetPlatform.isWeb) {
         // 웹 지원 안함
-        showOneBtnAlert("웹에서는 지원하지 않습니다.", "확인", () {});
+        showOneBtnAlert("web_no_available".tr(), "confirm".tr(), () {});
         isLoading.value = false;
         return false;
       } else if (GetPlatform.isIOS || GetPlatform.isMacOS) {
@@ -171,7 +172,7 @@ class UserInfoController extends GetxController {
         return _checkSuccess(oauthCredential);
       } else {
         // 안드로이드는 지원 안함
-        showOneBtnAlert("아이폰 앱에서만 지원됩니다.", "확인", () {});
+        showOneBtnAlert("android_no_available".tr(), "confirm".tr(), () {});
         isLoading.value = false;
         return false;
       }
@@ -194,7 +195,7 @@ class UserInfoController extends GetxController {
 
   Future<bool> unlinkProvider(String providerId) async {
     if (linkedSNS.length < 2) {
-      showOneBtnAlert("로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.", "확인", () {});
+      showOneBtnAlert("login_sns_cancel_error".tr(), "confirm".tr(), () {});
       return false;
     }
 
@@ -227,19 +228,19 @@ class UserInfoController extends GetxController {
   void _authEceptionHandler(String errCode) {
     switch (errCode) {
       case "popup-closed-by-user":
-        showOneBtnAlert("사용자 취소", "확인", () {});
+        showOneBtnAlert("login_cancel".tr(), "confirm".tr(), () {});
         return;
       case "provider-already-linked":
-        showOneBtnAlert("이미 연동 된 로그인입니다.", "확인", () {});
+        showOneBtnAlert("login_already_link".tr(), "confirm".tr(), () {});
         return;
       case "invalid-credential":
-        showOneBtnAlert("연동에 실패하였습니다.", "확인", () {});
+        showOneBtnAlert("login_fail_link".tr(), "confirm".tr(), () {});
         return;
       case "no-such-provider":
-        showOneBtnAlert("이미 해제되었습니다.", "확인", () {});
+        showOneBtnAlert("login_alreay_unlink".tr(), "confirm".tr(), () {});
         return;
       default:
-        showOneBtnAlert("로그인에 실패하였습니다. ($errCode", "확인", () {});
+        showOneBtnAlert("login_fail".tr(args: [errCode]), "confirm".tr(), () {});
     }
   }
 }

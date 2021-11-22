@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Constants.dart';
@@ -43,7 +44,7 @@ void showTwoBtnAlert(String msg, String btnText, Function() confirmAction) {
           ),
           actions: [
             TextButton(
-              child: Text("취소"),
+              child: Text("cancel").tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -90,20 +91,20 @@ void showPwAlert(String msg, Function(String pw) confirmAction) {
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   decoration: InputDecoration(
-                      hintText: "6자리 숫자",
-                      labelText: '패스워드',
-                      errorText: hasErr.value ? "6자리의 숫자를 입력해주세요." : null),
+                      hintText: "dialog_pw_rules".tr(),
+                      labelText: 'password'.tr(),
+                      errorText: hasErr.value ? "dialog_pw_rules_msg".tr() : null),
                 ))
           ]),
           actions: [
             TextButton(
-              child: Text("취소"),
+              child: Text("cancel").tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("확인"),
+              child: Text("confirm").tr(),
               onPressed: () {
                 if (_validatePassword()) {
                   Navigator.of(context).pop();
@@ -134,7 +135,7 @@ void showReportAlert(String id, String type) {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            "신고 식별자: $id",
+            "dialog_report_id".tr(args: [id]),
             style: TextStyle(color: Colors.grey, fontSize: 12),
           ),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -148,19 +149,19 @@ void showReportAlert(String id, String type) {
           ]),
           actions: [
             TextButton(
-              child: Text("취소"),
+              child: Text("cancel").tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("확인"),
+              child: Text("confirm").tr(),
               onPressed: () async {
                 if (_validateText()) {
                   final res =
                       await ApiRepo.posts.createReport(id, bodyControler.text);
                   if (!res.result) {
-                    showOneBtnAlert(res.msg, "확인", () {});
+                    showOneBtnAlert(res.msg, "confirm".tr(), () {});
                     return;
                   }
 
@@ -185,7 +186,7 @@ void showRequiredLoginAlert() {
           ),
           actions: [
             TextButton(
-              child: Text("취소"),
+              child: Text("cancel").tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -255,7 +256,7 @@ void showRatingInfoAlert() {
           ),
           actions: [
             TextButton(
-              child: Text("확인"),
+              child: Text("confirm").tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -308,7 +309,7 @@ void showChangeNickAlert() {
           ]),
           actions: [
             TextButton(
-              child: Text("취소"),
+              child: Text("cancel").tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -322,14 +323,14 @@ void showChangeNickAlert() {
                   final res = await ApiRepo.user
                       .putUserNick(idToken, bodyControler.text);
                   if (!res.result) {
-                    showOneBtnAlert(res.msg, "확인", () {});
+                    showOneBtnAlert(res.msg, "confirm".tr(), () {});
                     return;
                   }
 
                   Navigator.of(context).pop();
                   Constants.user.value.info.nick = bodyControler.text;
 
-                  showOneBtnAlert("변경되었습니다.", "닫기", () {
+                  showOneBtnAlert("변경되었습니다.", "close".tr(), () {
                     Constants.user.refresh();
                   });
                 }

@@ -1,4 +1,5 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
@@ -33,12 +34,12 @@ class PushContoller extends GetxController {
     final res = await ApiRepo.user.getUserPushInfo(token);
     final data = res.data;
     if (!res.result) {
-      showOneBtnAlert(res.msg, "확인", () {
+      showOneBtnAlert(res.msg, "confirm".tr(), () {
         Get.back();
       });
       return;
     } else if (data == null) {
-      showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {
+      showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {
         Get.back();
       });
       return;
@@ -54,7 +55,7 @@ class PushContoller extends GetxController {
     final editedArea = Constants.user.value.info.favoriteAreaList;
 
     if (editedArea == null) {
-      showOneBtnAlert("서버가 불안정 합니다. 잠시 후 다시 시도해주세요.", "확인", () {
+      showOneBtnAlert("server_error".tr(args: ["no_favorte_area"]), "confirm".tr(), () {
         Get.back();
       });
       return;
@@ -77,7 +78,7 @@ class PushContoller extends GetxController {
     final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
     final res = await ApiRepo.user.putUserArea(token, areaBit);
     if (!res.result) {
-      showOneBtnAlert(res.msg, "확인", () {});
+      showOneBtnAlert(res.msg, "confirm".tr(), () {});
       return;
     }
 
@@ -88,17 +89,10 @@ class PushContoller extends GetxController {
   void updatePushSetting() async {
     isLoading.value = true;
     final info = pushInfo.value;
-    if (info == null) {
-      showOneBtnAlert("설정 정보를 가져올 수 없습니다.", "확인", () {
-        Get.back();
-      });
-      return;
-    }
-
     final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
     final res = await ApiRepo.user.putPushInfo(token, info);
     if (!res.result) {
-      showOneBtnAlert(res.msg, "확인", () {});
+      showOneBtnAlert(res.msg, "confirm".tr(), () {});
       return;
     }
 

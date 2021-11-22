@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:good_place_camp/Constants.dart';
 
 class ZigzagClipPath extends CustomClipper<Path> {
   @override

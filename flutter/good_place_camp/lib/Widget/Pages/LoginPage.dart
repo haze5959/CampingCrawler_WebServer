@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
 
 // Controller
 import 'package:good_place_camp/Controller/LoginController.dart';

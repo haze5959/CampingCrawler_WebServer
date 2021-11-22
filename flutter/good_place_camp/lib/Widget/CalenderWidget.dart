@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
