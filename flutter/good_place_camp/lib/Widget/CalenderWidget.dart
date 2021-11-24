@@ -300,18 +300,16 @@ class CalenderWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 5),
-                  Text("다음 예약일 오픈 캠핑장 표시",
+                  Text("camp_next_open_indicator",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
-                      )),
+                      )).tr(),
                 ],
               ),
               onPressed: () {
                 showOneBtnAlert(
-                    "다음 예약일정을 오픈하는 캠핑장들의 개수를 표시합니다.\n더 자세한 일정은 해당 캠핑장 상세화면에서 확인하실 수 있습니다.",
-                    "확인",
-                    () {});
+                    "camp_next_open_msg".tr(), "confirm".tr(), () {});
               },
             ),
             SizedBox(width: 10),
@@ -335,17 +333,15 @@ class CalenderWidget extends StatelessWidget {
                         ),
                       )),
                   SizedBox(width: 5),
-                  Text("예약 가능 캠핑장 표시",
+                  Text("camp_avail_reservation_indicator",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
-                      ))
+                      )).tr()
                 ]),
                 onPressed: () {
                   showOneBtnAlert(
-                      "예약 가능한 캠핑장들의 개수를 표시합니다.\n예약정보 수집은 한시간 주기로 실행되며 이미 예약되었을 수도 있습니다.",
-                      "확인",
-                      () {});
+                      "camp_avail_reservation_msg".tr(), "confirm".tr(), () {});
                 })
           ],
         ));

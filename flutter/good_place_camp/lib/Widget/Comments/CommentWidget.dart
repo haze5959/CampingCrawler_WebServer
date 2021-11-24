@@ -51,12 +51,12 @@ class CommentWidget extends StatelessWidget {
                     Spacer(),
                     if (comment.nick == Constants.user.value.info.nick)
                       IconButton(
-                        tooltip: "삭제하기",
+                        tooltip: "dialog_delete".tr(),
                         color: Colors.grey,
                         icon: Icon(Icons.delete),
                         iconSize: 20,
                         onPressed: () {
-                          showTwoBtnAlert("해당 댓글을 정말 삭제하시겠습니까?", "삭제",
+                          showTwoBtnAlert("dialog_delete_confirm".tr(args: ["comment".tr()]), "delete".tr(),
                               () async {
                             final user = Constants.user.value.firebaseUser;
                             if (user != null) {
@@ -64,11 +64,11 @@ class CommentWidget extends StatelessWidget {
                               final res = await ApiRepo.posts
                                   .deleteComment(comment.id!, token, postId);
                               if (!res.result) {
-                                showOneBtnAlert(res.msg, "확인", () {});
+                                showOneBtnAlert(res.msg, "confirm".tr(), () {});
                                 return;
                               }
 
-                              showOneBtnAlert("삭제되었습니다.", "확인", () {
+                              showOneBtnAlert("dialog_delete_complete".tr(), "confirm".tr(), () {
                                 commentList.remove(comment);
                               });
                             } else {
@@ -79,12 +79,12 @@ class CommentWidget extends StatelessWidget {
                       )
                     else
                       IconButton(
-                        tooltip: "신고하기",
+                        tooltip: "dialog_report".tr(),
                         color: Colors.grey,
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         iconSize: 20,
                         onPressed: () {
-                          showReportAlert("comment_${comment.id}", "댓글");
+                          showReportAlert("comment_${comment.id}", "comment".tr());
                         },
                       )
                   ])),
@@ -101,7 +101,7 @@ class CommentWidget extends StatelessWidget {
 
     nickControler.text = Constants.user.value.isLogin
         ? Constants.user.value.info.nick!
-        : "익명의 캠퍼";
+        : "default_nick".tr();
 
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
@@ -127,7 +127,7 @@ class CommentWidget extends StatelessWidget {
                             }
                           },
                           decoration: InputDecoration(
-                              hintText: "닉네임", labelText: '닉네임'),
+                              hintText: "nick".tr(), labelText: 'nick'.tr()),
                         )),
                     Spacer(),
                     ElevatedButton(
@@ -135,7 +135,7 @@ class CommentWidget extends StatelessWidget {
                         final body = bodyControler.text;
 
                         if (body.length == 0) {
-                          showOneBtnAlert("내용을 입력해주세요.", "확인", () {});
+                          showOneBtnAlert("no_contents".tr(), "confirm".tr(), () {});
                           return;
                         }
 
@@ -151,14 +151,14 @@ class CommentWidget extends StatelessWidget {
                           final res =
                               await ApiRepo.posts.createComment(comment, token);
                           if (!res.result) {
-                            showOneBtnAlert(res.msg, "확인", () {});
+                            showOneBtnAlert(res.msg, "confirm".tr(), () {});
                             return;
                           }
 
                           commentList.insert(0, comment);
                         }
                       },
-                      child: Text("등록하기"),
+                      child: Text("dialog_registration").tr(),
                     )
                   ])),
               Container(color: Colors.black12, height: 1),
@@ -169,7 +169,7 @@ class CommentWidget extends StatelessWidget {
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     decoration:
-                        InputDecoration(hintText: "댓글...", labelText: '댓글'),
+                        InputDecoration(hintText: 'comment'.tr() + "...", labelText: 'comment'.tr()),
                   ))
             ])));
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PostWritePage.dart';
@@ -57,11 +58,11 @@ class PromotionCardItem extends StatelessWidget {
                         color: Colors.black26,
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
-                    child: Text("가고싶은 명당을 요청해주세요!",
+                    child: Text("promotion_msg_1",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            fontSize: 20)),
+                            fontSize: 20)).tr(),
                   ),
                 ),
               ),
@@ -74,9 +75,10 @@ class PromotionCardItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("요청주시면 최대한 빨리 추가해드리겠습니다! 🔥",
-                  maxLines: 2,
-                  style: TextStyle(color: Colors.black, fontSize: 14))
+              Text("promotion_msg_2",
+                      maxLines: 2,
+                      style: TextStyle(color: Colors.black, fontSize: 14))
+                  .tr()
             ],
           ),
         ),

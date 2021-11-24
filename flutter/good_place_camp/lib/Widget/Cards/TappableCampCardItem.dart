@@ -3,6 +3,7 @@ import 'package:good_place_camp/Constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
@@ -101,9 +102,9 @@ class TappableCampCardItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Tooltip(
-                  message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
+                  message: "camp_info_1".tr(),
                   child: Text(
-                    "예약정보 수집 시간 - ${remainTime(siteInfo.updatedDate)}",
+                    "camp_collect_time".tr() + " - ${remainTime(siteInfo.updatedDate)}",
                     style: addrStyle,
                   ),
                 ),
@@ -164,9 +165,9 @@ class TappableReservationInfoCardItem extends StatelessWidget {
             style: titleStyle,
           ),
           Tooltip(
-            message: "예약 오픈일은 매시간 수집되는 항목이 아니라서 정확하지 않을 수도 있습니다.",
+            message: "camp_info_2".tr(),
             child: Text(
-              "예약 오픈일 - ${getReservationOpenStr(info.desc)}",
+              "camp_reservation_open".tr() + " - ${getReservationOpenStr(info.desc)}",
               style: addrStyle,
             ),
           )

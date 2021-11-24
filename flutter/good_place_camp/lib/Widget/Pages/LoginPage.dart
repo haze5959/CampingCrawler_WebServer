@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/LoginController.dart';
@@ -11,7 +12,7 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("로그인"),
+          title: Text("login").tr(),
           actions: [],
         ),
         body: SingleChildScrollView(
@@ -38,7 +39,7 @@ class LoginPage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Text("명당캠핑 로그인",
+                            Text("app_title".tr() + "login".tr(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 25)),
                             SizedBox(height: 20),
@@ -50,8 +51,8 @@ class LoginPage extends StatelessWidget {
                             Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 40),
                                 child: Text(
-                                    "SNS 로그인으로 회원가입 절차 없이 바로 시작해보세요!\n나만의 캠핑장 리스트를 빠르고 편리하게\n확인/알림 받을 수 있습니다!",
-                                    textAlign: TextAlign.center)),
+                                    "login_promotion",
+                                    textAlign: TextAlign.center).tr()),
                             Divider(
                               thickness: 1,
                               indent: 40,
@@ -65,11 +66,11 @@ class LoginPage extends StatelessWidget {
                                 icon: ImageIcon(
                                     AssetImage("assets/ico_google.png"),
                                     size: 16),
-                                label: Text("Google로 계속하기",
+                                label: Text("login_google",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         color: Colors.white,
-                                        fontSize: 16)),
+                                        fontSize: 16)).tr(),
                                 onPressed: () async {
                                   final isSuccess = await c.logInWithGoogle();
                                   if (isSuccess) {
@@ -84,11 +85,11 @@ class LoginPage extends StatelessWidget {
                                 icon: ImageIcon(
                                     AssetImage("assets/ico_facebook.png"),
                                     size: 16),
-                                label: Text("Facebook으로 계속하기",
+                                label: Text("login_facebook",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         color: Colors.white,
-                                        fontSize: 16)),
+                                        fontSize: 16)).tr(),
                                 onPressed: () async {
                                   final isSuccess = await c.logInWithFacebook();
                                   if (isSuccess) {
@@ -103,7 +104,7 @@ class LoginPage extends StatelessWidget {
                                 icon: ImageIcon(
                                     AssetImage("assets/ico_twitter.png"),
                                     size: 16),
-                                label: Text("Twitter으로 계속하기",
+                                label: Text("login_twitter".tr(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         color: Colors.white,
@@ -125,11 +126,11 @@ class LoginPage extends StatelessWidget {
                                     size: 16,
                                     color: Colors.white,
                                   ),
-                                  label: Text("Apple로 계속하기",
+                                  label: Text("login_apple",
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           color: Colors.white,
-                                          fontSize: 16)),
+                                          fontSize: 16)).tr(),
                                   onPressed: () async {
                                     final isSuccess = await c.logInWithApple();
                                     if (isSuccess) {

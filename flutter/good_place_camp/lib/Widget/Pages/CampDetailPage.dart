@@ -14,9 +14,6 @@ import 'package:good_place_camp/Controller/CampDetailContoller.dart';
 // Widgets
 import 'package:good_place_camp/Widget/FooterWidget.dart';
 
-// Utils
-import 'package:good_place_camp/Utils/DateUtils.dart';
-
 class CampDetailPage extends StatelessWidget {
   final String siteName;
 
@@ -34,7 +31,7 @@ class CampDetailPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold)),
           actions: [
             IconButton(
-              tooltip: "즐겨찾기",
+              tooltip: "favorite".tr(),
               icon: Obx(() => c.isFavorite.value
                   ? Icon(Icons.star, color: Colors.yellow)
                   : Icon(Icons.star_border_outlined, color: Colors.white)),
@@ -86,10 +83,10 @@ class CampDetailPage extends StatelessWidget {
                               ),
                             )),
                       TextButton.icon(
-                        label: Text("${infoJson.name} 잘못된 정보 신고하기"),
+                        label: Text(infoJson.name + "dialog_report_msg".tr()),
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
-                          showReportAlert("${infoJson.key}", "캠핑장");
+                          showReportAlert("${infoJson.key}", "camp".tr());
                         },
                       ),
                       FooterWidget()
@@ -158,17 +155,17 @@ class CampDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Tooltip(
-                      message: "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
+                      message: "camp_info_1".tr(),
                       child: Text(
-                        "예약정보 수집 시간 - ${remainTime(c.siteInfo!.updatedDate)}",
+                        "camp_collect_time".tr() + " - ${remainTime(c.siteInfo!.updatedDate)}",
                         style: addrStyle,
                       ),
                     ),
                     SizedBox(height: 3),
                     Tooltip(
-                        message: "예약 오픈일은 매시간 수집되는 항목이 아니라서 정확하지 않을 수도 있습니다.",
+                        message: "camp_info_2".tr(),
                         child: Text(
-                          "예약 오픈일 - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
+                          "camp_reservation_open".tr() + " - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
                           style: addrStyle,
                         )),
                     SizedBox(height: 3),
@@ -209,7 +206,7 @@ class CampDetailPage extends StatelessWidget {
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
           icon: const Icon(Icons.home, size: 18),
-          label: Text("홈페이지"),
+          label: Text("homepage").tr(),
           onPressed: () {
             c.launchHomepageURL();
           },
@@ -218,7 +215,7 @@ class CampDetailPage extends StatelessWidget {
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
           icon: const Icon(Icons.calendar_today, size: 18),
-          label: Text("예약 사이트"),
+          label: Text("reservation_site").tr(),
           onPressed: () {
             c.launchReservationURL();
           },

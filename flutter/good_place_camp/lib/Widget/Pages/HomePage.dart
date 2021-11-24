@@ -67,16 +67,16 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
         constraints: BoxConstraints(maxWidth: MAX_WIDTH),
         alignment: Alignment.centerLeft,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("이제 '명당'에서 캠핑하세요",
+          Text("home_title_1",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 40)),
-          Text("매시간 마다 업데이트 되는 캠핑장 예약 정보로 빠르고 편리하게 명당을 예약하세요!",
+                  fontSize: 40)).tr(),
+          Text("home_title_2",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 18)),
+                  fontSize: 18)).tr(),
         ]));
   }
 }

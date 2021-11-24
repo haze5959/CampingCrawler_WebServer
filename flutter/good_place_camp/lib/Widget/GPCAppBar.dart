@@ -22,11 +22,11 @@ extension GPCAppBarMenuParse on GPCAppBarMenu {
   String toTitle() {
     switch (this) {
       case GPCAppBarMenu.favorite:
-        return "즐겨찾기";
+        return "favorite".tr();
       case GPCAppBarMenu.push:
-        return "알림 설정";
+        return "notification_setting".tr();
       case GPCAppBarMenu.account:
-        return "계정 정보";
+        return "user_info".tr();
       default:
         return "";
     }
@@ -87,7 +87,7 @@ class GPCAppBar extends AppBar {
                         if (Constants.user.value.isLogin)
                           PopupMenuItem<GPCAppBarMenu>(
                             enabled: false,
-                            child: Text("${Constants.user.value.info.nick} 님"),
+                            child: Text("dear").tr(args: [Constants.user.value.info.nick ?? ""]),
                           ),
                         PopupMenuItem<GPCAppBarMenu>(
                           value: GPCAppBarMenu.favorite,
@@ -132,7 +132,7 @@ class GPCAppBar extends AppBar {
                     )
                   ] else ...[
                     Obx(() => Text(Constants.user.value.isLogin
-                        ? "${Constants.user.value.info.nick} 님"
+                        ? "dear".tr(args: [Constants.user.value.info.nick ?? ""])
                         : "")),
                     SizedBox(width: 20),
                     if (showFilter) _buildAreaFilter(),
@@ -161,7 +161,7 @@ class GPCAppBar extends AppBar {
 
   static Widget _buildAreaFilter() {
     return PopupMenuButton<CampArea>(
-      tooltip: "지역필터",
+      tooltip: "notification_filter_region".tr(),
       color: Colors.lightGreen[50],
       icon: Icon(Icons.filter_list_rounded),
       itemBuilder: (context) {

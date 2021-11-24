@@ -27,7 +27,7 @@ class PostListPage extends StatelessWidget {
 
     if (isNotice) {
       return Scaffold(
-          appBar: GPCAppBar(pageName: "공지사항/이벤트", showFilter: false),
+          appBar: GPCAppBar(pageName: "board_notice_event".tr(), showFilter: false),
           body: Center(
             child: Container(
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
@@ -41,7 +41,7 @@ class PostListPage extends StatelessWidget {
                           c.fetchPosts();
                           return Center(
                                   child: Obx(() => c.isLastPage.value
-                                      ? Text("마지막 글 입니다.")
+                                      ? Text("board_info_last").tr()
                                       : CircularProgressIndicator()));
                         }
                       },
@@ -49,7 +49,7 @@ class PostListPage extends StatelessWidget {
           ));
     } else {
       return Scaffold(
-          appBar: GPCAppBar(pageName: "요청/문의", showFilter: false),
+          appBar: GPCAppBar(pageName: "board_request_question".tr(), showFilter: false),
           body: Center(
             child: Container(
                 constraints: BoxConstraints(maxWidth: MAX_WIDTH),
@@ -63,7 +63,7 @@ class PostListPage extends StatelessWidget {
                           c.fetchPosts();
                           return Center(
                                   child: Obx(() => c.isLastPage.value
-                                      ? Text("마지막 글 입니다.")
+                                      ? Text("board_info_last").tr()
                                       : CircularProgressIndicator()));
                         }
                       },
@@ -71,7 +71,7 @@ class PostListPage extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
               elevation: 0.0,
-              tooltip: "새 글쓰기",
+              tooltip: "board_wirte_new".tr(),
               child: Icon(Icons.edit),
               backgroundColor: Colors.lightGreen.shade400,
               onPressed: () async {

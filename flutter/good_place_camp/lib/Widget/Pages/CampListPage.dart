@@ -23,8 +23,8 @@ class CampListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: isFavoritePage
-          ? GPCAppBar(pageName: "나만의 캠핑장", showFilter: false)
-          : GPCAppBar(pageName: "캠핑장", showFilter: true),
+          ? GPCAppBar(pageName: "camp_my".tr(), showFilter: false)
+          : GPCAppBar(pageName: "camp".tr(), showFilter: true),
       body: Center(
         child: Container(
             constraints: BoxConstraints(maxWidth: MAX_WIDTH),

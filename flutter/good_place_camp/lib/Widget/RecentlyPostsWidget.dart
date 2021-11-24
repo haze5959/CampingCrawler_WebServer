@@ -27,7 +27,7 @@ class RecentlyPostsWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
             child: Row(children: [
-              Text(isNotice ? "공지사항/이벤트" : "요청/문의 게시판",
+              Text(isNotice ? "board_notice_event" : "board_request_question",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
               SizedBox(width: 10),
               FloatingActionButton(

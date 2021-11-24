@@ -142,9 +142,9 @@ void showReportAlert(String id, String type) {
             Obx(() => TextField(
                   controller: bodyControler,
                   decoration: InputDecoration(
-                      hintText: "해당 $type의 신고 내용...",
-                      labelText: '해당 $type의 신고 내용',
-                      errorText: hasErr.value ? "내용을 입력해주세요." : null),
+                      hintText: "dialog_report_hint".tr(args: [type]) + "...",
+                      labelText: "dialog_report_hint".tr(args: [type]),
+                      errorText: hasErr.value ? "no_contents".tr() : null),
                 ))
           ]),
           actions: [
@@ -167,7 +167,7 @@ void showReportAlert(String id, String type) {
 
                   Navigator.of(context).pop();
 
-                  showOneBtnAlert("신고되었습니다.", "닫기", () {});
+                  showOneBtnAlert("dialog_report_confirm".tr(), "cancel".tr(), () {});
                 }
               },
             )
@@ -182,8 +182,8 @@ void showRequiredLoginAlert() {
       builder: (BuildContext context) {
         return AlertDialog(
           content: Text(
-            "로그인이 필요한 서비스입니다.",
-          ),
+            "required_login",
+          ).tr(),
           actions: [
             TextButton(
               child: Text("cancel").tr(),
@@ -192,7 +192,7 @@ void showRequiredLoginAlert() {
               },
             ),
             TextButton(
-              child: Text("로그인하기"),
+              child: Text("login_start").tr(),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.push<void>(
@@ -218,39 +218,39 @@ void showRatingInfoAlert() {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(
                     width: cellWidth,
-                    child: Text("등급",
+                    child: Text("dialog_grade",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
-                            color: Colors.black54))),
+                            color: Colors.black54)).tr()),
                 SizedBox(
                     width: cellWidth,
-                    child: Text("조건",
+                    child: Text("dialog_condition",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
-                            color: Colors.black54)))
+                            color: Colors.black54)).tr())
               ]),
               Divider(thickness: 1),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level01.getLevelText())),
-                SizedBox(width: cellWidth, child: Text("초기 등급"))
+                SizedBox(width: cellWidth, child: Text("dialog_condition_1").tr())
               ]),
               SizedBox(height: 10),
               Row(children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level02.getLevelText())),
-                SizedBox(width: cellWidth, child: Text("명당캠핑 알림 서비스 구독 시"))
+                SizedBox(width: cellWidth, child: Text("dialog_condition_2").tr())
               ]),
               SizedBox(height: 10),
               Row(children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level03.getLevelText())),
-                SizedBox(width: cellWidth, child: Text("관리자의 승인 필요"))
+                SizedBox(width: cellWidth, child: Text("dialog_condition_3").tr())
               ]),
             ],
           ),
@@ -271,20 +271,20 @@ void showChangeNickAlert() {
 
   RxBool hasErr = false.obs;
 
-  RxString errText = "내용을 입력해주세요.".obs;
+  RxString errText = "no_contents".tr().obs;
 
   bool _validateText() {
     if (bodyControler.text.length == 0) {
-      errText.value = "내용을 입력해주세요.";
+      errText.value = "no_contents".tr();
       hasErr.value = true;
       return false;
     } else if (bodyControler.text.length > 10) {
-      errText.value = "10글자 이하로 줄여주세요.";
+      errText.value = "login_condition_1".tr();
       hasErr.value = true;
       return false;
     } else if (bodyControler.text
         .contains(new RegExp(r'[!@#$%^&*(),.?":{}|<> ]'))) {
-      errText.value = "특수문자 및 공백을 제외해주세요.";
+      errText.value = "login_condition_2".tr();
       hasErr.value = true;
       return false;
     }
@@ -302,8 +302,8 @@ void showChangeNickAlert() {
             Obx(() => TextField(
                   controller: bodyControler,
                   decoration: InputDecoration(
-                      hintText: "닉네임...",
-                      labelText: '닉네임',
+                      hintText: "nick".tr() + "...",
+                      labelText: 'nick'.tr(),
                       errorText: hasErr.value ? errText.value : null),
                 ))
           ]),
@@ -315,7 +315,7 @@ void showChangeNickAlert() {
               },
             ),
             TextButton(
-              child: Text("설정하기"),
+              child: Text("dialog_setting").tr(),
               onPressed: () async {
                 User? user = Constants.user.value.firebaseUser;
                 if (_validateText() && user != null) {
@@ -330,7 +330,7 @@ void showChangeNickAlert() {
                   Navigator.of(context).pop();
                   Constants.user.value.info.nick = bodyControler.text;
 
-                  showOneBtnAlert("변경되었습니다.", "close".tr(), () {
+                  showOneBtnAlert("dialog_change_complete".tr(), "close".tr(), () {
                     Constants.user.refresh();
                   });
                 }

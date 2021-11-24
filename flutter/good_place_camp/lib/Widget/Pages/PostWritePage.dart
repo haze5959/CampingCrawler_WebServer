@@ -31,7 +31,7 @@ class PostWritePage extends GetView<PostWriteContoller> {
         builder: (_) {
           return Scaffold(
               appBar: AppBar(
-                title: Text('새글 작성하기'),
+                title: Text('board_wirte_new').tr(),
               ),
               body: GestureDetector(
                   behavior: HitTestBehavior.translucent,
@@ -51,7 +51,7 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                   children: [
                                     TextButton(
                                       child: Text(
-                                          "작성자: ${Constants.user.value.isLogin ? Constants.user.value.info.nick : '익명의 캠퍼'}",
+                                          "writer".tr() + ": ${Constants.user.value.isLogin ? Constants.user.value.info.nick : 'default_nick'.tr()}",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 12)),
@@ -84,11 +84,11 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                       ),
                                     ),
                                     if (c.postType.value == 2)
-                                      Text("ℹ️ 비밀글은 작성자와 관리자만 확인할 수 있습니다."),
+                                      Text("board_secret_info").tr(),
                                     TextField(
                                       controller: c.titleControler,
                                       decoration: InputDecoration(
-                                          hintText: "제목", labelText: '제목'),
+                                          hintText: "title".tr() + "...", labelText: 'title'.tr()),
                                     ),
                                     SizedBox(height: 20),
                                     TextField(
@@ -96,13 +96,13 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                       keyboardType: TextInputType.multiline,
                                       maxLines: null,
                                       decoration: InputDecoration(
-                                          hintText: "내용", labelText: '본문'),
+                                          hintText: "content".tr() + "...", labelText: 'content'.tr()),
                                     ),
                                     SizedBox(height: 40),
                                     Center(
                                         child: ElevatedButton(
                                       onPressed: c.makePosts,
-                                      child: Text("등록하기"),
+                                      child: Text("dialog_registration").tr(),
                                     ))
                                   ],
                                 ))),

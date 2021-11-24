@@ -23,7 +23,7 @@ class UserInfoPage extends StatelessWidget {
         builder: (_) {
           return Scaffold(
               appBar: AppBar(
-                title: Text("마이페이지"),
+                title: Text("mypage").tr(),
                 actions: [],
               ),
               body: Obx(() => Stack(children: [
@@ -64,11 +64,12 @@ class UserInfoPage extends StatelessWidget {
       children: [
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("유저 정보",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14,
-                    color: Colors.black54))),
+            child: Text("user_info",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black54))
+                .tr()),
         Divider(
           thickness: 1,
           indent: 20,
@@ -78,8 +79,10 @@ class UserInfoPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(mainAxisSize: MainAxisSize.max, children: [
               // 닉네임 설정
-              Text("닉네임",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Text("nick",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                  .tr(),
               Spacer(),
               OutlinedButton(
                 style: OutlinedButton.styleFrom(primary: Colors.black),
@@ -99,10 +102,12 @@ class UserInfoPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
               // 레벨
-              Text("등급",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Text("dialog_grade",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                  .tr(),
               Tooltip(
-                  message: "등급에 따라 게시물 권한이 다르게 적용됩니다.",
+                  message: "dialog_grade_auth".tr(),
                   child: IconButton(
                     onPressed: () {
                       showRatingInfoAlert();
@@ -125,11 +130,12 @@ class UserInfoPage extends StatelessWidget {
       children: [
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("구독 정보",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14,
-                    color: Colors.black54))),
+            child: Text("subscribe_info",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black54))
+                .tr()),
         Divider(
           thickness: 1,
           indent: 20,
@@ -140,9 +146,10 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               // 구독하러가기 or 푸시설정 바로가기
               if (user.info.usePushSubscription ?? false) ...[
-                Text("명당캠핑 알림 서비스 구독 중",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                Text("subscribe_ing",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15))
+                    .tr(),
                 Spacer(),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
@@ -151,9 +158,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("알림 설정",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("notification_setting",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -161,9 +170,10 @@ class UserInfoPage extends StatelessWidget {
                   },
                 )
               ] else ...[
-                Text("구독정보 없음",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                Text("subscribe_no_info",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15))
+                    .tr(),
                 Spacer(),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
@@ -172,9 +182,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("명당캠핑 알림 서비스 구독하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 14))
+                          Text("subscribe_noti",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -193,11 +205,12 @@ class UserInfoPage extends StatelessWidget {
       children: [
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("SNS 간편 로그인 연동",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14,
-                    color: Colors.black54))),
+            child: Text("login_link_sns",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black54))
+                .tr()),
         Divider(
           thickness: 1,
           indent: 20,
@@ -210,15 +223,18 @@ class UserInfoPage extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                   child: ImageIcon(AssetImage("assets/ico_google.png"),
                       size: 15, color: Colors.deepOrange[700])),
-              Text("구글 로그인",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Text("login_google_btn",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                  .tr(),
               Spacer(),
               if (c.linkedSNS.contains("google.com")) ...[
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("연동중입니다.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15))),
+                    child: Text("login_link_sns_ing",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
+                        .tr()),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
                   child: Padding(
@@ -226,9 +242,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("해제하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("login_unlink_sns",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -246,9 +264,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("연동하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("login_link_sns_start",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -267,15 +287,18 @@ class UserInfoPage extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                   child: ImageIcon(AssetImage("assets/ico_facebook.png"),
                       size: 15, color: Colors.blue[700])),
-              Text("페이스북 로그인",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Text("login_facebook_btn",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                  .tr(),
               Spacer(),
               if (c.linkedSNS.contains("facebook.com")) ...[
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("연동중입니다.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15))),
+                    child: Text("login_link_sns_ing",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
+                        .tr()),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
                   child: Padding(
@@ -283,9 +306,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("해제하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("login_unlink_sns",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -303,9 +328,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("연동하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("login_link_sns_start",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -324,15 +351,18 @@ class UserInfoPage extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                   child: ImageIcon(AssetImage("assets/ico_twitter.png"),
                       size: 15, color: Colors.lightBlue[700])),
-              Text("트위터 로그인",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Text("login_twitter_btn",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                  .tr(),
               Spacer(),
               if (c.linkedSNS.contains("twitter.com")) ...[
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("연동중입니다.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15))),
+                    child: Text("login_link_sns_ing",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
+                        .tr()),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
                   child: Padding(
@@ -340,9 +370,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("해제하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("login_unlink_sns",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -360,9 +392,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("연동하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("login_link_sns_start",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -381,15 +415,18 @@ class UserInfoPage extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                   child: ImageIcon(AssetImage("assets/ico_apple.png"),
                       size: 15, color: Colors.black)),
-              Text("애플 로그인",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Text("login_apple_btn",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                  .tr(),
               Spacer(),
               if (c.linkedSNS.contains("apple.com")) ...[
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("연동중입니다.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15))),
+                    child: Text("login_link_sns_ing",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
+                        .tr()),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
                   child: Padding(
@@ -397,9 +434,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("해제하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("login_unlink_sns",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -417,9 +456,11 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("연동하기",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          Text("login_link_sns_start",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
+                              .tr()
                         ]),
                   ),
                   onPressed: () async {
@@ -440,11 +481,12 @@ class UserInfoPage extends StatelessWidget {
       children: [
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("기타",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14,
-                    color: Colors.black54))),
+            child: Text("etc",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black54))
+                .tr()),
         Divider(
           thickness: 1,
           indent: 20,
@@ -464,13 +506,14 @@ class UserInfoPage extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("로그아웃",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
+                        Text("logout",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15))
+                            .tr()
                       ]),
                 ),
                 onPressed: () async {
-                  showTwoBtnAlert("로그아웃 하시겠습니까?", "로그아웃", () {
+                  showTwoBtnAlert("login_logout".tr(), "logout".tr(), () {
                     Get.back();
                     user.logout();
                   });
@@ -492,16 +535,20 @@ class UserInfoPage extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("탈퇴하기",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
+                        Text("login_unregistration",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15))
+                            .tr()
                       ]),
                 ),
                 onPressed: () async {
-                  showTwoBtnAlert("정말 탈퇴하시겠습니까?ㅠ", "탈퇴하기", () async {
+                  showTwoBtnAlert("login_unregistration_msg".tr(),
+                      "login_unregistration".tr(), () async {
                     final isSuccess = await user.signout();
                     if (isSuccess) {
-                      showOneBtnAlert("탈퇴되었습니다. \n이용해주셔서 감사합니다.", "확인", () {
+                      showOneBtnAlert(
+                          "login_unregistration_complete".tr(), "confirm".tr(),
+                          () {
                         Get.back();
                       });
                     }

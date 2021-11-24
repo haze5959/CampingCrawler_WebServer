@@ -24,8 +24,10 @@ class BottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final currentEvents = _allEvents[_currentDate.value] ?? [];
-      final List<SiteDateInfo> siteInfoList = currentEvents.whereType<SiteDateInfo>().toList();
-      final List<ReservationInfo> reservationInfoList = currentEvents.whereType<ReservationInfo>().toList();
+      final List<SiteDateInfo> siteInfoList =
+          currentEvents.whereType<SiteDateInfo>().toList();
+      final List<ReservationInfo> reservationInfoList =
+          currentEvents.whereType<ReservationInfo>().toList();
       return AnimatedContainer(
           duration: Duration(milliseconds: 200),
           height: isFullScreen.value
@@ -74,12 +76,12 @@ class BottomSheetContent extends StatelessWidget {
                               size: Constants.isPhoneSize ? 10 : 15),
                           SizedBox(width: 3),
                           Text(
-                            "예약정보 수집은 원활한 예약 트래픽을 위하여 한시간마다 수집됩니다.",
+                            "camp_info_1",
                             style: TextStyle(
                                 fontSize: Constants.isPhoneSize ? 10 : 15,
                                 color: Colors.grey),
                             overflow: TextOverflow.ellipsis,
-                          ),
+                          ).tr(),
                         ]),
                       ])),
                   Divider(thickness: 1),
@@ -91,7 +93,8 @@ class BottomSheetContent extends StatelessWidget {
                             Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 30),
                                 child: Text(
-                                    "다음 예약일 오픈 캠핑장(${reservationInfoList.length})",
+                                    "camp_next_open".tr() +
+                                        "(${reservationInfoList.length})",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,
@@ -109,7 +112,9 @@ class BottomSheetContent extends StatelessWidget {
                           if (siteInfoList.length > 0) ...[
                             Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 30),
-                                child: Text("예약가능 캠핑장(${siteInfoList.length})",
+                                child: Text(
+                                    "camp_avail_reservation".tr() +
+                                        "(${siteInfoList.length})",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,

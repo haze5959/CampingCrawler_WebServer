@@ -11,7 +11,7 @@ class PushPromotionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("명당캠핑 알림"),
+          title: Text("app_title".tr() + "notification".tr()),
           actions: [],
         ),
         body: SingleChildScrollView(
@@ -43,7 +43,7 @@ class PushPromotionPage extends StatelessWidget {
             ],
           ),
         ),
-        Text("명당캠핑 알림 서비스",
+        Text("app_title".tr() + "notification_service".tr(),
             style: theme.textTheme.headline4!
                 .copyWith(fontWeight: FontWeight.bold)),
         SizedBox(height: 20),
@@ -56,11 +56,11 @@ class PushPromotionPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
                 GetPlatform.isIOS
-                    ? "아이폰으로 매 시간 업데이트 되는\n캠핑장 자리 알림을 받아보세요!"
-                    : "스마트폰으로 매 시간 업데이트 되는\n캠핑장 자리 알림을 받아보세요!",
+                    ? "notification_promotion_ios"
+                    : "notification_promotion_and",
                 style: theme.textTheme.subtitle1!
                     .copyWith(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center)),
+                textAlign: TextAlign.center).tr()),
         Divider(
           thickness: 1,
           indent: 40,
@@ -72,41 +72,41 @@ class PushPromotionPage extends StatelessWidget {
             Icon(Icons.check, size: 16),
             SizedBox(width: 5),
             Text(
-              "매 시간마다 캠핑장 예약 정보 업데이트",
+              "notification_setting_1",
               style: theme.textTheme.subtitle2,
-            ),
+            ).tr(),
           ]),
           Row(children: <Widget>[
             Icon(Icons.check, size: 16),
             SizedBox(width: 5),
             Text(
-              "즐겨찾기 된 캠핑장의 새로운 예약정보 알림",
+              "notification_setting_2",
               style: theme.textTheme.subtitle2,
-            ),
+            ).tr(),
           ]),
           Row(children: <Widget>[
             Icon(Icons.check, size: 16),
             SizedBox(width: 5),
             Text(
-              "지역별 캠핑장의 새로운 예약정보 알림",
+              "notification_setting_3",
               style: theme.textTheme.subtitle2,
-            ),
+            ).tr(),
           ]),
           Row(children: <Widget>[
             Icon(Icons.check, size: 16),
             SizedBox(width: 5),
             Text(
-              "주말 및 공휴일 날 빈자리 알림",
+              "notification_setting_4",
               style: theme.textTheme.subtitle2,
-            ),
+            ).tr(),
           ]),
           Row(children: <Widget>[
             Icon(Icons.check, size: 16),
             SizedBox(width: 5),
             Text(
-              "예약 오픈일자 알림",
+              "notification_setting_5",
               style: theme.textTheme.subtitle2,
-            ),
+            ).tr(),
           ]),
         ]),
         SizedBox(height: 30),
@@ -196,16 +196,16 @@ class PushPromotionPage extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("푸시 서비스",
+                      Text("notification_service",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: Colors.white,
-                              fontSize: 12)),
-                      Text("체험하기",
+                              fontSize: 12)).tr(),
+                      Text("notification_experience",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              fontSize: 20))
+                              fontSize: 20)).tr()
                     ]),
               ),
               onPressed: () async {},
@@ -217,11 +217,11 @@ class PushPromotionPage extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("서비스 구독 복원하기",
+                      Text("notification_restore",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              fontSize: 20))
+                              fontSize: 20)).tr()
                     ]),
               ),
               onPressed: () async {},

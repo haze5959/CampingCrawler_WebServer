@@ -20,7 +20,7 @@ class PushSettingPage extends StatelessWidget {
         builder: (_) {
           return Scaffold(
               appBar: AppBar(
-                title: Text("푸시 설정"),
+                title: Text("notification_setting").tr(),
                 actions: [],
               ),
               body: Obx(() => Stack(children: [
@@ -59,11 +59,12 @@ class PushSettingPage extends StatelessWidget {
       children: [
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("지역별",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14,
-                    color: Colors.black54))),
+            child: Text("notification_by_region",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black54))
+                .tr()),
         Divider(
           thickness: 1,
           indent: 20,
@@ -85,7 +86,7 @@ class PushSettingPage extends StatelessWidget {
                   label: Text(area.toAreaString()),
                 ),
               PopupMenuButton<CampArea>(
-                tooltip: "지역필터",
+                tooltip: "notification_filter_region".tr(),
                 icon: Icon(Icons.filter_list_rounded),
                 itemBuilder: (context) {
                   return [
@@ -147,8 +148,10 @@ class PushSettingPage extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
-              Text("지역별 알림 사용하기",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              Text("notification_use_region",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                  .tr(),
               Spacer(),
               Switch(
                 value: info.usePushOnArea,
@@ -166,9 +169,10 @@ class PushSettingPage extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(children: [
-                      Text("주말/공휴일 빈자리만 알림",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15)),
+                      Text("notification_by_holiday",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          .tr(),
                       Spacer(),
                       Switch(
                         value: info.useOnlyHolidayOnArea,
@@ -181,9 +185,10 @@ class PushSettingPage extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(children: [
-                      Text("30일 내 자리만 알림",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15)),
+                      Text("notification_by_30days",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
+                          .tr(),
                       Spacer(),
                       Switch(
                         value: info.useOnlyInMonthOnArea,

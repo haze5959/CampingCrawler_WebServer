@@ -21,9 +21,10 @@ class RecommandSiteWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
                 child: Row(children: [
-                  Text("추천 명당",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
+                  Text("recommend_site",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 26))
+                      .tr(),
                   SizedBox(width: 10),
                   FloatingActionButton(
                     heroTag: "RecommandSite",
