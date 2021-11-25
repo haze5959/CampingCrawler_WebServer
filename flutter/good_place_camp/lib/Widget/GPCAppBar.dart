@@ -238,9 +238,7 @@ class GPCAppBar extends AppBar {
         }
 
         if (Constants.myArea.length > 0) {
-          final bit = Constants.myArea
-                  .map((element) => element.toBit())
-                  .reduce((value, element) => value + element);
+          final bit = toAreaBit(Constants.myArea);
           prefs.setInt(MY_AREA_BIT_KEY, bit);
         } else {
           prefs.setInt(MY_AREA_BIT_KEY, 0);

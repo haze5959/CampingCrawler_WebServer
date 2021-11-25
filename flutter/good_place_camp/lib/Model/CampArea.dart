@@ -1,12 +1,4 @@
-enum CampArea {
-  seoul,
-  gyeonggi,
-  inchoen,
-  chungnam,
-  chungbuk,
-  gangwon,
-  all
-}
+enum CampArea { seoul, gyeonggi, inchoen, chungnam, chungbuk, gangwon, all }
 
 extension CampAreaParse on CampArea {
   String toAreaString() {
@@ -69,6 +61,12 @@ CampArea fromAreaInt(int areaInt) {
     default:
       return CampArea.all;
   }
+}
+
+int toAreaBit(List<CampArea> areaList) {
+  return areaList
+      .map((element) => element.toBit())
+      .reduce((value, element) => value + element);
 }
 
 List<CampArea> fromBit(int bit) {

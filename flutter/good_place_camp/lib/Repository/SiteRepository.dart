@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 // Model
 import 'package:good_place_camp/Model/ServerResult.dart';
 import 'package:good_place_camp/Model/SiteInfo.dart';
-import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
 
 part 'SiteRepository.g.dart';
@@ -18,7 +17,7 @@ abstract class SiteRepository {
   Future<ServerResult<SiteDetailInfo>> getSiteInfo(@Path() String site);
 
   @GET("/camp")
-  Future<ServerResult<SiteListInfo>> getSiteInfoWithArea(@Query("area_bit") List<CampArea> areaList);
+  Future<ServerResult<SiteListInfo>> getSiteInfoWithArea(@Query("area_bit") int areaBit);
 
   @GET("/info")
   Future<ServerResult<List<CampSimpleInfo>>> getAllSiteJson();

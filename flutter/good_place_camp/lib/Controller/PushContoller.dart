@@ -71,10 +71,7 @@ class PushContoller extends GetxController {
       }
     }
 
-    final areaBit = editedArea
-        .map((element) => element.toBit())
-        .reduce((value, element) => value + element);
-
+    final areaBit = toAreaBit(editedArea);
     final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
     final res = await ApiRepo.user.putUserArea(token, areaBit);
     if (!res.result) {

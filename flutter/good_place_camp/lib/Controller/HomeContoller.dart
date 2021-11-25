@@ -144,7 +144,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> updateCampSiteAvailDates() async {
-    final res = await ApiRepo.site.getSiteInfoWithArea(Constants.myArea);
+    final bit = toAreaBit(Constants.myArea);
+    final res = await ApiRepo.site.getSiteInfoWithArea(bit);
     final data = res.data;
     if (!res.result) {
       showOneBtnAlert(res.msg, "confirm".tr(), () {});
