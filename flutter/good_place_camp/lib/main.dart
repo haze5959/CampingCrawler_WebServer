@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          final HomeController c = Get.put(HomeController());
+          Get.put(HomeController());
           Constants.isPhoneSize = context.mediaQuerySize.width < MAX_WIDTH;
           return Scaffold(
               appBar:
