@@ -27,15 +27,13 @@ class CalenderWidget extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 10),
             alignment: Alignment.center,
             child: Column(children: [
-              isVertical
-                  ? _buildVerticalCalendar(s, context)
-                  : _buildHorizenCalendar(s, context),
+              isVertical ? _buildVerticalCalendar(s) : _buildHorizenCalendar(s),
               SizedBox(height: 10),
               _buildEventsExLabel()
             ])));
   }
 
-  Widget _buildHorizenCalendar(HomeController s, BuildContext context) {
+  Widget _buildHorizenCalendar(HomeController s) {
     return Scrollbar(
         child: SingleChildScrollView(
             padding: EdgeInsets.only(right: 10),
@@ -56,8 +54,7 @@ class CalenderWidget extends StatelessWidget {
                                 child: Container(
                                     width: CALENDER_WIDTH,
                                     child: TableCalendar(
-                                      locale: Localizations.localeOf(context)
-                                          .languageCode,
+                                      locale: "kr",
                                       focusedDay:
                                           addMonths(DateTime.now(), index),
                                       firstDay: _getFirstDay(index),
@@ -121,7 +118,7 @@ class CalenderWidget extends StatelessWidget {
                     .toList())));
   }
 
-  Widget _buildVerticalCalendar(HomeController s, BuildContext context) {
+  Widget _buildVerticalCalendar(HomeController s) {
     return Column(
         children: [0, 1, 2, 3]
             .map((index) => Column(children: <Widget>[
@@ -134,8 +131,7 @@ class CalenderWidget extends StatelessWidget {
                               child: Container(
                                   width: CALENDER_WIDTH,
                                   child: TableCalendar(
-                                    locale: Localizations.localeOf(context)
-                                        .languageCode,
+                                    locale: "kr",
                                     focusedDay:
                                         addMonths(DateTime.now(), index),
                                     firstDay: _getFirstDay(index),

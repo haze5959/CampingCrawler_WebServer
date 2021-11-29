@@ -17,8 +17,8 @@ class UserInfoController extends GetxController {
   RxBool isLoading = false.obs;
 
   @override
-  void onReady() async {
-    super.onReady();
+  void onInit() async {
+    super.onInit();
     final providerList = Constants.user.value.firebaseUser?.providerData;
     linkedSNS.value =
         providerList?.map((info) => info.providerId).toList() ?? [];
@@ -29,6 +29,7 @@ class UserInfoController extends GetxController {
     await Constants.user.value.reloadInfo();
 
     isLoading.value = false;
+    update();
   }
 
   Future<bool> linkWithGoogle() async {
@@ -240,7 +241,8 @@ class UserInfoController extends GetxController {
         showOneBtnAlert("login_alreay_unlink".tr(), "confirm".tr(), () {});
         return;
       default:
-        showOneBtnAlert("login_fail".tr(args: [errCode]), "confirm".tr(), () {});
+        showOneBtnAlert(
+            "login_fail".tr(args: [errCode]), "confirm".tr(), () {});
     }
   }
 }

@@ -18,7 +18,7 @@ import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
 
 class HomeController extends GetxController {
   // 사이트별 가능한 날짜 리스트
-  RxList<SiteDateInfo> siteInfoList = RxList<SiteDateInfo>.empty();
+  List<SiteDateInfo> siteInfoList = List<SiteDateInfo>.empty();
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
   Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
@@ -27,14 +27,14 @@ class HomeController extends GetxController {
   // 해당 지역의 캠핑장 리스트
   List<CampSimpleInfo> accpetedCampInfo = <CampSimpleInfo>[];
 
-  RxList<Post> noticeList = RxList<Post>.empty();
-  RxList<Post> postList = RxList<Post>.empty();
+  List<Post> noticeList = List<Post>.empty();
+  List<Post> postList = List<Post>.empty();
 
   RxBool isLoading = true.obs;
 
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
     initData();
 
     Constants.auth.userChanges().listen((user) {
@@ -71,13 +71,13 @@ class HomeController extends GetxController {
   void reload() async {
     isLoading.value = true;
     _updateAccpetedCampInfo();
-    await updateCampSiteAvailDates();
-    await updatePostList();
+    await _updateCampSiteAvailDates();
+    await _updatePostList();
     isLoading.value = false;
     update();
   }
 
-  Future<void> updatePostList() async {
+  Future<void> _updatePostList() async {
     // 게시물 로드
     final res = await ApiRepo.posts.getHomeInfo();
     final data = res.data;
@@ -90,8 +90,8 @@ class HomeController extends GetxController {
       return;
     }
 
-    noticeList.value = data.noticeList;
-    postList.value = data.postList;
+    noticeList = data.noticeList;
+    postList = data.postList;
   }
 
   void _updateEvents(List<SiteDateInfo> infoList) {
@@ -143,7 +143,7 @@ class HomeController extends GetxController {
     });
   }
 
-  Future<void> updateCampSiteAvailDates() async {
+  Future<void> _updateCampSiteAvailDates() async {
     final bit = toAreaBit(Constants.myArea);
     final res = await ApiRepo.site.getSiteInfoWithArea(bit);
     final data = res.data;
@@ -161,7 +161,7 @@ class HomeController extends GetxController {
     _updateHoliday(data.holiday);
     _updateReservationDay();
 
-    siteInfoList.value = data.sites;
+    siteInfoList = data.sites;
   }
 
   void _updateAccpetedCampInfo() {

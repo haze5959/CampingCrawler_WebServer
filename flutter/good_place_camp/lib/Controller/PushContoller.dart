@@ -9,21 +9,20 @@ import 'package:good_place_camp/Model/PushInfo.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 
 class PushContoller extends GetxController {
-  Rx<PushInfo> pushInfo = PushInfo(
-          usePushOnArea: false,
-          useOnlyHolidayOnArea: false,
-          useOnlyInMonthOnArea: false,
-          usePushOnSite: false,
-          useOnlyHolidayOnSite: false,
-          useOnlyInMonthOnSite: false,
-          reservationDayPush: false)
-      .obs;
+  PushInfo pushInfo = PushInfo(
+      usePushOnArea: false,
+      useOnlyHolidayOnArea: false,
+      useOnlyInMonthOnArea: false,
+      usePushOnSite: false,
+      useOnlyHolidayOnSite: false,
+      useOnlyInMonthOnSite: false,
+      reservationDayPush: false);
 
   RxBool isLoading = false.obs;
 
   @override
-  void onReady() async {
-    super.onReady();
+  void onInit() async {
+    super.onInit();
 
     reload();
   }
@@ -45,9 +44,9 @@ class PushContoller extends GetxController {
       return;
     }
 
-    pushInfo.value = data;
-
+    pushInfo = data;
     isLoading.value = false;
+    update();
   }
 
   void editArea(CampArea area) async {
@@ -55,7 +54,8 @@ class PushContoller extends GetxController {
     final editedArea = Constants.user.value.info.favoriteAreaList;
 
     if (editedArea == null) {
-      showOneBtnAlert("server_error".tr(args: ["no_favorte_area"]), "confirm".tr(), () {
+      showOneBtnAlert(
+          "server_error".tr(args: ["no_favorte_area"]), "confirm".tr(), () {
         Get.back();
       });
       return;
@@ -85,7 +85,7 @@ class PushContoller extends GetxController {
 
   void updatePushSetting() async {
     isLoading.value = true;
-    final info = pushInfo.value;
+    final info = pushInfo;
     final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
     final res = await ApiRepo.user.putPushInfo(token, info);
     if (!res.result) {
@@ -94,5 +94,6 @@ class PushContoller extends GetxController {
     }
 
     isLoading.value = false;
+    update();
   }
 }

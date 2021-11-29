@@ -19,10 +19,15 @@ class PostDetailContoller extends GetxController {
   Post? posts;
   List<Comment> commentList = [];
 
-  RxBool isLoading = true.obs;
+  bool isLoading = true;
+
+  @override
+  void onInit() {
+    super.onInit();
+    reload();
+  }
 
   void reload() async {
-    isLoading.value = true;
     // 아이디로 게시물과 댓글 검색
     Board board;
 
@@ -67,7 +72,8 @@ class PostDetailContoller extends GetxController {
     posts = board.post;
     commentList = board.commentList;
 
-    isLoading.value = false;
+    isLoading = false;
+    update();
   }
 
   Future<bool> deletePosts() async {

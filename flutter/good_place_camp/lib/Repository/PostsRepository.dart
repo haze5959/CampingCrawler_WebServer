@@ -17,7 +17,7 @@ abstract class PostsRepository {
 
   @GET("/post/list/{page}")
   Future<ServerResult<List<Post>>> getAllPostsSimpleList(
-      @Path() int page, @Query("url") List<PostType> typeList);
+      @Path() int page, @Query("is_notice") bool isNotice);
 
   @GET("/post/{id}")
   Future<ServerResult<Board>> getPosts(@Path() int id);

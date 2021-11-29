@@ -12,34 +12,31 @@ import 'package:good_place_camp/Model/CampUser.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
+import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
 
 class UserInfoPage extends StatelessWidget {
   final UserInfoController c = UserInfoController();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<UserInfoController>(
-        init: c,
-        builder: (_) {
-          return Scaffold(
-              appBar: AppBar(
-                title: Text("mypage").tr(),
-                actions: [],
+    return GetBuilder<UserInfoController>(builder: (_) {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text("mypage").tr(),
+            actions: [],
+          ),
+          body: Stack(children: [
+            if (Constants.user.value.isLogin)
+              SingleChildScrollView(
+                physics: ClampingScrollPhysics(),
+                child: Center(
+                    child: Container(
+                        constraints: BoxConstraints(maxWidth: 500),
+                        child: _buildInfoContent(Constants.user.value))),
               ),
-              body: Obx(() => Stack(children: [
-                    if (Constants.user.value.isLogin)
-                      SingleChildScrollView(
-                        physics: ClampingScrollPhysics(),
-                        child: Center(
-                            child: Container(
-                                constraints: BoxConstraints(maxWidth: 500),
-                                child:
-                                    _buildInfoContent(Constants.user.value))),
-                      ),
-                    if (c.isLoading.value)
-                      Center(child: CircularProgressIndicator())
-                  ])));
-        });
+            obxLoadingWidget(c.isLoading)
+          ]));
+    });
   }
 
   Widget _buildInfoContent(CampUser user) {
@@ -200,279 +197,287 @@ class UserInfoPage extends StatelessWidget {
   }
 
   Widget _buildSNSInfo(CampUser user) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("login_link_sns",
-                    style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                        color: Colors.black54))
-                .tr()),
-        Divider(
-          thickness: 1,
-          indent: 20,
-          endIndent: 20,
-        ),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(children: [
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: ImageIcon(AssetImage("assets/ico_google.png"),
-                      size: 15, color: Colors.deepOrange[700])),
-              Text("login_google_btn",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
-                  .tr(),
-              Spacer(),
-              if (c.linkedSNS.contains("google.com")) ...[
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("login_link_sns_ing",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
-                        .tr()),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("login_unlink_sns",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
-                        ]),
-                  ),
-                  onPressed: () async {
-                    final result = await c.unlinkProvider("google.com");
-                    if (result) {
-                      c.linkedSNS.remove("google.com");
-                    }
-                  },
-                )
-              ] else
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("login_link_sns_start",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
-                        ]),
-                  ),
-                  onPressed: () async {
-                    final result = await c.linkWithGoogle();
-                    if (result) {
-                      c.linkedSNS.add("google.com");
-                    }
-                  },
-                )
-            ])),
-        SizedBox(height: 20),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(children: [
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: ImageIcon(AssetImage("assets/ico_facebook.png"),
-                      size: 15, color: Colors.blue[700])),
-              Text("login_facebook_btn",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
-                  .tr(),
-              Spacer(),
-              if (c.linkedSNS.contains("facebook.com")) ...[
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("login_link_sns_ing",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
-                        .tr()),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("login_unlink_sns",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
-                        ]),
-                  ),
-                  onPressed: () async {
-                    final result = await c.unlinkProvider("facebook.com");
-                    if (result) {
-                      c.linkedSNS.remove("facebook.com");
-                    }
-                  },
-                )
-              ] else
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("login_link_sns_start",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
-                        ]),
-                  ),
-                  onPressed: () async {
-                    final result = await c.linkWithFacebook();
-                    if (result) {
-                      c.linkedSNS.add("facebook.com");
-                    }
-                  },
-                )
-            ])),
-        SizedBox(height: 20),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(children: [
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: ImageIcon(AssetImage("assets/ico_twitter.png"),
-                      size: 15, color: Colors.lightBlue[700])),
-              Text("login_twitter_btn",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
-                  .tr(),
-              Spacer(),
-              if (c.linkedSNS.contains("twitter.com")) ...[
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("login_link_sns_ing",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
-                        .tr()),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("login_unlink_sns",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
-                        ]),
-                  ),
-                  onPressed: () async {
-                    final result = await c.unlinkProvider("twitter.com");
-                    if (result) {
-                      c.linkedSNS.remove("twitter.com");
-                    }
-                  },
-                )
-              ] else
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("login_link_sns_start",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
-                        ]),
-                  ),
-                  onPressed: () async {
-                    final result = await c.linkWithFacebook();
-                    if (result) {
-                      c.linkedSNS.add("facebook.com");
-                    }
-                  },
-                )
-            ])),
-        SizedBox(height: 20),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(children: [
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: ImageIcon(AssetImage("assets/ico_apple.png"),
-                      size: 15, color: Colors.black)),
-              Text("login_apple_btn",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
-                  .tr(),
-              Spacer(),
-              if (c.linkedSNS.contains("apple.com")) ...[
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("login_link_sns_ing",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15))
-                        .tr()),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("login_unlink_sns",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
-                        ]),
-                  ),
-                  onPressed: () async {
-                    final result = await c.unlinkProvider("apple.com");
-                    if (result) {
-                      c.linkedSNS.remove("apple.com");
-                    }
-                  },
-                )
-              ] else
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.black),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("login_link_sns_start",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
-                        ]),
-                  ),
-                  onPressed: () async {
-                    final result = await c.linkWithApple();
-                    if (result) {
-                      c.linkedSNS.add("apple.com");
-                    }
-                  },
-                )
-            ])),
-      ],
-    );
+    return Obx(() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Text("login_link_sns",
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            color: Colors.black54))
+                    .tr()),
+            Divider(
+              thickness: 1,
+              indent: 20,
+              endIndent: 20,
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: ImageIcon(AssetImage("assets/ico_google.png"),
+                          size: 15, color: Colors.deepOrange[700])),
+                  Text("login_google_btn",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15))
+                      .tr(),
+                  Spacer(),
+                  if (c.linkedSNS.contains("google.com")) ...[
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text("login_link_sns_ing",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15))
+                            .tr()),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(primary: Colors.black),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("login_unlink_sns",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15))
+                                  .tr()
+                            ]),
+                      ),
+                      onPressed: () async {
+                        final result = await c.unlinkProvider("google.com");
+                        if (result) {
+                          c.linkedSNS.remove("google.com");
+                        }
+                      },
+                    )
+                  ] else
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(primary: Colors.black),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("login_link_sns_start",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15))
+                                  .tr()
+                            ]),
+                      ),
+                      onPressed: () async {
+                        final result = await c.linkWithGoogle();
+                        if (result) {
+                          c.linkedSNS.add("google.com");
+                        }
+                      },
+                    )
+                ])),
+            SizedBox(height: 20),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: ImageIcon(AssetImage("assets/ico_facebook.png"),
+                          size: 15, color: Colors.blue[700])),
+                  Text("login_facebook_btn",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15))
+                      .tr(),
+                  Spacer(),
+                  if (c.linkedSNS.contains("facebook.com")) ...[
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text("login_link_sns_ing",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15))
+                            .tr()),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(primary: Colors.black),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("login_unlink_sns",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15))
+                                  .tr()
+                            ]),
+                      ),
+                      onPressed: () async {
+                        final result = await c.unlinkProvider("facebook.com");
+                        if (result) {
+                          c.linkedSNS.remove("facebook.com");
+                        }
+                      },
+                    )
+                  ] else
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(primary: Colors.black),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("login_link_sns_start",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15))
+                                  .tr()
+                            ]),
+                      ),
+                      onPressed: () async {
+                        final result = await c.linkWithFacebook();
+                        if (result) {
+                          c.linkedSNS.add("facebook.com");
+                        }
+                      },
+                    )
+                ])),
+            SizedBox(height: 20),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: ImageIcon(AssetImage("assets/ico_twitter.png"),
+                          size: 15, color: Colors.lightBlue[700])),
+                  Text("login_twitter_btn",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15))
+                      .tr(),
+                  Spacer(),
+                  if (c.linkedSNS.contains("twitter.com")) ...[
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text("login_link_sns_ing",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15))
+                            .tr()),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(primary: Colors.black),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("login_unlink_sns",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15))
+                                  .tr()
+                            ]),
+                      ),
+                      onPressed: () async {
+                        final result = await c.unlinkProvider("twitter.com");
+                        if (result) {
+                          c.linkedSNS.remove("twitter.com");
+                        }
+                      },
+                    )
+                  ] else
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(primary: Colors.black),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("login_link_sns_start",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15))
+                                  .tr()
+                            ]),
+                      ),
+                      onPressed: () async {
+                        final result = await c.linkWithFacebook();
+                        if (result) {
+                          c.linkedSNS.add("facebook.com");
+                        }
+                      },
+                    )
+                ])),
+            SizedBox(height: 20),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: ImageIcon(AssetImage("assets/ico_apple.png"),
+                          size: 15, color: Colors.black)),
+                  Text("login_apple_btn",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15))
+                      .tr(),
+                  Spacer(),
+                  if (c.linkedSNS.contains("apple.com")) ...[
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text("login_link_sns_ing",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15))
+                            .tr()),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(primary: Colors.black),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("login_unlink_sns",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15))
+                                  .tr()
+                            ]),
+                      ),
+                      onPressed: () async {
+                        final result = await c.unlinkProvider("apple.com");
+                        if (result) {
+                          c.linkedSNS.remove("apple.com");
+                        }
+                      },
+                    )
+                  ] else
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(primary: Colors.black),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("login_link_sns_start",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15))
+                                  .tr()
+                            ]),
+                      ),
+                      onPressed: () async {
+                        final result = await c.linkWithApple();
+                        if (result) {
+                          c.linkedSNS.add("apple.com");
+                        }
+                      },
+                    )
+                ])),
+          ],
+        ));
   }
 
   Widget _buildETCInfo(CampUser user) {

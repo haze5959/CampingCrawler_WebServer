@@ -11,3 +11,6 @@ class ApiRepo {
   static final site = SiteRepository(_dio);
   static final user = UserRepository(_dio);
 }
+
+// retrofit 빌드 명령어
+// flutter pub run build_runner build

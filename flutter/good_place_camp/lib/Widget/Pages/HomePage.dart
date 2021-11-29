@@ -8,6 +8,7 @@ import 'package:good_place_camp/Widget/CalenderWidget.dart';
 import 'package:good_place_camp/Widget/RecommandSiteWidget.dart';
 import 'package:good_place_camp/Widget/RecentlyPostsWidget.dart';
 import 'package:good_place_camp/Widget/FooterWidget.dart';
+import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -20,8 +21,6 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(context) {
-    // WidgetsBinding.instance.addObserver(this);
-
     return Stack(children: [
       RefreshIndicator(
           onRefresh: () async {
@@ -56,9 +55,7 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
                 RecentlyPostsWidget(isNotice: false),
                 FooterWidget()
               ])))),
-      Obx(() => c.isLoading.value
-          ? Center(child: CircularProgressIndicator())
-          : Container(width: 0, height: 0))
+      obxLoadingWidget(c.isLoading)
     ]);
   }
 
@@ -68,15 +65,17 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
         alignment: Alignment.centerLeft,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text("home_title_1",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 40)).tr(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 40))
+              .tr(),
           Text("home_title_2",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 18)).tr(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 18))
+              .tr(),
         ]));
   }
 }

@@ -22,13 +22,18 @@ class CampDetailContoller extends GetxController {
   Rx<bool> isFavorite = Rx<bool>(false);
   RxString selectedSiteInfo = "".obs;
 
-  RxBool isLoading = true.obs;
+  bool isLoading = true;
 
   Map<DateTime, List<String>> events = Map<DateTime, List<String>>();
   Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
 
+  @override
+  void onInit() {
+    super.onInit();
+    reload();
+  }
+
   void reload() async {
-    isLoading.value = true;
     final res = await ApiRepo.site.getSiteInfo(siteName);
     final data = res.data;
     if (!res.result) {
@@ -46,7 +51,8 @@ class CampDetailContoller extends GetxController {
     _updateEvents(data.site, data.holiday);
 
     isFavorite(_checkFavorite());
-    isLoading.value = false;
+    isLoading = false;
+    update();
   }
 
   void launchHomepageURL() async {

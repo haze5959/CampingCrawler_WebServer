@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
-import 'package:good_place_camp/Model/PushInfo.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/PushContoller.dart';
@@ -10,49 +9,47 @@ import 'package:good_place_camp/Controller/PushContoller.dart';
 // Models
 import 'package:good_place_camp/Model/CampArea.dart';
 
+// Widgets
+import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
+
 class PushSettingPage extends StatelessWidget {
   final PushContoller c = PushContoller();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PushContoller>(
-        init: c,
-        builder: (_) {
-          return Scaffold(
-              appBar: AppBar(
-                title: Text("notification_setting").tr(),
-                actions: [],
-              ),
-              body: Obx(() => Stack(children: [
-                    SingleChildScrollView(
-                      physics: ClampingScrollPhysics(),
-                      child: Center(
-                          child: Container(
-                              constraints: BoxConstraints(maxWidth: 500),
-                              child: Obx(
-                                  () => _buildInfoContent(c.pushInfo.value)))),
-                    ),
-                    if (c.isLoading.value)
-                      Center(child: CircularProgressIndicator())
-                  ])));
-        });
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("notification_setting").tr(),
+          actions: [],
+        ),
+        body: Stack(children: [
+          GetBuilder<PushContoller>(
+              builder: (c) => SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Center(
+                        child: Container(
+                            constraints: BoxConstraints(maxWidth: 500),
+                            child: _buildInfoContent())),
+                  )),
+          obxLoadingWidget(c.isLoading)
+        ]));
   }
 
-  Widget _buildInfoContent(PushInfo info) {
+  Widget _buildInfoContent() {
     return Column(
       children: [
         SizedBox(height: 50),
-        _buildETCInfo(info),
+        _buildETCInfo(),
         SizedBox(height: 50),
-        _buildETCInfo(info),
+        _buildETCInfo(),
         SizedBox(height: 50),
-        _buildETCInfo(info),
+        _buildETCInfo(),
         SizedBox(height: 50),
       ],
     );
   }
 
-  Widget _buildETCInfo(PushInfo info) {
+  Widget _buildETCInfo() {
     final favoriteArea = Constants.user.value.info.favoriteAreaList ?? [];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,9 +151,9 @@ class PushSettingPage extends StatelessWidget {
                   .tr(),
               Spacer(),
               Switch(
-                value: info.usePushOnArea,
+                value: c.pushInfo.usePushOnArea,
                 onChanged: (value) {
-                  c.pushInfo.value.usePushOnArea = value;
+                  c.pushInfo.usePushOnArea = value;
                   c.updatePushSetting();
                 },
               )
@@ -165,7 +162,7 @@ class PushSettingPage extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              if (info.usePushOnArea) ...[
+              if (c.pushInfo.usePushOnArea) ...[
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(children: [
@@ -175,9 +172,9 @@ class PushSettingPage extends StatelessWidget {
                           .tr(),
                       Spacer(),
                       Switch(
-                        value: info.useOnlyHolidayOnArea,
+                        value: c.pushInfo.useOnlyHolidayOnArea,
                         onChanged: (value) {
-                          c.pushInfo.value.useOnlyHolidayOnArea = value;
+                          c.pushInfo.useOnlyHolidayOnArea = value;
                           c.updatePushSetting();
                         },
                       )
@@ -191,9 +188,9 @@ class PushSettingPage extends StatelessWidget {
                           .tr(),
                       Spacer(),
                       Switch(
-                        value: info.useOnlyInMonthOnArea,
+                        value: c.pushInfo.useOnlyInMonthOnArea,
                         onChanged: (value) {
-                          c.pushInfo.value.useOnlyInMonthOnArea = value;
+                          c.pushInfo.useOnlyInMonthOnArea = value;
                           c.updatePushSetting();
                         },
                       )

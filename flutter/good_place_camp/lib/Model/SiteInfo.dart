@@ -11,7 +11,7 @@ abstract class SiteInfo {
   SiteInfo({required this.site});
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class SiteDateInfo implements SiteInfo {
   final String site;
   final List<String> availDates;

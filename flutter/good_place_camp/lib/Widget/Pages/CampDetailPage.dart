@@ -39,20 +39,20 @@ class CampDetailPage extends StatelessWidget {
             ),
           ],
         ),
-        body: Obx(
-          () => c.isLoading.value
+        body: GetBuilder<CampDetailContoller>(
+          builder: (c) => c.isLoading
               ? Center(child: CircularProgressIndicator())
               : SingleChildScrollView(
                   physics: ClampingScrollPhysics(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildInfoContent(context, c),
+                      _buildInfoContent(c),
                       SizedBox(height: 10),
                       _buildButtons(c),
                       SizedBox(height: 20),
-                      _buildCalender(context, c),
-                      _buildSelectedInfo(context, c),
+                      _buildCalender(c),
+                      _buildSelectedInfo(c),
                       SizedBox(height: 20),
                       if (!GetPlatform.isWeb)
                         SizedBox(
@@ -95,8 +95,8 @@ class CampDetailPage extends StatelessWidget {
         ));
   }
 
-  Widget _buildInfoContent(BuildContext context, CampDetailContoller c) {
-    final theme = Theme.of(context);
+  Widget _buildInfoContent(CampDetailContoller c) {
+    final theme = Get.theme;
     final titleStyle = theme.textTheme.headline5!.copyWith(color: Colors.white);
     final descriptionStyle = theme.textTheme.subtitle1!;
     final addrStyle = theme.textTheme.caption;
@@ -157,7 +157,8 @@ class CampDetailPage extends StatelessWidget {
                     Tooltip(
                       message: "camp_info_1".tr(),
                       child: Text(
-                        "camp_collect_time".tr() + " - ${remainTime(c.siteInfo!.updatedDate)}",
+                        "camp_collect_time".tr() +
+                            " - ${remainTime(c.siteInfo!.updatedDate)}",
                         style: addrStyle,
                       ),
                     ),
@@ -165,7 +166,8 @@ class CampDetailPage extends StatelessWidget {
                     Tooltip(
                         message: "camp_info_2".tr(),
                         child: Text(
-                          "camp_reservation_open".tr() + " - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
+                          "camp_reservation_open".tr() +
+                              " - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
                           style: addrStyle,
                         )),
                     SizedBox(height: 3),
@@ -224,52 +226,50 @@ class CampDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCalender(BuildContext context, CampDetailContoller c) {
-    return Obx(() => c.isLoading.value
-        ? Center(child: CircularProgressIndicator())
-        : ClipRect(
+  Widget _buildCalender(CampDetailContoller c) {
+    return ClipRect(
+        child: Container(
+            decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
             child: Container(
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
-                child: Container(
-                    width: CALENDER_WIDTH,
-                    child: TableCalendar(
-                      locale: Localizations.localeOf(context).languageCode,
-                      focusedDay: DateTime.now(),
-                      firstDay: DateTime.now(),
-                      lastDay: addMonths(DateTime.now(), 3),
-                      eventLoader: (day) {
-                        return c.getEventsForDay(day);
-                      },
-                      holidayPredicate: (day) {
-                        return c.holidays.containsKey(day);
-                      },
-                      availableGestures: AvailableGestures.horizontalSwipe,
-                      calendarStyle: CalendarStyle(
-                        outsideDaysVisible: false,
-                      ),
-                      headerStyle: HeaderStyle(
-                          titleCentered: true, formatButtonVisible: false),
-                      calendarBuilders: CalendarBuilders(
-                        markerBuilder: (context, date, events) {
-                          if (events.isNotEmpty) {
-                            return Positioned(
-                              right: 1,
-                              bottom: 1,
-                              child: _buildEventsMarker(date, events),
-                            );
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      onDaySelected: c.onDaySelected,
-                      rowHeight: CALENDER_WIDTH / 6,
-                    )))));
+                width: CALENDER_WIDTH,
+                child: TableCalendar(
+                  locale: "ko",
+                  focusedDay: DateTime.now(),
+                  firstDay: DateTime.now(),
+                  lastDay: addMonths(DateTime.now(), 3),
+                  eventLoader: (day) {
+                    return c.getEventsForDay(day);
+                  },
+                  holidayPredicate: (day) {
+                    return c.holidays.containsKey(day);
+                  },
+                  availableGestures: AvailableGestures.horizontalSwipe,
+                  calendarStyle: CalendarStyle(
+                    outsideDaysVisible: false,
+                  ),
+                  headerStyle: HeaderStyle(
+                      titleCentered: true, formatButtonVisible: false),
+                  calendarBuilders: CalendarBuilders(
+                    markerBuilder: (context, date, events) {
+                      if (events.isNotEmpty) {
+                        return Positioned(
+                          right: 1,
+                          bottom: 1,
+                          child: _buildEventsMarker(date, events),
+                        );
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  onDaySelected: c.onDaySelected,
+                  rowHeight: CALENDER_WIDTH / 6,
+                ))));
   }
 
-  Widget _buildSelectedInfo(BuildContext context, CampDetailContoller c) {
-    return Container(
-        width: CALENDER_WIDTH, child: Text(c.selectedSiteInfo.value));
+  Widget _buildSelectedInfo(CampDetailContoller c) {
+    return Obx(() => Container(
+        width: CALENDER_WIDTH, child: Text(c.selectedSiteInfo.value)));
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {

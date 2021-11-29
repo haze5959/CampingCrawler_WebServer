@@ -17,37 +17,37 @@ import 'package:good_place_camp/Model/Post.dart';
 class PostDetailPage extends StatelessWidget {
   final int id;
   final bool isSecret;
-  final PostDetailContoller c;
 
-  PostDetailPage(this.id, {this.isSecret = false}) : 
-    c = PostDetailContoller(id: id, isSecret: isSecret);
-  
+  PostDetailPage(this.id, {this.isSecret = false});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("board").tr(),
       ),
-      body: Obx(() => c.isLoading.value
-          ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
-              child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    FocusScopeNode currentFocus = FocusScope.of(context);
-                    if (!currentFocus.hasPrimaryFocus) {
-                      currentFocus.unfocus();
-                    }
-                  },
-                  child: _buildContent(context, c.posts!, c.commentList)))),
+      body: GetBuilder<PostDetailContoller>(
+          init: PostDetailContoller(id: id, isSecret: isSecret),
+          builder: (c) => c.isLoading
+              ? Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+                        if (!currentFocus.hasPrimaryFocus) {
+                          currentFocus.unfocus();
+                        }
+                      },
+                      child: _buildContent(c, c.commentList)))),
     );
   }
 
-  Widget _buildContent(
-      BuildContext context, Post posts, List<Comment> commentList) {
-    final theme = Theme.of(context);
+  Widget _buildContent(PostDetailContoller c, List<Comment> commentList) {
+    final theme = Get.theme;
     final titleStyle = theme.textTheme.subtitle1!.copyWith(color: Colors.white);
+    final posts = c.posts!;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SizedBox(
@@ -72,11 +72,13 @@ class PostDetailPage extends StatelessWidget {
                         color: Colors.grey,
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          showTwoBtnAlert("dialog_delete_confirm".tr(args: ["boards".tr()]), "delete".tr(),
-                              () async {
+                          showTwoBtnAlert(
+                              "dialog_delete_confirm".tr(args: ["boards".tr()]),
+                              "delete".tr(), () async {
                             final isSuccess = await c.deletePosts();
                             if (isSuccess) {
-                              showOneBtnAlert("dialog_delete_complete".tr(), "confirm".tr(),
+                              showOneBtnAlert(
+                                  "dialog_delete_complete".tr(), "confirm".tr(),
                                   () {
                                 Get.back();
                               });
@@ -125,8 +127,11 @@ class PostDetailPage extends StatelessWidget {
               "${posts.title}",
               style: theme.textTheme.headline4,
             ),
-            Text("nick".tr() + ": ${posts.nick}", style: theme.textTheme.subtitle1),
-            Text("create_date".tr() + ": ${_getDateStr(posts.editTime ?? DateTime.now())}",
+            Text("nick".tr() + ": ${posts.nick}",
+                style: theme.textTheme.subtitle1),
+            Text(
+                "create_date".tr() +
+                    ": ${_getDateStr(posts.editTime ?? DateTime.now())}",
                 style: theme.textTheme.caption),
             const Divider(thickness: 1),
             SizedBox(height: 20),

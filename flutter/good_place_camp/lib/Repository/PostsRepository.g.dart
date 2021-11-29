@@ -35,9 +35,9 @@ class _PostsRepository implements PostsRepository {
   }
 
   @override
-  Future<ServerResult<List<Post>>> getAllPostsSimpleList(page, typeList) async {
+  Future<ServerResult<List<Post>>> getAllPostsSimpleList(page, isNotice) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'url': typeList};
+    final queryParameters = <String, dynamic>{r'is_notice': isNotice};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(

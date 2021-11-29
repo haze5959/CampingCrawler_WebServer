@@ -23,7 +23,7 @@ class PostListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostListContoller c = PostListContoller(isNotice);
+    final PostListContoller c = PostListContoller(isNotice: isNotice);
 
     if (isNotice) {
       return Scaffold(

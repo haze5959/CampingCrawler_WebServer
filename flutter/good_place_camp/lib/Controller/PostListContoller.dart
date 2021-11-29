@@ -8,19 +8,9 @@ import 'package:good_place_camp/Model/Post.dart';
 
 class PostListContoller extends GetxController {
   final bool isNotice;
-  final List<PostType> typeList;
   int pageNum = 0;
 
-  PostListContoller._(this.isNotice, this.typeList);
-
-  factory PostListContoller(bool isNotice) {
-    if (isNotice) {
-      return PostListContoller._(isNotice, [PostType.notice]);
-    } else {
-      return PostListContoller._(
-          isNotice, [PostType.question, PostType.request, PostType.secret]);
-    }
-  }
+  PostListContoller({required this.isNotice});
 
   RxList<Post> postList = RxList<Post>.empty();
 
@@ -37,7 +27,7 @@ class PostListContoller extends GetxController {
     if (!isLastPage.value) {
       isLoading.value = true;
 
-      final res = await ApiRepo.posts.getAllPostsSimpleList(pageNum, typeList);
+      final res = await ApiRepo.posts.getAllPostsSimpleList(pageNum, isNotice);
       final data = res.data;
       if (!res.result) {
         showOneBtnAlert(res.msg, "confirm".tr(), () {});

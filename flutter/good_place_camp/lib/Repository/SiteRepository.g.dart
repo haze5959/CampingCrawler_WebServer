@@ -35,9 +35,9 @@ class _SiteRepository implements SiteRepository {
   }
 
   @override
-  Future<ServerResult<SiteListInfo>> getSiteInfoWithArea(areaList) async {
+  Future<ServerResult<SiteListInfo>> getSiteInfoWithArea(areaBit) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'area_bit': areaList};
+    final queryParameters = <String, dynamic>{r'area_bit': areaBit};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
