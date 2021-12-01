@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:flutter/cupertino.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -15,15 +16,10 @@ class PromotionCardItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () {
-              Navigator.push<void>(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => PostWritePage(),
-                ),
-              );
+              Get.to(PostWritePage());
             },
             splashColor:
-                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+                Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
             child: _buildContent(context),
           ),

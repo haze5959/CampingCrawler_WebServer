@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,23 +30,14 @@ class PostCardItem extends StatelessWidget {
                 if (!Constants.user.value.isLogin) {
                   showRequiredLoginAlert();
                 } else {
-                  Navigator.push<void>(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (context) =>
-                            PostDetailPage(info.id!, isSecret: true)),
-                  );
+                  Get.to(PostDetailPage(info.id!, isSecret: true));
                 }
               } else {
-                Navigator.push<void>(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => PostDetailPage(info.id!)),
-                );
+                Get.to(PostDetailPage(info.id!));
               }
             },
             splashColor:
-                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+                Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
             child: _buildContent(context),
           ),
@@ -55,10 +47,10 @@ class PostCardItem extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.subtitle1!.copyWith(color: Colors.white);
-    final descriptionStyle = theme.textTheme.bodyText2;
-    final addrStyle = theme.textTheme.caption;
+    final textTheme = Get.theme.textTheme;
+    final titleStyle = textTheme.subtitle1!.copyWith(color: Colors.white);
+    final descriptionStyle = textTheme.bodyText2;
+    final addrStyle = textTheme.caption;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SizedBox(
@@ -101,7 +93,7 @@ class PostCardItem extends StatelessWidget {
                   SizedBox(width: 3),
                   Text(
                     "${info.commentCount}",
-                    style: theme.textTheme.subtitle1,
+                    style: textTheme.subtitle1,
                   ),
                 ]),
               ),

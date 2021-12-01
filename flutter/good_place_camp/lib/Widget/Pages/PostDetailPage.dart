@@ -45,8 +45,8 @@ class PostDetailPage extends StatelessWidget {
   }
 
   Widget _buildContent(PostDetailContoller c, List<Comment> commentList) {
-    final theme = Get.theme;
-    final titleStyle = theme.textTheme.subtitle1!.copyWith(color: Colors.white);
+    final textTheme = Get.theme.textTheme;
+    final titleStyle = textTheme.subtitle1!.copyWith(color: Colors.white);
     final posts = c.posts!;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -125,17 +125,16 @@ class PostDetailPage extends StatelessWidget {
           children: [
             Text(
               "${posts.title}",
-              style: theme.textTheme.headline4,
+              style: textTheme.headline4,
             ),
-            Text("nick".tr() + ": ${posts.nick}",
-                style: theme.textTheme.subtitle1),
+            Text("nick".tr() + ": ${posts.nick}", style: textTheme.subtitle1),
             Text(
                 "create_date".tr() +
                     ": ${_getDateStr(posts.editTime ?? DateTime.now())}",
-                style: theme.textTheme.caption),
+                style: textTheme.caption),
             const Divider(thickness: 1),
             SizedBox(height: 20),
-            Text("${posts.body}", style: theme.textTheme.headline6),
+            Text("${posts.body}", style: textTheme.headline6),
             SizedBox(height: 40),
             CommentWidget(postId: id, commentList: commentList.obs),
             SizedBox(height: 40),

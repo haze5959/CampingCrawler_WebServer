@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
@@ -38,10 +37,10 @@ class PostDetailContoller extends GetxController {
       if (!res.result) {
         if (res.msg == "Auth Fail") {
           showOneBtnAlert("posts_secret_unvisible".tr(), "confirm".tr(),
-              () => Navigator.pop(Get.context!));
+              () => Get.back());
         } else {
           showOneBtnAlert(
-              res.msg, "confirm".tr(), () => Navigator.pop(Get.context!));
+              res.msg, "confirm".tr(), () => Get.back());
         }
         return;
       } else if (data == null) {
@@ -57,7 +56,7 @@ class PostDetailContoller extends GetxController {
       final data = res.data;
       if (!res.result) {
         showOneBtnAlert(
-            res.msg, "confirm".tr(), () => Navigator.pop(Get.context!));
+            res.msg, "confirm".tr(), () => Get.back());
         return;
       } else if (data == null) {
         print("reloadInfo result fail - " + res.msg);

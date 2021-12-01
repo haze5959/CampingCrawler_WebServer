@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:good_place_camp/Constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,15 +28,10 @@ class TappableCampCardItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () {
-              Navigator.push<void>(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => CampDetailPage(siteInfo.site),
-                ),
-              );
+              Get.to(CampDetailPage(siteInfo.site));
             },
             splashColor:
-                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+                Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
             child: _buildContent(context),
           ),
@@ -45,10 +41,10 @@ class TappableCampCardItem extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.headline5!.copyWith(color: Colors.white);
-    final descriptionStyle = theme.textTheme.subtitle1!;
-    final addrStyle = theme.textTheme.caption;
+    final textTheme = Get.theme.textTheme;
+    final titleStyle = textTheme.headline5!.copyWith(color: Colors.white);
+    final descriptionStyle = textTheme.subtitle1!;
+    final addrStyle = textTheme.caption;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +100,8 @@ class TappableCampCardItem extends StatelessWidget {
                 Tooltip(
                   message: "camp_info_1".tr(),
                   child: Text(
-                    "camp_collect_time".tr() + " - ${remainTime(siteInfo.updatedDate)}",
+                    "camp_collect_time".tr() +
+                        " - ${remainTime(siteInfo.updatedDate)}",
                     style: addrStyle,
                   ),
                 ),
@@ -135,15 +132,10 @@ class TappableReservationInfoCardItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () {
-              Navigator.push<void>(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => CampDetailPage(info.site),
-                ),
-              );
+              Get.to(CampDetailPage(info.site));
             },
             splashColor:
-                Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+                Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
             child: _buildContent(context),
           ),
@@ -153,9 +145,9 @@ class TappableReservationInfoCardItem extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.headline5;
-    final addrStyle = theme.textTheme.caption;
+    final textTheme = Get.theme.textTheme;
+    final titleStyle = textTheme.headline5;
+    final addrStyle = textTheme.caption;
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -167,7 +159,8 @@ class TappableReservationInfoCardItem extends StatelessWidget {
           Tooltip(
             message: "camp_info_2".tr(),
             child: Text(
-              "camp_reservation_open".tr() + " - ${getReservationOpenStr(info.desc)}",
+              "camp_reservation_open".tr() +
+                  " - ${getReservationOpenStr(info.desc)}",
               style: addrStyle,
             ),
           )

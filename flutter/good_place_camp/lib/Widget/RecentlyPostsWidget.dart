@@ -38,13 +38,7 @@ class RecentlyPostsWidget extends StatelessWidget {
                     mini: true,
                     child: Icon(Icons.list),
                     onPressed: () async {
-                      await Navigator.push<void>(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) =>
-                                PostListPage(isNotice: isNotice),
-                          ));
-
+                      await Get.to(PostListPage(isNotice: isNotice));
                       c.reload();
                     },
                   ),
@@ -81,12 +75,7 @@ class RecentlyPostsWidget extends StatelessWidget {
                             color: Colors.lightGreen.shade300,
                             icon: Icon(Icons.more_horiz),
                             onPressed: () {
-                              Navigator.push<void>(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (context) =>
-                                        PostListPage(isNotice: isNotice),
-                                  ));
+                              Get.to(PostListPage(isNotice: isNotice));
                             },
                           )
                         ])),

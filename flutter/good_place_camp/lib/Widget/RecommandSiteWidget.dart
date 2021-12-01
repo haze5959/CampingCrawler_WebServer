@@ -32,11 +32,7 @@ class RecommandSiteWidget extends StatelessWidget {
                     mini: true,
                     child: const Icon(Icons.list),
                     onPressed: () {
-                      Navigator.push<void>(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => CampListPage(),
-                          ));
+                      Get.to(CampListPage());
                     },
                   ),
                   Spacer(),
@@ -58,11 +54,7 @@ class RecommandSiteWidget extends StatelessWidget {
                             color: Colors.lightGreen.shade300,
                             icon: Icon(Icons.more_horiz),
                             onPressed: () {
-                              Navigator.push<void>(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (context) => CampListPage(),
-                                  ));
+                              Get.to(CampListPage());
                             },
                           )
                         ])),

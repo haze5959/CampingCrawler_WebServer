@@ -96,10 +96,10 @@ class CampDetailPage extends StatelessWidget {
   }
 
   Widget _buildInfoContent(CampDetailContoller c) {
-    final theme = Get.theme;
-    final titleStyle = theme.textTheme.headline5!.copyWith(color: Colors.white);
-    final descriptionStyle = theme.textTheme.subtitle1!;
-    final addrStyle = theme.textTheme.caption;
+    final textTheme = Get.theme.textTheme;
+    final titleStyle = textTheme.headline5!.copyWith(color: Colors.white);
+    final descriptionStyle = textTheme.subtitle1!;
+    final addrStyle = textTheme.caption;
 
     return Container(
         constraints: BoxConstraints(maxWidth: MAX_WIDTH),

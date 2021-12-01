@@ -25,7 +25,7 @@ void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
             TextButton(
               child: Text(btnText),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
                 confirmAction();
               },
             )
@@ -46,13 +46,13 @@ void showTwoBtnAlert(String msg, String btnText, Function() confirmAction) {
             TextButton(
               child: Text("cancel").tr(),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
             ),
             TextButton(
               child: Text(btnText),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
                 confirmAction();
               },
             )
@@ -100,14 +100,14 @@ void showPwAlert(String msg, Function(String pw) confirmAction) {
             TextButton(
               child: Text("cancel").tr(),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
             ),
             TextButton(
               child: Text("confirm").tr(),
               onPressed: () {
                 if (_validatePassword()) {
-                  Navigator.of(context).pop();
+                  Get.back();
                   confirmAction(pwControler.text);
                 }
               },
@@ -151,7 +151,7 @@ void showReportAlert(String id, String type) {
             TextButton(
               child: Text("cancel").tr(),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
             ),
             TextButton(
@@ -165,7 +165,7 @@ void showReportAlert(String id, String type) {
                     return;
                   }
 
-                  Navigator.of(context).pop();
+                  Get.back();
 
                   showOneBtnAlert("dialog_report_confirm".tr(), "cancel".tr(), () {});
                 }
@@ -188,17 +188,13 @@ void showRequiredLoginAlert() {
             TextButton(
               child: Text("cancel").tr(),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
             ),
             TextButton(
               child: Text("login_start").tr(),
               onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push<void>(
-                  context,
-                  CupertinoPageRoute(builder: (context) => LoginPage()),
-                );
+                Get.off(LoginPage());
               },
             )
           ],
@@ -258,7 +254,7 @@ void showRatingInfoAlert() {
             TextButton(
               child: Text("confirm").tr(),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
             )
           ],
@@ -311,7 +307,7 @@ void showChangeNickAlert() {
             TextButton(
               child: Text("cancel").tr(),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
             ),
             TextButton(
@@ -327,7 +323,7 @@ void showChangeNickAlert() {
                     return;
                   }
 
-                  Navigator.of(context).pop();
+                  Get.back();
                   Constants.user.value.info.nick = bodyControler.text;
 
                   showOneBtnAlert("dialog_change_complete".tr(), "close".tr(), () {

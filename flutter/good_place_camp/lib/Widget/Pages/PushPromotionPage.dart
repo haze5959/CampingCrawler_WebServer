@@ -24,7 +24,7 @@ class PushPromotionPage extends StatelessWidget {
   }
 
   Widget _buildInfoContent(BuildContext context) {
-    final theme = Theme.of(context);
+    final textTheme = Get.theme.textTheme;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -44,8 +44,7 @@ class PushPromotionPage extends StatelessWidget {
           ),
         ),
         Text("app_title".tr() + "notification_service".tr(),
-            style: theme.textTheme.headline4!
-                .copyWith(fontWeight: FontWeight.bold)),
+            style: textTheme.headline4!.copyWith(fontWeight: FontWeight.bold)),
         SizedBox(height: 20),
         Divider(
           thickness: 1,
@@ -55,12 +54,13 @@ class PushPromotionPage extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-                GetPlatform.isIOS
-                    ? "notification_promotion_ios"
-                    : "notification_promotion_and",
-                style: theme.textTheme.subtitle1!
-                    .copyWith(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center).tr()),
+                    GetPlatform.isIOS
+                        ? "notification_promotion_ios"
+                        : "notification_promotion_and",
+                    style: textTheme.subtitle1!
+                        .copyWith(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center)
+                .tr()),
         Divider(
           thickness: 1,
           indent: 40,
@@ -73,7 +73,7 @@ class PushPromotionPage extends StatelessWidget {
             SizedBox(width: 5),
             Text(
               "notification_setting_1",
-              style: theme.textTheme.subtitle2,
+              style: textTheme.subtitle2,
             ).tr(),
           ]),
           Row(children: <Widget>[
@@ -81,7 +81,7 @@ class PushPromotionPage extends StatelessWidget {
             SizedBox(width: 5),
             Text(
               "notification_setting_2",
-              style: theme.textTheme.subtitle2,
+              style: textTheme.subtitle2,
             ).tr(),
           ]),
           Row(children: <Widget>[
@@ -89,7 +89,7 @@ class PushPromotionPage extends StatelessWidget {
             SizedBox(width: 5),
             Text(
               "notification_setting_3",
-              style: theme.textTheme.subtitle2,
+              style: textTheme.subtitle2,
             ).tr(),
           ]),
           Row(children: <Widget>[
@@ -97,7 +97,7 @@ class PushPromotionPage extends StatelessWidget {
             SizedBox(width: 5),
             Text(
               "notification_setting_4",
-              style: theme.textTheme.subtitle2,
+              style: textTheme.subtitle2,
             ).tr(),
           ]),
           Row(children: <Widget>[
@@ -105,7 +105,7 @@ class PushPromotionPage extends StatelessWidget {
             SizedBox(width: 5),
             Text(
               "notification_setting_5",
-              style: theme.textTheme.subtitle2,
+              style: textTheme.subtitle2,
             ).tr(),
           ]),
         ]),
@@ -197,15 +197,17 @@ class PushPromotionPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("notification_service",
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.white,
-                              fontSize: 12)).tr(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                  fontSize: 12))
+                          .tr(),
                       Text("notification_experience",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 20)).tr()
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 20))
+                          .tr()
                     ]),
               ),
               onPressed: () async {},
@@ -218,10 +220,11 @@ class PushPromotionPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("notification_restore",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 20)).tr()
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 20))
+                          .tr()
                     ]),
               ),
               onPressed: () async {},
