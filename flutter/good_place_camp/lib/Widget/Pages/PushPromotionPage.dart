@@ -19,11 +19,11 @@ class PushPromotionPage extends StatelessWidget {
             child: Center(
               child: Container(
                   constraints: BoxConstraints(maxWidth: 600),
-                  child: _buildInfoContent(context)),
+                  child: _buildInfoContent()),
             )));
   }
 
-  Widget _buildInfoContent(BuildContext context) {
+  Widget _buildInfoContent() {
     final textTheme = Get.theme.textTheme;
 
     return Column(
@@ -110,13 +110,13 @@ class PushPromotionPage extends StatelessWidget {
           ]),
         ]),
         SizedBox(height: 30),
-        _buildButtonContent(context),
+        _buildButtonContent(),
         SizedBox(height: 30)
       ],
     );
   }
 
-  Widget _buildButtonContent(BuildContext context) {
+  Widget _buildButtonContent() {
     if (GetPlatform.isWeb) {
       return Wrap(
           direction: Constants.isPhoneSize ? Axis.vertical : Axis.horizontal,

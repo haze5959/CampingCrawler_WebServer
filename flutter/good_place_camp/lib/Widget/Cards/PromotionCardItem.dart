@@ -21,14 +21,14 @@ class PromotionCardItem extends StatelessWidget {
             splashColor:
                 Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
-            child: _buildContent(context),
+            child: _buildContent(),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

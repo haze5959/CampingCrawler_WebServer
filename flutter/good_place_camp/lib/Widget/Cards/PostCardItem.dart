@@ -39,14 +39,14 @@ class PostCardItem extends StatelessWidget {
             splashColor:
                 Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
-            child: _buildContent(context),
+            child: _buildContent(),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent() {
     final textTheme = Get.theme.textTheme;
     final titleStyle = textTheme.subtitle1!.copyWith(color: Colors.white);
     final descriptionStyle = textTheme.bodyText2;

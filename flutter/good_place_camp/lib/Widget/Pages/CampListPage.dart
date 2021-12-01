@@ -30,13 +30,13 @@ class CampListPage extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: MAX_WIDTH),
             child: Scrollbar(
                 child: isFavoritePage
-                    ? _buildFavoriteList(context)
-                    : _buildCampList(context))),
+                    ? _buildFavoriteList()
+                    : _buildCampList())),
       ),
     );
   }
 
-  Widget _buildCampList(BuildContext context) {
+  Widget _buildCampList() {
     final HomeController c = Get.find();
 
     return Obx(() => ListView.builder(
@@ -51,7 +51,7 @@ class CampListPage extends StatelessWidget {
         ));
   }
 
-  Widget _buildFavoriteList(BuildContext context) {
+  Widget _buildFavoriteList() {
     return Obx(() => ListView.builder(
           itemCount: Constants.user.value.info.favoriteList?.length ?? 0 + 1,
           itemBuilder: (context, index) {

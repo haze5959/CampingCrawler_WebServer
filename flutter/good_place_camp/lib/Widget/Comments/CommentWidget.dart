@@ -19,10 +19,10 @@ class CommentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildCommentList(context);
+    return _buildCommentList();
   }
 
-  Widget _buildCommentList(BuildContext context) {
+  Widget _buildCommentList() {
     return Container(
         child: Obx(() => Column(children: [
               if (canWrite) _buildWriteCommentItem(),

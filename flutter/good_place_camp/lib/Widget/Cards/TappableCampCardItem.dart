@@ -33,14 +33,14 @@ class TappableCampCardItem extends StatelessWidget {
             splashColor:
                 Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
-            child: _buildContent(context),
+            child: _buildContent(),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent() {
     final textTheme = Get.theme.textTheme;
     final titleStyle = textTheme.headline5!.copyWith(color: Colors.white);
     final descriptionStyle = textTheme.subtitle1!;
@@ -137,14 +137,14 @@ class TappableReservationInfoCardItem extends StatelessWidget {
             splashColor:
                 Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
-            child: _buildContent(context),
+            child: _buildContent(),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent() {
     final textTheme = Get.theme.textTheme;
     final titleStyle = textTheme.headline5;
     final addrStyle = textTheme.caption;
