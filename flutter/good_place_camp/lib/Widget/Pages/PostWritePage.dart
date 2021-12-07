@@ -28,7 +28,7 @@ class PostWritePage extends GetView<PostWriteContoller> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('board_wirte_new').tr(),
+          title: const Text('board_wirte_new').tr(),
         ),
         body: GestureDetector(
             behavior: HitTestBehavior.translucent,
@@ -40,9 +40,9 @@ class PostWritePage extends GetView<PostWriteContoller> {
             },
             child: Obx(() => Stack(children: [
                   SingleChildScrollView(
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       child: Padding(
-                          padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -61,7 +61,7 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                   }
                                 },
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               SizedBox(
                                 width: 300,
                                 child: CupertinoSegmentedControl<int>(
@@ -82,14 +82,14 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                 ),
                               ),
                               if (c.postType.value == 2)
-                                Text("board_secret_info").tr(),
+                                const Text("board_secret_info").tr(),
                               TextField(
                                 controller: c.titleControler,
                                 decoration: InputDecoration(
                                     hintText: "title".tr() + "...",
                                     labelText: 'title'.tr()),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               TextField(
                                 controller: c.bodyControler,
                                 keyboardType: TextInputType.multiline,
@@ -98,16 +98,16 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                     hintText: "content".tr() + "...",
                                     labelText: 'content'.tr()),
                               ),
-                              SizedBox(height: 40),
+                              const SizedBox(height: 40),
                               Center(
                                   child: ElevatedButton(
                                 onPressed: c.makePosts,
-                                child: Text("dialog_registration").tr(),
+                                child: const Text("dialog_registration").tr(),
                               ))
                             ],
                           ))),
                   if (c.isLoading.value)
-                    Center(child: CircularProgressIndicator())
+                    const Center(child: const CircularProgressIndicator())
                 ]))));
   }
 }

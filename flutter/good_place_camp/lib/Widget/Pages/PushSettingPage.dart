@@ -19,7 +19,7 @@ class PushSettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("notification_setting").tr(),
+          title: const Text("notification_setting").tr(),
           actions: [],
         ),
         body: Stack(children: [
@@ -28,7 +28,7 @@ class PushSettingPage extends StatelessWidget {
                     physics: ClampingScrollPhysics(),
                     child: Center(
                         child: Container(
-                            constraints: BoxConstraints(maxWidth: 500),
+                            constraints: const BoxConstraints(maxWidth: 500),
                             child: _buildInfoContent())),
                   )),
           obxLoadingWidget(c.isLoading)
@@ -38,13 +38,13 @@ class PushSettingPage extends StatelessWidget {
   Widget _buildInfoContent() {
     return Column(
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         _buildETCInfo(),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         _buildETCInfo(),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         _buildETCInfo(),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
       ],
     );
   }
@@ -55,20 +55,20 @@ class PushSettingPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("notification_by_region",
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: const Text("notification_by_region",
                     style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 14,
                         color: Colors.black54))
                 .tr()),
-        Divider(
+        const Divider(
           thickness: 1,
           indent: 20,
           endIndent: 20,
         ),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
               for (var area in favoriteArea)
                 InputChip(
@@ -84,7 +84,7 @@ class PushSettingPage extends StatelessWidget {
                 ),
               PopupMenuButton<CampArea>(
                 tooltip: "notification_filter_region".tr(),
-                icon: Icon(Icons.filter_list_rounded),
+                icon: const Icon(Icons.filter_list_rounded),
                 itemBuilder: (context) {
                   return [
                     CheckedPopupMenuItem(
@@ -141,15 +141,15 @@ class PushSettingPage extends StatelessWidget {
                 onSelected: (area) => c.editArea(area),
               )
             ])),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
-              Text("notification_use_region",
+              const Text("notification_use_region",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
                   .tr(),
-              Spacer(),
+              const Spacer(),
               Switch(
                 value: c.pushInfo.usePushOnArea,
                 onChanged: (value) {
@@ -164,13 +164,13 @@ class PushSettingPage extends StatelessWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               if (c.pushInfo.usePushOnArea) ...[
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(children: [
-                      Text("notification_by_holiday",
+                      const Text("notification_by_holiday",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15))
                           .tr(),
-                      Spacer(),
+                      const Spacer(),
                       Switch(
                         value: c.pushInfo.useOnlyHolidayOnArea,
                         onChanged: (value) {
@@ -180,13 +180,13 @@ class PushSettingPage extends StatelessWidget {
                       )
                     ])),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(children: [
-                      Text("notification_by_30days",
+                      const Text("notification_by_30days",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15))
                           .tr(),
-                      Spacer(),
+                      const Spacer(),
                       Switch(
                         value: c.pushInfo.useOnlyInMonthOnArea,
                         onChanged: (value) {

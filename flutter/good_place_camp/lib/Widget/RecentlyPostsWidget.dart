@@ -20,7 +20,7 @@ class RecentlyPostsWidget extends StatelessWidget {
   Widget build(context) {
     return GetBuilder<HomeController>(
         builder: (c) => Container(
-            constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+            constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
             child: Column(children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
@@ -31,18 +31,18 @@ class RecentlyPostsWidget extends StatelessWidget {
                           : "board_request_question",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   FloatingActionButton(
                     heroTag: isNotice ? "RecentlyNoticePosts" : "RecentlyPosts",
                     backgroundColor: Colors.lightGreen.shade300,
                     mini: true,
-                    child: Icon(Icons.list),
+                    child: const Icon(Icons.list),
                     onPressed: () async {
                       await Get.to(PostListPage(isNotice: isNotice));
                       c.reload();
                     },
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   if (!isNotice)
                     FloatingActionButton(
                       heroTag: "NewPosts",
@@ -56,14 +56,14 @@ class RecentlyPostsWidget extends StatelessWidget {
                         }
                       },
                     ),
-                  Spacer(),
+                  const Spacer(),
                 ]),
               ),
               Stack(children: [
                 SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
                     scrollDirection: Axis.horizontal,
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -73,7 +73,7 @@ class RecentlyPostsWidget extends StatelessWidget {
                           IconButton(
                             iconSize: 50,
                             color: Colors.lightGreen.shade300,
-                            icon: Icon(Icons.more_horiz),
+                            icon: const Icon(Icons.more_horiz),
                             onPressed: () {
                               Get.to(PostListPage(isNotice: isNotice));
                             },

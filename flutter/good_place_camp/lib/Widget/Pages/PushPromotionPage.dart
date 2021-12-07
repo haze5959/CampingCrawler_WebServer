@@ -15,10 +15,10 @@ class PushPromotionPage extends StatelessWidget {
           actions: [],
         ),
         body: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             child: Center(
               child: Container(
-                  constraints: BoxConstraints(maxWidth: 600),
+                  constraints: const BoxConstraints(maxWidth: 600),
                   child: _buildInfoContent()),
             )));
   }
@@ -36,7 +36,7 @@ class PushPromotionPage extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: Ink.image(
-                  image: AssetImage('assets/Camp_Default.png'),
+                  image: const AssetImage('assets/Camp_Default.png'),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -45,14 +45,14 @@ class PushPromotionPage extends StatelessWidget {
         ),
         Text("app_title".tr() + "notification_service".tr(),
             style: textTheme.headline4!.copyWith(fontWeight: FontWeight.bold)),
-        SizedBox(height: 20),
-        Divider(
+        const SizedBox(height: 20),
+        const Divider(
           thickness: 1,
           indent: 40,
           endIndent: 40,
         ),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Text(
                     GetPlatform.isIOS
                         ? "notification_promotion_ios"
@@ -61,16 +61,16 @@ class PushPromotionPage extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center)
                 .tr()),
-        Divider(
+        const Divider(
           thickness: 1,
           indent: 40,
           endIndent: 40,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Wrap(direction: Axis.vertical, spacing: 10, children: [
           Row(children: <Widget>[
-            Icon(Icons.check, size: 16),
-            SizedBox(width: 5),
+            const Icon(Icons.check, size: 16),
+            const SizedBox(width: 5),
             Text(
               "notification_setting_1",
               style: textTheme.subtitle2,
@@ -78,40 +78,40 @@ class PushPromotionPage extends StatelessWidget {
           ]),
           Row(children: <Widget>[
             Icon(Icons.check, size: 16),
-            SizedBox(width: 5),
+            const SizedBox(width: 5),
             Text(
               "notification_setting_2",
               style: textTheme.subtitle2,
             ).tr(),
           ]),
           Row(children: <Widget>[
-            Icon(Icons.check, size: 16),
-            SizedBox(width: 5),
+            const Icon(Icons.check, size: 16),
+            const SizedBox(width: 5),
             Text(
               "notification_setting_3",
               style: textTheme.subtitle2,
             ).tr(),
           ]),
           Row(children: <Widget>[
-            Icon(Icons.check, size: 16),
-            SizedBox(width: 5),
+            const Icon(Icons.check, size: 16),
+            const SizedBox(width: 5),
             Text(
               "notification_setting_4",
               style: textTheme.subtitle2,
             ).tr(),
           ]),
           Row(children: <Widget>[
-            Icon(Icons.check, size: 16),
-            SizedBox(width: 5),
+            const Icon(Icons.check, size: 16),
+            const SizedBox(width: 5),
             Text(
               "notification_setting_5",
               style: textTheme.subtitle2,
             ).tr(),
           ]),
         ]),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         _buildButtonContent(),
-        SizedBox(height: 30)
+        const SizedBox(height: 30)
       ],
     );
   }
@@ -124,18 +124,18 @@ class PushPromotionPage extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
-              icon: ImageIcon(AssetImage("assets/ico_google.png"), size: 30),
+              icon: const ImageIcon(AssetImage("assets/ico_google.png"), size: 30),
               label: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("GET IT ON",
+                        const Text("GET IT ON",
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 color: Colors.white,
                                 fontSize: 10)),
-                        Text("Google Play",
+                        const Text("Google Play",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -152,18 +152,18 @@ class PushPromotionPage extends StatelessWidget {
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
-              icon: ImageIcon(AssetImage("assets/ico_apple.png"), size: 30),
+              icon: const ImageIcon(AssetImage("assets/ico_apple.png"), size: 30),
               label: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Download on the",
+                        const Text("Download on the",
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 color: Colors.white,
                                 fontSize: 11)),
-                        Text("App Store",
+                        const Text("App Store",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -188,21 +188,21 @@ class PushPromotionPage extends StatelessWidget {
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
               icon: Padding(
-                  padding: EdgeInsets.only(left: 35),
+                  padding: const EdgeInsets.only(left: 35),
                   child: Image.asset('assets/Camp_Main.png',
                       width: 40, height: 40)),
               label: Padding(
-                padding: EdgeInsets.only(right: 35, top: 10, bottom: 10),
+                padding: const EdgeInsets.only(right: 35, top: 10, bottom: 10),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("notification_service",
+                      const Text("notification_service",
                               style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   color: Colors.white,
                                   fontSize: 12))
                           .tr(),
-                      Text("notification_experience",
+                      const Text("notification_experience",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
@@ -215,11 +215,11 @@ class PushPromotionPage extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(primary: Colors.black),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("notification_restore",
+                      const Text("notification_restore",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,

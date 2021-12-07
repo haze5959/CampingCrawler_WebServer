@@ -41,19 +41,19 @@ class CampDetailPage extends StatelessWidget {
         ),
         body: GetBuilder<CampDetailContoller>(
           builder: (c) => c.isLoading
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _buildInfoContent(c),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       _buildButtons(c),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       _buildCalender(c),
                       _buildSelectedInfo(c),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       if (!GetPlatform.isWeb)
                         SizedBox(
                             height: CALENDER_WIDTH,
@@ -102,7 +102,7 @@ class CampDetailPage extends StatelessWidget {
     final addrStyle = textTheme.caption;
 
     return Container(
-        constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -117,9 +117,9 @@ class CampDetailPage extends StatelessWidget {
                           Image.asset('assets/Camp_Default.png'),
                       fit: BoxFit.cover,
                       fadeInCurve: Curves.easeIn,
-                      fadeInDuration: Duration(seconds: 2),
+                      fadeInDuration: const Duration(seconds: 2),
                       fadeOutCurve: Curves.easeOut,
-                      fadeOutDuration: Duration(seconds: 2),
+                      fadeOutDuration: const Duration(seconds: 2),
                     ),
                   ),
                   Positioned(
@@ -130,9 +130,9 @@ class CampDetailPage extends StatelessWidget {
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerLeft,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.black26,
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                            borderRadius: const BorderRadius.all(Radius.circular(5))),
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
                           "${c.campInfo!.name}",
@@ -162,7 +162,7 @@ class CampDetailPage extends StatelessWidget {
                         style: addrStyle,
                       ),
                     ),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
                     Tooltip(
                         message: "camp_info_2".tr(),
                         child: Text(
@@ -170,11 +170,11 @@ class CampDetailPage extends StatelessWidget {
                               " - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
                           style: addrStyle,
                         )),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
                     Text("${c.campInfo!.desc}", maxLines: 2),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
                     TextButton.icon(
-                        icon: Icon(Icons.location_on, size: 20),
+                        icon: const Icon(Icons.location_on, size: 20),
                         style: TextButton.styleFrom(
                             minimumSize: Size(50, 20),
                             padding: EdgeInsets.zero,
@@ -184,7 +184,7 @@ class CampDetailPage extends StatelessWidget {
                         },
                         label: Text("${c.campInfo!.addr}", style: addrStyle)),
                     TextButton.icon(
-                        icon: Icon(Icons.call, size: 20),
+                        icon: const Icon(Icons.call, size: 20),
                         style: TextButton.styleFrom(
                             minimumSize: Size(50, 20),
                             padding: EdgeInsets.zero,
@@ -208,7 +208,7 @@ class CampDetailPage extends StatelessWidget {
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
           icon: const Icon(Icons.home, size: 18),
-          label: Text("homepage").tr(),
+          label: const Text("homepage").tr(),
           onPressed: () {
             c.launchHomepageURL();
           },
@@ -217,7 +217,7 @@ class CampDetailPage extends StatelessWidget {
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
           icon: const Icon(Icons.calendar_today, size: 18),
-          label: Text("reservation_site").tr(),
+          label: const Text("reservation_site").tr(),
           onPressed: () {
             c.launchReservationURL();
           },
@@ -244,10 +244,10 @@ class CampDetailPage extends StatelessWidget {
                     return c.holidays.containsKey(day);
                   },
                   availableGestures: AvailableGestures.horizontalSwipe,
-                  calendarStyle: CalendarStyle(
+                  calendarStyle: const CalendarStyle(
                     outsideDaysVisible: false,
                   ),
-                  headerStyle: HeaderStyle(
+                  headerStyle: const HeaderStyle(
                       titleCentered: true, formatButtonVisible: false),
                   calendarBuilders: CalendarBuilders(
                     markerBuilder: (context, date, events) {
@@ -282,7 +282,7 @@ class CampDetailPage extends StatelessWidget {
       width: 16.0,
       height: 16.0,
       child: Center(
-        child: Icon(Icons.date_range_outlined, size: 12),
+        child: const Icon(Icons.date_range_outlined, size: 12),
       ),
     );
   }

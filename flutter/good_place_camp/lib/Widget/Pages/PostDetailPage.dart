@@ -24,14 +24,14 @@ class PostDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("board").tr(),
+        title: const Text("board").tr(),
       ),
       body: GetBuilder<PostDetailContoller>(
           init: PostDetailContoller(id: id, isSecret: isSecret),
           builder: (c) => c.isLoading
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: const CircularProgressIndicator())
               : SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
@@ -56,7 +56,7 @@ class PostDetailPage extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Ink.image(
-                image: AssetImage('assets/Camp_Default.png'),
+                image: const AssetImage('assets/Camp_Default.png'),
                 fit: BoxFit.fitHeight,
               ),
             ),
@@ -70,7 +70,7 @@ class PostDetailPage extends StatelessWidget {
                     ? IconButton(
                         tooltip: "dialog_delete".tr(),
                         color: Colors.grey,
-                        icon: Icon(Icons.delete),
+                        icon: const Icon(Icons.delete),
                         onPressed: () {
                           showTwoBtnAlert(
                               "dialog_delete_confirm".tr(args: ["boards".tr()]),
@@ -89,7 +89,7 @@ class PostDetailPage extends StatelessWidget {
                     : IconButton(
                         tooltip: "dialog_report".tr(),
                         color: Colors.grey,
-                        icon: Icon(Icons.report_gmailerrorred_outlined),
+                        icon: const Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
                           showReportAlert("posts_$id", "boards".tr());
                         },
@@ -104,7 +104,7 @@ class PostDetailPage extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.black54,
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
@@ -133,11 +133,11 @@ class PostDetailPage extends StatelessWidget {
                     ": ${_getDateStr(posts.editTime ?? DateTime.now())}",
                 style: textTheme.caption),
             const Divider(thickness: 1),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text("${posts.body}", style: textTheme.headline6),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             CommentWidget(postId: id, commentList: commentList.obs),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
           ],
         ),
       ),

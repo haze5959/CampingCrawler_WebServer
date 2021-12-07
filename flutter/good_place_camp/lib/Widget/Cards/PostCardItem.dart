@@ -59,7 +59,7 @@ class PostCardItem extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Ink.image(
-                image: AssetImage('assets/Camp_Default.png'),
+                image: const AssetImage('assets/Camp_Default.png'),
                 fit: BoxFit.fitHeight,
               ),
             ),
@@ -71,9 +71,9 @@ class PostCardItem extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.black54,
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                      borderRadius: const BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
                     info.getPostType().toPostTypeString(),
@@ -89,8 +89,8 @@ class PostCardItem extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
                 child: Row(children: <Widget>[
-                  Icon(Icons.comment_outlined, size: 18),
-                  SizedBox(width: 3),
+                  const Icon(Icons.comment_outlined, size: 18),
+                  const SizedBox(width: 3),
                   Text(
                     "${info.commentCount}",
                     style: textTheme.subtitle1,

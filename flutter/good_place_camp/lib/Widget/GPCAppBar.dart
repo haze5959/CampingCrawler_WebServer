@@ -46,8 +46,8 @@ class GPCAppBar extends AppBar {
                 alignment: Alignment.center,
                 padding: Constants.isPhoneSize
                     ? EdgeInsets.zero
-                    : EdgeInsets.fromLTRB(15, 0, 15, 0),
-                constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+                    : const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Row(children: <Widget>[
                   if (isMain)
                     IconButton(
@@ -60,12 +60,12 @@ class GPCAppBar extends AppBar {
                     ),
                   Text(
                     pageName,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   if (Constants.isPhoneSize) ...[
                     if (showFilter) _buildAreaFilter(),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     PopupMenuButton<GPCAppBarMenu>(
                       color: Colors.lightGreen[50],
                       padding: EdgeInsets.zero,
@@ -87,16 +87,16 @@ class GPCAppBar extends AppBar {
                         if (Constants.user.value.isLogin)
                           PopupMenuItem<GPCAppBarMenu>(
                             enabled: false,
-                            child: Text("dear").tr(args: [Constants.user.value.info.nick ?? ""]),
+                            child: const Text("dear").tr(args: [Constants.user.value.info.nick ?? ""]),
                           ),
                         PopupMenuItem<GPCAppBarMenu>(
                           value: GPCAppBarMenu.favorite,
                           child: Row(children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.lightGreen,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               GPCAppBarMenu.favorite.toTitle(),
                             )
@@ -105,11 +105,11 @@ class GPCAppBar extends AppBar {
                         PopupMenuItem<GPCAppBarMenu>(
                           value: GPCAppBarMenu.push,
                           child: Row(children: [
-                            Icon(
+                            const Icon(
                               Icons.notifications,
                               color: Colors.lightGreen,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               GPCAppBarMenu.push.toTitle(),
                             )
@@ -118,11 +118,11 @@ class GPCAppBar extends AppBar {
                         PopupMenuItem<GPCAppBarMenu>(
                           value: GPCAppBarMenu.account,
                           child: Row(children: [
-                            Icon(
+                            const Icon(
                               Icons.account_circle,
                               color: Colors.lightGreen,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               GPCAppBarMenu.account.toTitle(),
                             )
@@ -134,25 +134,25 @@ class GPCAppBar extends AppBar {
                     Obx(() => Text(Constants.user.value.isLogin
                         ? "dear".tr(args: [Constants.user.value.info.nick ?? ""])
                         : "")),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     if (showFilter) _buildAreaFilter(),
                     if (isMain) ...[
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       IconButton(
                         tooltip: GPCAppBarMenu.favorite.toTitle(),
-                        icon: Icon(Icons.star),
+                        icon: const Icon(Icons.star),
                         onPressed: _gotoFavoritePage,
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       IconButton(
                         tooltip: GPCAppBarMenu.push.toTitle(),
-                        icon: Icon(Icons.notifications),
+                        icon: const Icon(Icons.notifications),
                         onPressed: _gotoPushPage,
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       IconButton(
                         tooltip: GPCAppBarMenu.account.toTitle(),
-                        icon: Icon(Icons.account_circle),
+                        icon: const Icon(Icons.account_circle),
                         onPressed: _gotoAccountPage,
                       ),
                     ]
@@ -163,7 +163,7 @@ class GPCAppBar extends AppBar {
     return PopupMenuButton<CampArea>(
       tooltip: "notification_filter_region".tr(),
       color: Colors.lightGreen[50],
-      icon: Icon(Icons.filter_list_rounded),
+      icon: const Icon(Icons.filter_list_rounded),
       itemBuilder: (context) {
         return [
           CheckedPopupMenuItem(

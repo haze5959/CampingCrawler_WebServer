@@ -30,7 +30,7 @@ class PostListPage extends StatelessWidget {
           appBar: GPCAppBar(pageName: "board_notice_event".tr(), showFilter: false),
           body: Center(
             child: Container(
-                constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+                constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Obx(() => Scrollbar(
                         child: ListView.builder(
                       itemCount: c.postList.length + 1,
@@ -41,8 +41,8 @@ class PostListPage extends StatelessWidget {
                           c.fetchPosts();
                           return Center(
                                   child: Obx(() => c.isLastPage.value
-                                      ? Text("board_info_last").tr()
-                                      : CircularProgressIndicator()));
+                                      ? const Text("board_info_last").tr()
+                                      : const CircularProgressIndicator()));
                         }
                       },
                     )))),
@@ -52,7 +52,7 @@ class PostListPage extends StatelessWidget {
           appBar: GPCAppBar(pageName: "board_request_question".tr(), showFilter: false),
           body: Center(
             child: Container(
-                constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+                constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Obx(() => Scrollbar(
                         child: ListView.builder(
                       itemCount: c.postList.length + 1,
@@ -63,8 +63,8 @@ class PostListPage extends StatelessWidget {
                           c.fetchPosts();
                           return Center(
                                   child: Obx(() => c.isLastPage.value
-                                      ? Text("board_info_last").tr()
-                                      : CircularProgressIndicator()));
+                                      ? const Text("board_info_last").tr()
+                                      : const CircularProgressIndicator()));
                         }
                       },
                     )))),
@@ -72,7 +72,7 @@ class PostListPage extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
               elevation: 0.0,
               tooltip: "board_wirte_new".tr(),
-              child: Icon(Icons.edit),
+              child: const Icon(Icons.edit),
               backgroundColor: Colors.lightGreen.shade400,
               onPressed: () async {
                 bool result = await Get.to(PostWritePage());

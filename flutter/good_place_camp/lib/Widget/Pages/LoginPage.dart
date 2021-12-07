@@ -12,16 +12,16 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("login").tr(),
+          title: const Text("login").tr(),
           actions: [],
         ),
         body: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             child: Obx(() =>
                 Stack(alignment: AlignmentDirectional.center, children: [
                   Center(
                     child: Container(
-                        constraints: BoxConstraints(maxWidth: 600),
+                        constraints: const BoxConstraints(maxWidth: 600),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -32,7 +32,7 @@ class LoginPage extends StatelessWidget {
                                   Positioned.fill(
                                     child: Ink.image(
                                       image:
-                                          AssetImage('assets/Camp_Default.png'),
+                                          const AssetImage('assets/Camp_Default.png'),
                                       fit: BoxFit.contain,
                                     ),
                                   ),
@@ -40,34 +40,34 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                             Text("app_title".tr() + "login".tr(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 25)),
-                            SizedBox(height: 20),
-                            Divider(
+                            const SizedBox(height: 20),
+                            const Divider(
                               thickness: 1,
                               indent: 40,
                               endIndent: 40,
                             ),
                             Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 40),
-                                child: Text(
+                                child: const Text(
                                     "login_promotion",
                                     textAlign: TextAlign.center).tr()),
-                            Divider(
+                            const Divider(
                               thickness: 1,
                               indent: 40,
                               endIndent: 40,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.deepOrange[700],
                                     minimumSize: Size(340, 50)),
-                                icon: ImageIcon(
-                                    AssetImage("assets/ico_google.png"),
+                                icon: const ImageIcon(
+                                    const AssetImage("assets/ico_google.png"),
                                     size: 16),
-                                label: Text("login_google",
-                                    style: TextStyle(
+                                label: const Text("login_google",
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.normal,
                                         color: Colors.white,
                                         fontSize: 16)).tr(),
@@ -77,16 +77,16 @@ class LoginPage extends StatelessWidget {
                                     Get.back();
                                   }
                                 }),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.blue[700],
                                     minimumSize: Size(340, 50)),
-                                icon: ImageIcon(
-                                    AssetImage("assets/ico_facebook.png"),
+                                icon: const ImageIcon(
+                                    const AssetImage("assets/ico_facebook.png"),
                                     size: 16),
-                                label: Text("login_facebook",
-                                    style: TextStyle(
+                                label: const Text("login_facebook",
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.normal,
                                         color: Colors.white,
                                         fontSize: 16)).tr(),
@@ -96,16 +96,16 @@ class LoginPage extends StatelessWidget {
                                     Get.back();
                                   }
                                 }),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.lightBlue[600],
                                     minimumSize: Size(340, 50)),
-                                icon: ImageIcon(
-                                    AssetImage("assets/ico_twitter.png"),
+                                icon: const ImageIcon(
+                                    const AssetImage("assets/ico_twitter.png"),
                                     size: 16),
                                 label: Text("login_twitter".tr(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.normal,
                                         color: Colors.white,
                                         fontSize: 16)),
@@ -115,19 +115,19 @@ class LoginPage extends StatelessWidget {
                                     Get.back();
                                   }
                                 }),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             if (!GetPlatform.isAndroid)
                               ElevatedButton.icon(
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.black,
                                       minimumSize: Size(340, 50)),
-                                  icon: ImageIcon(
-                                    AssetImage("assets/ico_apple.png"),
+                                  icon: const ImageIcon(
+                                    const AssetImage("assets/ico_apple.png"),
                                     size: 16,
                                     color: Colors.white,
                                   ),
-                                  label: Text("login_apple",
-                                      style: TextStyle(
+                                  label: const Text("login_apple",
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.normal,
                                           color: Colors.white,
                                           fontSize: 16)).tr(),
@@ -137,11 +137,11 @@ class LoginPage extends StatelessWidget {
                                       Get.back();
                                     }
                                   }),
-                            SizedBox(height: 40),
+                            const SizedBox(height: 40),
                           ],
                         )),
                   ),
-                  if (c.isLoading.value) CircularProgressIndicator()
+                  if (c.isLoading.value) const CircularProgressIndicator()
                 ]))));
   }
 }

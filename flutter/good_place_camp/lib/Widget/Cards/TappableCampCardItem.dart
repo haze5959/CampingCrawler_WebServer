@@ -60,9 +60,9 @@ class TappableCampCardItem extends StatelessWidget {
                       Image.asset('assets/Camp_Default.png'),
                   fit: BoxFit.cover,
                   fadeInCurve: Curves.easeIn,
-                  fadeInDuration: Duration(seconds: 2),
+                  fadeInDuration: const Duration(seconds: 2),
                   fadeOutCurve: Curves.easeOut,
-                  fadeOutDuration: Duration(seconds: 2),
+                  fadeOutDuration: const Duration(seconds: 2),
                 ),
               ),
               Positioned(
@@ -73,9 +73,9 @@ class TappableCampCardItem extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.black26,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                        borderRadius: const BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
                     child: Text(
                       Constants.campInfoMap[siteInfo.site]?.name ?? "_",

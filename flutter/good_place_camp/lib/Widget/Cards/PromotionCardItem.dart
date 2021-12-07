@@ -38,7 +38,7 @@ class PromotionCardItem extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: Ink.image(
-                  image: AssetImage('assets/Camp_Default.png'),
+                  image: const AssetImage('assets/Camp_Default.png'),
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -50,11 +50,11 @@ class PromotionCardItem extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.center,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.black26,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                        borderRadius: const BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
-                    child: Text("promotion_msg_1",
+                    child: const Text("promotion_msg_1",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -71,9 +71,9 @@ class PromotionCardItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("promotion_msg_2",
+              const Text("promotion_msg_2",
                       maxLines: 2,
-                      style: TextStyle(color: Colors.black, fontSize: 14))
+                      style: const TextStyle(color: Colors.black, fontSize: 14))
                   .tr()
             ],
           ),

@@ -28,13 +28,13 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
             return;
           },
           child: SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: Container(
                   child: Column(children: <Widget>[
                 ClipPath(
                   child: Container(
                       alignment: Alignment.topCenter,
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           top: MAIN_PADDING, bottom: MAIN_PADDING),
                       decoration: BoxDecoration(
                           image: DecorationImage(
@@ -61,17 +61,17 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
 
   Widget _buildIntroText() {
     return Container(
-        constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
         alignment: Alignment.centerLeft,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("home_title_1",
-                  style: TextStyle(
+          const Text("home_title_1",
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       fontSize: 40))
               .tr(),
-          Text("home_title_2",
-                  style: TextStyle(
+          const Text("home_title_2",
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       fontSize: 18))

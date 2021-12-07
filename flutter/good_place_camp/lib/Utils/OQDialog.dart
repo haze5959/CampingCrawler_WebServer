@@ -44,7 +44,7 @@ void showTwoBtnAlert(String msg, String btnText, Function() confirmAction) {
           ),
           actions: [
             TextButton(
-              child: Text("cancel").tr(),
+              child: const Text("cancel").tr(),
               onPressed: () {
                 Get.back();
               },
@@ -98,13 +98,13 @@ void showPwAlert(String msg, Function(String pw) confirmAction) {
           ]),
           actions: [
             TextButton(
-              child: Text("cancel").tr(),
+              child: const Text("cancel").tr(),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: Text("confirm").tr(),
+              child: const Text("confirm").tr(),
               onPressed: () {
                 if (_validatePassword()) {
                   Get.back();
@@ -136,7 +136,7 @@ void showReportAlert(String id, String type) {
         return AlertDialog(
           title: Text(
             "dialog_report_id".tr(args: [id]),
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+            style: const TextStyle(color: Colors.grey, fontSize: 12),
           ),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
             Obx(() => TextField(
@@ -149,13 +149,13 @@ void showReportAlert(String id, String type) {
           ]),
           actions: [
             TextButton(
-              child: Text("cancel").tr(),
+              child: const Text("cancel").tr(),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: Text("confirm").tr(),
+              child: const Text("confirm").tr(),
               onPressed: () async {
                 if (_validateText()) {
                   final res =
@@ -181,18 +181,18 @@ void showRequiredLoginAlert() {
       context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Text(
+          content: const Text(
             "required_login",
           ).tr(),
           actions: [
             TextButton(
-              child: Text("cancel").tr(),
+              child: const Text("cancel").tr(),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: Text("login_start").tr(),
+              child: const Text("login_start").tr(),
               onPressed: () {
                 Get.off(LoginPage());
               },
@@ -214,45 +214,45 @@ void showRatingInfoAlert() {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(
                     width: cellWidth,
-                    child: Text("dialog_grade",
+                    child: const Text("dialog_grade",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
                             color: Colors.black54)).tr()),
                 SizedBox(
                     width: cellWidth,
-                    child: Text("dialog_condition",
+                    child: const Text("dialog_condition",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
                             color: Colors.black54)).tr())
               ]),
-              Divider(thickness: 1),
+              const Divider(thickness: 1),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level01.getLevelText())),
-                SizedBox(width: cellWidth, child: Text("dialog_condition_1").tr())
+                SizedBox(width: cellWidth, child: const Text("dialog_condition_1").tr())
               ]),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level02.getLevelText())),
-                SizedBox(width: cellWidth, child: Text("dialog_condition_2").tr())
+                SizedBox(width: cellWidth, child: const Text("dialog_condition_2").tr())
               ]),
               SizedBox(height: 10),
               Row(children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level03.getLevelText())),
-                SizedBox(width: cellWidth, child: Text("dialog_condition_3").tr())
+                SizedBox(width: cellWidth, child: const Text("dialog_condition_3").tr())
               ]),
             ],
           ),
           actions: [
             TextButton(
-              child: Text("confirm").tr(),
+              child: const Text("confirm").tr(),
               onPressed: () {
                 Get.back();
               },
@@ -305,13 +305,13 @@ void showChangeNickAlert() {
           ]),
           actions: [
             TextButton(
-              child: Text("cancel").tr(),
+              child: const Text("cancel").tr(),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: Text("dialog_setting").tr(),
+              child: const Text("dialog_setting").tr(),
               onPressed: () async {
                 User? user = Constants.user.value.firebaseUser;
                 if (_validateText() && user != null) {

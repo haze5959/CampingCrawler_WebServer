@@ -32,28 +32,28 @@ class CommentWidget extends StatelessWidget {
 
   Widget _buildCommentItem(Comment comment) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black12),
-                borderRadius: BorderRadius.all(Radius.circular(5))),
+                borderRadius: const BorderRadius.all(Radius.circular(5))),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
                   color: Colors.blueGrey[50],
                   child: Row(children: [
                     Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(comment.nick,
-                            style: TextStyle(fontWeight: FontWeight.bold))),
+                            style:const TextStyle(fontWeight: FontWeight.bold))),
                     Text(getRemainTime(comment.editTime ?? DateTime.now()),
                         style: TextStyle(fontSize: 12)),
-                    Spacer(),
+                    const Spacer(),
                     if (comment.nick == Constants.user.value.info.nick)
                       IconButton(
                         tooltip: "dialog_delete".tr(),
                         color: Colors.grey,
-                        icon: Icon(Icons.delete),
+                        icon: const Icon(Icons.delete),
                         iconSize: 20,
                         onPressed: () {
                           showTwoBtnAlert("dialog_delete_confirm".tr(args: ["comment".tr()]), "delete".tr(),
@@ -81,7 +81,7 @@ class CommentWidget extends StatelessWidget {
                       IconButton(
                         tooltip: "dialog_report".tr(),
                         color: Colors.grey,
-                        icon: Icon(Icons.report_gmailerrorred_outlined),
+                        icon: const Icon(Icons.report_gmailerrorred_outlined),
                         iconSize: 20,
                         onPressed: () {
                           showReportAlert("comment_${comment.id}", "comment".tr());
@@ -90,7 +90,7 @@ class CommentWidget extends StatelessWidget {
                   ])),
               Container(color: Colors.black12, height: 1),
               Padding(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   child: Text(comment.comment))
             ])));
   }
@@ -104,21 +104,21 @@ class CommentWidget extends StatelessWidget {
         : "default_nick".tr();
 
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black12),
-                borderRadius: BorderRadius.all(Radius.circular(5))),
+                borderRadius: const BorderRadius.all(Radius.circular(5))),
             child: Column(children: [
               Container(
                   color: Colors.blueGrey[50],
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Row(children: [
                     SizedBox(
                         width: 150,
                         child: TextField(
                           readOnly: true,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 12),
                           controller: nickControler,
                           onTap: () {
@@ -129,7 +129,7 @@ class CommentWidget extends StatelessWidget {
                           decoration: InputDecoration(
                               hintText: "nick".tr(), labelText: 'nick'.tr()),
                         )),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: () async {
                         final body = bodyControler.text;
@@ -163,7 +163,7 @@ class CommentWidget extends StatelessWidget {
                   ])),
               Container(color: Colors.black12, height: 1),
               Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: TextField(
                     controller: bodyControler,
                     keyboardType: TextInputType.multiline,

@@ -21,11 +21,11 @@ class RecommandSiteWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
                 child: Row(children: [
-                  Text("recommend_site",
+                  const Text("recommend_site",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 26))
                       .tr(),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   FloatingActionButton(
                     heroTag: "RecommandSite",
                     backgroundColor: Colors.lightGreen.shade300,
@@ -42,7 +42,7 @@ class RecommandSiteWidget extends StatelessWidget {
                 SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
                     scrollDirection: Axis.horizontal,
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -52,7 +52,7 @@ class RecommandSiteWidget extends StatelessWidget {
                           IconButton(
                             iconSize: 50,
                             color: Colors.lightGreen.shade300,
-                            icon: Icon(Icons.more_horiz),
+                            icon: const Icon(Icons.more_horiz),
                             onPressed: () {
                               Get.to(CampListPage());
                             },

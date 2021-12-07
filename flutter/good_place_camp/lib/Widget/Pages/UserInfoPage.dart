@@ -22,16 +22,16 @@ class UserInfoPage extends StatelessWidget {
     return GetBuilder<UserInfoController>(builder: (_) {
       return Scaffold(
           appBar: AppBar(
-            title: Text("mypage").tr(),
+            title: const Text("mypage").tr(),
             actions: [],
           ),
           body: Stack(children: [
             if (Constants.user.value.isLogin)
               SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 child: Center(
                     child: Container(
-                        constraints: BoxConstraints(maxWidth: 500),
+                        constraints: const BoxConstraints(maxWidth: 500),
                         child: _buildInfoContent(Constants.user.value))),
               ),
             obxLoadingWidget(c.isLoading)
@@ -42,15 +42,15 @@ class UserInfoPage extends StatelessWidget {
   Widget _buildInfoContent(CampUser user) {
     return Column(
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         _buildUserInfo(user),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         _buildSubscriptInfo(user),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         _buildSNSInfo(user),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         _buildETCInfo(user),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
       ],
     );
   }
@@ -60,31 +60,32 @@ class UserInfoPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("user_info",
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: const Text("user_info",
                     style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 14,
                         color: Colors.black54))
                 .tr()),
-        Divider(
+        const Divider(
           thickness: 1,
           indent: 20,
           endIndent: 20,
         ),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(mainAxisSize: MainAxisSize.max, children: [
               // 닉네임 설정
-              Text("nick",
+              const Text("nick",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
                   .tr(),
-              Spacer(),
+              const Spacer(),
               OutlinedButton(
                 style: OutlinedButton.styleFrom(primary: Colors.black),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Text(user.info.nick ?? "",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -94,12 +95,12 @@ class UserInfoPage extends StatelessWidget {
                 },
               )
             ])),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
               // 레벨
-              Text("dialog_grade",
+              const Text("dialog_grade",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
                   .tr(),
@@ -113,7 +114,7 @@ class UserInfoPage extends StatelessWidget {
                       Icons.info,
                     ),
                   )),
-              Spacer(),
+              const Spacer(),
               Text(user.info.level?.getLevelText() ?? "",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
             ]))
@@ -126,36 +127,37 @@ class UserInfoPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("subscribe_info",
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: const Text("subscribe_info",
                     style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 14,
                         color: Colors.black54))
                 .tr()),
-        Divider(
+        const Divider(
           thickness: 1,
           indent: 20,
           endIndent: 20,
         ),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
               // 구독하러가기 or 푸시설정 바로가기
               if (user.info.usePushSubscription ?? false) ...[
-                Text("subscribe_ing",
+                const Text("subscribe_ing",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15))
                     .tr(),
-                Spacer(),
+                const Spacer(),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("notification_setting",
+                          const Text("notification_setting",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15))
@@ -167,19 +169,20 @@ class UserInfoPage extends StatelessWidget {
                   },
                 )
               ] else ...[
-                Text("subscribe_no_info",
-                        style: TextStyle(
+                const Text("subscribe_no_info",
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15))
                     .tr(),
-                Spacer(),
+                const Spacer(),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("subscribe_noti",
+                          const Text("subscribe_noti",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14))
@@ -201,46 +204,48 @@ class UserInfoPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Text("login_link_sns",
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: const Text("login_link_sns",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
                             color: Colors.black54))
                     .tr()),
-            Divider(
+            const Divider(
               thickness: 1,
               indent: 20,
               endIndent: 20,
             ),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: ImageIcon(AssetImage("assets/ico_google.png"),
-                          size: 15, color: Colors.deepOrange[700])),
-                  Text("login_google_btn",
+                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: ImageIcon(
+                          const AssetImage("assets/ico_google.png"),
+                          size: 15,
+                          color: Colors.deepOrange[700])),
+                  const Text("login_google_btn",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15))
                       .tr(),
-                  Spacer(),
+                  const Spacer(),
                   if (c.linkedSNS.contains("google.com")) ...[
                     Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text("login_link_sns_ing",
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: const Text("login_link_sns_ing",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15))
                             .tr()),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("login_unlink_sns",
+                              const Text("login_unlink_sns",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15))
@@ -258,12 +263,12 @@ class UserInfoPage extends StatelessWidget {
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("login_link_sns_start",
+                              const Text("login_link_sns_start",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15))
@@ -278,35 +283,37 @@ class UserInfoPage extends StatelessWidget {
                       },
                     )
                 ])),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: ImageIcon(AssetImage("assets/ico_facebook.png"),
-                          size: 15, color: Colors.blue[700])),
-                  Text("login_facebook_btn",
-                          style: TextStyle(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: ImageIcon(
+                          const AssetImage("assets/ico_facebook.png"),
+                          size: 15,
+                          color: Colors.blue[700])),
+                  const Text("login_facebook_btn",
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15))
                       .tr(),
-                  Spacer(),
+                  const Spacer(),
                   if (c.linkedSNS.contains("facebook.com")) ...[
                     Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text("login_link_sns_ing",
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: const Text("login_link_sns_ing",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15))
                             .tr()),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("login_unlink_sns",
+                              const Text("login_unlink_sns",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15))
@@ -324,13 +331,13 @@ class UserInfoPage extends StatelessWidget {
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("login_link_sns_start",
-                                      style: TextStyle(
+                              const Text("login_link_sns_start",
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15))
                                   .tr()
@@ -344,36 +351,38 @@ class UserInfoPage extends StatelessWidget {
                       },
                     )
                 ])),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: ImageIcon(AssetImage("assets/ico_twitter.png"),
-                          size: 15, color: Colors.lightBlue[700])),
-                  Text("login_twitter_btn",
+                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: ImageIcon(
+                          const AssetImage("assets/ico_twitter.png"),
+                          size: 15,
+                          color: Colors.lightBlue[700])),
+                  const Text("login_twitter_btn",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15))
                       .tr(),
-                  Spacer(),
+                  const Spacer(),
                   if (c.linkedSNS.contains("twitter.com")) ...[
                     Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text("login_link_sns_ing",
-                                style: TextStyle(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: const Text("login_link_sns_ing",
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15))
                             .tr()),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("login_unlink_sns",
-                                      style: TextStyle(
+                              const Text("login_unlink_sns",
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15))
                                   .tr()
@@ -390,13 +399,13 @@ class UserInfoPage extends StatelessWidget {
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("login_link_sns_start",
-                                      style: TextStyle(
+                              const Text("login_link_sns_start",
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15))
                                   .tr()
@@ -410,36 +419,36 @@ class UserInfoPage extends StatelessWidget {
                       },
                     )
                 ])),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: ImageIcon(AssetImage("assets/ico_apple.png"),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: ImageIcon(const AssetImage("assets/ico_apple.png"),
                           size: 15, color: Colors.black)),
-                  Text("login_apple_btn",
-                          style: TextStyle(
+                  const Text("login_apple_btn",
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15))
                       .tr(),
-                  Spacer(),
+                  const Spacer(),
                   if (c.linkedSNS.contains("apple.com")) ...[
                     Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text("login_link_sns_ing",
-                                style: TextStyle(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: const Text("login_link_sns_ing",
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15))
                             .tr()),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("login_unlink_sns",
-                                      style: TextStyle(
+                              const Text("login_unlink_sns",
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15))
                                   .tr()
@@ -456,13 +465,13 @@ class UserInfoPage extends StatelessWidget {
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("login_link_sns_start",
-                                      style: TextStyle(
+                              const Text("login_link_sns_start",
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15))
                                   .tr()
@@ -485,34 +494,35 @@ class UserInfoPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text("etc",
-                    style: TextStyle(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: const Text("etc",
+                    style: const TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 14,
                         color: Colors.black54))
                 .tr()),
-        Divider(
+        const Divider(
           thickness: 1,
           indent: 20,
           endIndent: 20,
         ),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
-              Text("-",
+              const Text("-",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-              Spacer(),
+              const Spacer(),
               // 로그아웃
               OutlinedButton(
                 style: OutlinedButton.styleFrom(primary: Colors.black),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("logout",
-                                style: TextStyle(
+                        const Text("logout",
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15))
                             .tr()
                       ]),
@@ -525,23 +535,25 @@ class UserInfoPage extends StatelessWidget {
                 },
               )
             ])),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
-              Text("-",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-              Spacer(),
+              const Text("-",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 15)),
+              const Spacer(),
               // 탈퇴
               OutlinedButton(
                 style: OutlinedButton.styleFrom(primary: Colors.black),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("login_unregistration",
-                                style: TextStyle(
+                        const Text("login_unregistration",
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15))
                             .tr()
                       ]),

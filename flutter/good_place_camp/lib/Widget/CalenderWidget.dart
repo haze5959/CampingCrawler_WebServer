@@ -24,11 +24,11 @@ class CalenderWidget extends StatelessWidget {
   Widget build(context) {
     return GetBuilder<HomeController>(
         builder: (s) => Container(
-            padding: EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.only(bottom: 10),
             alignment: Alignment.center,
             child: Column(children: [
               isVertical ? _buildVerticalCalendar(s) : _buildHorizenCalendar(s),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _buildEventsExLabel()
             ])));
   }
@@ -36,14 +36,14 @@ class CalenderWidget extends StatelessWidget {
   Widget _buildHorizenCalendar(HomeController s) {
     return Scrollbar(
         child: SingleChildScrollView(
-            padding: EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10),
             scrollDirection: Axis.horizontal,
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [0, 1, 2, 3]
                     .map((index) => Row(children: <Widget>[
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           ClipRect(
                               child: BackdropFilter(
                             filter:
@@ -66,10 +66,10 @@ class CalenderWidget extends StatelessWidget {
                                         return s.holidays.containsKey(day);
                                       },
                                       availableGestures: AvailableGestures.none,
-                                      calendarStyle: CalendarStyle(
+                                      calendarStyle: const CalendarStyle(
                                         outsideDaysVisible: false,
                                       ),
-                                      headerStyle: HeaderStyle(
+                                      headerStyle: const HeaderStyle(
                                           titleCentered: true,
                                           formatButtonVisible: false,
                                           leftChevronVisible: false,
@@ -86,13 +86,13 @@ class CalenderWidget extends StatelessWidget {
                                             alignment: Alignment.center,
                                             child: Text('${date.day}',
                                                 style: _isToday(date)
-                                                    ? TextStyle(
+                                                    ? const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 16.0,
                                                       )
                                                     : _isWeekend(date,
                                                             s.holidays.keys)
-                                                        ? TextStyle(
+                                                        ? const TextStyle(
                                                             color: Colors.red)
                                                         : null),
                                           );
@@ -143,10 +143,10 @@ class CalenderWidget extends StatelessWidget {
                                       return s.holidays.containsKey(day);
                                     },
                                     availableGestures: AvailableGestures.none,
-                                    calendarStyle: CalendarStyle(
+                                    calendarStyle: const CalendarStyle(
                                       outsideDaysVisible: false,
                                     ),
-                                    headerStyle: HeaderStyle(
+                                    headerStyle: const HeaderStyle(
                                         titleCentered: true,
                                         formatButtonVisible: false,
                                         leftChevronVisible: false,
@@ -163,13 +163,13 @@ class CalenderWidget extends StatelessWidget {
                                           alignment: Alignment.center,
                                           child: Text('${date.day}',
                                               style: _isToday(date)
-                                                  ? TextStyle(
+                                                  ? const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 16.0,
                                                     )
                                                   : _isWeekend(
                                                           date, s.holidays.keys)
-                                                      ? TextStyle(
+                                                      ? const TextStyle(
                                                           color: Colors.red)
                                                       : null),
                                         );
@@ -190,7 +190,7 @@ class CalenderWidget extends StatelessWidget {
                                     onDaySelected: s.onDaySelected,
                                     rowHeight: CALENDER_WIDTH / 6,
                                   ))))),
-                  SizedBox(height: 10)
+                  const SizedBox(height: 10)
                 ]))
             .toList());
   }
@@ -220,7 +220,7 @@ class CalenderWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 '$reservationInfoCount',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12.0,
                 ),
@@ -237,7 +237,7 @@ class CalenderWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 '$dateInfoCount',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12.0,
                 ),
@@ -257,7 +257,7 @@ class CalenderWidget extends StatelessWidget {
         child: Center(
           child: Text(
             '$dateInfoCount',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 12.0,
             ),
@@ -269,7 +269,7 @@ class CalenderWidget extends StatelessWidget {
 
   Widget _buildEventsExLabel() {
     return Container(
-        constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
         child: Row(
           mainAxisAlignment:
               isVertical ? MainAxisAlignment.center : MainAxisAlignment.start,
@@ -278,7 +278,7 @@ class CalenderWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       color: Colors.red[400],
@@ -288,15 +288,15 @@ class CalenderWidget extends StatelessWidget {
                     child: Center(
                       child: Text(
                         "N",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12.0,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 5),
-                  Text("camp_next_open_indicator",
+                  const SizedBox(width: 5),
+                  const Text("camp_next_open_indicator",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
@@ -308,19 +308,19 @@ class CalenderWidget extends StatelessWidget {
                     "camp_next_open_msg".tr(), "confirm".tr(), () {});
               },
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             TextButton(
                 child: Row(children: [
                   Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
                         color: Colors.blue[400],
                       ),
                       width: 20.0,
                       height: 16.0,
-                      child: Center(
-                        child: Text(
+                      child: const Center(
+                        child: const Text(
                           "N",
                           style: TextStyle(
                             color: Colors.white,
@@ -328,9 +328,9 @@ class CalenderWidget extends StatelessWidget {
                           ),
                         ),
                       )),
-                  SizedBox(width: 5),
-                  Text("camp_avail_reservation_indicator",
-                      style: TextStyle(
+                  const SizedBox(width: 5),
+                  const Text("camp_avail_reservation_indicator",
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
                       )).tr()

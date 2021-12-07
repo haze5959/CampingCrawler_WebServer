@@ -55,14 +55,14 @@ class Home extends StatelessWidget {
           Get.put(HomeController());
           Constants.isPhoneSize = context.mediaQuerySize.width < MAX_WIDTH;
           return Scaffold(
-              appBar:
-                  GPCAppBar(pageName: 'app_title'.tr(), showFilter: true, isMain: true),
+              appBar: GPCAppBar(
+                  pageName: 'app_title'.tr(), showFilter: true, isMain: true),
               body: Center(child: HomePage()),
               backgroundColor: Colors.lightGreen.shade50);
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }

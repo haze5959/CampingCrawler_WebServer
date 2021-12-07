@@ -27,7 +27,7 @@ class CampListPage extends StatelessWidget {
           : GPCAppBar(pageName: "camp".tr(), showFilter: true),
       body: Center(
         child: Container(
-            constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+            constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
             child: Scrollbar(
                 child: isFavoritePage
                     ? _buildFavoriteList()
