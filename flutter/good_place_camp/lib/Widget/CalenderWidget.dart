@@ -54,7 +54,7 @@ class CalenderWidget extends StatelessWidget {
                                 child: Container(
                                     width: CALENDER_WIDTH,
                                     child: TableCalendar(
-                                      locale: "kr",
+                                      locale: "ko-KR",
                                       focusedDay:
                                           addMonths(DateTime.now(), index),
                                       firstDay: _getFirstDay(index),
@@ -131,7 +131,7 @@ class CalenderWidget extends StatelessWidget {
                               child: Container(
                                   width: CALENDER_WIDTH,
                                   child: TableCalendar(
-                                    locale: "kr",
+                                    locale: "ko-KR",
                                     focusedDay:
                                         addMonths(DateTime.now(), index),
                                     firstDay: _getFirstDay(index),

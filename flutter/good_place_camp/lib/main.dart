@@ -18,7 +18,7 @@ void main() async {
 
   runApp(EasyLocalization(
       supportedLocales: [Locale('ko', 'KR')],
-      path: 'assets/translations',
+      path: 'translations',
       fallbackLocale: Locale('ko', 'KR'),
       child: Home()));
 }
