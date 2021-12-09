@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 enum CampArea { seoul, gyeonggi, inchoen, chungnam, chungbuk, gangwon, all }
 
 extension CampAreaParse on CampArea {
@@ -64,9 +66,13 @@ CampArea fromAreaInt(int areaInt) {
 }
 
 int toAreaBit(List<CampArea> areaList) {
-  return areaList
-      .map((element) => element.toBit())
-      .reduce((value, element) => value + element);
+  if (areaList.isEmpty) {
+    return 0;
+  } else {
+    return areaList
+        .map((element) => element.toBit())
+        .reduce((value, element) => value + element);
+  }
 }
 
 List<CampArea> fromBit(int bit) {

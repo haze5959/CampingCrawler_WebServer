@@ -39,7 +39,7 @@ class CampListPage extends StatelessWidget {
   Widget _buildCampList() {
     final HomeController c = Get.find();
 
-    return Obx(() => ListView.builder(
+    return ListView.builder(
           itemCount: c.siteInfoList.length + 1,
           itemBuilder: (context, index) {
             if (index < c.siteInfoList.length) {
@@ -48,7 +48,7 @@ class CampListPage extends StatelessWidget {
               return PromotionCardItem();
             }
           },
-        ));
+        );
   }
 
   Widget _buildFavoriteList() {

@@ -51,10 +51,10 @@ class SiteDetailInfo {
 
 @JsonSerializable()
 class SiteListInfo {
-  final List<SiteDateInfo> sites;
+  final List<SiteDateInfo> camps;
   final Map<String, String> holiday;
 
-  SiteListInfo({required this.sites, required this.holiday});
+  SiteListInfo({required this.camps, required this.holiday});
 
   factory SiteListInfo.fromJson(Map<String, dynamic> json) =>
       _$SiteListInfoFromJson(json);

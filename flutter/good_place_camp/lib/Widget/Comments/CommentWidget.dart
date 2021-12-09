@@ -46,7 +46,7 @@ class CommentWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(comment.nick,
                             style:const TextStyle(fontWeight: FontWeight.bold))),
-                    Text(getRemainTime(comment.editTime ?? DateTime.now()),
+                    Text(getRemainTime(comment.updatedTime ?? DateTime.now()),
                         style: TextStyle(fontSize: 12)),
                     const Spacer(),
                     if (comment.nick == Constants.user.value.info.nick)

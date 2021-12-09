@@ -98,7 +98,10 @@ class CampDetailContoller extends GetxController {
       final dateInfoArr = dateInfo.split(':');
       final availDate = dateInfoArr[0];
       final availSiteInfo = dateInfoArr[1];
-      events[DateTime.parse(availDate)] = [availSiteInfo];
+      final parseDate = DateTime.parse(availDate);
+      events[DateTime.utc(parseDate.year, parseDate.month, parseDate.day)] = [
+        availSiteInfo
+      ];
     }
 
     // 공휴일 처리

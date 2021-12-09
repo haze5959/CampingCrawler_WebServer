@@ -130,7 +130,7 @@ class PostDetailPage extends StatelessWidget {
             Text("nick".tr() + ": ${posts.nick}", style: textTheme.subtitle1),
             Text(
                 "create_date".tr() +
-                    ": ${_getDateStr(posts.editTime ?? DateTime.now())}",
+                    ": ${_getDateStr(posts.updatedTime ?? DateTime.now())}",
                 style: textTheme.caption),
             const Divider(thickness: 1),
             const SizedBox(height: 20),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
@@ -27,8 +27,8 @@ class RecentlyPostsWidget extends StatelessWidget {
                 child: Row(children: [
                   Text(
                       isNotice
-                          ? "board_notice_event"
-                          : "board_request_question",
+                          ? "board_notice_event".tr()
+                          : "board_request_question".tr(),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   const SizedBox(width: 10),

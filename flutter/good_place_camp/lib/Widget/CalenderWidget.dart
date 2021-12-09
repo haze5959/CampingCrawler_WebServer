@@ -227,23 +227,26 @@ class CalenderWidget extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.blue[400],
-            ),
-            width: 20.0,
-            height: 16.0,
-            child: Center(
-              child: Text(
-                '$dateInfoCount',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.0,
+          if (dateInfoCount > 0)
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.blue[400],
+              ),
+              width: 20.0,
+              height: 16.0,
+              child: Center(
+                child: Text(
+                  '$dateInfoCount',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.0,
+                  ),
                 ),
               ),
-            ),
-          )
+            )
+          else
+            const SizedBox(width: 20.0, height: 16.0)
         ],
       );
     } else {
@@ -368,11 +371,11 @@ class CalenderWidget extends StatelessWidget {
 
   DateTime _getFirstDay(int index) {
     final date = addMonths(DateTime.now(), index);
-    return DateTime(date.year, date.month, 1);
+    return DateTime.utc(date.year, date.month, 1);
   }
 
   DateTime _getLastDay(int index) {
     final date = addMonths(DateTime.now(), index);
-    return DateTime(date.year, date.month, 31);
+    return DateTime.utc(date.year, date.month, 31);
   }
 }

@@ -10,25 +10,25 @@ HomeInfo _$HomeInfoFromJson(Map<String, dynamic> json) => HomeInfo(
       noticeList: (json['notice_list'] as List<dynamic>)
           .map((e) => Post.fromJson(e as Map<String, dynamic>))
           .toList(),
-      postList: (json['post_list'] as List<dynamic>)
+      postsList: (json['posts_list'] as List<dynamic>)
           .map((e) => Post.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$HomeInfoToJson(HomeInfo instance) => <String, dynamic>{
       'notice_list': instance.noticeList,
-      'post_list': instance.postList,
+      'posts_list': instance.postsList,
     };
 
 Post _$PostFromJson(Map<String, dynamic> json) => Post(
       id: json['id'] as int?,
       type: json['type'] as int,
       title: json['title'] as String,
-      body: json['body'] as String,
+      body: json['body'] as String?,
       nick: json['nick'] as String?,
-      editTime: json['edit_time'] == null
+      updatedTime: json['updatedTime'] == null
           ? null
-          : DateTime.parse(json['edit_time'] as String),
+          : DateTime.parse(json['updatedTime'] as String),
       commentCount: json['comment_count'] as int?,
     );
 
@@ -38,16 +38,16 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'title': instance.title,
       'body': instance.body,
       'nick': instance.nick,
-      'edit_time': instance.editTime?.toIso8601String(),
+      'updatedTime': instance.updatedTime?.toIso8601String(),
       'comment_count': instance.commentCount,
     };
 
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       id: json['id'] as int?,
       postId: json['post_id'] as int,
-      editTime: json['edit_time'] == null
+      updatedTime: json['updatedTime'] == null
           ? null
-          : DateTime.parse(json['edit_time'] as String),
+          : DateTime.parse(json['updatedTime'] as String),
       nick: json['nick'] as String,
       comment: json['comment'] as String,
     );
@@ -55,7 +55,7 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'id': instance.id,
       'post_id': instance.postId,
-      'edit_time': instance.editTime?.toIso8601String(),
+      'updatedTime': instance.updatedTime?.toIso8601String(),
       'nick': instance.nick,
       'comment': instance.comment,
     };

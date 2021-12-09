@@ -6,11 +6,11 @@ part 'Post.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class HomeInfo {
   final List<Post> noticeList;
-  final List<Post> postList;
+  final List<Post> postsList;
 
   HomeInfo({
     required this.noticeList,
-    required this.postList,
+    required this.postsList,
   });
 
   factory HomeInfo.fromJson(Map<String, dynamic> json) =>
@@ -23,9 +23,10 @@ class Post {
   final int? id;
   final int type;
   final String title;
-  final String body;
+  final String? body;
   final String? nick;
-  final DateTime? editTime;
+  @JsonKey(name: 'updatedTime')
+  final DateTime? updatedTime;
   final int? commentCount;
 
   Post({
@@ -34,7 +35,7 @@ class Post {
     required this.title,
     required this.body,
     this.nick,
-    this.editTime,
+    this.updatedTime,
     this.commentCount,
   });
 
@@ -65,14 +66,15 @@ class Post {
 class Comment {
   final int? id;
   final int postId;
-  final DateTime? editTime;
+  @JsonKey(name: 'updatedTime')
+  final DateTime? updatedTime;
   final String nick;
   final String comment;
 
   Comment(
       {this.id,
       required this.postId,
-      this.editTime,
+      this.updatedTime,
       required this.nick,
       required this.comment});
 

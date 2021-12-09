@@ -8,15 +8,15 @@ part of 'SiteInfo.dart';
 
 SiteDateInfo _$SiteDateInfoFromJson(Map<String, dynamic> json) => SiteDateInfo(
       json['site'] as String,
-      (json['availDates'] as List<dynamic>).map((e) => e as String).toList(),
-      json['updatedDate'] as String,
+      (json['avail_dates'] as List<dynamic>).map((e) => e as String).toList(),
+      json['updated_date'] as String,
     );
 
 Map<String, dynamic> _$SiteDateInfoToJson(SiteDateInfo instance) =>
     <String, dynamic>{
       'site': instance.site,
-      'availDates': instance.availDates,
-      'updatedDate': instance.updatedDate,
+      'avail_dates': instance.availDates,
+      'updated_date': instance.updatedDate,
     };
 
 SiteDetailInfo _$SiteDetailInfoFromJson(Map<String, dynamic> json) =>
@@ -34,7 +34,7 @@ Map<String, dynamic> _$SiteDetailInfoToJson(SiteDetailInfo instance) =>
     };
 
 SiteListInfo _$SiteListInfoFromJson(Map<String, dynamic> json) => SiteListInfo(
-      sites: (json['sites'] as List<dynamic>)
+      camps: (json['camps'] as List<dynamic>)
           .map((e) => SiteDateInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       holiday: Map<String, String>.from(json['holiday'] as Map),
@@ -42,6 +42,6 @@ SiteListInfo _$SiteListInfoFromJson(Map<String, dynamic> json) => SiteListInfo(
 
 Map<String, dynamic> _$SiteListInfoToJson(SiteListInfo instance) =>
     <String, dynamic>{
-      'sites': instance.sites,
+      'camps': instance.camps,
       'holiday': instance.holiday,
     };

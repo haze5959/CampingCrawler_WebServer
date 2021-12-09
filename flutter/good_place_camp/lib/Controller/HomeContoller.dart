@@ -58,7 +58,8 @@ class HomeController extends GetxController {
       return;
     } else if (data == null) {
       print("reloadInfo result fail - " + res.msg);
-      showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+      showOneBtnAlert(
+          "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
       return;
     }
 
@@ -86,12 +87,13 @@ class HomeController extends GetxController {
       return;
     } else if (data == null) {
       print("reloadInfo result fail - " + res.msg);
-      showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+      showOneBtnAlert(
+          "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
       return;
     }
 
     noticeList = data.noticeList;
-    postList = data.postList;
+    postList = data.postsList;
   }
 
   void _updateEvents(List<SiteDateInfo> infoList) {
@@ -109,8 +111,9 @@ class HomeController extends GetxController {
         } else {
           list.add(info);
         }
-
-        events[DateTime.parse(date)] = list;
+        final parseDate = DateTime.parse(date);
+        events[DateTime.utc(parseDate.year, parseDate.month, parseDate.day)] =
+            list;
       }
     }
   }
@@ -137,7 +140,7 @@ class HomeController extends GetxController {
             list.add(reservationInfo);
           }
 
-          events[date] = list;
+          events[DateTime.utc(date.year, date.month, date.day)] = list;
         }
       }
     });
@@ -152,16 +155,17 @@ class HomeController extends GetxController {
       return;
     } else if (data == null) {
       print("reloadInfo result fail - " + res.msg);
-      showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+      showOneBtnAlert(
+          "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
       return;
     }
 
     events.clear();
-    _updateEvents(data.sites);
+    _updateEvents(data.camps);
     _updateHoliday(data.holiday);
     _updateReservationDay();
 
-    siteInfoList = data.sites;
+    siteInfoList = data.camps;
   }
 
   void _updateAccpetedCampInfo() {
@@ -182,7 +186,8 @@ class HomeController extends GetxController {
   }
 
   void onDaySelected(DateTime selectDay, DateTime _) {
-    final selectedDate = DateTime(selectDay.year, selectDay.month, selectDay.day);
+    final selectedDate =
+        DateTime.utc(selectDay.year, selectDay.month, selectDay.day);
 
     if (GetPlatform.isWeb) {
       Future.delayed(

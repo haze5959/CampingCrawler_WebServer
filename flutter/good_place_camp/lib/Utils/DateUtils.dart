@@ -169,7 +169,7 @@ List<DateTime> getReservationOpenDate(String reservationCode) {
         now = addMonths(now, 1);
       }
 
-      final pivotDate = DateTime(now.year, now.month, openDay);
+      final pivotDate = DateTime.utc(now.year, now.month, openDay);
       return [0, 1].map<DateTime>((index) {
         return addMonths(pivotDate, index);
       }).toList();
@@ -208,7 +208,7 @@ List<DateTime> getReservationOpenDate(String reservationCode) {
       }
 
       final now = DateTime.now();
-      var pivotDate = DateTime(now.year, now.month, now.day);
+      var pivotDate = DateTime.utc(now.year, now.month, now.day);
       pivotDate = pivotDate.add((Duration(days: weekNum - now.weekday)));
       if (now.isAfter(pivotDate)) {
         pivotDate = pivotDate.add(Duration(days: 7));
