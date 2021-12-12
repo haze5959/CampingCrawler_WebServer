@@ -21,15 +21,15 @@ Map<String, dynamic> _$SiteDateInfoToJson(SiteDateInfo instance) =>
 
 SiteDetailInfo _$SiteDetailInfoFromJson(Map<String, dynamic> json) =>
     SiteDetailInfo(
-      site: SiteDateInfo.fromJson(json['site'] as Map<String, dynamic>),
-      camp: CampInfo.fromJson(json['camp'] as Map<String, dynamic>),
+      camp: SiteDateInfo.fromJson(json['camp'] as Map<String, dynamic>),
+      info: CampInfo.fromJson(json['info'] as Map<String, dynamic>),
       holiday: Map<String, String>.from(json['holiday'] as Map),
     );
 
 Map<String, dynamic> _$SiteDetailInfoToJson(SiteDetailInfo instance) =>
     <String, dynamic>{
-      'site': instance.site,
       'camp': instance.camp,
+      'info': instance.info,
       'holiday': instance.holiday,
     };
 

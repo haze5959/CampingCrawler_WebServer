@@ -31,19 +31,12 @@ class PushContoller extends GetxController {
     isLoading.value = true;
     final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
     final res = await ApiRepo.user.getUserPushInfo(token);
-    final data = res.data;
     if (!res.result) {
-      showOneBtnAlert(res.msg, "confirm".tr(), () {
-        Get.back();
-      });
-      return;
-    } else if (data == null) {
-      showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {
-        Get.back();
-      });
+      showServerErrorAlert(res.msg, true);
       return;
     }
 
+    final data = res.data!;
     pushInfo = data;
     isLoading.value = false;
     update();
@@ -75,7 +68,7 @@ class PushContoller extends GetxController {
     final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
     final res = await ApiRepo.user.putUserArea(token, areaBit);
     if (!res.result) {
-      showOneBtnAlert(res.msg, "confirm".tr(), () {});
+      showServerErrorAlert(res.msg, false);
       return;
     }
 
@@ -89,7 +82,7 @@ class PushContoller extends GetxController {
     final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
     final res = await ApiRepo.user.putPushInfo(token, info);
     if (!res.result) {
-      showOneBtnAlert(res.msg, "confirm".tr(), () {});
+      showServerErrorAlert(res.msg, false);
       return;
     }
 

@@ -1,5 +1,4 @@
 import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
 
@@ -8,7 +7,7 @@ import 'package:good_place_camp/Model/Post.dart';
 
 class PostListContoller extends GetxController {
   final bool isNotice;
-  int pageNum = 0;
+  int pageNum = 1;
 
   PostListContoller({required this.isNotice});
 
@@ -19,7 +18,7 @@ class PostListContoller extends GetxController {
 
   void fetchPosts({bool reset = false}) async {
     if (reset) {
-      pageNum = 0;
+      pageNum = 1;
       postList.clear();
       isLastPage.value = false;
     }
@@ -28,16 +27,12 @@ class PostListContoller extends GetxController {
       isLoading.value = true;
 
       final res = await ApiRepo.posts.getAllPostsSimpleList(pageNum, isNotice);
-      final data = res.data;
       if (!res.result) {
-        showOneBtnAlert(res.msg, "confirm".tr(), () {});
-        return;
-      } else if (data == null) {
-        print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+        showServerErrorAlert(res.msg, true);
         return;
       }
-
+      
+      final data = res.data!;
       if (data.length == 0) {
         isLastPage.value = true;
       } else {

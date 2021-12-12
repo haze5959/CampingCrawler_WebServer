@@ -10,7 +10,7 @@ class CampInfo {
   final String phone;
   final double lat;
   final double lon;
-  final int areaBit;
+  final int area;
   final String homepageUrl;
   final String reservationUrl;
   final String reservationOpen;
@@ -22,7 +22,7 @@ class CampInfo {
     required this.phone,
     required this.lat,
     required this.lon,
-    required this.areaBit,
+    required this.area,
     required this.homepageUrl,
     required this.reservationUrl,
     required this.reservationOpen,

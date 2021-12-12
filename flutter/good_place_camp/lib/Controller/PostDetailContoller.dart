@@ -33,38 +33,21 @@ class PostDetailContoller extends GetxController {
     if (isSecret) {
       final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
       final res = await ApiRepo.posts.getSecretPosts(id, token);
-      final data = res.data;
       if (!res.result) {
-        if (res.msg == "Auth Fail") {
-          showOneBtnAlert("posts_secret_unvisible".tr(), "confirm".tr(),
-              () => Get.back());
-        } else {
-          showOneBtnAlert(
-              res.msg, "confirm".tr(), () => Get.back());
-        }
-        return;
-      } else if (data == null) {
-        print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert(
-            "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+        showServerErrorAlert(res.msg, true);
         return;
       }
 
+      final data = res.data!;
       board = data;
     } else {
       final res = await ApiRepo.posts.getPosts(id);
-      final data = res.data;
       if (!res.result) {
-        showOneBtnAlert(
-            res.msg, "confirm".tr(), () => Get.back());
-        return;
-      } else if (data == null) {
-        print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert(
-            "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+        showServerErrorAlert(res.msg, true);
         return;
       }
 
+      final data = res.data!;
       board = data;
     }
 
@@ -82,7 +65,7 @@ class PostDetailContoller extends GetxController {
     final res = await ApiRepo.posts.deletePosts(id, token);
 
     if (!res.result) {
-      showOneBtnAlert(res.msg, "confirm".tr(), () {});
+      showServerErrorAlert(res.msg, false);
       return false;
     }
 

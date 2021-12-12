@@ -21,78 +21,81 @@ class CampDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CampDetailContoller c = CampDetailContoller(siteName: siteName);
     final infoJson = Constants.campInfoMap[siteName]!;
 
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.lightGreen.shade400,
-          title: Text(infoJson.name,
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          actions: [
-            IconButton(
-              tooltip: "favorite".tr(),
-              icon: Obx(() => c.isFavorite.value
-                  ? Icon(Icons.star, color: Colors.yellow)
-                  : Icon(Icons.star_border_outlined, color: Colors.white)),
-              onPressed: c.onClickFavorite,
-            ),
-          ],
-        ),
-        body: GetBuilder<CampDetailContoller>(
-          builder: (c) => c.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildInfoContent(c),
-                      const SizedBox(height: 10),
-                      _buildButtons(c),
-                      const SizedBox(height: 20),
-                      _buildCalender(c),
-                      _buildSelectedInfo(c),
-                      const SizedBox(height: 20),
-                      if (!GetPlatform.isWeb)
-                        SizedBox(
-                            height: CALENDER_WIDTH,
-                            child: GoogleMap(
-                              mapType: MapType.normal,
-                              myLocationButtonEnabled: false,
-                              rotateGesturesEnabled: false,
-                              scrollGesturesEnabled: false,
-                              zoomControlsEnabled: false,
-                              zoomGesturesEnabled: false,
-                              tiltGesturesEnabled: false,
-                              onTap: (position) {
-                                c.launchMap();
-                              },
-                              markers: {
-                                Marker(
-                                  markerId: MarkerId(""),
-                                  position:
-                                      LatLng(c.campInfo!.lat, c.campInfo!.lon),
-                                  infoWindow: InfoWindow(title: infoJson.name),
-                                )
-                              },
-                              initialCameraPosition: CameraPosition(
-                                target:
-                                    LatLng(c.campInfo!.lat, c.campInfo!.lon),
-                                zoom: 14.0,
-                              ),
-                            )),
-                      TextButton.icon(
-                        label: Text(infoJson.name + "dialog_report_msg".tr()),
-                        icon: Icon(Icons.report_gmailerrorred_outlined),
-                        onPressed: () {
-                          showReportAlert("${infoJson.key}", "camp".tr());
-                        },
-                      ),
-                      FooterWidget()
-                    ],
-                  )),
-        ));
+    return GetBuilder<CampDetailContoller>(
+        init: CampDetailContoller(siteName: siteName),
+        builder: (c) => Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.lightGreen.shade400,
+                title: Text(infoJson.name,
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                actions: [
+                  IconButton(
+                    tooltip: "favorite".tr(),
+                    icon: Obx(() => c.isFavorite.value
+                        ? Icon(Icons.star, color: Colors.yellow)
+                        : Icon(Icons.star_border_outlined,
+                            color: Colors.white)),
+                    onPressed: c.onClickFavorite,
+                  ),
+                ],
+              ),
+              body: c.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                      physics: const ClampingScrollPhysics(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildInfoContent(c),
+                          const SizedBox(height: 10),
+                          _buildButtons(c),
+                          const SizedBox(height: 20),
+                          _buildCalender(c),
+                          _buildSelectedInfo(c),
+                          const SizedBox(height: 20),
+                          if (!GetPlatform.isWeb)
+                            SizedBox(
+                                height: CALENDER_WIDTH,
+                                child: GoogleMap(
+                                  mapType: MapType.normal,
+                                  myLocationButtonEnabled: false,
+                                  rotateGesturesEnabled: false,
+                                  scrollGesturesEnabled: false,
+                                  zoomControlsEnabled: false,
+                                  zoomGesturesEnabled: false,
+                                  tiltGesturesEnabled: false,
+                                  onTap: (position) {
+                                    c.launchMap();
+                                  },
+                                  markers: {
+                                    Marker(
+                                      markerId: MarkerId(""),
+                                      position: LatLng(
+                                          c.campInfo!.lat, c.campInfo!.lon),
+                                      infoWindow:
+                                          InfoWindow(title: infoJson.name),
+                                    )
+                                  },
+                                  initialCameraPosition: CameraPosition(
+                                    target: LatLng(
+                                        c.campInfo!.lat, c.campInfo!.lon),
+                                    zoom: 14.0,
+                                  ),
+                                )),
+                          TextButton.icon(
+                            label:
+                                Text(infoJson.name + "dialog_report_msg".tr()),
+                            icon: Icon(Icons.report_gmailerrorred_outlined),
+                            onPressed: () {
+                              showReportAlert("${infoJson.key}", "camp".tr());
+                            },
+                          ),
+                          FooterWidget()
+                        ],
+                      )),
+            ));
   }
 
   Widget _buildInfoContent(CampDetailContoller c) {
@@ -132,7 +135,8 @@ class CampDetailPage extends StatelessWidget {
                       child: Container(
                         decoration: const BoxDecoration(
                             color: Colors.black26,
-                            borderRadius: const BorderRadius.all(Radius.circular(5))),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5))),
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
                           "${c.campInfo!.name}",
@@ -227,44 +231,41 @@ class CampDetailPage extends StatelessWidget {
   }
 
   Widget _buildCalender(CampDetailContoller c) {
-    return ClipRect(
-        child: Container(
-            decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
-            child: Container(
-                width: CALENDER_WIDTH,
-                child: TableCalendar(
-                  locale: "ko",
-                  focusedDay: DateTime.now(),
-                  firstDay: DateTime.now(),
-                  lastDay: addMonths(DateTime.now(), 3),
-                  eventLoader: (day) {
-                    return c.getEventsForDay(day);
-                  },
-                  holidayPredicate: (day) {
-                    return c.holidays.containsKey(day);
-                  },
-                  availableGestures: AvailableGestures.horizontalSwipe,
-                  calendarStyle: const CalendarStyle(
-                    outsideDaysVisible: false,
-                  ),
-                  headerStyle: const HeaderStyle(
-                      titleCentered: true, formatButtonVisible: false),
-                  calendarBuilders: CalendarBuilders(
-                    markerBuilder: (context, date, events) {
-                      if (events.isNotEmpty) {
-                        return Positioned(
-                          right: 1,
-                          bottom: 1,
-                          child: _buildEventsMarker(date, events),
-                        );
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  onDaySelected: c.onDaySelected,
-                  rowHeight: CALENDER_WIDTH / 6,
-                ))));
+    return Container(
+        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
+        child: TableCalendar(
+          locale: "ko",
+          focusedDay: DateTime.now(),
+          firstDay: DateTime.now(),
+          lastDay: addMonths(DateTime.now(), 3),
+          eventLoader: (day) {
+            return c.getEventsForDay(day);
+          },
+          holidayPredicate: (day) {
+            return c.holidays.containsKey(day);
+          },
+          availableGestures: AvailableGestures.horizontalSwipe,
+          calendarStyle: const CalendarStyle(
+            outsideDaysVisible: false,
+          ),
+          headerStyle: const HeaderStyle(
+              titleCentered: true, formatButtonVisible: false),
+          calendarBuilders: CalendarBuilders(
+            markerBuilder: (context, date, events) {
+              if (events.isNotEmpty) {
+                return Positioned(
+                  right: 1,
+                  bottom: 1,
+                  child: _buildEventsMarker(date, events),
+                );
+              } else {
+                return null;
+              }
+            },
+          ),
+          onDaySelected: c.onDaySelected,
+          rowHeight: CALENDER_WIDTH / 6,
+        ));
   }
 
   Widget _buildSelectedInfo(CampDetailContoller c) {

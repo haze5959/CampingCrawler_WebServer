@@ -58,7 +58,12 @@
 
     "net_error": "네트워크에 연결되지 않았습니다. {}",
     "net_timeout": "네트워크 연결이 원활하지 않습니다. 네트워크 상태를 확인해주세요.",
-    "server_error": "서버에 접속할 수 없습니다. 잠시 후 다시 이용 바랍니다. {}",
+    "server_error": "서버에 접속할 수 없습니다. 잠시 후 다시 이용 바랍니다.",
+    "auth_error": "로그인이 필요한 서비스입니다.",
+    "sign_up_error": "회원가입에 실패하였습니다. 잠시 후 다시 이용 바랍니다.",
+    "not_exist_error": "이미 존재하지 않는 값입니다.",
+    "already_exist_error": "이미 존재하는 값입니다.",
+    "not_excute_error": "작업에 실패하였습니다. 잠시 후 다시 이용 바랍니다.",
     "settings_error": "설정 정보를 가져올 수 없습니다.",
     "web_no_available": "웹에서는 지원하지 않습니다.",
     "android_no_available": "안드로이드에서는 지원하지 않습니다.",
@@ -112,7 +117,6 @@
     "login_unregistration_msg": "정말 탈퇴하시겠습니까?ㅠ",
     "login_unregistration_complete": "탈퇴되었습니다. \n이용해주셔서 감사합니다.",
 
-    "posts_secret_unvisible": "비밀글은 작성자만 확인할 수 있습니다.",
     "posts_no_contents": "제목과 내용을 입력해주세요.",
     "posts_success": "등록되었습니다.",
 

@@ -35,20 +35,15 @@ class CampDetailContoller extends GetxController {
 
   void reload() async {
     final res = await ApiRepo.site.getSiteInfo(siteName);
-    final data = res.data;
     if (!res.result) {
-      showOneBtnAlert(res.msg, "confirm".tr(), () {});
-      return;
-    } else if (data == null) {
-      print("reloadInfo result fail - " + res.msg);
-      showOneBtnAlert(
-          "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+      showServerErrorAlert(res.msg, true);
       return;
     }
-
-    siteInfo = data.site;
-    campInfo = data.camp;
-    _updateEvents(data.site, data.holiday);
+    
+    final data = res.data!;
+    siteInfo = data.camp;
+    campInfo = data.info;
+    _updateEvents(data.camp, data.holiday);
 
     isFavorite(_checkFavorite());
     isLoading = false;
@@ -128,7 +123,7 @@ class CampDetailContoller extends GetxController {
         final res =
             await ApiRepo.user.deleteUserFavoriteList(idToken, siteName);
         if (!res.result) {
-          showOneBtnAlert(res.msg, "confirm".tr(), () {});
+          showServerErrorAlert(res.msg, false);
           return;
         }
 
@@ -141,7 +136,7 @@ class CampDetailContoller extends GetxController {
         final idToken = await user.getIdToken();
         final res = await ApiRepo.user.postUserFavoriteList(idToken, siteName);
         if (!res.result) {
-          showOneBtnAlert(res.msg, "confirm".tr(), () {});
+          showServerErrorAlert(res.msg, false);
           return;
         }
 

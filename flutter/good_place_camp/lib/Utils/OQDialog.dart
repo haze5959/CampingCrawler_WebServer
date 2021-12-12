@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/state_manager.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +9,9 @@ import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/LoginPage.dart';
+
+// Model
+import 'package:good_place_camp/Model/ServerResult.dart';
 
 void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
   showDialog(
@@ -61,6 +61,42 @@ void showTwoBtnAlert(String msg, String btnText, Function() confirmAction) {
       });
 }
 
+void showServerErrorAlert(String msg, bool isBack) {
+  print("[SERVER ERR]: $msg");
+  var errMsg = "";
+  switch (msg) {
+    case "server_error":
+    case "param_fail":
+      errMsg = "server_error".tr();
+      break;
+    case "auth_fail":
+      errMsg = "auth_error".tr();
+      break;
+    case "not_exist":
+      errMsg = "not_exist_error".tr();
+      break;
+    case "already_exist":
+      errMsg = "already_exist_error".tr();
+      break;
+    case "not_excute":
+      errMsg = "not_excute_error".tr();
+      break;
+    case "sign_up_fail":
+      errMsg = "sign_up_error".tr();
+      break;
+    default:
+      print("Unknown error!!!");
+      errMsg = "server_error".tr();
+      break;
+  }
+
+  showOneBtnAlert(errMsg, "confirm".tr(), () {
+    if (isBack) {
+      Get.back();
+    }
+  });
+}
+
 void showPwAlert(String msg, Function(String pw) confirmAction) {
   TextEditingController pwControler = new TextEditingController();
 
@@ -93,7 +129,8 @@ void showPwAlert(String msg, Function(String pw) confirmAction) {
                   decoration: InputDecoration(
                       hintText: "dialog_pw_rules".tr(),
                       labelText: 'password'.tr(),
-                      errorText: hasErr.value ? "dialog_pw_rules_msg".tr() : null),
+                      errorText:
+                          hasErr.value ? "dialog_pw_rules_msg".tr() : null),
                 ))
           ]),
           actions: [
@@ -161,13 +198,14 @@ void showReportAlert(String id, String type) {
                   final res =
                       await ApiRepo.posts.createReport(id, bodyControler.text);
                   if (!res.result) {
-                    showOneBtnAlert(res.msg, "confirm".tr(), () {});
+                    showServerErrorAlert(res.msg, false);
                     return;
                   }
 
                   Get.back();
 
-                  showOneBtnAlert("dialog_report_confirm".tr(), "cancel".tr(), () {});
+                  showOneBtnAlert(
+                      "dialog_report_confirm".tr(), "cancel".tr(), () {});
                 }
               },
             )
@@ -215,38 +253,46 @@ void showRatingInfoAlert() {
                 SizedBox(
                     width: cellWidth,
                     child: const Text("dialog_grade",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: Colors.black54)).tr()),
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                color: Colors.black54))
+                        .tr()),
                 SizedBox(
                     width: cellWidth,
                     child: const Text("dialog_condition",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: Colors.black54)).tr())
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                color: Colors.black54))
+                        .tr())
               ]),
               const Divider(thickness: 1),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level01.getLevelText())),
-                SizedBox(width: cellWidth, child: const Text("dialog_condition_1").tr())
+                SizedBox(
+                    width: cellWidth,
+                    child: const Text("dialog_condition_1").tr())
               ]),
               const SizedBox(height: 10),
               Row(children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level02.getLevelText())),
-                SizedBox(width: cellWidth, child: const Text("dialog_condition_2").tr())
+                SizedBox(
+                    width: cellWidth,
+                    child: const Text("dialog_condition_2").tr())
               ]),
               SizedBox(height: 10),
               Row(children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level03.getLevelText())),
-                SizedBox(width: cellWidth, child: const Text("dialog_condition_3").tr())
+                SizedBox(
+                    width: cellWidth,
+                    child: const Text("dialog_condition_3").tr())
               ]),
             ],
           ),
@@ -319,14 +365,15 @@ void showChangeNickAlert() {
                   final res = await ApiRepo.user
                       .putUserNick(idToken, bodyControler.text);
                   if (!res.result) {
-                    showOneBtnAlert(res.msg, "confirm".tr(), () {});
+                    showServerErrorAlert(res.msg, false);
                     return;
                   }
 
                   Get.back();
                   Constants.user.value.info.nick = bodyControler.text;
 
-                  showOneBtnAlert("dialog_change_complete".tr(), "close".tr(), () {
+                  showOneBtnAlert("dialog_change_complete".tr(), "close".tr(),
+                      () {
                     Constants.user.refresh();
                   });
                 }

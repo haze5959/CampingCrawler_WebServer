@@ -52,17 +52,12 @@ class HomeController extends GetxController {
     Constants.myArea = myArea.obs;
 
     final res = await ApiRepo.site.getAllSiteJson();
-    final data = res.data;
     if (!res.result) {
-      showOneBtnAlert(res.msg, "confirm".tr(), () {});
-      return;
-    } else if (data == null) {
-      print("reloadInfo result fail - " + res.msg);
-      showOneBtnAlert(
-          "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+      showServerErrorAlert(res.msg, false);
       return;
     }
 
+    final data = res.data!;
     allCampInfo = data;
     Constants.campInfoMap = toCampInfoMap(data);
 
@@ -81,17 +76,12 @@ class HomeController extends GetxController {
   Future<void> _updatePostList() async {
     // 게시물 로드
     final res = await ApiRepo.posts.getHomeInfo();
-    final data = res.data;
     if (!res.result) {
-      showOneBtnAlert(res.msg, "confirm".tr(), () {});
-      return;
-    } else if (data == null) {
-      print("reloadInfo result fail - " + res.msg);
-      showOneBtnAlert(
-          "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+      showServerErrorAlert(res.msg, false);
       return;
     }
 
+    final data = res.data!;
     noticeList = data.noticeList;
     postList = data.postsList;
   }
@@ -149,17 +139,12 @@ class HomeController extends GetxController {
   Future<void> _updateCampSiteAvailDates() async {
     final bit = toAreaBit(Constants.myArea);
     final res = await ApiRepo.site.getSiteInfoWithArea(bit);
-    final data = res.data;
     if (!res.result) {
-      showOneBtnAlert(res.msg, "confirm".tr(), () {});
-      return;
-    } else if (data == null) {
-      print("reloadInfo result fail - " + res.msg);
-      showOneBtnAlert(
-          "server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+      showServerErrorAlert(res.msg, false);
       return;
     }
 
+    final data = res.data!;
     events.clear();
     _updateEvents(data.camps);
     _updateHoliday(data.holiday);

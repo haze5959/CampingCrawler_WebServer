@@ -45,7 +45,7 @@ class CampUser {
       final idToken = await user.getIdToken();
       final res = await ApiRepo.user.deleteUser(idToken);
       if (!res.result) {
-        showOneBtnAlert(res.msg, "confirm".tr(), () {});
+        showServerErrorAlert(res.msg, false);
         return false;
       }
 
@@ -69,18 +69,14 @@ class CampUser {
       final idToken = await user.getIdToken();
       // 유저정보 가져오는 로직
       final res = await ApiRepo.user.getUserInfo(idToken);
-      final data = res.data;
 
       if (!res.result) {
         print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert(res.msg, "confirm".tr(), () {});
-        return false;
-      } else if (data == null) {
-        print("reloadInfo result fail - " + res.msg);
-        showOneBtnAlert("server_error".tr(args: [res.msg]), "confirm".tr(), () {});
+        showServerErrorAlert(res.msg, false);
         return false;
       }
 
+      final data = res.data!;
       info = data;
       Constants.user.refresh();
       return true;

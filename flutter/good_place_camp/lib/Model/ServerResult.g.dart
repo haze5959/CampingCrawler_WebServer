@@ -9,16 +9,12 @@ part of 'ServerResult.dart';
 ServerResult<DataType> _$ServerResultFromJson<DataType>(
   Map<String, dynamic> json,
   DataType Function(Object? json) fromJsonDataType,
-) {
-  print("OQOQOQOQQO");
-  print(json);
-  print(fromJsonDataType);
-    return ServerResult<DataType>(
+) =>
+    ServerResult<DataType>(
       result: json['result'] as bool,
       msg: json['msg'] as String,
       data: _$nullableGenericFromJson(json['data'], fromJsonDataType),
     );
-}
 
 Map<String, dynamic> _$ServerResultToJson<DataType>(
   ServerResult<DataType> instance,

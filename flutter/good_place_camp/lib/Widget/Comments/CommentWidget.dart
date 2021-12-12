@@ -64,7 +64,7 @@ class CommentWidget extends StatelessWidget {
                               final res = await ApiRepo.posts
                                   .deleteComment(comment.id!, token, postId);
                               if (!res.result) {
-                                showOneBtnAlert(res.msg, "confirm".tr(), () {});
+                                showServerErrorAlert(res.msg, false);
                                 return;
                               }
 
@@ -151,7 +151,7 @@ class CommentWidget extends StatelessWidget {
                           final res =
                               await ApiRepo.posts.createComment(comment, token);
                           if (!res.result) {
-                            showOneBtnAlert(res.msg, "confirm".tr(), () {});
+                            showServerErrorAlert(res.msg, false);
                             return;
                           }
 
