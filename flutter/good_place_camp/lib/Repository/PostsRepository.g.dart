@@ -112,17 +112,17 @@ class _PostsRepository implements PostsRepository {
   }
 
   @override
-  Future<ServerResult<dynamic>> createComment(commnet, token) async {
+  Future<ServerResult<dynamic>> createComment(comment, postId, token) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
-    final _data = {'commnet': commnet, 'token': token};
+    final _data = {'comment': comment, 'post_id': postId, 'token': token};
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ServerResult<dynamic>>(
             Options(method: 'POST', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/post',
+                .compose(_dio.options, '/comment',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ServerResult<dynamic>.fromJson(

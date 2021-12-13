@@ -9,6 +9,7 @@ import 'package:good_place_camp/Controller/PostDetailContoller.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Comments/CommentWidget.dart';
+import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
 
 class PostDetailPage extends StatelessWidget {
   @override
@@ -130,7 +131,14 @@ class PostDetailPage extends StatelessWidget {
             const SizedBox(height: 20),
             Text("${posts.body}", style: textTheme.headline6),
             const SizedBox(height: 40),
-            CommentWidget(postId: c.id, commentList: c.commentList.obs),
+            CommentWriteWidget(
+                nick: c.nick,
+                bodyControler: c.bodyControler,
+                addHandler: c.commentAddHandler),
+            obxLoadingWidget(c.isCommentLoading),
+            for (final comment in c.commentList)
+              CommentWidget(
+                  comment: comment, removeHandler: c.commentRemoveHandler),
             const SizedBox(height: 40),
           ],
         ),

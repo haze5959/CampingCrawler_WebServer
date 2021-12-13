@@ -45,9 +45,9 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       id: json['id'] as int?,
       postId: json['post_id'] as int,
-      editTime: json['editTime'] == null
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['editTime'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
       nick: json['nick'] as String,
       comment: json['comment'] as String,
     );
@@ -55,7 +55,7 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'id': instance.id,
       'post_id': instance.postId,
-      'editTime': instance.editTime?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'nick': instance.nick,
       'comment': instance.comment,
     };

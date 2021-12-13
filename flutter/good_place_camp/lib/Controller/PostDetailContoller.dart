@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
@@ -10,6 +11,11 @@ import 'package:good_place_camp/Model/Post.dart';
 class PostDetailContoller extends GetxController {
   final int id;
   final bool isSecret;
+  final TextEditingController bodyControler = TextEditingController();
+
+  final String nick = Constants.user.value.isLogin
+      ? Constants.user.value.info.nick!
+      : "default_nick".tr();
 
   PostDetailContoller({required this.id, this.isSecret = false}) {
     reload();
@@ -19,6 +25,7 @@ class PostDetailContoller extends GetxController {
   List<Comment> commentList = [];
 
   bool isLoading = true;
+  RxBool isCommentLoading = false.obs;
 
   @override
   void onInit() {
@@ -68,5 +75,49 @@ class PostDetailContoller extends GetxController {
     }
 
     return true;
+  }
+
+  void commentAddHandler() async {
+    final body = bodyControler.text;
+    if (body.length == 0) {
+      showOneBtnAlert("no_contents".tr(), "confirm".tr(), () {});
+      return;
+    }
+
+    isCommentLoading.value = true;
+
+    final token = await Constants.user.value.getToken();
+    final res = await ApiRepo.posts.createComment(body, id, token);
+    isCommentLoading.value = false;
+    if (!res.result) {
+      showServerErrorAlert(res.msg, false);
+      return;
+    }
+
+    final comment = Comment(postId: id, nick: nick, comment: body);
+    commentList.insert(0, comment);
+    update();
+  }
+
+  void commentRemoveHandler(Comment comment) {
+    showTwoBtnAlert(
+        "dialog_delete_confirm".tr(args: ["comment".tr()]), "delete".tr(),
+        () async {
+      final token = await Constants.user.value.getToken();
+      if (token != null) {
+        final res = await ApiRepo.posts.deleteComment(comment.id!, token, id);
+        if (!res.result) {
+          showServerErrorAlert(res.msg, false);
+          return;
+        }
+
+        showOneBtnAlert("dialog_delete_complete".tr(), "confirm".tr(), () {
+          commentList.remove(comment);
+          update();
+        });
+      } else {
+        showRequiredLoginAlert();
+      }
+    });
   }
 }

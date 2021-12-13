@@ -66,15 +66,15 @@ class Post {
 class Comment {
   final int? id;
   final int postId;
-  @JsonKey(name: 'editTime')
-  final DateTime? editTime;
+  @JsonKey(name: 'updatedAt')
+  final DateTime? updatedAt;
   final String nick;
   final String comment;
 
   Comment(
       {this.id,
       required this.postId,
-      this.editTime,
+      this.updatedAt,
       required this.nick,
       required this.comment});
 

@@ -49,5 +49,5 @@ const _$CampAreaEnumMap = {
   CampArea.inchoen: 'inchoen',
   CampArea.chungnam: 'chungnam',
   CampArea.chungbuk: 'chungbuk',
-  CampArea.gangwon: 'gangwon'
+  CampArea.gangwon: 'gangwon',
 };

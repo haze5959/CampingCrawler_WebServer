@@ -1,36 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
 import 'package:good_place_camp/Constants.dart';
-import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
 
 class CommentWidget extends StatelessWidget {
-  final int postId;
-  final bool canWrite;
-  final RxList<Comment> commentList;
+  final Comment comment;
+  final void Function(Comment) removeHandler;
 
-  CommentWidget(
-      {required this.postId, required this.commentList, this.canWrite = true});
+  CommentWidget({required this.comment, required this.removeHandler});
 
   @override
   Widget build(BuildContext context) {
-    return _buildCommentList();
-  }
-
-  Widget _buildCommentList() {
-    return Container(
-        child: Obx(() => Column(children: [
-              if (canWrite) _buildWriteCommentItem(),
-              for (final comment in commentList) _buildCommentItem(comment)
-            ])));
-  }
-
-  Widget _buildCommentItem(Comment comment) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
@@ -47,7 +31,7 @@ class CommentWidget extends StatelessWidget {
                         child: Text(comment.nick,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold))),
-                    Text(getRemainTime(comment.editTime ?? DateTime.now()),
+                    Text(getRemainTime(comment.updatedAt ?? DateTime.now()),
                         style: TextStyle(fontSize: 12)),
                     const Spacer(),
                     if (comment.nick == Constants.user.value.info.nick)
@@ -56,30 +40,7 @@ class CommentWidget extends StatelessWidget {
                         color: Colors.grey,
                         icon: const Icon(Icons.delete),
                         iconSize: 20,
-                        onPressed: () {
-                          showTwoBtnAlert(
-                              "dialog_delete_confirm"
-                                  .tr(args: ["comment".tr()]),
-                              "delete".tr(), () async {
-                            final token = await Constants.user.value.getToken();
-                            if (token != null) {
-                              final res = await ApiRepo.posts
-                                  .deleteComment(comment.id!, token, postId);
-                              if (!res.result) {
-                                showServerErrorAlert(res.msg, false);
-                                return;
-                              }
-
-                              showOneBtnAlert(
-                                  "dialog_delete_complete".tr(), "confirm".tr(),
-                                  () {
-                                commentList.remove(comment);
-                              });
-                            } else {
-                              showRequiredLoginAlert();
-                            }
-                          });
-                        },
+                        onPressed: () {},
                       )
                     else
                       IconButton(
@@ -99,15 +60,20 @@ class CommentWidget extends StatelessWidget {
                   child: Text(comment.comment))
             ])));
   }
+}
 
-  Widget _buildWriteCommentItem() {
-    TextEditingController nickControler = new TextEditingController();
-    TextEditingController bodyControler = new TextEditingController();
+class CommentWriteWidget extends StatelessWidget {
+  final String nick;
+  final TextEditingController bodyControler;
+  final void Function() addHandler;
 
-    nickControler.text = Constants.user.value.isLogin
-        ? Constants.user.value.info.nick!
-        : "default_nick".tr();
+  CommentWriteWidget(
+      {required this.nick,
+      required this.bodyControler,
+      required this.addHandler});
 
+  @override
+  Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
@@ -119,46 +85,25 @@ class CommentWidget extends StatelessWidget {
                   color: Colors.blueGrey[50],
                   padding: const EdgeInsets.all(10),
                   child: Row(children: [
-                    SizedBox(
-                        width: 150,
-                        child: TextField(
-                          readOnly: true,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12),
-                          controller: nickControler,
-                          onTap: () {
-                            if (!Constants.user.value.isLogin) {
-                              showRequiredLoginAlert();
-                            }
-                          },
-                          decoration: InputDecoration(
-                              hintText: "nick".tr(), labelText: 'nick'.tr()),
-                        )),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'nick'.tr(),
+                            style: const TextStyle(
+                                color: Colors.lightBlue,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 10),
+                          ),
+                          Text(
+                            nick,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          )
+                        ]),
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () async {
-                        final body = bodyControler.text;
-
-                        if (body.length == 0) {
-                          showOneBtnAlert(
-                              "no_contents".tr(), "confirm".tr(), () {});
-                          return;
-                        }
-
-                        final token = await Constants.user.value.getToken();
-                        final comment = Comment(
-                            postId: postId,
-                            nick: nickControler.text,
-                            comment: body);
-                        final res =
-                            await ApiRepo.posts.createComment(comment, token);
-                        if (!res.result) {
-                          showServerErrorAlert(res.msg, false);
-                          return;
-                        }
-
-                        commentList.insert(0, comment);
-                      },
+                      onPressed: () => addHandler(),
                       child: Text("dialog_registration").tr(),
                     )
                   ])),
