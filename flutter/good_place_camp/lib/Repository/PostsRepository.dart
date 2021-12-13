@@ -31,7 +31,7 @@ abstract class PostsRepository {
 
   @POST("/post")
   Future<ServerResult> createComment(
-      @Field() Comment commnet, @Field() String token);
+      @Field() Comment commnet, @Field() String? token);
 
   @POST("/report")
   Future<ServerResult> createReport(@Field() String id, @Field() String token);

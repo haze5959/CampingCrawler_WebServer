@@ -15,12 +15,11 @@ import 'package:good_place_camp/Widget/Cards/PromotionCardItem.dart';
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 class CampListPage extends StatelessWidget {
-  final bool isFavoritePage;
-
-  CampListPage({this.isFavoritePage = false});
-
   @override
   Widget build(BuildContext context) {
+    final isFavoritePage =
+        Get.parameters['is_favorite'] == 'true' ? true : false;
+
     return Scaffold(
       appBar: isFavoritePage
           ? GPCAppBar(pageName: "camp_my".tr(), showFilter: false)
@@ -29,9 +28,8 @@ class CampListPage extends StatelessWidget {
         child: Container(
             constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
             child: Scrollbar(
-                child: isFavoritePage
-                    ? _buildFavoriteList()
-                    : _buildCampList())),
+                child:
+                    isFavoritePage ? _buildFavoriteList() : _buildCampList())),
       ),
     );
   }
@@ -40,15 +38,15 @@ class CampListPage extends StatelessWidget {
     final HomeController c = Get.find();
 
     return ListView.builder(
-          itemCount: c.siteInfoList.length + 1,
-          itemBuilder: (context, index) {
-            if (index < c.siteInfoList.length) {
-              return TappableCampCardItem(siteInfo: c.siteInfoList[index]);
-            } else {
-              return PromotionCardItem();
-            }
-          },
-        );
+      itemCount: c.siteInfoList.length + 1,
+      itemBuilder: (context, index) {
+        if (index < c.siteInfoList.length) {
+          return TappableCampCardItem(siteInfo: c.siteInfoList[index]);
+        } else {
+          return PromotionCardItem();
+        }
+      },
+    );
   }
 
   Widget _buildFavoriteList() {
@@ -57,7 +55,7 @@ class CampListPage extends StatelessWidget {
           itemBuilder: (context, index) {
             if (index < (Constants.user.value.info.favoriteList?.length ?? 0)) {
               return SimpleCampCardItem(
-                      siteName: Constants.user.value.info.favoriteList![index]);
+                  siteName: Constants.user.value.info.favoriteList![index]);
             } else {
               return PromotionCardItem();
             }

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:good_place_camp/Constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-// Widgets
-import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
@@ -28,10 +24,9 @@ class TappableCampCardItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () {
-              Get.to(CampDetailPage(siteInfo.site));
+              Get.toNamed("/camp/detail/${siteInfo.site}");
             },
-            splashColor:
-                Get.theme.colorScheme.onSurface.withOpacity(0.12),
+            splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
             child: _buildContent(),
           ),
@@ -75,7 +70,8 @@ class TappableCampCardItem extends StatelessWidget {
                   child: Container(
                     decoration: const BoxDecoration(
                         color: Colors.black26,
-                        borderRadius: const BorderRadius.all(Radius.circular(5))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
                     child: Text(
                       Constants.campInfoMap[siteInfo.site]?.name ?? "_",
@@ -132,10 +128,9 @@ class TappableReservationInfoCardItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () {
-              Get.to(CampDetailPage(info.site));
+              Get.toNamed("/camp/detail/${info.site}");
             },
-            splashColor:
-                Get.theme.colorScheme.onSurface.withOpacity(0.12),
+            splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
             child: _buildContent(),
           ),

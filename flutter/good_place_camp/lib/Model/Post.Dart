@@ -66,15 +66,15 @@ class Post {
 class Comment {
   final int? id;
   final int postId;
-  @JsonKey(name: 'updatedTime')
-  final DateTime? updatedTime;
+  @JsonKey(name: 'editTime')
+  final DateTime? editTime;
   final String nick;
   final String comment;
 
   Comment(
       {this.id,
       required this.postId,
-      this.updatedTime,
+      this.editTime,
       required this.nick,
       required this.comment});
 
@@ -83,12 +83,12 @@ class Comment {
   Map<String, dynamic> toJson() => _$CommentToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class Board {
-  final Post post;
+  final Post posts;
   final List<Comment> commentList;
 
-  Board({required this.post, required this.commentList});
+  Board({required this.posts, required this.commentList});
 
   factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
   Map<String, dynamic> toJson() => _$BoardToJson(this);

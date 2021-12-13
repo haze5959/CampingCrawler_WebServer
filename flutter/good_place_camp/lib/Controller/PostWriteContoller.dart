@@ -25,9 +25,7 @@ class PostWriteContoller extends GetxController {
 
     isLoading.value = true;
 
-    final token = Constants.user.value.isLogin
-        ? await Constants.user.value.firebaseUser?.getIdToken() ?? ""
-        : "";
+    final token = await Constants.user.value.getToken() ?? "";
 
     final newPosts = Post(type: postType.value + 1, title: title, body: body);
     final res = await ApiRepo.posts.createPosts(newPosts, token);

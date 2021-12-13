@@ -11,7 +11,6 @@ import 'package:good_place_camp/Controller/UserInfoController.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
 
 // Widgets
-import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
 import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
 
 class UserInfoPage extends StatelessWidget {
@@ -165,7 +164,7 @@ class UserInfoPage extends StatelessWidget {
                         ]),
                   ),
                   onPressed: () async {
-                    Get.to(PushPromotionPage());
+                    Get.toNamed("/promotion");
                   },
                 )
               ] else ...[
@@ -190,7 +189,7 @@ class UserInfoPage extends StatelessWidget {
                         ]),
                   ),
                   onPressed: () async {
-                    Get.to(PushPromotionPage());
+                    Get.toNamed("/promotion");
                   },
                 )
               ]

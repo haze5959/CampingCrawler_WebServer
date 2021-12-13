@@ -5,8 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
-import 'package:good_place_camp/Widget/Pages/PostListPage.dart';
-import 'package:good_place_camp/Widget/Pages/PostWritePage.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -38,7 +36,9 @@ class RecentlyPostsWidget extends StatelessWidget {
                     mini: true,
                     child: const Icon(Icons.list),
                     onPressed: () async {
-                      await Get.to(PostListPage(isNotice: isNotice));
+                      await Get.toNamed("/board/list", parameters: {
+                        "is_notice": isNotice ? "true" : "false"
+                      });
                       c.reload();
                     },
                   ),
@@ -50,7 +50,7 @@ class RecentlyPostsWidget extends StatelessWidget {
                       mini: true,
                       child: const Icon(Icons.edit),
                       onPressed: () async {
-                        bool result = await Get.to(PostWritePage());
+                        bool result = await Get.toNamed("/board/write");
                         if (result) {
                           c.reload();
                         }
@@ -75,7 +75,9 @@ class RecentlyPostsWidget extends StatelessWidget {
                             color: Colors.lightGreen.shade300,
                             icon: const Icon(Icons.more_horiz),
                             onPressed: () {
-                              Get.to(PostListPage(isNotice: isNotice));
+                              Get.toNamed("/board/list", parameters: {
+                                "is_notice": isNotice ? "true" : "false"
+                              });
                             },
                           )
                         ])),

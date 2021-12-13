@@ -39,7 +39,7 @@ class CampDetailContoller extends GetxController {
       showServerErrorAlert(res.msg, true);
       return;
     }
-    
+
     final data = res.data!;
     siteInfo = data.camp;
     campInfo = data.info;
@@ -110,43 +110,36 @@ class CampDetailContoller extends GetxController {
   }
 
   void onClickFavorite() async {
-    final user = Constants.user.value.firebaseUser;
-    if (user == null) {
+    final token = await Constants.user.value.getToken();
+    if (token == null) {
       showRequiredLoginAlert();
       return;
     }
 
-    if (Constants.user.value.isLogin) {
-      if (_checkFavorite()) {
-        // 즐겨찾기 삭제 api
-        final idToken = await user.getIdToken();
-        final res =
-            await ApiRepo.user.deleteUserFavoriteList(idToken, siteName);
-        if (!res.result) {
-          showServerErrorAlert(res.msg, false);
-          return;
-        }
-
-        Constants.user.value.info.favoriteList?.remove(siteName);
-        showOneBtnAlert("favorite_delete".tr(), "확인", () {
-          isFavorite(false);
-        });
-      } else {
-        // 즐겨찾기 추가 api
-        final idToken = await user.getIdToken();
-        final res = await ApiRepo.user.postUserFavoriteList(idToken, siteName);
-        if (!res.result) {
-          showServerErrorAlert(res.msg, false);
-          return;
-        }
-
-        Constants.user.value.info.favoriteList?.add(siteName);
-        showOneBtnAlert("favorite_add".tr(), "confirm".tr(), () {
-          isFavorite(true);
-        });
+    if (_checkFavorite()) {
+      // 즐겨찾기 삭제 api
+      final res = await ApiRepo.user.deleteUserFavoriteList(token, siteName);
+      if (!res.result) {
+        showServerErrorAlert(res.msg, false);
+        return;
       }
+
+      Constants.user.value.info.favoriteList?.remove(siteName);
+      showOneBtnAlert("favorite_delete".tr(), "확인", () {
+        isFavorite(false);
+      });
     } else {
-      showRequiredLoginAlert();
+      // 즐겨찾기 추가 api
+      final res = await ApiRepo.user.postUserFavoriteList(token, siteName);
+      if (!res.result) {
+        showServerErrorAlert(res.msg, false);
+        return;
+      }
+
+      Constants.user.value.info.favoriteList?.add(siteName);
+      showOneBtnAlert("favorite_add".tr(), "confirm".tr(), () {
+        isFavorite(true);
+      });
     }
   }
 

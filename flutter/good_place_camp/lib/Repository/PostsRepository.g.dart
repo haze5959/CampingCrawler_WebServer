@@ -115,8 +115,10 @@ class _PostsRepository implements PostsRepository {
   Future<ServerResult<dynamic>> createComment(commnet, token) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {'commnet': commnet, 'token': token};
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ServerResult<dynamic>>(
             Options(method: 'POST', headers: _headers, extra: _extra)

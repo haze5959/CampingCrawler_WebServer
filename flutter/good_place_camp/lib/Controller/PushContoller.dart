@@ -29,7 +29,7 @@ class PushContoller extends GetxController {
 
   void reload() async {
     isLoading.value = true;
-    final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
+    final token = await Constants.user.value.getToken() ?? "";
     final res = await ApiRepo.user.getUserPushInfo(token);
     if (!res.result) {
       showServerErrorAlert(res.msg, true);
@@ -54,18 +54,14 @@ class PushContoller extends GetxController {
       return;
     }
 
-    if (area == CampArea.all) {
-      editedArea.clear();
+    if (editedArea.contains(area)) {
+      editedArea.remove(area);
     } else {
-      if (editedArea.contains(area)) {
-        editedArea.remove(area);
-      } else {
-        editedArea.add(area);
-      }
+      editedArea.add(area);
     }
 
     final areaBit = toAreaBit(editedArea);
-    final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
+    final token = await Constants.user.value.getToken() ?? "";
     final res = await ApiRepo.user.putUserArea(token, areaBit);
     if (!res.result) {
       showServerErrorAlert(res.msg, false);
@@ -79,7 +75,7 @@ class PushContoller extends GetxController {
   void updatePushSetting() async {
     isLoading.value = true;
     final info = pushInfo;
-    final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
+    final token = await Constants.user.value.getToken() ?? "";
     final res = await ApiRepo.user.putPushInfo(token, info);
     if (!res.result) {
       showServerErrorAlert(res.msg, false);

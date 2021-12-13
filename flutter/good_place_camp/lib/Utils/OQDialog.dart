@@ -4,14 +4,13 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/LoginPage.dart';
 
 // Model
-import 'package:good_place_camp/Model/ServerResult.dart';
+import 'package:good_place_camp/Model/CampArea.dart';
 
 void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
   showDialog(
@@ -71,7 +70,10 @@ void showServerErrorAlert(String msg, bool isBack) {
       break;
     case "auth_fail":
       errMsg = "auth_error".tr();
-      break;
+      showOneBtnAlert(errMsg, "confirm".tr(), () {
+        Get.toNamed("/login");
+      });
+      return;
     case "not_exist":
       errMsg = "not_exist_error".tr();
       break;
@@ -359,11 +361,10 @@ void showChangeNickAlert() {
             TextButton(
               child: const Text("dialog_setting").tr(),
               onPressed: () async {
-                User? user = Constants.user.value.firebaseUser;
-                if (_validateText() && user != null) {
-                  final idToken = await user.getIdToken();
-                  final res = await ApiRepo.user
-                      .putUserNick(idToken, bodyControler.text);
+                final token = await Constants.user.value.getToken();
+                if (_validateText() && token != null) {
+                  final res =
+                      await ApiRepo.user.putUserNick(token, bodyControler.text);
                   if (!res.result) {
                     showServerErrorAlert(res.msg, false);
                     return;
@@ -377,6 +378,42 @@ void showChangeNickAlert() {
                     Constants.user.refresh();
                   });
                 }
+              },
+            )
+          ],
+        );
+      });
+}
+
+void showAreaFilterDialog() {
+  showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(children: [
+            const Text(
+              "원하시는 지역을 선택해주세요.",
+            ),
+            for (final area in CampArea.values)
+              CheckboxListTile(
+                title: Text(area.toAreaString()),
+                value: Constants.myArea.contains(area),
+                onChanged: (bool? value) {
+                  print(value);
+                },
+              ),
+          ]),
+          actions: [
+            TextButton(
+              child: const Text("cancel").tr(),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: const Text("confirm").tr(),
+              onPressed: () {
+                Get.back();
               },
             )
           ],

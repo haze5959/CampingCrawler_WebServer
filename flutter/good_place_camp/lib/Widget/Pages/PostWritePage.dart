@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/PostWriteContoller.dart';
-
-// Widgets
-import 'package:good_place_camp/Widget/Pages/UserInfoPage.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
@@ -57,7 +53,7 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                   if (!Constants.user.value.isLogin) {
                                     showRequiredLoginAlert();
                                   } else {
-                                    Get.to(UserInfoPage());
+                                    Get.toNamed("/myinfo");
                                   }
                                 },
                               ),

@@ -45,8 +45,9 @@ class CommentWidget extends StatelessWidget {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(comment.nick,
-                            style:const TextStyle(fontWeight: FontWeight.bold))),
-                    Text(getRemainTime(comment.updatedTime ?? DateTime.now()),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold))),
+                    Text(getRemainTime(comment.editTime ?? DateTime.now()),
                         style: TextStyle(fontSize: 12)),
                     const Spacer(),
                     if (comment.nick == Constants.user.value.info.nick)
@@ -56,11 +57,12 @@ class CommentWidget extends StatelessWidget {
                         icon: const Icon(Icons.delete),
                         iconSize: 20,
                         onPressed: () {
-                          showTwoBtnAlert("dialog_delete_confirm".tr(args: ["comment".tr()]), "delete".tr(),
-                              () async {
-                            final user = Constants.user.value.firebaseUser;
-                            if (user != null) {
-                              final token = await user.getIdToken();
+                          showTwoBtnAlert(
+                              "dialog_delete_confirm"
+                                  .tr(args: ["comment".tr()]),
+                              "delete".tr(), () async {
+                            final token = await Constants.user.value.getToken();
+                            if (token != null) {
                               final res = await ApiRepo.posts
                                   .deleteComment(comment.id!, token, postId);
                               if (!res.result) {
@@ -68,7 +70,9 @@ class CommentWidget extends StatelessWidget {
                                 return;
                               }
 
-                              showOneBtnAlert("dialog_delete_complete".tr(), "confirm".tr(), () {
+                              showOneBtnAlert(
+                                  "dialog_delete_complete".tr(), "confirm".tr(),
+                                  () {
                                 commentList.remove(comment);
                               });
                             } else {
@@ -84,7 +88,8 @@ class CommentWidget extends StatelessWidget {
                         icon: const Icon(Icons.report_gmailerrorred_outlined),
                         iconSize: 20,
                         onPressed: () {
-                          showReportAlert("comment_${comment.id}", "comment".tr());
+                          showReportAlert(
+                              "comment_${comment.id}", "comment".tr());
                         },
                       )
                   ])),
@@ -135,28 +140,24 @@ class CommentWidget extends StatelessWidget {
                         final body = bodyControler.text;
 
                         if (body.length == 0) {
-                          showOneBtnAlert("no_contents".tr(), "confirm".tr(), () {});
+                          showOneBtnAlert(
+                              "no_contents".tr(), "confirm".tr(), () {});
                           return;
                         }
 
-                        final user = Constants.user.value.firebaseUser;
-                        if (user != null) {
-                          final token = Constants.user.value.isLogin
-                              ? await user.getIdToken()
-                              : "";
-                          final comment = Comment(
-                              postId: postId,
-                              nick: nickControler.text,
-                              comment: body);
-                          final res =
-                              await ApiRepo.posts.createComment(comment, token);
-                          if (!res.result) {
-                            showServerErrorAlert(res.msg, false);
-                            return;
-                          }
-
-                          commentList.insert(0, comment);
+                        final token = await Constants.user.value.getToken();
+                        final comment = Comment(
+                            postId: postId,
+                            nick: nickControler.text,
+                            comment: body);
+                        final res =
+                            await ApiRepo.posts.createComment(comment, token);
+                        if (!res.result) {
+                          showServerErrorAlert(res.msg, false);
+                          return;
                         }
+
+                        commentList.insert(0, comment);
                       },
                       child: Text("dialog_registration").tr(),
                     )
@@ -168,8 +169,9 @@ class CommentWidget extends StatelessWidget {
                     controller: bodyControler,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    decoration:
-                        InputDecoration(hintText: 'comment'.tr() + "...", labelText: 'comment'.tr()),
+                    decoration: InputDecoration(
+                        hintText: 'comment'.tr() + "...",
+                        labelText: 'comment'.tr()),
                   ))
             ])));
   }

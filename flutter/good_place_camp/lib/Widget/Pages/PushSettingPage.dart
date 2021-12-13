@@ -88,13 +88,6 @@ class PushSettingPage extends StatelessWidget {
                 itemBuilder: (context) {
                   return [
                     CheckedPopupMenuItem(
-                      value: CampArea.all,
-                      checked: favoriteArea.isEmpty,
-                      child: Text(
-                        CampArea.all.toAreaString(),
-                      ),
-                    ),
-                    CheckedPopupMenuItem(
                       value: CampArea.seoul,
                       checked: favoriteArea.contains(CampArea.seoul),
                       child: Text(

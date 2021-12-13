@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Constants.dart';
-import 'package:flutter/cupertino.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Cards/SimpleCampCardItem.dart';
-import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
@@ -32,7 +30,7 @@ class RecommandSiteWidget extends StatelessWidget {
                     mini: true,
                     child: const Icon(Icons.list),
                     onPressed: () {
-                      Get.to(CampListPage());
+                      Get.toNamed("/camp/list");
                     },
                   ),
                   Spacer(),
@@ -54,7 +52,7 @@ class RecommandSiteWidget extends StatelessWidget {
                             color: Colors.lightGreen.shade300,
                             icon: const Icon(Icons.more_horiz),
                             onPressed: () {
-                              Get.to(CampListPage());
+                              Get.toNamed("/camp/list");
                             },
                           )
                         ])),

@@ -31,7 +31,7 @@ class PostDetailContoller extends GetxController {
     Board board;
 
     if (isSecret) {
-      final token = await Constants.user.value.firebaseUser?.getIdToken() ?? "";
+      final token = await Constants.user.value.getToken() ?? "";
       final res = await ApiRepo.posts.getSecretPosts(id, token);
       if (!res.result) {
         showServerErrorAlert(res.msg, true);
@@ -51,7 +51,7 @@ class PostDetailContoller extends GetxController {
       board = data;
     }
 
-    posts = board.post;
+    posts = board.posts;
     commentList = board.commentList;
 
     isLoading = false;
@@ -59,9 +59,7 @@ class PostDetailContoller extends GetxController {
   }
 
   Future<bool> deletePosts() async {
-    final token = Constants.user.value.isLogin
-        ? await Constants.user.value.firebaseUser?.getIdToken() ?? ""
-        : "";
+    final token = await Constants.user.value.getToken() ?? "";
     final res = await ApiRepo.posts.deletePosts(id, token);
 
     if (!res.result) {

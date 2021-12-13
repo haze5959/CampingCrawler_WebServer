@@ -15,12 +15,9 @@ import 'package:good_place_camp/Controller/CampDetailContoller.dart';
 import 'package:good_place_camp/Widget/FooterWidget.dart';
 
 class CampDetailPage extends StatelessWidget {
-  final String siteName;
-
-  CampDetailPage(this.siteName);
-
   @override
   Widget build(BuildContext context) {
+    String siteName = Get.parameters['id'] ?? "";
     final infoJson = Constants.campInfoMap[siteName]!;
 
     return GetBuilder<CampDetailContoller>(

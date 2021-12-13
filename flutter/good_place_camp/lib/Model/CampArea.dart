@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-enum CampArea { seoul, gyeonggi, inchoen, chungnam, chungbuk, gangwon, all }
+enum CampArea { seoul, gyeonggi, inchoen, chungnam, chungbuk, gangwon }
 
 extension CampAreaParse on CampArea {
   String toAreaString() {
@@ -17,8 +15,6 @@ extension CampAreaParse on CampArea {
         return "충북";
       case CampArea.gangwon:
         return "강원";
-      case CampArea.all:
-        return "전체";
       default:
         return "";
     }
@@ -61,7 +57,7 @@ CampArea fromAreaInt(int areaInt) {
     case 32:
       return CampArea.gangwon;
     default:
-      return CampArea.all;
+      return CampArea.seoul;
   }
 }
 

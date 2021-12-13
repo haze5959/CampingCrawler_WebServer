@@ -85,6 +85,15 @@ class CampUser {
       return false;
     }
   }
+
+  Future<String>? getToken() {
+    final user = firebaseUser;
+    if (isLogin && user != null) {
+      return user.getIdToken();
+    } else {
+      return null;
+    }
+  }
 }
 
 @JsonSerializable()

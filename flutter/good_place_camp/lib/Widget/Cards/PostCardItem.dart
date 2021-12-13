@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
-import 'package:flutter/cupertino.dart';
-
-// Widgets
-import 'package:good_place_camp/Widget/Pages/PostDetailPage.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
@@ -30,14 +26,14 @@ class PostCardItem extends StatelessWidget {
                 if (!Constants.user.value.isLogin) {
                   showRequiredLoginAlert();
                 } else {
-                  Get.to(PostDetailPage(info.id!, isSecret: true));
+                  Get.toNamed("/board/detail/${info.id!}",
+                      parameters: {"is_secret": "true"});
                 }
               } else {
-                Get.to(PostDetailPage(info.id!));
+                Get.toNamed("/board/detail/${info.id!}");
               }
             },
-            splashColor:
-                Get.theme.colorScheme.onSurface.withOpacity(0.12),
+            splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
             highlightColor: Colors.transparent,
             child: _buildContent(),
           ),

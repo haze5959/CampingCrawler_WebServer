@@ -45,9 +45,9 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       id: json['id'] as int?,
       postId: json['post_id'] as int,
-      updatedTime: json['updatedTime'] == null
+      editTime: json['editTime'] == null
           ? null
-          : DateTime.parse(json['updatedTime'] as String),
+          : DateTime.parse(json['editTime'] as String),
       nick: json['nick'] as String,
       comment: json['comment'] as String,
     );
@@ -55,19 +55,19 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'id': instance.id,
       'post_id': instance.postId,
-      'updatedTime': instance.updatedTime?.toIso8601String(),
+      'editTime': instance.editTime?.toIso8601String(),
       'nick': instance.nick,
       'comment': instance.comment,
     };
 
 Board _$BoardFromJson(Map<String, dynamic> json) => Board(
-      post: Post.fromJson(json['post'] as Map<String, dynamic>),
-      commentList: (json['comment_list'] as List<dynamic>)
+      posts: Post.fromJson(json['posts'] as Map<String, dynamic>),
+      commentList: (json['commentList'] as List<dynamic>)
           .map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$BoardToJson(Board instance) => <String, dynamic>{
-      'post': instance.post,
-      'comment_list': instance.commentList,
+      'posts': instance.posts,
+      'commentList': instance.commentList,
     };

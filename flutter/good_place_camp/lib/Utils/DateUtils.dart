@@ -41,7 +41,7 @@ DateTime _convertServerDate(String dateStr) {
 }
 
 String getRemainTime(DateTime time) {
-  final now = DateTime.now().toUtc().add(Duration(hours: 9));
+  final now = DateTime.now().toUtc();
   final diff = now.difference(time);
   if (diff.inDays > 365) {
     final interval = (diff.inDays / 365).round();

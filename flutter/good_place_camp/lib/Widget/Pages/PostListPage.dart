@@ -5,7 +5,6 @@ import 'package:good_place_camp/Constants.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/GPCAppBar.dart';
-import 'package:good_place_camp/Widget/Pages/PostWritePage.dart';
 
 // Cards
 import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
@@ -17,17 +16,15 @@ import 'package:good_place_camp/Controller/PostListContoller.dart';
 import 'package:good_place_camp/Model/Post.dart';
 
 class PostListPage extends StatelessWidget {
-  final bool isNotice; // 공지사항 뷰인지
-
-  PostListPage({required this.isNotice});
-
   @override
   Widget build(BuildContext context) {
+    final isNotice = Get.parameters['is_notice'] == 'true' ? true : false;
     final PostListContoller c = PostListContoller(isNotice: isNotice);
 
     if (isNotice) {
       return Scaffold(
-          appBar: GPCAppBar(pageName: "board_notice_event".tr(), showFilter: false),
+          appBar:
+              GPCAppBar(pageName: "board_notice_event".tr(), showFilter: false),
           body: Center(
             child: Container(
                 constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
@@ -40,16 +37,17 @@ class PostListPage extends StatelessWidget {
                         } else {
                           c.fetchPosts();
                           return Center(
-                                  child: Obx(() => c.isLastPage.value
-                                      ? const Text("board_info_last").tr()
-                                      : const CircularProgressIndicator()));
+                              child: Obx(() => c.isLastPage.value
+                                  ? const Text("board_info_last").tr()
+                                  : const CircularProgressIndicator()));
                         }
                       },
                     )))),
           ));
     } else {
       return Scaffold(
-          appBar: GPCAppBar(pageName: "board_request_question".tr(), showFilter: false),
+          appBar: GPCAppBar(
+              pageName: "board_request_question".tr(), showFilter: false),
           body: Center(
             child: Container(
                 constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
@@ -62,9 +60,9 @@ class PostListPage extends StatelessWidget {
                         } else {
                           c.fetchPosts();
                           return Center(
-                                  child: Obx(() => c.isLastPage.value
-                                      ? const Text("board_info_last").tr()
-                                      : const CircularProgressIndicator()));
+                              child: Obx(() => c.isLastPage.value
+                                  ? const Text("board_info_last").tr()
+                                  : const CircularProgressIndicator()));
                         }
                       },
                     )))),
@@ -75,7 +73,7 @@ class PostListPage extends StatelessWidget {
               child: const Icon(Icons.edit),
               backgroundColor: Colors.lightGreen.shade400,
               onPressed: () async {
-                bool result = await Get.to(PostWritePage());
+                bool result = await Get.toNamed("/board/write");
                 if (result) {
                   c.fetchPosts(reset: true);
                 }

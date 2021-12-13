@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
@@ -11,23 +10,18 @@ import 'package:good_place_camp/Controller/PostDetailContoller.dart';
 // Widgets
 import 'package:good_place_camp/Widget/Comments/CommentWidget.dart';
 
-// Model
-import 'package:good_place_camp/Model/Post.dart';
-
 class PostDetailPage extends StatelessWidget {
-  final int id;
-  final bool isSecret;
-
-  PostDetailPage(this.id, {this.isSecret = false});
-
   @override
   Widget build(BuildContext context) {
+    int postsId = int.parse(Get.parameters['id'] ?? "-1");
+    final isSecret = Get.parameters['is_secret'] == 'true' ? true : false;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("board").tr(),
       ),
       body: GetBuilder<PostDetailContoller>(
-          init: PostDetailContoller(id: id, isSecret: isSecret),
+          init: PostDetailContoller(id: postsId, isSecret: isSecret),
           builder: (c) => c.isLoading
               ? const Center(child: const CircularProgressIndicator())
               : SingleChildScrollView(
@@ -40,11 +34,11 @@ class PostDetailPage extends StatelessWidget {
                           currentFocus.unfocus();
                         }
                       },
-                      child: _buildContent(c, c.commentList)))),
+                      child: _buildContent(c)))),
     );
   }
 
-  Widget _buildContent(PostDetailContoller c, List<Comment> commentList) {
+  Widget _buildContent(PostDetailContoller c) {
     final textTheme = Get.theme.textTheme;
     final titleStyle = textTheme.subtitle1!.copyWith(color: Colors.white);
     final posts = c.posts!;
@@ -91,7 +85,7 @@ class PostDetailPage extends StatelessWidget {
                         color: Colors.grey,
                         icon: const Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
-                          showReportAlert("posts_$id", "boards".tr());
+                          showReportAlert("posts_${c.id}", "boards".tr());
                         },
                       ),
               ),
@@ -136,7 +130,7 @@ class PostDetailPage extends StatelessWidget {
             const SizedBox(height: 20),
             Text("${posts.body}", style: textTheme.headline6),
             const SizedBox(height: 40),
-            CommentWidget(postId: id, commentList: commentList.obs),
+            CommentWidget(postId: c.id, commentList: c.commentList.obs),
             const SizedBox(height: 40),
           ],
         ),

@@ -8,11 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
-// Widgets
-import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
-import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
-import 'package:good_place_camp/Widget/Pages/UserInfoPage.dart';
-
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
 
@@ -38,7 +33,8 @@ class GPCAppBar extends AppBar {
   final bool showFilter;
   final bool isMain;
 
-  GPCAppBar({required this.pageName, required this.showFilter, this.isMain = false})
+  GPCAppBar(
+      {required this.pageName, required this.showFilter, this.isMain = false})
       : super(
             centerTitle: true,
             backgroundColor: Colors.lightGreen.shade400,
@@ -60,7 +56,8 @@ class GPCAppBar extends AppBar {
                     ),
                   Text(
                     pageName,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 26),
                   ),
                   const Spacer(),
                   if (Constants.isPhoneSize) ...[
@@ -87,7 +84,8 @@ class GPCAppBar extends AppBar {
                         if (Constants.user.value.isLogin)
                           PopupMenuItem<GPCAppBarMenu>(
                             enabled: false,
-                            child: const Text("dear").tr(args: [Constants.user.value.info.nick ?? ""]),
+                            child: const Text("dear").tr(
+                                args: [Constants.user.value.info.nick ?? ""]),
                           ),
                         PopupMenuItem<GPCAppBarMenu>(
                           value: GPCAppBarMenu.favorite,
@@ -131,8 +129,10 @@ class GPCAppBar extends AppBar {
                       ],
                     )
                   ] else ...[
+                    // 폰사이즈가 아닐 경우
                     Obx(() => Text(Constants.user.value.isLogin
-                        ? "dear".tr(args: [Constants.user.value.info.nick ?? ""])
+                        ? "dear"
+                            .tr(args: [Constants.user.value.info.nick ?? ""])
                         : "")),
                     const SizedBox(width: 20),
                     if (showFilter) _buildAreaFilter(),
@@ -160,91 +160,51 @@ class GPCAppBar extends AppBar {
                 ])));
 
   static Widget _buildAreaFilter() {
-    return PopupMenuButton<CampArea>(
+    return IconButton(
       tooltip: "notification_filter_region".tr(),
-      color: Colors.lightGreen[50],
       icon: const Icon(Icons.filter_list_rounded),
-      itemBuilder: (context) {
-        return [
-          CheckedPopupMenuItem(
-            value: CampArea.all,
-            checked: Constants.myArea.isEmpty,
-            child: Text(
-              CampArea.all.toAreaString(),
-            ),
-          ),
-          CheckedPopupMenuItem(
-            value: CampArea.seoul,
-            checked: Constants.myArea.contains(CampArea.seoul),
-            child: Text(
-              CampArea.seoul.toAreaString(),
-            ),
-          ),
-          CheckedPopupMenuItem(
-            value: CampArea.gyeonggi,
-            checked: Constants.myArea.contains(CampArea.gyeonggi),
-            child: Text(
-              CampArea.gyeonggi.toAreaString(),
-            ),
-          ),
-          CheckedPopupMenuItem(
-            value: CampArea.inchoen,
-            checked: Constants.myArea.contains(CampArea.inchoen),
-            child: Text(
-              CampArea.inchoen.toAreaString(),
-            ),
-          ),
-          CheckedPopupMenuItem(
-            value: CampArea.chungnam,
-            checked: Constants.myArea.contains(CampArea.chungnam),
-            child: Text(
-              CampArea.chungnam.toAreaString(),
-            ),
-          ),
-          CheckedPopupMenuItem(
-            value: CampArea.chungbuk,
-            checked: Constants.myArea.contains(CampArea.chungbuk),
-            child: Text(
-              CampArea.chungbuk.toAreaString(),
-            ),
-          ),
-          CheckedPopupMenuItem(
-            value: CampArea.gangwon,
-            checked: Constants.myArea.contains(CampArea.gangwon),
-            child: Text(
-              CampArea.gangwon.toAreaString(),
-            ),
-          ),
-        ];
-      },
-      onSelected: (area) => onSelected(area),
+      onPressed: showAreaFilterDialog,
     );
+
+    // return PopupMenuButton<CampArea>(
+    //   tooltip: "notification_filter_region".tr(),
+    //   color: Colors.lightGreen[50],
+    //   child: Row(children: [
+    //     const Text("이거 보이냥아아"),
+    //     const SizedBox(width: 10),
+    //     const Icon(Icons.filter_list_rounded)
+    //   ]),
+    //   itemBuilder: (context) {
+    //     return [
+    //       for (final area in CampArea.values)
+    //         CheckedPopupMenuItem(
+    //           value: area,
+    //           checked: Constants.myArea.contains(area),
+    //           child: Text(
+    //             area.toAreaString(),
+    //           ),
+    //         ),
+    //     ];
+    //   },
+    //   onSelected: (area) => onSelected(area),
+    // );
   }
 
   static void onSelected(CampArea area) async {
     final HomeController c = Get.find();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    switch (area) {
-      case CampArea.all:
-        Constants.myArea.clear();
-        prefs.setInt(MY_AREA_BIT_KEY, 0);
-        break;
-      default:
-        if (Constants.myArea.contains(area)) {
-          Constants.myArea.remove(area);
-        } else {
-          Constants.myArea.add(area);
-        }
+    if (Constants.myArea.contains(area)) {
+      Constants.myArea.remove(area);
+    } else {
+      Constants.myArea.add(area);
+    }
 
-        if (Constants.myArea.length > 0) {
-          final bit = toAreaBit(Constants.myArea);
-          prefs.setInt(MY_AREA_BIT_KEY, bit);
-        } else {
-          prefs.setInt(MY_AREA_BIT_KEY, 0);
-        }
-
-        break;
+    if (Constants.myArea.length > 0) {
+      final bit = toAreaBit(Constants.myArea);
+      prefs.setInt(MY_AREA_BIT_KEY, bit);
+    } else {
+      prefs.setInt(MY_AREA_BIT_KEY, 0);
     }
 
     c.reload();
@@ -254,19 +214,19 @@ class GPCAppBar extends AppBar {
     if (!Constants.user.value.isLogin) {
       showRequiredLoginAlert();
     } else {
-      Get.to(CampListPage(isFavoritePage: true));
+      Get.toNamed("/camp/list", parameters: {"is_favorite": "true"});
     }
   }
 
   static void _gotoPushPage() {
-    Get.to(PushPromotionPage());
+    Get.toNamed("/promotion");
   }
 
   static void _gotoAccountPage() {
     if (!Constants.user.value.isLogin) {
       showRequiredLoginAlert();
     } else {
-      Get.to(UserInfoPage());
+      Get.toNamed("/myinfo");
     }
   }
 }

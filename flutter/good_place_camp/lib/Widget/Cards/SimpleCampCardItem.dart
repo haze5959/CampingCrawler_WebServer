@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:good_place_camp/Constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-// Widgets
-import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
 
 class SimpleCampCardItem extends StatelessWidget {
   final String siteName;
@@ -25,7 +21,7 @@ class SimpleCampCardItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () {
-              Get.to(CampDetailPage(siteName));
+              Get.toNamed("/camp/detail/$siteName");
             },
             splashColor:
                 Get.theme.colorScheme.onSurface.withOpacity(0.12),
