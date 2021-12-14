@@ -12,9 +12,7 @@ import 'package:good_place_camp/Model/CampInfo.dart';
 class CampDetailContoller extends GetxController {
   final String siteName;
 
-  CampDetailContoller({required this.siteName}) {
-    reload();
-  }
+  CampDetailContoller({required this.siteName});
 
   CampInfo? campInfo;
   SiteDateInfo? siteInfo;
@@ -44,7 +42,6 @@ class CampDetailContoller extends GetxController {
     siteInfo = data.camp;
     campInfo = data.info;
     _updateEvents(data.camp, data.holiday);
-
     isFavorite(_checkFavorite());
     isLoading = false;
     update();

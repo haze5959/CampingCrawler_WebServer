@@ -18,7 +18,9 @@ class UserInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<UserInfoController>(builder: (_) {
+    return GetBuilder<UserInfoController>(
+      init: c,
+      builder: (_) {
       return Scaffold(
           appBar: AppBar(
             title: const Text("mypage").tr(),

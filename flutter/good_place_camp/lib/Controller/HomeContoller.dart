@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
-import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
+import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:good_place_camp/Model/SiteInfo.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Model/Post.dart';
@@ -23,7 +22,6 @@ class HomeController extends GetxController {
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
   Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
 
-  List<CampSimpleInfo> allCampInfo = <CampSimpleInfo>[];
   // 해당 지역의 캠핑장 리스트
   List<CampSimpleInfo> accpetedCampInfo = <CampSimpleInfo>[];
 
@@ -50,16 +48,6 @@ class HomeController extends GetxController {
     final areaBit = prefs.getInt(MY_AREA_BIT_KEY) ?? 0;
     final myArea = fromBit(areaBit);
     Constants.myArea = myArea.obs;
-
-    final res = await ApiRepo.site.getAllSiteJson();
-    if (!res.result) {
-      showServerErrorAlert(res.msg, false);
-      return;
-    }
-
-    final data = res.data!;
-    allCampInfo = data;
-    Constants.campInfoMap = toCampInfoMap(data);
 
     reload();
   }
@@ -154,11 +142,12 @@ class HomeController extends GetxController {
   }
 
   void _updateAccpetedCampInfo() {
+    final allInfo = Constants.campInfoMap.values.toList();
     if (Constants.myArea.isEmpty) {
-      accpetedCampInfo = allCampInfo;
+      accpetedCampInfo = allInfo;
     } else {
       accpetedCampInfo.clear();
-      for (final info in allCampInfo) {
+      for (final info in allInfo) {
         if (Constants.myArea.contains(fromAreaInt(info.areaBit))) {
           accpetedCampInfo.add(info);
         }

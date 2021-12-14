@@ -6,6 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
 import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
+import 'package:good_place_camp/Repository/ApiRepository.dart';
+import 'package:good_place_camp/Utils/OQDialog.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/HomePage.dart';
@@ -16,6 +18,9 @@ import 'package:good_place_camp/Widget/Pages/PostWritePage.dart';
 import 'package:good_place_camp/Widget/Pages/PushPromotionPage.dart';
 import 'package:good_place_camp/Widget/Pages/PushSettingPage.dart';
 import 'package:good_place_camp/Widget/Pages/UserInfoPage.dart';
+
+// Model
+import 'package:good_place_camp/Model/CampInfo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +36,15 @@ void main() async {
 class Home extends StatelessWidget {
   Future<void> _initApp() async {
     await Firebase.initializeApp();
+
+    final res = await ApiRepo.site.getAllSiteJson();
+    if (!res.result) {
+      showServerErrorAlert(res.msg, false);
+      return;
+    }
+
+    final data = res.data!;
+    Constants.campInfoMap = toCampInfoMap(data);
   }
 
   @override

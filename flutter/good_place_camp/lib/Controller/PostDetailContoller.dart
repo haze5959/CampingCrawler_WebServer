@@ -94,8 +94,13 @@ class PostDetailContoller extends GetxController {
       return;
     }
 
-    final comment = Comment(postId: id, nick: nick, comment: body);
+    final now = DateTime.now();
+    final utcTime =
+        DateTime.utc(now.year, now.month, now.day, now.hour, now.minute);
+    final comment =
+        Comment(postId: id, nick: nick, comment: body, updatedAt: utcTime);
     commentList.insert(0, comment);
+    bodyControler.text = "";
     update();
   }
 

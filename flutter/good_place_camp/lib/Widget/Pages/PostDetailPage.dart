@@ -19,6 +19,18 @@ class PostDetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Row(
+          children: [
+            const BackButton(),
+            const SizedBox(width: 10),
+            IconButton(
+                onPressed: () {
+                  Get.toNamed("/");
+                },
+                icon: const Icon(Icons.home))
+          ],
+        ),
+        leadingWidth: 100,
         title: const Text("board").tr(),
       ),
       body: GetBuilder<PostDetailContoller>(

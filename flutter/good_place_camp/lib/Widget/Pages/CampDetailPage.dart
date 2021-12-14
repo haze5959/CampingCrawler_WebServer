@@ -19,80 +19,90 @@ class CampDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     String siteName = Get.parameters['id'] ?? "";
     final infoJson = Constants.campInfoMap[siteName]!;
+    CampDetailContoller c = CampDetailContoller(siteName: siteName);
 
-    return GetBuilder<CampDetailContoller>(
-        init: CampDetailContoller(siteName: siteName),
-        builder: (c) => Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.lightGreen.shade400,
-                title: Text(infoJson.name,
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                actions: [
-                  IconButton(
-                    tooltip: "favorite".tr(),
-                    icon: Obx(() => c.isFavorite.value
-                        ? Icon(Icons.star, color: Colors.yellow)
-                        : Icon(Icons.star_border_outlined,
-                            color: Colors.white)),
-                    onPressed: c.onClickFavorite,
-                  ),
-                ],
-              ),
-              body: c.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _buildInfoContent(c),
-                          const SizedBox(height: 10),
-                          _buildButtons(c),
-                          const SizedBox(height: 20),
-                          _buildCalender(c),
-                          _buildSelectedInfo(c),
-                          const SizedBox(height: 20),
-                          if (!GetPlatform.isWeb)
-                            SizedBox(
-                                height: CALENDER_WIDTH,
-                                child: GoogleMap(
-                                  mapType: MapType.normal,
-                                  myLocationButtonEnabled: false,
-                                  rotateGesturesEnabled: false,
-                                  scrollGesturesEnabled: false,
-                                  zoomControlsEnabled: false,
-                                  zoomGesturesEnabled: false,
-                                  tiltGesturesEnabled: false,
-                                  onTap: (position) {
-                                    c.launchMap();
-                                  },
-                                  markers: {
-                                    Marker(
-                                      markerId: MarkerId(""),
-                                      position: LatLng(
-                                          c.campInfo!.lat, c.campInfo!.lon),
-                                      infoWindow:
-                                          InfoWindow(title: infoJson.name),
-                                    )
-                                  },
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(
-                                        c.campInfo!.lat, c.campInfo!.lon),
-                                    zoom: 14.0,
-                                  ),
-                                )),
-                          TextButton.icon(
-                            label:
-                                Text(infoJson.name + "dialog_report_msg".tr()),
-                            icon: Icon(Icons.report_gmailerrorred_outlined),
-                            onPressed: () {
-                              showReportAlert("${infoJson.key}", "camp".tr());
-                            },
-                          ),
-                          FooterWidget()
-                        ],
-                      )),
-            ));
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.lightGreen.shade400,
+          leading: Row(
+            children: [
+              const BackButton(),
+              const SizedBox(width: 10),
+              IconButton(
+                  onPressed: () {
+                    Get.toNamed("/");
+                  },
+                  icon: const Icon(Icons.home))
+            ],
+          ),
+          leadingWidth: 100,
+          title: Text(infoJson.name,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          actions: [
+            IconButton(
+              tooltip: "favorite".tr(),
+              icon: Obx(() => c.isFavorite.value
+                  ? Icon(Icons.star, color: Colors.yellow)
+                  : Icon(Icons.star_border_outlined, color: Colors.white)),
+              onPressed: c.onClickFavorite,
+            ),
+          ],
+        ),
+        body: GetBuilder<CampDetailContoller>(
+          init: c,
+          builder: (c) => c.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildInfoContent(c),
+                      const SizedBox(height: 10),
+                      _buildButtons(c),
+                      const SizedBox(height: 20),
+                      _buildCalender(c),
+                      _buildSelectedInfo(c),
+                      const SizedBox(height: 20),
+                      if (!GetPlatform.isWeb)
+                        SizedBox(
+                            height: CALENDER_WIDTH,
+                            child: GoogleMap(
+                              mapType: MapType.normal,
+                              myLocationButtonEnabled: false,
+                              rotateGesturesEnabled: false,
+                              scrollGesturesEnabled: false,
+                              zoomControlsEnabled: false,
+                              zoomGesturesEnabled: false,
+                              tiltGesturesEnabled: false,
+                              onTap: (position) {
+                                c.launchMap();
+                              },
+                              markers: {
+                                Marker(
+                                  markerId: MarkerId(""),
+                                  position:
+                                      LatLng(c.campInfo!.lat, c.campInfo!.lon),
+                                  infoWindow: InfoWindow(title: infoJson.name),
+                                )
+                              },
+                              initialCameraPosition: CameraPosition(
+                                target:
+                                    LatLng(c.campInfo!.lat, c.campInfo!.lon),
+                                zoom: 14.0,
+                              ),
+                            )),
+                      TextButton.icon(
+                        label: Text(infoJson.name + "dialog_report_msg".tr()),
+                        icon: Icon(Icons.report_gmailerrorred_outlined),
+                        onPressed: () {
+                          showReportAlert("${infoJson.key}", "camp".tr());
+                        },
+                      ),
+                      FooterWidget()
+                    ],
+                  )),
+        ));
   }
 
   Widget _buildInfoContent(CampDetailContoller c) {

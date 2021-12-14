@@ -45,8 +45,6 @@ String getRemainTime(DateTime time) {
   final povotDate =
       DateTime.utc(now.year, now.month, now.day, now.hour, now.minute);
   final diff = povotDate.difference(time);
-  print(povotDate);
-  print(diff);
   if (diff.inDays > 365) {
     final interval = (diff.inDays / 365).round();
     return "$interval년 전";

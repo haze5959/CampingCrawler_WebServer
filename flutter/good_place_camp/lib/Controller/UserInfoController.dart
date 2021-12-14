@@ -14,7 +14,7 @@ import 'dart:convert';
 class UserInfoController extends GetxController {
   RxList<String> linkedSNS = RxList<String>();
 
-  RxBool isLoading = false.obs;
+  RxBool isLoading = true.obs;
 
   @override
   void onInit() async {
@@ -22,6 +22,7 @@ class UserInfoController extends GetxController {
     final providerList = Constants.user.value.firebaseUser?.providerData;
     linkedSNS.value =
         providerList?.map((info) => info.providerId).toList() ?? [];
+    reload();
   }
 
   void reload() async {

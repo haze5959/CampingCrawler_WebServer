@@ -24,6 +24,7 @@ class PushSettingPage extends StatelessWidget {
         ),
         body: Stack(children: [
           GetBuilder<PushContoller>(
+              init: c,
               builder: (c) => SingleChildScrollView(
                     physics: ClampingScrollPhysics(),
                     child: Center(
