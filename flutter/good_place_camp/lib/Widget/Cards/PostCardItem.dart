@@ -13,30 +13,26 @@ class PostCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: SizedBox(
-        width: CARD_WIDTH,
-        height: CARD_HEIGHT,
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () {
-              if (info.getPostType() == PostType.secret) {
-                if (!Constants.user.value.isLogin) {
-                  showRequiredLoginAlert();
-                } else {
-                  Get.toNamed("/board/detail/${info.id!}",
-                      parameters: {"is_secret": "true"});
-                }
+    return SizedBox(
+      width: CARD_WIDTH,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () {
+            if (info.getPostType() == PostType.secret) {
+              if (!Constants.user.value.isLogin) {
+                showRequiredLoginAlert();
               } else {
-                Get.toNamed("/board/detail/${info.id!}");
+                Get.toNamed("/board/detail/${info.id!}",
+                    parameters: {"is_secret": "true"});
               }
-            },
-            splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
-            highlightColor: Colors.transparent,
-            child: _buildContent(),
-          ),
+            } else {
+              Get.toNamed("/board/detail/${info.id!}");
+            }
+          },
+          splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
+          highlightColor: Colors.transparent,
+          child: _buildContent(),
         ),
       ),
     );

@@ -8,6 +8,7 @@ import 'package:good_place_camp/Controller/PushContoller.dart';
 
 // Models
 import 'package:good_place_camp/Model/CampArea.dart';
+import 'package:good_place_camp/Widget/CommonAppBar.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
@@ -18,10 +19,7 @@ class PushSettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("notification_setting").tr(),
-          actions: [],
-        ),
+        appBar: CommonAppBar(pageName: "notification_setting".tr()),
         body: Stack(children: [
           GetBuilder<PushContoller>(
               init: c,

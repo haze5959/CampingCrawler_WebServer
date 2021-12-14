@@ -9,6 +9,7 @@ import 'package:good_place_camp/Controller/UserInfoController.dart';
 
 // Models
 import 'package:good_place_camp/Model/CampUser.dart';
+import 'package:good_place_camp/Widget/CommonAppBar.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
@@ -19,25 +20,22 @@ class UserInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<UserInfoController>(
-      init: c,
-      builder: (_) {
-      return Scaffold(
-          appBar: AppBar(
-            title: const Text("mypage").tr(),
-            actions: [],
-          ),
-          body: Stack(children: [
-            if (Constants.user.value.isLogin)
-              SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Center(
-                    child: Container(
-                        constraints: const BoxConstraints(maxWidth: 500),
-                        child: _buildInfoContent(Constants.user.value))),
-              ),
-            obxLoadingWidget(c.isLoading)
-          ]));
-    });
+        init: c,
+        builder: (_) {
+          return Scaffold(
+              appBar: CommonAppBar(pageName: "mypage".tr()),
+              body: Stack(children: [
+                if (Constants.user.value.isLogin)
+                  SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: Center(
+                        child: Container(
+                            constraints: const BoxConstraints(maxWidth: 500),
+                            child: _buildInfoContent(Constants.user.value))),
+                  ),
+                obxLoadingWidget(c.isLoading)
+              ]));
+        });
   }
 
   Widget _buildInfoContent(CampUser user) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:good_place_camp/Widget/CommonAppBar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,22 +23,9 @@ class CampDetailPage extends StatelessWidget {
     CampDetailContoller c = CampDetailContoller(siteName: siteName);
 
     return Scaffold(
-        appBar: AppBar(
+        appBar: CommonAppBar(
+          pageName: infoJson.name,
           backgroundColor: Colors.lightGreen.shade400,
-          leading: Row(
-            children: [
-              const BackButton(),
-              const SizedBox(width: 10),
-              IconButton(
-                  onPressed: () {
-                    Get.toNamed("/");
-                  },
-                  icon: const Icon(Icons.home))
-            ],
-          ),
-          leadingWidth: 100,
-          title: Text(infoJson.name,
-              style: TextStyle(fontWeight: FontWeight.bold)),
           actions: [
             IconButton(
               tooltip: "favorite".tr(),

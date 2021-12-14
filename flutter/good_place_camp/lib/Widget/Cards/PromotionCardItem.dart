@@ -5,20 +5,15 @@ import 'package:easy_localization/easy_localization.dart';
 class PromotionCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: SizedBox(
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () {
-              Get.toNamed("/board/write");
-            },
-            splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
-            highlightColor: Colors.transparent,
-            child: _buildContent(),
-          ),
-        ),
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () {
+          Get.toNamed("/board/write");
+        },
+        splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
+        highlightColor: Colors.transparent,
+        child: _buildContent(),
       ),
     );
   }
@@ -46,7 +41,7 @@ class PromotionCardItem extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Container(
                     decoration: const BoxDecoration(
-                        color: Colors.black26,
+                        color: Colors.black54,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),

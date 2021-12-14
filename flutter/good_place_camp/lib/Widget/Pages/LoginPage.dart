@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/LoginController.dart';
+import 'package:good_place_camp/Widget/CommonAppBar.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -11,9 +12,8 @@ class LoginPage extends StatelessWidget {
     final LoginController c = LoginController();
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("login").tr(),
-          actions: [],
+        appBar: CommonAppBar(
+          pageName: "login".tr(),
         ),
         body: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
@@ -31,8 +31,8 @@ class LoginPage extends StatelessWidget {
                                 children: [
                                   Positioned.fill(
                                     child: Ink.image(
-                                      image:
-                                          const AssetImage('assets/Camp_Default.png'),
+                                      image: const AssetImage(
+                                          'assets/Camp_Default.png'),
                                       fit: BoxFit.contain,
                                     ),
                                   ),
@@ -50,9 +50,9 @@ class LoginPage extends StatelessWidget {
                             ),
                             Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 40),
-                                child: const Text(
-                                    "login_promotion",
-                                    textAlign: TextAlign.center).tr()),
+                                child: const Text("login_promotion",
+                                        textAlign: TextAlign.center)
+                                    .tr()),
                             const Divider(
                               thickness: 1,
                               indent: 40,
@@ -67,10 +67,11 @@ class LoginPage extends StatelessWidget {
                                     const AssetImage("assets/ico_google.png"),
                                     size: 16),
                                 label: const Text("login_google",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white,
-                                        fontSize: 16)).tr(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.white,
+                                            fontSize: 16))
+                                    .tr(),
                                 onPressed: () async {
                                   final isSuccess = await c.logInWithGoogle();
                                   if (isSuccess) {
@@ -86,10 +87,11 @@ class LoginPage extends StatelessWidget {
                                     const AssetImage("assets/ico_facebook.png"),
                                     size: 16),
                                 label: const Text("login_facebook",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white,
-                                        fontSize: 16)).tr(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.white,
+                                            fontSize: 16))
+                                    .tr(),
                                 onPressed: () async {
                                   final isSuccess = await c.logInWithFacebook();
                                   if (isSuccess) {
@@ -127,10 +129,11 @@ class LoginPage extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                   label: const Text("login_apple",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.white,
-                                          fontSize: 16)).tr(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.white,
+                                              fontSize: 16))
+                                      .tr(),
                                   onPressed: () async {
                                     final isSuccess = await c.logInWithApple();
                                     if (isSuccess) {

@@ -12,9 +12,6 @@ import 'package:good_place_camp/Widget/Cards/PostCardItem.dart';
 // Controller
 import 'package:good_place_camp/Controller/PostListContoller.dart';
 
-// Model
-import 'package:good_place_camp/Model/Post.dart';
-
 class PostListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,11 +26,16 @@ class PostListPage extends StatelessWidget {
             child: Container(
                 constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Obx(() => Scrollbar(
-                        child: ListView.builder(
+                        child: ListView.separated(
                       itemCount: c.postList.length + 1,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 15,
+                        );
+                      },
                       itemBuilder: (context, index) {
                         if (index < c.postList.length) {
-                          return _buildListCell(c.postList[index]);
+                          return PostCardItem(c.postList[index]);
                         } else {
                           c.fetchPosts();
                           return Center(
@@ -52,11 +54,16 @@ class PostListPage extends StatelessWidget {
             child: Container(
                 constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
                 child: Obx(() => Scrollbar(
-                        child: ListView.builder(
+                        child: ListView.separated(
                       itemCount: c.postList.length + 1,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 15,
+                        );
+                      },
                       itemBuilder: (context, index) {
                         if (index < c.postList.length) {
-                          return _buildListCell(c.postList[index]);
+                          return PostCardItem(c.postList[index]);
                         } else {
                           c.fetchPosts();
                           return Center(
@@ -79,9 +86,5 @@ class PostListPage extends StatelessWidget {
                 }
               }));
     }
-  }
-
-  Widget _buildListCell(Post info) {
-    return PostCardItem(info);
   }
 }

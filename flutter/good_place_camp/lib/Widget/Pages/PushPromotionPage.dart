@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:good_place_camp/Widget/CommonAppBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:good_place_camp/Constants.dart';
 // import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
@@ -10,10 +11,7 @@ class PushPromotionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("app_title".tr() + "notification".tr()),
-          actions: [],
-        ),
+        appBar: CommonAppBar(pageName: "app_title".tr() + "notification".tr()),
         body: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: Center(
@@ -124,7 +122,8 @@ class PushPromotionPage extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
-              icon: const ImageIcon(AssetImage("assets/ico_google.png"), size: 30),
+              icon: const ImageIcon(AssetImage("assets/ico_google.png"),
+                  size: 30),
               label: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Column(
@@ -152,7 +151,8 @@ class PushPromotionPage extends StatelessWidget {
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(primary: Colors.black),
-              icon: const ImageIcon(AssetImage("assets/ico_apple.png"), size: 30),
+              icon:
+                  const ImageIcon(AssetImage("assets/ico_apple.png"), size: 30),
               label: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Column(
@@ -215,7 +215,8 @@ class PushPromotionPage extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(primary: Colors.black),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

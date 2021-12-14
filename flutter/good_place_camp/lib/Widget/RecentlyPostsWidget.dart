@@ -21,7 +21,7 @@ class RecentlyPostsWidget extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
                 child: Row(children: [
                   Text(
                       isNotice
@@ -60,27 +60,39 @@ class RecentlyPostsWidget extends StatelessWidget {
                 ]),
               ),
               Stack(children: [
-                SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
-                    scrollDirection: Axis.horizontal,
-                    physics: const ClampingScrollPhysics(),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          for (final item
-                              in isNotice ? c.noticeList : c.postList)
-                            PostCardItem(item),
-                          IconButton(
-                            iconSize: 50,
-                            color: Colors.lightGreen.shade300,
-                            icon: const Icon(Icons.more_horiz),
-                            onPressed: () {
-                              Get.toNamed("/board/list", parameters: {
-                                "is_notice": isNotice ? "true" : "false"
-                              });
-                            },
-                          )
-                        ])),
+                if (isNotice) ...[
+                  SizedBox(
+                      height: CARD_HEIGHT,
+                      child: ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                          scrollDirection: Axis.horizontal,
+                          physics: const ClampingScrollPhysics(),
+                          itemCount: c.noticeList.length,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              width: 15,
+                            );
+                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            return PostCardItem(c.noticeList[index]);
+                          }))
+                ] else ...[
+                  SizedBox(
+                      height: CARD_HEIGHT,
+                      child: ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                          scrollDirection: Axis.horizontal,
+                          physics: const ClampingScrollPhysics(),
+                          itemCount: c.postList.length,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              width: 15,
+                            );
+                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            return PostCardItem(c.postList[index]);
+                          }))
+                ],
                 SizedBox(
                   child: DecoratedBox(
                     decoration: BoxDecoration(

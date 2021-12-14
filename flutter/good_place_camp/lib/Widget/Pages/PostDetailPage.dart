@@ -9,6 +9,7 @@ import 'package:good_place_camp/Controller/PostDetailContoller.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Comments/CommentWidget.dart';
+import 'package:good_place_camp/Widget/CommonAppBar.dart';
 import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
 
 class PostDetailPage extends StatelessWidget {
@@ -18,21 +19,7 @@ class PostDetailPage extends StatelessWidget {
     final isSecret = Get.parameters['is_secret'] == 'true' ? true : false;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Row(
-          children: [
-            const BackButton(),
-            const SizedBox(width: 10),
-            IconButton(
-                onPressed: () {
-                  Get.toNamed("/");
-                },
-                icon: const Icon(Icons.home))
-          ],
-        ),
-        leadingWidth: 100,
-        title: const Text("board").tr(),
-      ),
+      appBar: CommonAppBar(pageName: "board".tr()),
       body: GetBuilder<PostDetailContoller>(
           init: PostDetailContoller(id: postsId, isSecret: isSecret),
           builder: (c) => c.isLoading

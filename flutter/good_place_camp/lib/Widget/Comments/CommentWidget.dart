@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
@@ -85,22 +86,32 @@ class CommentWriteWidget extends StatelessWidget {
                   color: Colors.blueGrey[50],
                   padding: const EdgeInsets.all(10),
                   child: Row(children: [
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'nick'.tr(),
-                            style: const TextStyle(
-                                color: Colors.lightBlue,
-                                fontWeight: FontWeight.w300,
-                                fontSize: 10),
-                          ),
-                          Text(
-                            nick,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          )
-                        ]),
+                    TextButton(
+                        onPressed: () {
+                          if (Constants.user.value.isLogin) {
+                            Get.toNamed("/myinfo");
+                          } else {
+                            showRequiredLoginAlert();
+                          }
+                        },
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'nick'.tr(),
+                                style: const TextStyle(
+                                    color: Colors.lightBlue,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 10),
+                              ),
+                              Text(
+                                nick,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12),
+                              )
+                            ])),
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () => addHandler(),

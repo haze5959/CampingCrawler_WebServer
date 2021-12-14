@@ -12,22 +12,17 @@ class SimpleCampCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: SizedBox(
-        width: CARD_WIDTH,
-        height: CARD_HEIGHT,
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () {
-              Get.toNamed("/camp/detail/$siteName");
-            },
-            splashColor:
-                Get.theme.colorScheme.onSurface.withOpacity(0.12),
-            highlightColor: Colors.transparent,
-            child: _buildContent(),
-          ),
+    return SizedBox(
+      width: CARD_WIDTH,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () {
+            Get.toNamed("/camp/detail/$siteName");
+          },
+          splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
+          highlightColor: Colors.transparent,
+          child: _buildContent(),
         ),
       ),
     );
@@ -65,7 +60,7 @@ class SimpleCampCardItem extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   decoration: const BoxDecoration(
-                      color: Colors.black26,
+                      color: Colors.black54,
                       borderRadius: const BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.all(5.0),
                   child: Text(

@@ -10,6 +10,7 @@ import 'package:good_place_camp/Controller/PostWriteContoller.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
+import 'package:good_place_camp/Widget/CommonAppBar.dart';
 
 class PostWritePage extends GetView<PostWriteContoller> {
   final children = <int, Widget>{
@@ -23,9 +24,7 @@ class PostWritePage extends GetView<PostWriteContoller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('board_wirte_new').tr(),
-        ),
+        appBar: CommonAppBar(pageName: "board_wirte_new".tr()),
         body: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {

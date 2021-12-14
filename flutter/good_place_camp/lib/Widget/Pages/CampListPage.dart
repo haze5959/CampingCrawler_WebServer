@@ -35,23 +35,37 @@ class CampListPage extends StatelessWidget {
   }
 
   Widget _buildCampList() {
-    final HomeController c = Get.find();
+    Get.put(HomeController());
 
-    return ListView.builder(
-      itemCount: c.siteInfoList.length + 1,
-      itemBuilder: (context, index) {
-        if (index < c.siteInfoList.length) {
-          return TappableCampCardItem(siteInfo: c.siteInfoList[index]);
-        } else {
-          return PromotionCardItem();
-        }
-      },
-    );
+    return GetBuilder<HomeController>(
+        builder: (c) => c.isLoading.value
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.separated(
+                itemCount: c.siteInfoList.length + 1,
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 15,
+                  );
+                },
+                itemBuilder: (context, index) {
+                  if (index < c.siteInfoList.length) {
+                    return TappableCampCardItem(
+                        siteInfo: c.siteInfoList[index]);
+                  } else {
+                    return PromotionCardItem();
+                  }
+                },
+              ));
   }
 
   Widget _buildFavoriteList() {
-    return Obx(() => ListView.builder(
+    return Obx(() => ListView.separated(
           itemCount: Constants.user.value.info.favoriteList?.length ?? 0 + 1,
+          separatorBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              height: 15,
+            );
+          },
           itemBuilder: (context, index) {
             if (index < (Constants.user.value.info.favoriteList?.length ?? 0)) {
               return SimpleCampCardItem(

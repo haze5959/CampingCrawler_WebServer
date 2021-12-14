@@ -38,14 +38,30 @@ class GPCAppBar extends AppBar {
       : super(
             centerTitle: true,
             backgroundColor: Colors.lightGreen.shade400,
+            leading: isMain
+                ? null
+                : Row(
+                    children: [
+                      const BackButton(),
+                      const SizedBox(width: 10),
+                      IconButton(
+                          onPressed: () {
+                            Get.toNamed("/");
+                          },
+                          icon: const Icon(Icons.home))
+                    ],
+                  ),
+            leadingWidth: isMain ? 0 : 100,
             title: Container(
                 alignment: Alignment.center,
                 padding: Constants.isPhoneSize
                     ? EdgeInsets.zero
                     : const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
-                child: Row(children: <Widget>[
-                  if (isMain)
+                // constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
+                child: Row(
+                  mainAxisAlignment:  MainAxisAlignment.center,
+                  children: <Widget>[
+                  if (isMain) ...[
                     IconButton(
                       icon: Image.asset('assets/Camp_Main.png'),
                       iconSize: 35,
@@ -54,110 +70,118 @@ class GPCAppBar extends AppBar {
                         c.reload();
                       },
                     ),
-                  Text(
-                    pageName,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 26),
-                  ),
-                  const Spacer(),
-                  if (Constants.isPhoneSize) ...[
-                    if (showFilter) _buildAreaFilter(),
-                    const SizedBox(width: 20),
-                    PopupMenuButton<GPCAppBarMenu>(
-                      color: Colors.lightGreen[50],
-                      padding: EdgeInsets.zero,
-                      onSelected: (menu) {
-                        switch (menu) {
-                          case GPCAppBarMenu.favorite:
-                            _gotoFavoritePage();
-                            break;
-                          case GPCAppBarMenu.push:
-                            _gotoPushPage();
-                            break;
-                          case GPCAppBarMenu.account:
-                            _gotoAccountPage();
-                            break;
-                          default:
-                        }
-                      },
-                      itemBuilder: (context) => <PopupMenuItem<GPCAppBarMenu>>[
-                        if (Constants.user.value.isLogin)
-                          PopupMenuItem<GPCAppBarMenu>(
-                            enabled: false,
-                            child: const Text("dear").tr(
-                                args: [Constants.user.value.info.nick ?? ""]),
-                          ),
-                        PopupMenuItem<GPCAppBarMenu>(
-                          value: GPCAppBarMenu.favorite,
-                          child: Row(children: [
-                            const Icon(
-                              Icons.star,
-                              color: Colors.lightGreen,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              GPCAppBarMenu.favorite.toTitle(),
-                            )
-                          ]),
-                        ),
-                        PopupMenuItem<GPCAppBarMenu>(
-                          value: GPCAppBarMenu.push,
-                          child: Row(children: [
-                            const Icon(
-                              Icons.notifications,
-                              color: Colors.lightGreen,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              GPCAppBarMenu.push.toTitle(),
-                            )
-                          ]),
-                        ),
-                        PopupMenuItem<GPCAppBarMenu>(
-                          value: GPCAppBarMenu.account,
-                          child: Row(children: [
-                            const Icon(
-                              Icons.account_circle,
-                              color: Colors.lightGreen,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              GPCAppBarMenu.account.toTitle(),
-                            )
-                          ]),
-                        ),
-                      ],
-                    )
+                    Text(
+                      pageName,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 26),
+                    ),
+                    const Spacer()
                   ] else ...[
-                    // 폰사이즈가 아닐 경우
-                    Obx(() => Text(Constants.user.value.isLogin
-                        ? "dear"
-                            .tr(args: [Constants.user.value.info.nick ?? ""])
-                        : "")),
-                    const SizedBox(width: 20),
-                    if (showFilter) _buildAreaFilter(),
-                    if (isMain) ...[
-                      const SizedBox(width: 20),
-                      IconButton(
-                        tooltip: GPCAppBarMenu.favorite.toTitle(),
-                        icon: const Icon(Icons.star),
-                        onPressed: _gotoFavoritePage,
-                      ),
-                      const SizedBox(width: 20),
-                      IconButton(
-                        tooltip: GPCAppBarMenu.push.toTitle(),
-                        icon: const Icon(Icons.notifications),
-                        onPressed: _gotoPushPage,
-                      ),
-                      const SizedBox(width: 20),
-                      IconButton(
-                        tooltip: GPCAppBarMenu.account.toTitle(),
-                        icon: const Icon(Icons.account_circle),
-                        onPressed: _gotoAccountPage,
-                      ),
-                    ]
+                    Text(
+                      pageName,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 26),
+                    )
                   ]
-                ])));
+                ])),
+            actions: [
+              if (Constants.isPhoneSize) ...[
+                if (showFilter) _buildAreaFilter(),
+                const SizedBox(width: 10),
+                PopupMenuButton<GPCAppBarMenu>(
+                  color: Colors.lightGreen[50],
+                  padding: EdgeInsets.zero,
+                  onSelected: (menu) {
+                    switch (menu) {
+                      case GPCAppBarMenu.favorite:
+                        _gotoFavoritePage();
+                        break;
+                      case GPCAppBarMenu.push:
+                        _gotoPushPage();
+                        break;
+                      case GPCAppBarMenu.account:
+                        _gotoAccountPage();
+                        break;
+                      default:
+                    }
+                  },
+                  itemBuilder: (context) => <PopupMenuItem<GPCAppBarMenu>>[
+                    if (Constants.user.value.isLogin)
+                      PopupMenuItem<GPCAppBarMenu>(
+                        enabled: false,
+                        child: const Text("dear")
+                            .tr(args: [Constants.user.value.info.nick ?? ""]),
+                      ),
+                    PopupMenuItem<GPCAppBarMenu>(
+                      value: GPCAppBarMenu.favorite,
+                      child: Row(children: [
+                        const Icon(
+                          Icons.star,
+                          color: Colors.lightGreen,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          GPCAppBarMenu.favorite.toTitle(),
+                        )
+                      ]),
+                    ),
+                    PopupMenuItem<GPCAppBarMenu>(
+                      value: GPCAppBarMenu.push,
+                      child: Row(children: [
+                        const Icon(
+                          Icons.notifications,
+                          color: Colors.lightGreen,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          GPCAppBarMenu.push.toTitle(),
+                        )
+                      ]),
+                    ),
+                    PopupMenuItem<GPCAppBarMenu>(
+                      value: GPCAppBarMenu.account,
+                      child: Row(children: [
+                        const Icon(
+                          Icons.account_circle,
+                          color: Colors.lightGreen,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          GPCAppBarMenu.account.toTitle(),
+                        )
+                      ]),
+                    ),
+                  ],
+                )
+              ] else ...[
+                // 폰사이즈가 아닐 경우
+                Obx(() => Text(Constants.user.value.isLogin
+                    ? "dear".tr(args: [Constants.user.value.info.nick ?? ""])
+                    : "")),
+                const SizedBox(width: 10),
+                if (showFilter) _buildAreaFilter(),
+                if (isMain) ...[
+                  const SizedBox(width: 10),
+                  IconButton(
+                    tooltip: GPCAppBarMenu.favorite.toTitle(),
+                    icon: const Icon(Icons.star),
+                    onPressed: _gotoFavoritePage,
+                  ),
+                  const SizedBox(width: 10),
+                  IconButton(
+                    tooltip: GPCAppBarMenu.push.toTitle(),
+                    icon: const Icon(Icons.notifications),
+                    onPressed: _gotoPushPage,
+                  ),
+                  const SizedBox(width: 10),
+                  IconButton(
+                    tooltip: GPCAppBarMenu.account.toTitle(),
+                    icon: const Icon(Icons.account_circle),
+                    onPressed: _gotoAccountPage,
+                  ),
+                ]
+              ]
+            ]);
 
   static Widget _buildAreaFilter() {
     return IconButton(

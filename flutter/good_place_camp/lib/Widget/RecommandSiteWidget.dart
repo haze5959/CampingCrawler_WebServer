@@ -17,7 +17,7 @@ class RecommandSiteWidget extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: MAX_WIDTH),
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
                 child: Row(children: [
                   const Text("recommend_site",
                           style: TextStyle(
@@ -37,25 +37,23 @@ class RecommandSiteWidget extends StatelessWidget {
                 ]),
               ),
               Stack(children: [
-                SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
-                    scrollDirection: Axis.horizontal,
-                    physics: const ClampingScrollPhysics(),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          for (final widget in _recommandSiteCardWidgets(
-                              c.accpetedCampInfo.map((e) => e.key)))
-                            widget,
-                          IconButton(
-                            iconSize: 50,
-                            color: Colors.lightGreen.shade300,
-                            icon: const Icon(Icons.more_horiz),
-                            onPressed: () {
-                              Get.toNamed("/camp/list");
-                            },
-                          )
-                        ])),
+                SizedBox(
+                    height: CARD_HEIGHT,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      scrollDirection: Axis.horizontal,
+                      physics: const ClampingScrollPhysics(),
+                      itemCount: c.accpetedCampInfo.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          width: 15,
+                        );
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return SimpleCampCardItem(
+                            siteName: c.accpetedCampInfo[index].key);
+                      },
+                    )),
                 SizedBox(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -88,12 +86,5 @@ class RecommandSiteWidget extends StatelessWidget {
                     ))
               ]),
             ])));
-  }
-
-  Iterable<Widget> _recommandSiteCardWidgets(Iterable<String> siteKeys) {
-    var keyList = siteKeys.toList();
-    keyList.shuffle();
-    keyList.length = keyList.length > 5 ? 5 : keyList.length;
-    return keyList.map((key) => SimpleCampCardItem(siteName: key));
   }
 }
