@@ -36,54 +36,36 @@ class GPCAppBar extends AppBar {
   GPCAppBar(
       {required this.pageName, required this.showFilter, this.isMain = false})
       : super(
-            centerTitle: true,
             backgroundColor: Colors.lightGreen.shade400,
+            automaticallyImplyLeading: !isMain,
             leading: isMain
                 ? null
                 : Row(
                     children: [
                       const BackButton(),
                       const SizedBox(width: 10),
-                      IconButton(
-                          onPressed: () {
-                            Get.toNamed("/");
-                          },
-                          icon: const Icon(Icons.home))
+                      homeIcon
                     ],
                   ),
-            leadingWidth: isMain ? 0 : 100,
-            title: Container(
-                alignment: Alignment.center,
-                padding: Constants.isPhoneSize
-                    ? EdgeInsets.zero
-                    : const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                // constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
-                child: Row(
-                  mainAxisAlignment:  MainAxisAlignment.center,
-                  children: <Widget>[
-                  if (isMain) ...[
-                    IconButton(
-                      icon: Image.asset('assets/Camp_Main.png'),
-                      iconSize: 35,
-                      onPressed: () {
-                        final HomeController c = Get.find();
-                        c.reload();
-                      },
-                    ),
-                    Text(
-                      pageName,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 26),
-                    ),
-                    const Spacer()
-                  ] else ...[
-                    Text(
-                      pageName,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 26),
-                    )
-                  ]
-                ])),
+            leadingWidth: isMain ? 0 : 120,
+            title: Row(children: <Widget>[
+              if (isMain) ...[
+                if (!Constants.isPhoneSize) const SizedBox(width: 15),
+                mainIcon,
+                Text(
+                  pageName,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 26),
+                ),
+                const Spacer()
+              ] else ...[
+                Text(
+                  pageName,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 26),
+                )
+              ]
+            ]),
             actions: [
               if (Constants.isPhoneSize) ...[
                 if (showFilter) _buildAreaFilter(),
@@ -179,6 +161,7 @@ class GPCAppBar extends AppBar {
                     icon: const Icon(Icons.account_circle),
                     onPressed: _gotoAccountPage,
                   ),
+                  const SizedBox(width: 15),
                 ]
               ]
             ]);
@@ -253,4 +236,21 @@ class GPCAppBar extends AppBar {
       Get.toNamed("/myinfo");
     }
   }
+
+  static IconButton mainIcon = IconButton(
+    icon: Image.asset('assets/Camp_Main.png'),
+    iconSize: 35,
+    onPressed: () {
+      final HomeController c = Get.find();
+      c.reload();
+    },
+  );
+
+  static IconButton homeIcon = IconButton(
+    icon: Image.asset('assets/Camp_Main.png'),
+    iconSize: 35,
+    onPressed: () {
+      Get.toNamed("/");
+    },
+  );
 }
