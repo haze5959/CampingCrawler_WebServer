@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Widgets
@@ -19,10 +18,9 @@ class RecommandSiteWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
                 child: Row(children: [
-                  const Text("recommend_site",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 26))
-                      .tr(),
+                  Text("recommend_site".tr,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 26)),
                   const SizedBox(width: 10),
                   FloatingActionButton(
                     heroTag: "RecommandSite",

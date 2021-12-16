@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Widget/CommonAppBar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
@@ -28,7 +27,7 @@ class CampDetailPage extends StatelessWidget {
           backgroundColor: Colors.lightGreen.shade400,
           actions: [
             IconButton(
-              tooltip: "favorite".tr(),
+              tooltip: "favorite".tr,
               icon: Obx(() => c.isFavorite.value
                   ? Icon(Icons.star, color: Colors.yellow)
                   : Icon(Icons.star_border_outlined, color: Colors.white)),
@@ -81,10 +80,10 @@ class CampDetailPage extends StatelessWidget {
                               ),
                             )),
                       TextButton.icon(
-                        label: Text(infoJson.name + "dialog_report_msg".tr()),
+                        label: Text(infoJson.name + "dialog_report_msg".tr),
                         icon: Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
-                          showReportAlert("${infoJson.key}", "camp".tr());
+                          showReportAlert("${infoJson.key}", "camp".tr);
                         },
                       ),
                       FooterWidget()
@@ -154,18 +153,18 @@ class CampDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Tooltip(
-                      message: "camp_info_1".tr(),
+                      message: "camp_info_1".tr,
                       child: Text(
-                        "camp_collect_time".tr() +
+                        "camp_collect_time".tr +
                             " - ${remainTime(c.siteInfo!.updatedDate)}",
                         style: addrStyle,
                       ),
                     ),
                     const SizedBox(height: 3),
                     Tooltip(
-                        message: "camp_info_2".tr(),
+                        message: "camp_info_2".tr,
                         child: Text(
-                          "camp_reservation_open".tr() +
+                          "camp_reservation_open".tr +
                               " - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
                           style: addrStyle,
                         )),
@@ -207,7 +206,7 @@ class CampDetailPage extends StatelessWidget {
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
           icon: const Icon(Icons.home, size: 18),
-          label: const Text("homepage").tr(),
+          label: Text("homepage".tr),
           onPressed: () {
             c.launchHomepageURL();
           },
@@ -216,7 +215,7 @@ class CampDetailPage extends StatelessWidget {
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
           icon: const Icon(Icons.calendar_today, size: 18),
-          label: const Text("reservation_site").tr(),
+          label: Text("reservation_site".tr),
           onPressed: () {
             c.launchReservationURL();
           },
@@ -229,7 +228,7 @@ class CampDetailPage extends StatelessWidget {
     return Container(
         constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
         child: TableCalendar(
-          locale: "ko",
+          locale: 'ko_KR',
           focusedDay: DateTime.now(),
           firstDay: DateTime.now(),
           lastDay: addMonths(DateTime.now(), 3),

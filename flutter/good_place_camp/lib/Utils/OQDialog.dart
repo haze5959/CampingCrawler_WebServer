@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
+import 'package:good_place_camp/Controller/HomeContoller.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
@@ -11,6 +11,7 @@ import 'package:good_place_camp/Widget/Pages/LoginPage.dart';
 
 // Model
 import 'package:good_place_camp/Model/CampArea.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
   showDialog(
@@ -43,7 +44,7 @@ void showTwoBtnAlert(String msg, String btnText, Function() confirmAction) {
           ),
           actions: [
             TextButton(
-              child: const Text("cancel").tr(),
+              child: Text("cancel".tr),
               onPressed: () {
                 Get.back();
               },
@@ -66,33 +67,33 @@ void showServerErrorAlert(String msg, bool isBack) {
   switch (msg) {
     case "server_error":
     case "param_fail":
-      errMsg = "server_error".tr();
+      errMsg = "server_error".tr;
       break;
     case "auth_fail":
-      errMsg = "auth_error".tr();
-      showOneBtnAlert(errMsg, "confirm".tr(), () {
+      errMsg = "auth_error".tr;
+      showOneBtnAlert(errMsg, "confirm".tr, () {
         Get.toNamed("/login");
       });
       return;
     case "not_exist":
-      errMsg = "not_exist_error".tr();
+      errMsg = "not_exist_error".tr;
       break;
     case "already_exist":
-      errMsg = "already_exist_error".tr();
+      errMsg = "already_exist_error".tr;
       break;
     case "not_excute":
-      errMsg = "not_excute_error".tr();
+      errMsg = "not_excute_error".tr;
       break;
     case "sign_up_fail":
-      errMsg = "sign_up_error".tr();
+      errMsg = "sign_up_error".tr;
       break;
     default:
       print("Unknown error!!!");
-      errMsg = "server_error".tr();
+      errMsg = "server_error".tr;
       break;
   }
 
-  showOneBtnAlert(errMsg, "confirm".tr(), () {
+  showOneBtnAlert(errMsg, "confirm".tr, () {
     if (isBack) {
       Get.back();
     }
@@ -129,21 +130,21 @@ void showPwAlert(String msg, Function(String pw) confirmAction) {
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   decoration: InputDecoration(
-                      hintText: "dialog_pw_rules".tr(),
-                      labelText: 'password'.tr(),
+                      hintText: "dialog_pw_rules".tr,
+                      labelText: 'password'.tr,
                       errorText:
-                          hasErr.value ? "dialog_pw_rules_msg".tr() : null),
+                          hasErr.value ? "dialog_pw_rules_msg".tr : null),
                 ))
           ]),
           actions: [
             TextButton(
-              child: const Text("cancel").tr(),
+              child: Text("cancel".tr),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: const Text("confirm").tr(),
+              child: Text("confirm".tr),
               onPressed: () {
                 if (_validatePassword()) {
                   Get.back();
@@ -174,27 +175,28 @@ void showReportAlert(String id, String type) {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            "dialog_report_id".tr(args: [id]),
+            "dialog_report_id".trParams({"id": id}),
             style: const TextStyle(color: Colors.grey, fontSize: 12),
           ),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
             Obx(() => TextField(
                   controller: bodyControler,
                   decoration: InputDecoration(
-                      hintText: "dialog_report_hint".tr(args: [type]) + "...",
-                      labelText: "dialog_report_hint".tr(args: [type]),
-                      errorText: hasErr.value ? "no_contents".tr() : null),
+                      hintText:
+                          "dialog_report_hint".trParams({"id": type}) + "...",
+                      labelText: "dialog_report_hint".trParams({"id": type}),
+                      errorText: hasErr.value ? "no_contents".tr : null),
                 ))
           ]),
           actions: [
             TextButton(
-              child: const Text("cancel").tr(),
+              child: Text("cancel".tr),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: const Text("confirm").tr(),
+              child: Text("confirm".tr),
               onPressed: () async {
                 if (_validateText()) {
                   final res =
@@ -207,7 +209,7 @@ void showReportAlert(String id, String type) {
                   Get.back();
 
                   showOneBtnAlert(
-                      "dialog_report_confirm".tr(), "cancel".tr(), () {});
+                      "dialog_report_confirm".tr, "cancel".tr, () {});
                 }
               },
             )
@@ -221,18 +223,18 @@ void showRequiredLoginAlert() {
       context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: const Text(
-            "required_login",
-          ).tr(),
+          content: Text(
+            "required_login".tr,
+          ),
           actions: [
             TextButton(
-              child: const Text("cancel").tr(),
+              child: Text("cancel".tr),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: const Text("login_start").tr(),
+              child: Text("login_start".tr),
               onPressed: () {
                 Get.off(LoginPage());
               },
@@ -254,53 +256,45 @@ void showRatingInfoAlert() {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(
                     width: cellWidth,
-                    child: const Text("dialog_grade",
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 14,
-                                color: Colors.black54))
-                        .tr()),
+                    child: Text("dialog_grade".tr,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            color: Colors.black54))),
                 SizedBox(
                     width: cellWidth,
-                    child: const Text("dialog_condition",
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 14,
-                                color: Colors.black54))
-                        .tr())
+                    child: Text("dialog_condition".tr,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            color: Colors.black54)))
               ]),
               const Divider(thickness: 1),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level01.getLevelText())),
-                SizedBox(
-                    width: cellWidth,
-                    child: const Text("dialog_condition_1").tr())
+                SizedBox(width: cellWidth, child: Text("dialog_condition_1".tr))
               ]),
               const SizedBox(height: 10),
               Row(children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level02.getLevelText())),
-                SizedBox(
-                    width: cellWidth,
-                    child: const Text("dialog_condition_2").tr())
+                SizedBox(width: cellWidth, child: Text("dialog_condition_2".tr))
               ]),
               SizedBox(height: 10),
               Row(children: [
                 SizedBox(
                     width: cellWidth,
                     child: Text(CampRating.level03.getLevelText())),
-                SizedBox(
-                    width: cellWidth,
-                    child: const Text("dialog_condition_3").tr())
+                SizedBox(width: cellWidth, child: Text("dialog_condition_3".tr))
               ]),
             ],
           ),
           actions: [
             TextButton(
-              child: const Text("confirm").tr(),
+              child: Text("confirm".tr),
               onPressed: () {
                 Get.back();
               },
@@ -315,20 +309,20 @@ void showChangeNickAlert() {
 
   RxBool hasErr = false.obs;
 
-  RxString errText = "no_contents".tr().obs;
+  RxString errText = "no_contents".tr.obs;
 
   bool _validateText() {
     if (bodyControler.text.length == 0) {
-      errText.value = "no_contents".tr();
+      errText.value = "no_contents".tr;
       hasErr.value = true;
       return false;
     } else if (bodyControler.text.length > 10) {
-      errText.value = "login_condition_1".tr();
+      errText.value = "login_condition_1".tr;
       hasErr.value = true;
       return false;
     } else if (bodyControler.text
         .contains(new RegExp(r'[!@#$%^&*(),.?":{}|<> ]'))) {
-      errText.value = "login_condition_2".tr();
+      errText.value = "login_condition_2".tr;
       hasErr.value = true;
       return false;
     }
@@ -346,20 +340,20 @@ void showChangeNickAlert() {
             Obx(() => TextField(
                   controller: bodyControler,
                   decoration: InputDecoration(
-                      hintText: "nick".tr() + "...",
-                      labelText: 'nick'.tr(),
+                      hintText: "nick".tr + "...",
+                      labelText: 'nick'.tr,
                       errorText: hasErr.value ? errText.value : null),
                 ))
           ]),
           actions: [
             TextButton(
-              child: const Text("cancel").tr(),
+              child: Text("cancel".tr),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: const Text("dialog_setting").tr(),
+              child: Text("dialog_setting".tr),
               onPressed: () async {
                 final token = await Constants.user.value.getToken();
                 if (_validateText() && token != null) {
@@ -373,8 +367,7 @@ void showChangeNickAlert() {
                   Get.back();
                   Constants.user.value.info.nick = bodyControler.text;
 
-                  showOneBtnAlert("dialog_change_complete".tr(), "close".tr(),
-                      () {
+                  showOneBtnAlert("dialog_change_complete".tr, "close".tr, () {
                     Constants.user.refresh();
                   });
                 }
@@ -405,13 +398,13 @@ void showAreaFilterDialog() {
           ]),
           actions: [
             TextButton(
-              child: const Text("cancel").tr(),
+              child: Text("cancel".tr),
               onPressed: () {
                 Get.back();
               },
             ),
             TextButton(
-              child: const Text("confirm").tr(),
+              child: Text("confirm".tr),
               onPressed: () {
                 Get.back();
               },
@@ -419,4 +412,24 @@ void showAreaFilterDialog() {
           ],
         );
       });
+
+  void onSelected(CampArea area) async {
+    final HomeController c = Get.find();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (Constants.myArea.contains(area)) {
+      Constants.myArea.remove(area);
+    } else {
+      Constants.myArea.add(area);
+    }
+
+    if (Constants.myArea.length > 0) {
+      final bit = toAreaBit(Constants.myArea);
+      prefs.setInt(MY_AREA_BIT_KEY, bit);
+    } else {
+      prefs.setInt(MY_AREA_BIT_KEY, 0);
+    }
+
+    c.reload();
+  }
 }

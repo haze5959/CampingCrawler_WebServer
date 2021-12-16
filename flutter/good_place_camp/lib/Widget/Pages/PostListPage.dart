@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Widgets
@@ -21,7 +20,7 @@ class PostListPage extends StatelessWidget {
     if (isNotice) {
       return Scaffold(
           appBar:
-              GPCAppBar(pageName: "board_notice_event".tr(), showFilter: false),
+              GPCAppBar(pageName: "board_notice_event".tr, showFilter: false),
           body: Center(
             child: Container(
                 constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
@@ -40,7 +39,7 @@ class PostListPage extends StatelessWidget {
                           c.fetchPosts();
                           return Center(
                               child: Obx(() => c.isLastPage.value
-                                  ? const Text("board_info_last").tr()
+                                  ? Text("board_info_last".tr)
                                   : const CircularProgressIndicator()));
                         }
                       },
@@ -49,7 +48,7 @@ class PostListPage extends StatelessWidget {
     } else {
       return Scaffold(
           appBar: GPCAppBar(
-              pageName: "board_request_question".tr(), showFilter: false),
+              pageName: "board_request_question".tr, showFilter: false),
           body: Center(
             child: Container(
                 constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
@@ -68,7 +67,7 @@ class PostListPage extends StatelessWidget {
                           c.fetchPosts();
                           return Center(
                               child: Obx(() => c.isLastPage.value
-                                  ? const Text("board_info_last").tr()
+                                  ? Text("board_info_last".tr)
                                   : const CircularProgressIndicator()));
                         }
                       },
@@ -76,7 +75,7 @@ class PostListPage extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
               elevation: 0.0,
-              tooltip: "board_wirte_new".tr(),
+              tooltip: "board_wirte_new".tr,
               child: const Icon(Icons.edit),
               backgroundColor: Colors.lightGreen.shade400,
               onPressed: () async {

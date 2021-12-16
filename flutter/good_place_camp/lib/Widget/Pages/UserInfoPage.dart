@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
@@ -23,7 +22,7 @@ class UserInfoPage extends StatelessWidget {
         init: c,
         builder: (_) {
           return Scaffold(
-              appBar: CommonAppBar(pageName: "mypage".tr()),
+              appBar: CommonAppBar(pageName: "mypage".tr),
               body: Stack(children: [
                 if (Constants.user.value.isLogin)
                   SingleChildScrollView(
@@ -60,12 +59,11 @@ class UserInfoPage extends StatelessWidget {
       children: [
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: const Text("user_info",
-                    style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                        color: Colors.black54))
-                .tr()),
+            child: Text("user_info",
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: Colors.black54))),
         const Divider(
           thickness: 1,
           indent: 20,
@@ -75,10 +73,9 @@ class UserInfoPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(mainAxisSize: MainAxisSize.max, children: [
               // 닉네임 설정
-              const Text("nick",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
-                  .tr(),
+              Text("nick".tr,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 15)),
               const Spacer(),
               OutlinedButton(
                 style: OutlinedButton.styleFrom(primary: Colors.black),
@@ -99,12 +96,11 @@ class UserInfoPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
               // 레벨
-              const Text("dialog_grade",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
-                  .tr(),
+              Text("dialog_grade".tr,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 15)),
               Tooltip(
-                  message: "dialog_grade_auth".tr(),
+                  message: "dialog_grade_auth".tr,
                   child: IconButton(
                     onPressed: () {
                       showRatingInfoAlert();
@@ -115,7 +111,8 @@ class UserInfoPage extends StatelessWidget {
                   )),
               const Spacer(),
               Text(user.info.level?.getLevelText() ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 15))
             ]))
       ],
     );
@@ -127,12 +124,11 @@ class UserInfoPage extends StatelessWidget {
       children: [
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: const Text("subscribe_info",
-                    style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                        color: Colors.black54))
-                .tr()),
+            child: Text("subscribe_info".tr,
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: Colors.black54))),
         const Divider(
           thickness: 1,
           indent: 20,
@@ -143,10 +139,9 @@ class UserInfoPage extends StatelessWidget {
             child: Row(children: [
               // 구독하러가기 or 푸시설정 바로가기
               if (user.info.usePushSubscription ?? false) ...[
-                const Text("subscribe_ing",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15))
-                    .tr(),
+                Text("subscribe_ing".tr,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15)),
                 const Spacer(),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
@@ -156,11 +151,9 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("notification_setting",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                              .tr()
+                          Text("notification_setting".tr,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15))
                         ]),
                   ),
                   onPressed: () async {
@@ -168,10 +161,9 @@ class UserInfoPage extends StatelessWidget {
                   },
                 )
               ] else ...[
-                const Text("subscribe_no_info",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15))
-                    .tr(),
+                Text("subscribe_no_info".tr,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15)),
                 const Spacer(),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.black),
@@ -181,11 +173,9 @@ class UserInfoPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("subscribe_noti",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14))
-                              .tr()
+                          Text("subscribe_noti".tr,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14))
                         ]),
                   ),
                   onPressed: () async {
@@ -204,12 +194,11 @@ class UserInfoPage extends StatelessWidget {
           children: [
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: const Text("login_link_sns",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: Colors.black54))
-                    .tr()),
+                child: Text("login_link_sns".tr,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black54))),
             const Divider(
               thickness: 1,
               indent: 20,
@@ -224,18 +213,16 @@ class UserInfoPage extends StatelessWidget {
                           const AssetImage("assets/ico_google.png"),
                           size: 15,
                           color: Colors.deepOrange[700])),
-                  const Text("login_google_btn",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15))
-                      .tr(),
+                  Text("login_google_btn".tr,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15)),
                   const Spacer(),
                   if (c.linkedSNS.contains("google.com")) ...[
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const Text("login_link_sns_ing",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15))
-                            .tr()),
+                        child: Text("login_link_sns_ing".tr,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
@@ -244,11 +231,10 @@ class UserInfoPage extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("login_unlink_sns",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))
-                                  .tr()
+                              Text("login_unlink_sns".tr,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
                             ]),
                       ),
                       onPressed: () async {
@@ -267,11 +253,10 @@ class UserInfoPage extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("login_link_sns_start",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))
-                                  .tr()
+                              Text("login_link_sns_start".tr,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
                             ]),
                       ),
                       onPressed: () async {
@@ -292,18 +277,16 @@ class UserInfoPage extends StatelessWidget {
                           const AssetImage("assets/ico_facebook.png"),
                           size: 15,
                           color: Colors.blue[700])),
-                  const Text("login_facebook_btn",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15))
-                      .tr(),
+                  Text("login_facebook_btn".tr,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15)),
                   const Spacer(),
                   if (c.linkedSNS.contains("facebook.com")) ...[
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const Text("login_link_sns_ing",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15))
-                            .tr()),
+                        child: Text("login_link_sns_ing".tr,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
@@ -312,11 +295,10 @@ class UserInfoPage extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("login_unlink_sns",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))
-                                  .tr()
+                              Text("login_unlink_sns".tr,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
                             ]),
                       ),
                       onPressed: () async {
@@ -335,11 +317,10 @@ class UserInfoPage extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("login_link_sns_start",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))
-                                  .tr()
+                              Text("login_link_sns_start".tr,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
                             ]),
                       ),
                       onPressed: () async {
@@ -360,18 +341,16 @@ class UserInfoPage extends StatelessWidget {
                           const AssetImage("assets/ico_twitter.png"),
                           size: 15,
                           color: Colors.lightBlue[700])),
-                  const Text("login_twitter_btn",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15))
-                      .tr(),
+                  Text("login_twitter_btn".tr,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15)),
                   const Spacer(),
                   if (c.linkedSNS.contains("twitter.com")) ...[
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const Text("login_link_sns_ing",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15))
-                            .tr()),
+                        child: Text("login_link_sns_ing".tr,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
@@ -380,11 +359,10 @@ class UserInfoPage extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("login_unlink_sns",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))
-                                  .tr()
+                              Text("login_unlink_sns".tr,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
                             ]),
                       ),
                       onPressed: () async {
@@ -403,11 +381,10 @@ class UserInfoPage extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("login_link_sns_start",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))
-                                  .tr()
+                              Text("login_link_sns_start".tr,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
                             ]),
                       ),
                       onPressed: () async {
@@ -426,18 +403,16 @@ class UserInfoPage extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                       child: ImageIcon(const AssetImage("assets/ico_apple.png"),
                           size: 15, color: Colors.black)),
-                  const Text("login_apple_btn",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15))
-                      .tr(),
+                  Text("login_apple_btn".tr,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15)),
                   const Spacer(),
                   if (c.linkedSNS.contains("apple.com")) ...[
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const Text("login_link_sns_ing",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15))
-                            .tr()),
+                        child: Text("login_link_sns_ing".tr,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(primary: Colors.black),
                       child: Padding(
@@ -446,11 +421,10 @@ class UserInfoPage extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("login_unlink_sns",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))
-                                  .tr()
+                              Text("login_unlink_sns".tr,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
                             ]),
                       ),
                       onPressed: () async {
@@ -469,11 +443,10 @@ class UserInfoPage extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("login_link_sns_start",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))
-                                  .tr()
+                              Text("login_link_sns_start".tr,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))
                             ]),
                       ),
                       onPressed: () async {
@@ -494,12 +467,11 @@ class UserInfoPage extends StatelessWidget {
       children: [
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: const Text("etc",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                        color: Colors.black54))
-                .tr()),
+            child: Text("etc".tr,
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: Colors.black54))),
         const Divider(
           thickness: 1,
           indent: 20,
@@ -520,14 +492,13 @@ class UserInfoPage extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("logout",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15))
-                            .tr()
+                        Text("logout".tr,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
                       ]),
                 ),
                 onPressed: () async {
-                  showTwoBtnAlert("login_logout".tr(), "logout".tr(), () {
+                  showTwoBtnAlert("login_logout".tr, "logout".tr, () {
                     Get.back();
                     user.logout();
                   });
@@ -551,20 +522,19 @@ class UserInfoPage extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("login_unregistration",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15))
-                            .tr()
+                        Text("login_unregistration".tr,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
                       ]),
                 ),
                 onPressed: () async {
-                  showTwoBtnAlert("login_unregistration_msg".tr(),
-                      "login_unregistration".tr(), () async {
+                  showTwoBtnAlert(
+                      "login_unregistration_msg".tr, "login_unregistration".tr,
+                      () async {
                     final isSuccess = await user.signout();
                     if (isSuccess) {
                       showOneBtnAlert(
-                          "login_unregistration_complete".tr(), "confirm".tr(),
-                          () {
+                          "login_unregistration_complete".tr, "confirm".tr, () {
                         Get.back();
                       });
                     }

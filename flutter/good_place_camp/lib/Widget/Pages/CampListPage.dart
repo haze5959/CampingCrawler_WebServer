@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Widgets
@@ -22,8 +21,8 @@ class CampListPage extends StatelessWidget {
 
     return Scaffold(
       appBar: isFavoritePage
-          ? GPCAppBar(pageName: "camp_my".tr(), showFilter: false)
-          : GPCAppBar(pageName: "camp".tr(), showFilter: true),
+          ? GPCAppBar(pageName: "camp_my".tr, showFilter: false)
+          : GPCAppBar(pageName: "camp".tr, showFilter: true),
       body: Center(
         child: Container(
             constraints: const BoxConstraints(maxWidth: MAX_WIDTH),

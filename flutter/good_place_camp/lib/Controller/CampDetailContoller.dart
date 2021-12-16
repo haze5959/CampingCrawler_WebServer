@@ -1,5 +1,4 @@
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
@@ -122,7 +121,7 @@ class CampDetailContoller extends GetxController {
       }
 
       Constants.user.value.info.favoriteList?.remove(siteName);
-      showOneBtnAlert("favorite_delete".tr(), "확인", () {
+      showOneBtnAlert("favorite_delete".tr, "확인", () {
         isFavorite(false);
       });
     } else {
@@ -134,7 +133,7 @@ class CampDetailContoller extends GetxController {
       }
 
       Constants.user.value.info.favoriteList?.add(siteName);
-      showOneBtnAlert("favorite_add".tr(), "confirm".tr(), () {
+      showOneBtnAlert("favorite_add".tr, "confirm".tr, () {
         isFavorite(true);
       });
     }
@@ -153,12 +152,12 @@ class CampDetailContoller extends GetxController {
     final info = events[selectDay]?[0];
 
     if (info != null && info.isEmpty) {
-      selectedSiteInfo.value = "camp_detail_no_detail".tr(namedArgs: {
+      selectedSiteInfo.value = "camp_detail_no_detail".trParams({
         'month': selectDay.month.toString(),
         'day': selectDay.day.toString()
       });
     } else {
-      selectedSiteInfo.value = "camp_detail".tr(namedArgs: {
+      selectedSiteInfo.value = "camp_detail".trParams({
         'month': selectDay.month.toString(),
         'day': selectDay.day.toString(),
         'info': info ?? ""

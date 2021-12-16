@@ -1,4 +1,4 @@
-import 'package:get/get.dart' hide Trans;
+import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
 

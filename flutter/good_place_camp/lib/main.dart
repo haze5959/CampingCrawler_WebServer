@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:good_place_camp/Utils/translations/ko-KR.dart';
 import 'package:good_place_camp/Widget/Pages/CampDetailPage.dart';
 import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
@@ -24,13 +25,13 @@ import 'package:good_place_camp/Model/CampInfo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
 
-  runApp(EasyLocalization(
-      supportedLocales: [Locale('ko', 'KR')],
-      path: 'translations',
-      fallbackLocale: Locale('ko', 'KR'),
-      child: Home()));
+  runApp(Home());
+}
+
+class Messages extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {'ko_KR': trJson};
 }
 
 class Home extends StatelessWidget {
@@ -64,9 +65,13 @@ class Home extends StatelessWidget {
           }
 
           return GetMaterialApp(
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
+            translations: Messages(),
+            locale: const Locale('ko', 'KR'),
+            fallbackLocale: const Locale('ko', 'KR'),
+            supportedLocales: [const Locale('ko', 'KR')],
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+            ],
             initialRoute: "/",
             getPages: [
               GetPage(name: "/", page: () => HomePage()),

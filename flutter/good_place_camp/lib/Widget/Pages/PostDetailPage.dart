@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Constants.dart';
 
@@ -19,7 +19,7 @@ class PostDetailPage extends StatelessWidget {
     final isSecret = Get.parameters['is_secret'] == 'true' ? true : false;
 
     return Scaffold(
-      appBar: CommonAppBar(pageName: "board".tr()),
+      appBar: CommonAppBar(pageName: "board".tr),
       body: GetBuilder<PostDetailContoller>(
           init: PostDetailContoller(id: postsId, isSecret: isSecret),
           builder: (c) => c.isLoading
@@ -62,17 +62,18 @@ class PostDetailPage extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: posts.nick == Constants.user.value.info.nick
                     ? IconButton(
-                        tooltip: "dialog_delete".tr(),
+                        tooltip: "dialog_delete".tr,
                         color: Colors.grey,
                         icon: const Icon(Icons.delete),
                         onPressed: () {
                           showTwoBtnAlert(
-                              "dialog_delete_confirm".tr(args: ["boards".tr()]),
-                              "delete".tr(), () async {
+                              "dialog_delete_confirm"
+                                  .trParams({"id": "boards".tr}),
+                              "delete".tr, () async {
                             final isSuccess = await c.deletePosts();
                             if (isSuccess) {
                               showOneBtnAlert(
-                                  "dialog_delete_complete".tr(), "confirm".tr(),
+                                  "dialog_delete_complete".tr, "confirm".tr,
                                   () {
                                 Get.back();
                               });
@@ -81,11 +82,11 @@ class PostDetailPage extends StatelessWidget {
                         },
                       )
                     : IconButton(
-                        tooltip: "dialog_report".tr(),
+                        tooltip: "dialog_report".tr,
                         color: Colors.grey,
                         icon: const Icon(Icons.report_gmailerrorred_outlined),
                         onPressed: () {
-                          showReportAlert("posts_${c.id}", "boards".tr());
+                          showReportAlert("posts_${c.id}", "boards".tr);
                         },
                       ),
               ),
@@ -121,9 +122,9 @@ class PostDetailPage extends StatelessWidget {
               "${posts.title}",
               style: textTheme.headline4,
             ),
-            Text("nick".tr() + ": ${posts.nick}", style: textTheme.subtitle1),
+            Text("nick".tr + ": ${posts.nick}", style: textTheme.subtitle1),
             Text(
-                "create_date".tr() +
+                "create_date".tr +
                     ": ${_getDateStr(posts.updatedTime ?? DateTime.now())}",
                 style: textTheme.caption),
             const Divider(thickness: 1),

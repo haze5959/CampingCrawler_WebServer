@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
@@ -89,9 +88,9 @@ class TappableCampCardItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Tooltip(
-                  message: "camp_info_1".tr(),
+                  message: "camp_info_1".tr,
                   child: Text(
-                    "camp_collect_time".tr() +
+                    "camp_collect_time".tr +
                         " - ${remainTime(siteInfo.updatedDate)}",
                     style: addrStyle,
                   ),
@@ -147,9 +146,9 @@ class TappableReservationInfoCardItem extends StatelessWidget {
             style: titleStyle,
           ),
           Tooltip(
-            message: "camp_info_2".tr(),
+            message: "camp_info_2".tr,
             child: Text(
-              "camp_reservation_open".tr() +
+              "camp_reservation_open".tr +
                   " - ${getReservationOpenStr(info.desc)}",
               style: addrStyle,
             ),

@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Cards
@@ -42,11 +41,12 @@ class BottomSheetContent extends StatelessWidget {
                       child: Column(children: [
                         Row(children: <Widget>[
                           OutlinedButton.icon(
-                            icon: const Icon(Icons.chevron_left_outlined, size: 18),
+                            icon: const Icon(Icons.chevron_left_outlined,
+                                size: 18),
                             label: Text(
                               "${DateFormat("MM-dd (EEE)", 'ko_KR').format(_currentDate.value.add(Duration(days: -1)))}",
-                              style:
-                                  const TextStyle(color: Colors.black, fontSize: 12),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 12),
                             ),
                             onPressed: () {
                               _currentDate.value =
@@ -59,10 +59,11 @@ class BottomSheetContent extends StatelessWidget {
                           OutlinedButton.icon(
                             icon: Text(
                               "${DateFormat("MM-dd (EEE)", 'ko_KR').format(_currentDate.value.add(Duration(days: 1)))}",
-                              style:
-                                  const TextStyle(color: Colors.black, fontSize: 12),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 12),
                             ),
-                            label: const Icon(Icons.chevron_right_outlined, size: 18),
+                            label: const Icon(Icons.chevron_right_outlined,
+                                size: 18),
                             onPressed: () {
                               _currentDate.value =
                                   _currentDate.value.add(Duration(days: 1));
@@ -76,12 +77,12 @@ class BottomSheetContent extends StatelessWidget {
                               size: Constants.isPhoneSize ? 10 : 15),
                           const SizedBox(width: 3),
                           Text(
-                            "camp_info_1",
+                            "camp_info_1".tr,
                             style: TextStyle(
                                 fontSize: Constants.isPhoneSize ? 10 : 15,
                                 color: Colors.grey),
                             overflow: TextOverflow.ellipsis,
-                          ).tr(),
+                          ),
                         ]),
                       ])),
                   const Divider(thickness: 1),
@@ -91,9 +92,10 @@ class BottomSheetContent extends StatelessWidget {
                         child: ListView(children: [
                           if (reservationInfoList.length > 0) ...[
                             Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 30),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
                                 child: Text(
-                                    "camp_next_open".tr() +
+                                    "camp_next_open".tr +
                                         "(${reservationInfoList.length})",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -111,9 +113,10 @@ class BottomSheetContent extends StatelessWidget {
                           ],
                           if (siteInfoList.length > 0) ...[
                             Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 30),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
                                 child: Text(
-                                    "camp_avail_reservation".tr() +
+                                    "camp_avail_reservation".tr +
                                         "(${siteInfoList.length})",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,

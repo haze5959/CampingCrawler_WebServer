@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
 import 'package:good_place_camp/Constants.dart';
@@ -37,7 +36,7 @@ class CommentWidget extends StatelessWidget {
                     const Spacer(),
                     if (comment.nick == Constants.user.value.info.nick)
                       IconButton(
-                        tooltip: "dialog_delete".tr(),
+                        tooltip: "dialog_delete".tr,
                         color: Colors.grey,
                         icon: const Icon(Icons.delete),
                         iconSize: 20,
@@ -45,13 +44,13 @@ class CommentWidget extends StatelessWidget {
                       )
                     else
                       IconButton(
-                        tooltip: "dialog_report".tr(),
+                        tooltip: "dialog_report".tr,
                         color: Colors.grey,
                         icon: const Icon(Icons.report_gmailerrorred_outlined),
                         iconSize: 20,
                         onPressed: () {
                           showReportAlert(
-                              "comment_${comment.id}", "comment".tr());
+                              "comment_${comment.id}", "comment".tr);
                         },
                       )
                   ])),
@@ -98,7 +97,7 @@ class CommentWriteWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'nick'.tr(),
+                                'nick'.tr,
                                 style: const TextStyle(
                                     color: Colors.lightBlue,
                                     fontWeight: FontWeight.w300,
@@ -115,7 +114,7 @@ class CommentWriteWidget extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () => addHandler(),
-                      child: Text("dialog_registration").tr(),
+                      child: Text("dialog_registration".tr),
                     )
                   ])),
               Container(color: Colors.black12, height: 1),
@@ -126,8 +125,8 @@ class CommentWriteWidget extends StatelessWidget {
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     decoration: InputDecoration(
-                        hintText: 'comment'.tr() + "...",
-                        labelText: 'comment'.tr()),
+                        hintText: 'comment'.tr + "...",
+                        labelText: 'comment'.tr),
                   ))
             ])));
   }

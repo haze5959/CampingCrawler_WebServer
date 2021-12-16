@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 
 class PromotionCardItem extends StatelessWidget {
   @override
@@ -45,12 +44,11 @@ class PromotionCardItem extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.all(5.0),
-                    child: const Text("promotion_msg_1",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20))
-                        .tr(),
+                    child: Text("promotion_msg_1".tr,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20)),
                   ),
                 ),
               ),
@@ -63,10 +61,9 @@ class PromotionCardItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text("promotion_msg_2",
-                      maxLines: 2,
-                      style: const TextStyle(color: Colors.black, fontSize: 14))
-                  .tr()
+              Text("promotion_msg_2".tr,
+                  maxLines: 2,
+                  style: const TextStyle(color: Colors.black, fontSize: 14))
             ],
           ),
         ),

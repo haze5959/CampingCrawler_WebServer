@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
@@ -54,7 +53,7 @@ class CalenderWidget extends StatelessWidget {
                                 child: Container(
                                     width: CALENDER_WIDTH,
                                     child: TableCalendar(
-                                      locale: "ko-KR",
+                                      locale: "ko_KR",
                                       focusedDay:
                                           addMonths(DateTime.now(), index),
                                       firstDay: _getFirstDay(index),
@@ -131,7 +130,7 @@ class CalenderWidget extends StatelessWidget {
                               child: Container(
                                   width: CALENDER_WIDTH,
                                   child: TableCalendar(
-                                    locale: "ko-KR",
+                                    locale: "ko_KR",
                                     focusedDay:
                                         addMonths(DateTime.now(), index),
                                     firstDay: _getFirstDay(index),
@@ -299,16 +298,15 @@ class CalenderWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 5),
-                  const Text("camp_next_open_indicator",
-                      style: TextStyle(
+                  Text("camp_next_open_indicator".tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
-                      )).tr(),
+                      )),
                 ],
               ),
               onPressed: () {
-                showOneBtnAlert(
-                    "camp_next_open_msg".tr(), "confirm".tr(), () {});
+                showOneBtnAlert("camp_next_open_msg".tr, "confirm".tr, () {});
               },
             ),
             const SizedBox(width: 10),
@@ -332,15 +330,15 @@ class CalenderWidget extends StatelessWidget {
                         ),
                       )),
                   const SizedBox(width: 5),
-                  const Text("camp_avail_reservation_indicator",
+                  Text("camp_avail_reservation_indicator".tr,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
-                      )).tr()
+                      ))
                 ]),
                 onPressed: () {
                   showOneBtnAlert(
-                      "camp_avail_reservation_msg".tr(), "confirm".tr(), () {});
+                      "camp_avail_reservation_msg".tr, "confirm".tr, () {});
                 })
           ],
         ));

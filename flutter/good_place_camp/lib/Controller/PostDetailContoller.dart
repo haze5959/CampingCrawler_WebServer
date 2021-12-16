@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
@@ -15,7 +14,7 @@ class PostDetailContoller extends GetxController {
 
   final String nick = Constants.user.value.isLogin
       ? Constants.user.value.info.nick!
-      : "default_nick".tr();
+      : "default_nick".tr;
 
   PostDetailContoller({required this.id, this.isSecret = false}) {
     reload();
@@ -80,7 +79,7 @@ class PostDetailContoller extends GetxController {
   void commentAddHandler() async {
     final body = bodyControler.text;
     if (body.length == 0) {
-      showOneBtnAlert("no_contents".tr(), "confirm".tr(), () {});
+      showOneBtnAlert("no_contents".tr, "confirm".tr, () {});
       return;
     }
 
@@ -106,7 +105,7 @@ class PostDetailContoller extends GetxController {
 
   void commentRemoveHandler(Comment comment) {
     showTwoBtnAlert(
-        "dialog_delete_confirm".tr(args: ["comment".tr()]), "delete".tr(),
+        "dialog_delete_confirm".trParams({"id": "comment".tr}), "delete".tr,
         () async {
       final token = await Constants.user.value.getToken();
       if (token != null) {
@@ -116,7 +115,7 @@ class PostDetailContoller extends GetxController {
           return;
         }
 
-        showOneBtnAlert("dialog_delete_complete".tr(), "confirm".tr(), () {
+        showOneBtnAlert("dialog_delete_complete".tr, "confirm".tr, () {
           commentList.remove(comment);
           update();
         });

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,11 +16,11 @@ extension GPCAppBarMenuParse on GPCAppBarMenu {
   String toTitle() {
     switch (this) {
       case GPCAppBarMenu.favorite:
-        return "favorite".tr();
+        return "favorite".tr;
       case GPCAppBarMenu.push:
-        return "notification_setting".tr();
+        return "notification_setting".tr;
       case GPCAppBarMenu.account:
-        return "user_info".tr();
+        return "user_info".tr;
       default:
         return "";
     }
@@ -91,8 +90,8 @@ class GPCAppBar extends AppBar {
                     if (Constants.user.value.isLogin)
                       PopupMenuItem<GPCAppBarMenu>(
                         enabled: false,
-                        child: const Text("dear")
-                            .tr(args: [Constants.user.value.info.nick ?? ""]),
+                        child: Text("dear".trParams(
+                            {"dear": Constants.user.value.info.nick ?? ""})),
                       ),
                     PopupMenuItem<GPCAppBarMenu>(
                       value: GPCAppBarMenu.favorite,
@@ -138,7 +137,8 @@ class GPCAppBar extends AppBar {
               ] else ...[
                 // 폰사이즈가 아닐 경우
                 Obx(() => Text(Constants.user.value.isLogin
-                    ? "dear".tr(args: [Constants.user.value.info.nick ?? ""])
+                    ? "dear".trParams(
+                        {"dear": Constants.user.value.info.nick ?? ""})
                     : "")),
                 const SizedBox(width: 10),
                 if (showFilter) _buildAreaFilter(),
@@ -168,53 +168,10 @@ class GPCAppBar extends AppBar {
 
   static Widget _buildAreaFilter() {
     return IconButton(
-      tooltip: "notification_filter_region".tr(),
+      tooltip: "notification_filter_region".tr,
       icon: const Icon(Icons.filter_list_rounded),
       onPressed: showAreaFilterDialog,
     );
-
-    // return PopupMenuButton<CampArea>(
-    //   tooltip: "notification_filter_region".tr(),
-    //   color: Colors.lightGreen[50],
-    //   child: Row(children: [
-    //     const Text("이거 보이냥아아"),
-    //     const SizedBox(width: 10),
-    //     const Icon(Icons.filter_list_rounded)
-    //   ]),
-    //   itemBuilder: (context) {
-    //     return [
-    //       for (final area in CampArea.values)
-    //         CheckedPopupMenuItem(
-    //           value: area,
-    //           checked: Constants.myArea.contains(area),
-    //           child: Text(
-    //             area.toAreaString(),
-    //           ),
-    //         ),
-    //     ];
-    //   },
-    //   onSelected: (area) => onSelected(area),
-    // );
-  }
-
-  static void onSelected(CampArea area) async {
-    final HomeController c = Get.find();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    if (Constants.myArea.contains(area)) {
-      Constants.myArea.remove(area);
-    } else {
-      Constants.myArea.add(area);
-    }
-
-    if (Constants.myArea.length > 0) {
-      final bit = toAreaBit(Constants.myArea);
-      prefs.setInt(MY_AREA_BIT_KEY, bit);
-    } else {
-      prefs.setInt(MY_AREA_BIT_KEY, 0);
-    }
-
-    c.reload();
   }
 
   static void _gotoFavoritePage() {

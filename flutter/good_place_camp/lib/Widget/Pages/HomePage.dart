@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Widgets
@@ -24,8 +23,8 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
   Widget build(context) {
     Constants.isPhoneSize = context.mediaQuerySize.width < MAX_WIDTH;
     return Scaffold(
-        appBar: GPCAppBar(
-            pageName: 'app_title'.tr(), showFilter: true, isMain: true),
+        appBar:
+            GPCAppBar(pageName: 'app_title'.tr, showFilter: true, isMain: true),
         body: Center(
             child: Stack(children: [
           RefreshIndicator(
@@ -71,18 +70,16 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
         constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
         alignment: Alignment.centerLeft,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text("home_title_1",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 40))
-              .tr(),
-          const Text("home_title_2",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 18))
-              .tr(),
+          Text("home_title_1".tr,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 40)),
+          Text("home_title_2".tr,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 18)),
         ]));
   }
 }

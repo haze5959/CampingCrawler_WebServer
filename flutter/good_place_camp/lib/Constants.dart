@@ -1,4 +1,4 @@
-import 'package:get/get.dart' hide Trans;
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // Model
@@ -12,11 +12,6 @@ const double CALENDER_WIDTH = 320;
 const double CARD_HEIGHT = 280;
 const double CARD_WIDTH = 280;
 const double MAIN_PADDING = 50;
-
-const TIMEOUT_SEC = Duration(seconds: 10);
-Response<ServerResult<dynamic>> timeoutResponse() {
-  return Response(statusCode: 408);
-}
 
 const String MY_AREA_BIT_KEY = "MY_AREA_BIT_KEY";
 

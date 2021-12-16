@@ -1,7 +1,7 @@
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 // Repository
 import 'package:good_place_camp/Repository/ApiRepository.dart';
@@ -159,15 +159,15 @@ extension CampRatingParser on CampRating {
   String getLevelText() {
     switch (this) {
       case CampRating.level01:
-        return "camp_level_1".tr();
+        return "camp_level_1".tr;
       case CampRating.level02:
-        return "camp_level_2".tr();
+        return "camp_level_2".tr;
       case CampRating.level03:
-        return "camp_level_3".tr();
+        return "camp_level_3".tr;
       case CampRating.owner:
-        return "camp_level_4".tr();
+        return "camp_level_4".tr;
       default:
-        return "camp_level_1".tr();
+        return "camp_level_1".tr;
     }
   }
 }

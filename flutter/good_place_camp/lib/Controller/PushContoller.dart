@@ -1,5 +1,4 @@
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
@@ -47,8 +46,7 @@ class PushContoller extends GetxController {
     final editedArea = Constants.user.value.info.favoriteAreaList;
 
     if (editedArea == null) {
-      showOneBtnAlert(
-          "server_error".tr(args: ["no_favorte_area"]), "confirm".tr(), () {
+      showOneBtnAlert("server_error".tr, "confirm".tr, () {
         Get.back();
       });
       return;

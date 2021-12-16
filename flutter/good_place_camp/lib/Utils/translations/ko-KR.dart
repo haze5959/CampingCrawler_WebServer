@@ -1,4 +1,4 @@
-{
+const trJson = {
     "app_title": "명당캠핑",
     "title": "제목",
     "content": "내용",
@@ -24,7 +24,7 @@
     "mypage": "마이페이지",
     "user_info": "사용자 정보",
     "etc": "기타",
-    "dear": "{} 님",
+    "dear": "@dear 님",
 
     "subscribe_info": "구독 정보",
     "subscribe_ing": "명당캠핑 알림 서비스 구독 중",
@@ -56,7 +56,7 @@
     "notification_setting_4": "주말 및 공휴일 날 빈자리 알림",
     "notification_setting_5": "예약 오픈일자 알림",
 
-    "net_error": "네트워크에 연결되지 않았습니다. {}",
+    "net_error": "네트워크에 연결되지 않았습니다. @error",
     "net_timeout": "네트워크 연결이 원활하지 않습니다. 네트워크 상태를 확인해주세요.",
     "server_error": "서버에 접속할 수 없습니다. 잠시 후 다시 이용 바랍니다.",
     "auth_error": "로그인이 필요한 서비스입니다.",
@@ -77,8 +77,8 @@
     "favorite_add": "즐겨찾기 목록에 추가되었습니다.",
     "favorite_delete": "즐겨찾기 목록에 삭제되었습니다.",
 
-    "camp_detail_no_detail": "{month}월 {day}일 - 자리 상세정보 미지원",
-    "camp_detail": "{month}월 {day}일 - {info}",
+    "camp_detail_no_detail": "@{month}월 @{day}일 - 자리 상세정보 미지원",
+    "camp_detail": "@{month}월 @{day}일 - @{info}",
     "camp_collect_time": "예약정보 수집 시간",
     "camp_reservation_open": "예약 오픈일",
     "camp_info_1": "예약정보 수집은 원활한 예약 트래픽을 위하여 1시간에 한번 수집됩니다.",
@@ -91,7 +91,7 @@
     "camp_avail_reservation_msg": "예약 가능한 캠핑장들의 개수를 표시합니다.\n예약정보 수집은 한시간 주기로 실행되며 이미 예약되었을 수도 있습니다.",
 
     "login_start": "로그인하기",
-    "login_fail": "로그인에 실패하였습니다. {}",
+    "login_fail": "로그인에 실패하였습니다. @msg",
     "login_cancel": "사용자 취소",
     "login_sns_cancel_error": "로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.",
     "login_already_link": "이미 연동 된 로그인입니다.",
@@ -139,8 +139,8 @@
     "dialog_pw_rules": "6자리 숫자",
     "dialog_pw_rules_msg": "6자리의 숫자를 입력해주세요.",
     "dialog_report": "신고하기",
-    "dialog_report_id": "신고 식별자: {}",
-    "dialog_report_hint": "해당 {}의 신고 내용",
+    "dialog_report_id": "신고 식별자: @id",
+    "dialog_report_hint": "해당 @{id}의 신고 내용",
     "dialog_report_confirm": "신고되었습니다.",
     "dialog_grade": "등급",
     "dialog_grade_auth": "등급에 따라 게시물 권한이 다르게 적용됩니다.",
@@ -151,7 +151,7 @@
     "dialog_setting": "설정하기",
     "dialog_delete": "삭제하기",
     "dialog_registration": "등록하기",
-    "dialog_delete_confirm": "해당 {}을 정말 삭제하시겠습니까?",
+    "dialog_delete_confirm": "해당 @{id}을 정말 삭제하시겠습니까?",
     "dialog_delete_complete": "삭제되었습니다.",
     "dialog_change_complete": "변경되었습니다.",
     "dialog_report_msg": "잘못된 정보 신고하기.",
@@ -160,4 +160,4 @@
     "promotion_msg_2": "요청주시면 최대한 빨리 추가해드리겠습니다! 🔥",
 
     "recommend_site": "추천 명당"
-}
+};
