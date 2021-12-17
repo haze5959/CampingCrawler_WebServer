@@ -9,11 +9,13 @@ import 'package:good_place_camp/Widget/Cards/SimpleCampCardItem.dart';
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 class RecommandSiteWidget extends StatelessWidget {
+  final scrollController = ScrollController();
+
   @override
   Widget build(context) {
     return GetBuilder<HomeController>(
         builder: (c) => Container(
-            constraints: BoxConstraints(maxWidth: MAX_WIDTH),
+            constraints: BoxConstraints(maxWidth: HORIZE_INFO_MAX_WIDTH),
             child: Column(children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
@@ -39,6 +41,7 @@ class RecommandSiteWidget extends StatelessWidget {
                     height: CARD_HEIGHT,
                     child: ListView.separated(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
+                      controller: scrollController,
                       scrollDirection: Axis.horizontal,
                       physics: const ClampingScrollPhysics(),
                       itemCount: c.accpetedCampInfo.length,
@@ -62,6 +65,13 @@ class RecommandSiteWidget extends StatelessWidget {
                         ],
                       ),
                     ),
+                    child: GetPlatform.isWeb
+                        ? IconButton(
+                            icon: Icon(Icons.chevron_left),
+                            onPressed: () {
+                              scrollController.animateTo(offset, duration: Duration(milliseconds: 200), curve: Curves.bounceOut);
+                            })
+                        : null,
                   ),
                   width: 40,
                   height: 320,

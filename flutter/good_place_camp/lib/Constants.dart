@@ -8,6 +8,7 @@ import 'package:good_place_camp/Model/CampUser.dart';
 import 'package:good_place_camp/Model/ServerResult.dart';
 
 const double MAX_WIDTH = 1000;
+const double HORIZE_INFO_MAX_WIDTH = 1500;
 const double CALENDER_WIDTH = 320;
 const double CARD_HEIGHT = 280;
 const double CARD_WIDTH = 280;

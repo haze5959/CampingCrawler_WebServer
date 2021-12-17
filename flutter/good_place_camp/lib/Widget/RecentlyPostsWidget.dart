@@ -17,7 +17,7 @@ class RecentlyPostsWidget extends StatelessWidget {
   Widget build(context) {
     return GetBuilder<HomeController>(
         builder: (c) => Container(
-            constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
+            constraints: const BoxConstraints(maxWidth: HORIZE_INFO_MAX_WIDTH),
             child: Column(children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
