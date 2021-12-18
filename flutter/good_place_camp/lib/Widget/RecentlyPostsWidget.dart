@@ -10,6 +10,9 @@ import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 class RecentlyPostsWidget extends StatelessWidget {
   final bool isNotice; // 공지사항 뷰인지
+  final _scrollController = ScrollController();
+  final _showLeftBtn = false.obs;
+  final _showRightBtn = true.obs;
 
   RecentlyPostsWidget({required this.isNotice});
 
@@ -59,39 +62,44 @@ class RecentlyPostsWidget extends StatelessWidget {
                 ]),
               ),
               Stack(children: [
-                if (isNotice) ...[
-                  SizedBox(
-                      height: CARD_HEIGHT,
-                      child: ListView.separated(
-                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
-                          scrollDirection: Axis.horizontal,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: c.noticeList.length,
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              width: 15,
-                            );
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            return PostCardItem(c.noticeList[index]);
-                          }))
-                ] else ...[
-                  SizedBox(
-                      height: CARD_HEIGHT,
-                      child: ListView.separated(
-                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
-                          scrollDirection: Axis.horizontal,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: c.postList.length,
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              width: 15,
-                            );
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            return PostCardItem(c.postList[index]);
-                          }))
-                ],
+                SizedBox(
+                    height: CARD_HEIGHT,
+                    child: NotificationListener(
+                        child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            physics: const ClampingScrollPhysics(),
+                            itemCount: isNotice
+                                ? c.noticeList.length
+                                : c.postList.length,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                width: CARD_SPACE,
+                              );
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              final list = isNotice ? c.noticeList : c.postList;
+                              return PostCardItem(list[index]);
+                            }),
+                        onNotification: (t) {
+                          if (t is ScrollNotification) {
+                            final metrics = t.metrics;
+                            if (metrics.atEdge) {
+                              if (metrics.pixels == 0) {
+                                _showLeftBtn.value = false;
+                              } else {
+                                _showRightBtn.value = false;
+                              }
+                            } else {
+                              _showLeftBtn.value = true;
+                              _showRightBtn.value = true;
+                            }
+                          }
+
+                          return true;
+                        })),
                 SizedBox(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -103,9 +111,32 @@ class RecentlyPostsWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  width: 40,
-                  height: 320,
+                  width: 60,
+                  height: CARD_HEIGHT,
                 ),
+                Container(
+                    height: CARD_HEIGHT,
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Obx(() => Visibility(
+                          child: FloatingActionButton(
+                              heroTag: isNotice
+                                  ? "RecentlyNoticePosts_left"
+                                  : "RecentlyPosts_left",
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white.withOpacity(0.7),
+                              mini: true,
+                              child: Icon(Icons.chevron_left),
+                              onPressed: () {
+                                final offset =
+                                    _scrollController.position.pixels -
+                                        CARD_WIDTH -
+                                        CARD_SPACE;
+                                _scrollController.animateTo(offset,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeOut);
+                              }),
+                          visible: _showLeftBtn.value,
+                        ))),
                 Container(
                     alignment: Alignment.centerRight,
                     child: SizedBox(
@@ -119,9 +150,33 @@ class RecentlyPostsWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      width: 40,
-                      height: 320,
-                    ))
+                      width: 60,
+                      height: CARD_HEIGHT,
+                    )),
+                Container(
+                    height: CARD_HEIGHT,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Obx(() => Visibility(
+                          child: FloatingActionButton(
+                              heroTag: isNotice
+                                  ? "RecentlyNoticePosts_right"
+                                  : "RecentlyPosts_right",
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white.withOpacity(0.7),
+                              mini: true,
+                              child: Icon(Icons.chevron_right),
+                              onPressed: () {
+                                final offset =
+                                    _scrollController.position.pixels +
+                                        CARD_WIDTH +
+                                        CARD_SPACE;
+                                _scrollController.animateTo(offset,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeOut);
+                              }),
+                          visible: _showRightBtn.value,
+                        ))),
               ]),
             ])));
   }

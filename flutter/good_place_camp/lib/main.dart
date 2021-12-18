@@ -10,6 +10,8 @@ import 'package:good_place_camp/Widget/Pages/CampListPage.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
+import 'package:dio/dio.dart';
+
 // Widgets
 import 'package:good_place_camp/Widget/Pages/HomePage.dart';
 import 'package:good_place_camp/Widget/Pages/LoginPage.dart';
@@ -38,14 +40,19 @@ class Home extends StatelessWidget {
   Future<void> _initApp() async {
     await Firebase.initializeApp();
 
-    final res = await ApiRepo.site.getAllSiteJson();
-    if (!res.result) {
-      showServerErrorAlert(res.msg, false);
-      return;
-    }
+    try {
+      final res = await ApiRepo.site.getAllSiteJson();
+      if (!res.result) {
+        showServerErrorAlert(res.msg, false);
+        return;
+      }
 
-    final data = res.data!;
-    Constants.campInfoMap = toCampInfoMap(data);
+      final data = res.data!;
+      Constants.campInfoMap = toCampInfoMap(data);
+    } on DioError catch (ex) {
+      print(ex.message);
+      showServerErrorAlert("server_error".tr, false);
+    }
   }
 
   @override

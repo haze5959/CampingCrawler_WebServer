@@ -12,6 +12,7 @@ const double HORIZE_INFO_MAX_WIDTH = 1500;
 const double CALENDER_WIDTH = 320;
 const double CARD_HEIGHT = 280;
 const double CARD_WIDTH = 280;
+const double CARD_SPACE = 15;
 const double MAIN_PADDING = 50;
 
 const String MY_AREA_BIT_KEY = "MY_AREA_BIT_KEY";

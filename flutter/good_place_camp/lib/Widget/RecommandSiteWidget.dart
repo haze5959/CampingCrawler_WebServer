@@ -9,7 +9,9 @@ import 'package:good_place_camp/Widget/Cards/SimpleCampCardItem.dart';
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
 class RecommandSiteWidget extends StatelessWidget {
-  final scrollController = ScrollController();
+  final _scrollController = ScrollController();
+  final _showLeftBtn = false.obs;
+  final _showRightBtn = true.obs;
 
   @override
   Widget build(context) {
@@ -33,28 +35,46 @@ class RecommandSiteWidget extends StatelessWidget {
                       Get.toNamed("/camp/list");
                     },
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ]),
               ),
               Stack(children: [
                 SizedBox(
                     height: CARD_HEIGHT,
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      controller: scrollController,
-                      scrollDirection: Axis.horizontal,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: c.accpetedCampInfo.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: 15,
-                        );
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return SimpleCampCardItem(
-                            siteName: c.accpetedCampInfo[index].key);
-                      },
-                    )),
+                    child: NotificationListener(
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          controller: _scrollController,
+                          scrollDirection: Axis.horizontal,
+                          physics: const ClampingScrollPhysics(),
+                          itemCount: c.accpetedCampInfo.length,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              width: CARD_SPACE,
+                            );
+                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            return SimpleCampCardItem(
+                                siteName: c.accpetedCampInfo[index].key);
+                          },
+                        ),
+                        onNotification: (t) {
+                          if (t is ScrollNotification) {
+                            final metrics = t.metrics;
+                            if (metrics.atEdge) {
+                              if (metrics.pixels == 0) {
+                                _showLeftBtn.value = false;
+                              } else {
+                                _showRightBtn.value = false;
+                              }
+                            } else {
+                              _showLeftBtn.value = true;
+                              _showRightBtn.value = true;
+                            }
+                          }
+
+                          return true;
+                        })),
                 SizedBox(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -65,17 +85,31 @@ class RecommandSiteWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    child: GetPlatform.isWeb
-                        ? IconButton(
-                            icon: Icon(Icons.chevron_left),
-                            onPressed: () {
-                              scrollController.animateTo(offset, duration: Duration(milliseconds: 200), curve: Curves.bounceOut);
-                            })
-                        : null,
                   ),
-                  width: 40,
-                  height: 320,
+                  width: 60,
+                  height: CARD_HEIGHT,
                 ),
+                Container(
+                    height: CARD_HEIGHT,
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Obx(() => Visibility(
+                          child: FloatingActionButton(
+                              heroTag: "RecommandSite_left",
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white.withOpacity(0.7),
+                              mini: true,
+                              child: Icon(Icons.chevron_left),
+                              onPressed: () {
+                                final offset =
+                                    _scrollController.position.pixels -
+                                        CARD_WIDTH -
+                                        CARD_SPACE;
+                                _scrollController.animateTo(offset,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeOut);
+                              }),
+                          visible: _showLeftBtn.value,
+                        ))),
                 Container(
                     alignment: Alignment.centerRight,
                     child: SizedBox(
@@ -89,9 +123,31 @@ class RecommandSiteWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      width: 40,
-                      height: 320,
-                    ))
+                      width: 60,
+                      height: CARD_HEIGHT,
+                    )),
+                Container(
+                    height: CARD_HEIGHT,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Obx(() => Visibility(
+                          child: FloatingActionButton(
+                              heroTag: "RecommandSite_right",
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white.withOpacity(0.7),
+                              mini: true,
+                              child: Icon(Icons.chevron_right),
+                              onPressed: () {
+                                final offset =
+                                    _scrollController.position.pixels +
+                                        CARD_WIDTH +
+                                        CARD_SPACE;
+                                _scrollController.animateTo(offset,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeOut);
+                              }),
+                          visible: _showRightBtn.value,
+                        ))),
               ]),
             ])));
   }
