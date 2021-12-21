@@ -163,20 +163,10 @@ class HomeController extends GetxController {
     final selectedDate =
         DateTime.utc(selectDay.year, selectDay.month, selectDay.day);
 
-    if (GetPlatform.isWeb) {
-      Future.delayed(
-          const Duration(milliseconds: 1),
-          () => showModalBottomSheet<void>(
-              isScrollControlled: true,
-              context: Get.context!,
-              builder: (context) =>
-                  BottomSheetContent(selectedDate.obs, events, holidays)));
-    } else {
-      showModalBottomSheet<void>(
-          isScrollControlled: true,
-          context: Get.context!,
-          builder: (context) =>
-              BottomSheetContent(selectedDate.obs, events, holidays));
-    }
+    showModalBottomSheet<void>(
+        isScrollControlled: true,
+        context: Get.context!,
+        builder: (context) =>
+            BottomSheetContent(selectedDate.obs, events, holidays));
   }
 }

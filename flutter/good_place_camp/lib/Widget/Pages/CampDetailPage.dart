@@ -272,7 +272,7 @@ class CampDetailPage extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
-        color: Colors.blue[400],
+        color: Colors.blueAccent,
       ),
       width: 16.0,
       height: 16.0,

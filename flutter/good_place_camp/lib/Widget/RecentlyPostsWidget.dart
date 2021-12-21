@@ -102,7 +102,8 @@ class RecentlyPostsWidget extends StatelessWidget {
 
                           return true;
                         })),
-                SizedBox(
+                IgnorePointer(
+                    child: SizedBox(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       gradient: new LinearGradient(
@@ -115,7 +116,7 @@ class RecentlyPostsWidget extends StatelessWidget {
                   ),
                   width: 60,
                   height: CARD_HEIGHT,
-                ),
+                )),
                 Container(
                     height: CARD_HEIGHT,
                     padding: const EdgeInsets.only(left: 20),
@@ -139,22 +140,23 @@ class RecentlyPostsWidget extends StatelessWidget {
                               }),
                           visible: _showLeftBtn.value,
                         ))),
-                Container(
-                    alignment: Alignment.centerRight,
-                    child: SizedBox(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: new LinearGradient(
-                            colors: <Color>[
-                              Colors.lightGreen.shade50.withOpacity(0),
-                              Colors.lightGreen.shade50.withOpacity(1)
-                            ],
+                IgnorePointer(
+                    child: Container(
+                        alignment: Alignment.centerRight,
+                        child: SizedBox(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: new LinearGradient(
+                                colors: <Color>[
+                                  Colors.lightGreen.shade50.withOpacity(0),
+                                  Colors.lightGreen.shade50.withOpacity(1)
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      width: 60,
-                      height: CARD_HEIGHT,
-                    )),
+                          width: 60,
+                          height: CARD_HEIGHT,
+                        ))),
                 Container(
                     height: CARD_HEIGHT,
                     alignment: Alignment.centerRight,

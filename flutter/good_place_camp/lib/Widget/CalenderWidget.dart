@@ -15,10 +15,6 @@ import 'package:good_place_camp/Model/SiteInfo.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
 
 class CalenderWidget extends StatelessWidget {
-  final bool isVertical;
-
-  CalenderWidget({required this.isVertical});
-
   @override
   Widget build(context) {
     return GetBuilder<HomeController>(
@@ -26,7 +22,7 @@ class CalenderWidget extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10),
             alignment: Alignment.center,
             child: Column(children: [
-              isVertical ? _buildVerticalCalendar(s) : _buildHorizenCalendar(s),
+              _buildHorizenCalendar(s),
               const SizedBox(height: 10),
               _buildEventsExLabel()
             ])));
@@ -117,83 +113,6 @@ class CalenderWidget extends StatelessWidget {
                     .toList())));
   }
 
-  Widget _buildVerticalCalendar(HomeController s) {
-    return Column(
-        children: [0, 1, 2, 3]
-            .map((index) => Column(children: <Widget>[
-                  ClipRect(
-                      child: BackdropFilter(
-                          filter: ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.5)),
-                              child: Container(
-                                  width: CALENDER_WIDTH,
-                                  child: TableCalendar(
-                                    locale: "ko_KR",
-                                    focusedDay:
-                                        addMonths(DateTime.now(), index),
-                                    firstDay: _getFirstDay(index),
-                                    lastDay: _getLastDay(index),
-                                    eventLoader: (day) {
-                                      return s.getEventsForDay(day);
-                                    },
-                                    holidayPredicate: (day) {
-                                      return s.holidays.containsKey(day);
-                                    },
-                                    availableGestures: AvailableGestures.none,
-                                    calendarStyle: const CalendarStyle(
-                                      outsideDaysVisible: false,
-                                    ),
-                                    headerStyle: const HeaderStyle(
-                                        titleCentered: true,
-                                        formatButtonVisible: false,
-                                        leftChevronVisible: false,
-                                        rightChevronVisible: false),
-                                    calendarBuilders: CalendarBuilders(
-                                      selectedBuilder: (context, date, _) {
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: _isToday(date)
-                                                  ? const Color(0xFF9FA8DA)
-                                                  : null),
-                                          margin: const EdgeInsets.all(6.0),
-                                          alignment: Alignment.center,
-                                          child: Text('${date.day}',
-                                              style: _isToday(date)
-                                                  ? const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16.0,
-                                                    )
-                                                  : _isWeekend(
-                                                          date, s.holidays.keys)
-                                                      ? const TextStyle(
-                                                          color: Colors.red)
-                                                      : null),
-                                        );
-                                      },
-                                      markerBuilder: (context, date, events) {
-                                        if (events.isNotEmpty) {
-                                          return Positioned(
-                                            right: 1,
-                                            bottom: 1,
-                                            child: _buildEventsMarker(
-                                                date, events),
-                                          );
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                    ),
-                                    onDaySelected: s.onDaySelected,
-                                    rowHeight: CALENDER_WIDTH / 6,
-                                  ))))),
-                  const SizedBox(height: 10)
-                ]))
-            .toList());
-  }
-
   Widget _buildEventsMarker(DateTime date, List events) {
     var dateInfoCount = 0;
     var reservationInfoCount = 0;
@@ -210,9 +129,9 @@ class CalenderWidget extends StatelessWidget {
       return Row(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.rectangle,
-              color: Colors.red[400],
+              color: Colors.redAccent,
             ),
             width: 20.0,
             height: 16.0,
@@ -228,9 +147,9 @@ class CalenderWidget extends StatelessWidget {
           ),
           if (dateInfoCount > 0)
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.rectangle,
-                color: Colors.blue[400],
+                color: Colors.blueAccent,
               ),
               width: 20.0,
               height: 16.0,
@@ -250,9 +169,9 @@ class CalenderWidget extends StatelessWidget {
       );
     } else {
       return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.rectangle,
-          color: Colors.blue[400],
+          color: Colors.blueAccent,
         ),
         width: 20.0,
         height: 16.0,
@@ -273,17 +192,18 @@ class CalenderWidget extends StatelessWidget {
     return Container(
         constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
         child: Row(
-          mainAxisAlignment:
-              isVertical ? MainAxisAlignment.center : MainAxisAlignment.start,
+          mainAxisAlignment: Constants.isPhoneSize
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
           children: [
             TextButton(
               child: Row(
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.rectangle,
-                      color: Colors.red[400],
+                      color: Colors.redAccent,
                     ),
                     width: 20.0,
                     height: 16.0,
@@ -314,9 +234,9 @@ class CalenderWidget extends StatelessWidget {
                 child: Row(children: [
                   Container(
                       padding: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.rectangle,
-                        color: Colors.blue[400],
+                        color: Colors.blueAccent,
                       ),
                       width: 20.0,
                       height: 16.0,
@@ -369,7 +289,7 @@ class CalenderWidget extends StatelessWidget {
 
   DateTime _getFirstDay(int index) {
     final date = addMonths(DateTime.now(), index);
-    return DateTime.utc(date.year, date.month, 1);
+    return DateTime.utc(date.year, date.month, index == 0 ? date.day : 1);
   }
 
   DateTime _getLastDay(int index) {

@@ -15,25 +15,21 @@ class BottomSheetContent extends StatelessWidget {
   final Map<DateTime, List<SiteInfo>> _allEvents;
   final Map<DateTime, List<String>> _holidayList;
 
-  final isFullScreen = false.obs;
-
   BottomSheetContent(this._currentDate, this._allEvents, this._holidayList);
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      final currentEvents = _allEvents[_currentDate.value] ?? [];
-      final List<SiteDateInfo> siteInfoList =
-          currentEvents.whereType<SiteDateInfo>().toList();
-      final List<ReservationInfo> reservationInfoList =
-          currentEvents.whereType<ReservationInfo>().toList();
-      return AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          height: isFullScreen.value
-              ? context.height - (Get.context?.mediaQueryPadding.top ?? 0)
-              : context.height / 2 + 100,
-          child: Scaffold(
-              body: Column(
+    if (Constants.isPhoneSize) {
+      return DraggableScrollableSheet(
+          expand: false,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return Obx(() {
+              final currentEvents = _allEvents[_currentDate.value] ?? [];
+              final List<SiteDateInfo> siteInfoList =
+                  currentEvents.whereType<SiteDateInfo>().toList();
+              final List<ReservationInfo> reservationInfoList =
+                  currentEvents.whereType<ReservationInfo>().toList();
+              return Column(
                 children: [
                   Container(
                       constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
@@ -73,77 +69,194 @@ class BottomSheetContent extends StatelessWidget {
                         const SizedBox(height: 5),
                         Row(children: <Widget>[
                           Icon(Icons.info_outline,
-                              color: Colors.grey,
-                              size: Constants.isPhoneSize ? 10 : 15),
+                              color: Colors.grey, size: 10),
                           const SizedBox(width: 3),
                           Text(
                             "camp_info_1".tr,
-                            style: TextStyle(
-                                fontSize: Constants.isPhoneSize ? 10 : 15,
-                                color: Colors.grey),
+                            style: TextStyle(fontSize: 10, color: Colors.grey),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ]),
                       ])),
                   const Divider(thickness: 1),
                   Expanded(
-                    child: Container(
-                        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
-                        child: ListView(children: [
-                          if (reservationInfoList.length > 0) ...[
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 30),
-                                child: Text(
-                                    "camp_next_open".tr +
-                                        "(${reservationInfoList.length})",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        color: Colors.red[400]))),
-                            Divider(
-                              color: Colors.red[400],
-                              thickness: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                            for (final reservationInfo in reservationInfoList)
-                              TappableReservationInfoCardItem(
-                                  info: reservationInfo),
-                          ],
-                          if (siteInfoList.length > 0) ...[
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 30),
-                                child: Text(
-                                    "camp_avail_reservation".tr +
-                                        "(${siteInfoList.length})",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        color: Colors.blue[400]))),
-                            Divider(
-                              color: Colors.blue[400],
-                              thickness: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                            for (final siteInfo in siteInfoList)
-                              TappableCampCardItem(siteInfo: siteInfo),
-                          ],
-                          PromotionCardItem()
-                        ])),
-                  ),
+                    child: ListView(controller: scrollController, children: [
+                      if (reservationInfoList.length > 0) ...[
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Text(
+                                "camp_next_open".tr +
+                                    "(${reservationInfoList.length})",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    color: Colors.redAccent))),
+                        const Divider(
+                          color: Colors.redAccent,
+                          thickness: 1,
+                          indent: 20,
+                          endIndent: 20,
+                        ),
+                        for (final reservationInfo in reservationInfoList)
+                          TappableReservationInfoCardItem(
+                              info: reservationInfo),
+                      ],
+                      if (siteInfoList.length > 0) ...[
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Text(
+                                "camp_avail_reservation".tr +
+                                    "(${siteInfoList.length})",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    color: Colors.blueAccent))),
+                        Divider(
+                          color: Colors.blueAccent,
+                          thickness: 1,
+                          indent: 20,
+                          endIndent: 20,
+                        ),
+                        for (final siteInfo in siteInfoList)
+                          TappableCampCardItem(siteInfo: siteInfo),
+                      ],
+                      PromotionCardItem()
+                    ]),
+                  )
                 ],
-              ),
-              floatingActionButton: FloatingActionButton(
-                  elevation: 0.0,
-                  child: const Icon(Icons.expand),
-                  backgroundColor: Colors.lightGreen.shade400,
-                  onPressed: () {
-                    isFullScreen.toggle();
-                  })));
-    });
+              );
+            });
+          });
+    } else {
+      final isFullScreen = false.obs;
+
+      return Obx(() {
+        final currentEvents = _allEvents[_currentDate.value] ?? [];
+        final List<SiteDateInfo> siteInfoList =
+            currentEvents.whereType<SiteDateInfo>().toList();
+        final List<ReservationInfo> reservationInfoList =
+            currentEvents.whereType<ReservationInfo>().toList();
+
+        return AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            height: isFullScreen.value
+                ? context.height -
+                    ((Get.context?.mediaQueryPadding.top ?? 0) + kToolbarHeight)
+                : context.height / 2 + 100,
+            child: Scaffold(
+                body: Column(
+                  children: [
+                    Container(
+                        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
+                        padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
+                        child: Column(children: [
+                          Row(children: <Widget>[
+                            OutlinedButton.icon(
+                              icon: const Icon(Icons.chevron_left_outlined,
+                                  size: 18),
+                              label: Text(
+                                "${DateFormat("MM-dd (EEE)", 'ko_KR').format(_currentDate.value.add(Duration(days: -1)))}",
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12),
+                              ),
+                              onPressed: () {
+                                _currentDate.value =
+                                    _currentDate.value.add(Duration(days: -1));
+                              },
+                            ),
+                            const Spacer(),
+                            _buildSelectedWidget(_currentDate.value),
+                            const Spacer(),
+                            OutlinedButton.icon(
+                              icon: Text(
+                                "${DateFormat("MM-dd (EEE)", 'ko_KR').format(_currentDate.value.add(Duration(days: 1)))}",
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12),
+                              ),
+                              label: const Icon(Icons.chevron_right_outlined,
+                                  size: 18),
+                              onPressed: () {
+                                _currentDate.value =
+                                    _currentDate.value.add(Duration(days: 1));
+                              },
+                            ),
+                          ]),
+                          const SizedBox(height: 5),
+                          Row(children: <Widget>[
+                            Icon(Icons.info_outline,
+                                color: Colors.grey, size: 15),
+                            const SizedBox(width: 3),
+                            Text(
+                              "camp_info_1".tr,
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.grey),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ]),
+                        ])),
+                    const Divider(thickness: 1),
+                    Expanded(
+                      child: Container(
+                          constraints:
+                              const BoxConstraints(maxWidth: MAX_WIDTH),
+                          child: ListView(children: [
+                            if (reservationInfoList.length > 0) ...[
+                              Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  child: Text(
+                                      "camp_next_open".tr +
+                                          "(${reservationInfoList.length})",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          color: Colors.redAccent))),
+                              const Divider(
+                                color: Colors.redAccent,
+                                thickness: 1,
+                                indent: 20,
+                                endIndent: 20,
+                              ),
+                              for (final reservationInfo in reservationInfoList)
+                                TappableReservationInfoCardItem(
+                                    info: reservationInfo),
+                            ],
+                            if (siteInfoList.length > 0) ...[
+                              Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  child: Text(
+                                      "camp_avail_reservation".tr +
+                                          "(${siteInfoList.length})",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          color: Colors.blueAccent))),
+                              Divider(
+                                color: Colors.blueAccent,
+                                thickness: 1,
+                                indent: 20,
+                                endIndent: 20,
+                              ),
+                              for (final siteInfo in siteInfoList)
+                                TappableCampCardItem(siteInfo: siteInfo),
+                            ],
+                            PromotionCardItem()
+                          ])),
+                    ),
+                  ],
+                ),
+                floatingActionButton: FloatingActionButton(
+                    elevation: 0.0,
+                    child: const Icon(Icons.expand),
+                    backgroundColor: Colors.lightGreen.shade400,
+                    onPressed: () {
+                      print("1: $isFullScreen");
+                      isFullScreen.toggle();
+                      print("2: $isFullScreen");
+                    })));
+      });
+    }
   }
 
   Widget _buildSelectedWidget(DateTime currentDate) {
@@ -155,7 +268,7 @@ class BottomSheetContent extends StatelessWidget {
                 Text(
                   DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate),
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.red[400]),
+                      fontWeight: FontWeight.bold, color: Colors.redAccent),
                 ),
                 Text(
                   holidayName,
@@ -165,7 +278,7 @@ class BottomSheetContent extends StatelessWidget {
             : Text(
                 "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)} $holidayName",
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.red[400]),
+                    fontWeight: FontWeight.bold, color: Colors.redAccent),
               );
       }
     }
@@ -175,7 +288,7 @@ class BottomSheetContent extends StatelessWidget {
         Constants.isPhoneSize
             ? "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate)}"
             : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)}",
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[400]),
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),
       );
     }
 

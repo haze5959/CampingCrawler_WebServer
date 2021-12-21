@@ -41,17 +41,17 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
                           alignment: Alignment.topCenter,
                           padding: const EdgeInsets.only(
                               top: MAIN_PADDING, bottom: MAIN_PADDING),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: Constants.isPhoneSize
-                                ? AssetImage('assets/Banner02.jpg')
-                                : AssetImage('assets/Banner01.jpg'),
+                          decoration: const BoxDecoration(
+                              image: const DecorationImage(
+                            image: const AssetImage('assets/Banner01.jpg'),
                             fit: BoxFit.cover,
                           )),
                           child: Column(children: <Widget>[
-                            if (!Constants.isPhoneSize) _buildIntroText(),
-                            SizedBox(height: 30),
-                            CalenderWidget(isVertical: Constants.isPhoneSize)
+                            if (!Constants.isPhoneSize)...[
+                              _buildIntroText(),
+                              SizedBox(height: 30),
+                            ],
+                            CalenderWidget()
                           ])),
                       clipper: ZigzagClipPath(),
                     ),
