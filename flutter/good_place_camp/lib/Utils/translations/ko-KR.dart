@@ -24,6 +24,7 @@ const trJson = {
     "mypage": "마이페이지",
     "user_info": "사용자 정보",
     "etc": "기타",
+    "more": "더보기",
     "dear": "@dear 님",
 
     "subscribe_info": "구독 정보",

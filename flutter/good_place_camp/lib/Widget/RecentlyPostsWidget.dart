@@ -38,10 +38,7 @@ class RecentlyPostsWidget extends StatelessWidget {
                     mini: true,
                     child: const Icon(Icons.list),
                     onPressed: () async {
-                      await Get.toNamed("/board/list", parameters: {
-                        "is_notice": isNotice ? "true" : "false"
-                      });
-                      c.reload();
+                      _goDetail(c);
                     },
                   ),
                   const SizedBox(width: 10),
@@ -70,9 +67,10 @@ class RecentlyPostsWidget extends StatelessWidget {
                             controller: _scrollController,
                             scrollDirection: Axis.horizontal,
                             physics: const ClampingScrollPhysics(),
-                            itemCount: isNotice
-                                ? c.noticeList.length
-                                : c.postList.length,
+                            itemCount: (isNotice
+                                    ? c.noticeList.length
+                                    : c.postList.length) +
+                                1,
                             separatorBuilder:
                                 (BuildContext context, int index) {
                               return SizedBox(
@@ -81,7 +79,11 @@ class RecentlyPostsWidget extends StatelessWidget {
                             },
                             itemBuilder: (BuildContext context, int index) {
                               final list = isNotice ? c.noticeList : c.postList;
-                              return PostCardItem(list[index]);
+                              if (index < list.length) {
+                                return PostCardItem(list[index]);
+                              } else {
+                                return _seeMoreWidget(c);
+                              }
                             }),
                         onNotification: (t) {
                           if (t is ScrollNotification) {
@@ -179,5 +181,38 @@ class RecentlyPostsWidget extends StatelessWidget {
                         ))),
               ]),
             ])));
+  }
+
+  void _goDetail(HomeController c) async {
+    await Get.toNamed("/board/list",
+        parameters: {"is_notice": isNotice ? "true" : "false"});
+    c.reload();
+  }
+
+  Widget _seeMoreWidget(HomeController c) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: Center(
+            child: TextButton(
+                style: TextButton.styleFrom(onSurface: Colors.red),
+                onPressed: () {
+                  _goDetail(c);
+                },
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
+                          ),
+                          child:
+                              Icon(Icons.arrow_forward, color: Colors.black)),
+                      SizedBox(height: 10),
+                      Text("more".tr, style: TextStyle(color: Colors.black))
+                    ]))));
   }
 }
