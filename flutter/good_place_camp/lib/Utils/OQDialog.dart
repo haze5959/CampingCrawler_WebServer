@@ -384,8 +384,8 @@ void showAreaFilterDialog() {
       builder: (BuildContext context) {
         return AlertDialog(
           content: Column(children: [
-            const Text(
-              "원하시는 지역을 선택해주세요.",
+            Text(
+              "dialog_select_area_msg".tr,
             ),
             for (final area in CampArea.values)
               CheckboxListTile(

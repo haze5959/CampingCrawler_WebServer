@@ -24,6 +24,7 @@ class BottomSheetContent extends StatelessWidget {
           expand: false,
           builder: (BuildContext context, ScrollController scrollController) {
             return Obx(() {
+              final prevDate = _currentDate.value.add(Duration(days: -1));
               final currentEvents = _allEvents[_currentDate.value] ?? [];
               final List<SiteDateInfo> siteInfoList =
                   currentEvents.whereType<SiteDateInfo>().toList();
@@ -40,14 +41,15 @@ class BottomSheetContent extends StatelessWidget {
                             icon: const Icon(Icons.chevron_left_outlined,
                                 size: 18),
                             label: Text(
-                              "${DateFormat("MM-dd (EEE)", 'ko_KR').format(_currentDate.value.add(Duration(days: -1)))}",
+                              "${DateFormat("MM-dd (EEE)", 'ko_KR').format(prevDate)}",
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 12),
                             ),
-                            onPressed: () {
-                              _currentDate.value =
-                                  _currentDate.value.add(Duration(days: -1));
-                            },
+                            onPressed: prevDate.isBefore(DateTime.now())
+                                ? null
+                                : () {
+                                    _currentDate.value = prevDate;
+                                  },
                           ),
                           const Spacer(),
                           _buildSelectedWidget(_currentDate.value),
@@ -131,6 +133,7 @@ class BottomSheetContent extends StatelessWidget {
       final isFullScreen = false.obs;
 
       return Obx(() {
+        final prevDate = _currentDate.value.add(Duration(days: -1));
         final currentEvents = _allEvents[_currentDate.value] ?? [];
         final List<SiteDateInfo> siteInfoList =
             currentEvents.whereType<SiteDateInfo>().toList();
@@ -155,14 +158,15 @@ class BottomSheetContent extends StatelessWidget {
                               icon: const Icon(Icons.chevron_left_outlined,
                                   size: 18),
                               label: Text(
-                                "${DateFormat("MM-dd (EEE)", 'ko_KR').format(_currentDate.value.add(Duration(days: -1)))}",
+                                "${DateFormat("MM-dd (EEE)", 'ko_KR').format(prevDate)}",
                                 style: const TextStyle(
                                     color: Colors.black, fontSize: 12),
                               ),
-                              onPressed: () {
-                                _currentDate.value =
-                                    _currentDate.value.add(Duration(days: -1));
-                              },
+                              onPressed: prevDate.isBefore(DateTime.now())
+                                  ? null
+                                  : () {
+                                      _currentDate.value = prevDate;
+                                    },
                             ),
                             const Spacer(),
                             _buildSelectedWidget(_currentDate.value),

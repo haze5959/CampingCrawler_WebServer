@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
 import 'package:good_place_camp/Model/CampUser.dart';
-import 'package:good_place_camp/Model/ServerResult.dart';
 
 const double MAX_WIDTH = 1000;
 const double HORIZE_INFO_MAX_WIDTH = 1500;

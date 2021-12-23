@@ -16,7 +16,7 @@ dependencies:
       
   get: ^4.3.8
 
-  retrofit: ^2.0.1
+  retrofit: ^3.0.0
   logger: ^1.1.0
 
   table_calendar: ^3.0.3

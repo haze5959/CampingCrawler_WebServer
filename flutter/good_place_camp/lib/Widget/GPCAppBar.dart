@@ -6,6 +6,9 @@ import 'package:good_place_camp/Utils/OQDialog.dart';
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';
 
+// Models
+import 'package:good_place_camp/Model/CampArea.dart';
+
 enum GPCAppBarMenu { favorite, push, account }
 
 extension GPCAppBarMenuParse on GPCAppBarMenu {
@@ -163,11 +166,24 @@ class GPCAppBar extends AppBar {
             ]);
 
   static Widget _buildAreaFilter() {
-    return IconButton(
-      tooltip: "notification_filter_region".tr,
-      icon: const Icon(Icons.filter_list_rounded),
-      onPressed: showAreaFilterDialog,
-    );
+    print(Constants.myArea);
+    return Tooltip(
+        message: "notification_filter_region".tr,
+        child: TextButton(
+          child: Row(children: [
+            Text(
+                Constants.myArea.isEmpty
+                    ? "area_all".tr
+                    : Constants.myArea
+                        .take(3)
+                        .map((e) => e.toAreaString())
+                        .reduce((value, element) => element + ", $value"),
+                style: TextStyle(color: Colors.white)),
+            const SizedBox(width: 10),
+            const Icon(Icons.filter_list_rounded, color: Colors.white)
+          ]),
+          onPressed: showAreaFilterDialog,
+        ));
   }
 
   static void _gotoFavoritePage() {

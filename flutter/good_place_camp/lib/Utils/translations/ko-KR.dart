@@ -36,6 +36,7 @@ const trJson = {
     "camp_my": "나만의 캠핑장",
     "homepage": "홈페이지",
     "reservation_site": "예약 사이트",
+    "area_all": "모든 지역",
 
     "footer_info": "명당캠핑은 통신판매중개자이며 통신판매의 당사자가 아닙니다. 따라서 상품·거래정보 및 거래에 대하여 책임을 지지않습니다.",
 
@@ -156,6 +157,7 @@ const trJson = {
     "dialog_delete_complete": "삭제되었습니다.",
     "dialog_change_complete": "변경되었습니다.",
     "dialog_report_msg": "잘못된 정보 신고하기.",
+    "dialog_select_area_msg": "원하시는 지역을 선택해주세요.",
 
     "promotion_msg_1": "가고싶은 명당을 요청해주세요!",
     "promotion_msg_2": "요청주시면 최대한 빨리 추가해드리겠습니다! 🔥",
