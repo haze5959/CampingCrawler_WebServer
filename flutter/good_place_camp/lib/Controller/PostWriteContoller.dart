@@ -33,7 +33,7 @@ class PostWriteContoller extends GetxController {
         Get.back(result: true);
       });
     } else {
-      showOneBtnAlert(res.msg, "confirm".tr, () {});
+      showServerErrorAlert(res.msg, false);
     }
 
     isLoading.value = false;

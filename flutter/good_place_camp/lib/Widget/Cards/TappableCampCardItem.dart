@@ -16,17 +16,19 @@ class TappableCampCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () {
-          Get.toNamed("/camp/detail/${siteInfo.site}");
-        },
-        splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
-        highlightColor: Colors.transparent,
-        child: _buildContent(),
-      ),
-    );
+    return Padding(
+        padding: const EdgeInsets.all(8),
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () {
+              Get.toNamed("/camp/detail/${siteInfo.site}");
+            },
+            splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
+            highlightColor: Colors.transparent,
+            child: _buildContent(),
+          ),
+        ));
   }
 
   Widget _buildContent() {
@@ -117,17 +119,15 @@ class TappableReservationInfoCardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: SizedBox(
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () {
-              Get.toNamed("/camp/detail/${info.site}");
-            },
-            splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
-            highlightColor: Colors.transparent,
-            child: _buildContent(),
-          ),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () {
+            Get.toNamed("/camp/detail/${info.site}");
+          },
+          splashColor: Get.theme.colorScheme.onSurface.withOpacity(0.12),
+          highlightColor: Colors.transparent,
+          child: _buildContent(),
         ),
       ),
     );

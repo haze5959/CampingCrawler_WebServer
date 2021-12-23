@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 // Cards
 import 'package:good_place_camp/Widget/Cards/TappableCampCardItem.dart';
@@ -24,11 +25,6 @@ class BottomSheetContent extends StatelessWidget {
           expand: false,
           builder: (BuildContext context, ScrollController scrollController) {
             return Obx(() {
-              final currentEvents = _allEvents[_currentDate.value] ?? [];
-              final List<SiteDateInfo> siteInfoList =
-                  currentEvents.whereType<SiteDateInfo>().toList();
-              final List<ReservationInfo> reservationInfoList =
-                  currentEvents.whereType<ReservationInfo>().toList();
               return Column(
                 children: [
                   Container(
@@ -80,48 +76,7 @@ class BottomSheetContent extends StatelessWidget {
                       ])),
                   const Divider(thickness: 1),
                   Expanded(
-                    child: ListView(controller: scrollController, children: [
-                      if (reservationInfoList.length > 0) ...[
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                                "camp_next_open".tr +
-                                    "(${reservationInfoList.length})",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    color: Colors.redAccent))),
-                        const Divider(
-                          color: Colors.redAccent,
-                          thickness: 1,
-                          indent: 20,
-                          endIndent: 20,
-                        ),
-                        for (final reservationInfo in reservationInfoList)
-                          TappableReservationInfoCardItem(
-                              info: reservationInfo),
-                      ],
-                      if (siteInfoList.length > 0) ...[
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                                "camp_avail_reservation".tr +
-                                    "(${siteInfoList.length})",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    color: Colors.blueAccent))),
-                        Divider(
-                          color: Colors.blueAccent,
-                          thickness: 1,
-                          indent: 20,
-                          endIndent: 20,
-                        ),
-                        for (final siteInfo in siteInfoList)
-                          TappableCampCardItem(siteInfo: siteInfo),
-                      ],
-                      PromotionCardItem()
-                    ]),
+                    child: _contentsScrollWidget(scrollController),
                   )
                 ],
               );
@@ -131,12 +86,6 @@ class BottomSheetContent extends StatelessWidget {
       final isFullScreen = false.obs;
 
       return Obx(() {
-        final currentEvents = _allEvents[_currentDate.value] ?? [];
-        final List<SiteDateInfo> siteInfoList =
-            currentEvents.whereType<SiteDateInfo>().toList();
-        final List<ReservationInfo> reservationInfoList =
-            currentEvents.whereType<ReservationInfo>().toList();
-
         return AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             height: isFullScreen.value
@@ -199,50 +148,7 @@ class BottomSheetContent extends StatelessWidget {
                       child: Container(
                           constraints:
                               const BoxConstraints(maxWidth: MAX_WIDTH),
-                          child: ListView(children: [
-                            if (reservationInfoList.length > 0) ...[
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 30),
-                                  child: Text(
-                                      "camp_next_open".tr +
-                                          "(${reservationInfoList.length})",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          color: Colors.redAccent))),
-                              const Divider(
-                                color: Colors.redAccent,
-                                thickness: 1,
-                                indent: 20,
-                                endIndent: 20,
-                              ),
-                              for (final reservationInfo in reservationInfoList)
-                                TappableReservationInfoCardItem(
-                                    info: reservationInfo),
-                            ],
-                            if (siteInfoList.length > 0) ...[
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 30),
-                                  child: Text(
-                                      "camp_avail_reservation".tr +
-                                          "(${siteInfoList.length})",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          color: Colors.blueAccent))),
-                              Divider(
-                                color: Colors.blueAccent,
-                                thickness: 1,
-                                indent: 20,
-                                endIndent: 20,
-                              ),
-                              for (final siteInfo in siteInfoList)
-                                TappableCampCardItem(siteInfo: siteInfo),
-                            ],
-                            PromotionCardItem()
-                          ])),
+                          child: _contentsScrollWidget(null)),
                     ),
                   ],
                 ),
@@ -251,9 +157,7 @@ class BottomSheetContent extends StatelessWidget {
                     child: const Icon(Icons.expand),
                     backgroundColor: Colors.lightGreen.shade400,
                     onPressed: () {
-                      print("1: $isFullScreen");
                       isFullScreen.toggle();
-                      print("2: $isFullScreen");
                     })));
       });
     }
@@ -297,6 +201,88 @@ class BottomSheetContent extends StatelessWidget {
           ? "${DateFormat("MM-dd (EEE)", 'ko_KR').format(currentDate)}"
           : "${DateFormat("yyyy-MM-dd (EEE)", 'ko_KR').format(currentDate)}",
       style: TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget _contentsScrollWidget(ScrollController? controller) {
+    final currentEvents = _allEvents[_currentDate.value] ?? [];
+    final List<SiteDateInfo> siteInfoList =
+        currentEvents.whereType<SiteDateInfo>().toList();
+    final List<ReservationInfo> reservationInfoList =
+        currentEvents.whereType<ReservationInfo>().toList();
+
+    return CustomScrollView(
+      controller: controller,
+      slivers: [
+        // 예약 오픈 캠핑장
+        if (reservationInfoList.length > 0) ...[
+          SliverStickyHeader(
+            header: Container(
+                color: Colors.grey.shade50,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Text(
+                              "camp_next_open".tr +
+                                  "(${reservationInfoList.length})",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  color: Colors.redAccent))),
+                      const Divider(color: Colors.redAccent, thickness: 1)
+                    ])),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, i) {
+                  final info = reservationInfoList[i];
+                  return TappableReservationInfoCardItem(info: info);
+                },
+                childCount: reservationInfoList.length,
+              ),
+            ),
+          ),
+        ],
+
+        // 예약 가능 캠핑장
+        SliverStickyHeader(
+          header: Container(
+              color: Colors.grey.shade50,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Text(
+                            "camp_avail_reservation".tr +
+                                "(${siteInfoList.length})",
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                color: Colors.blueAccent))),
+                    Divider(
+                      color: Colors.blueAccent,
+                      thickness: 1,
+                    ),
+                  ])),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, i) {
+                if (siteInfoList.length <= i) {
+                  return PromotionCardItem();
+                } else {
+                  final info = siteInfoList[i];
+                  return TappableCampCardItem(siteInfo: info);
+                }
+              },
+              childCount: siteInfoList.length + 1,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
