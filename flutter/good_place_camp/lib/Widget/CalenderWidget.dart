@@ -50,6 +50,7 @@ class CalenderWidget extends StatelessWidget {
                                     width: CALENDER_WIDTH,
                                     child: TableCalendar(
                                       locale: "ko_KR",
+                                      daysOfWeekHeight: 25,
                                       focusedDay:
                                           addMonths(DateTime.now(), index),
                                       firstDay: _getFirstDay(index),
@@ -63,6 +64,8 @@ class CalenderWidget extends StatelessWidget {
                                       availableGestures: AvailableGestures.none,
                                       calendarStyle: const CalendarStyle(
                                         outsideDaysVisible: false,
+                                        weekendTextStyle:
+                                            const TextStyle(color: Colors.red),
                                       ),
                                       headerStyle: const HeaderStyle(
                                           titleCentered: true,
@@ -70,26 +73,14 @@ class CalenderWidget extends StatelessWidget {
                                           leftChevronVisible: false,
                                           rightChevronVisible: false),
                                       calendarBuilders: CalendarBuilders(
-                                        selectedBuilder: (context, date, _) {
+                                        holidayBuilder:
+                                            (context, date, events) {
                                           return Container(
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: _isToday(date)
-                                                    ? Color(0xFF9FA8DA)
-                                                    : null),
                                             margin: const EdgeInsets.all(6.0),
                                             alignment: Alignment.center,
                                             child: Text('${date.day}',
-                                                style: _isToday(date)
-                                                    ? const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16.0,
-                                                      )
-                                                    : _isWeekend(date,
-                                                            s.holidays.keys)
-                                                        ? const TextStyle(
-                                                            color: Colors.red)
-                                                        : null),
+                                                style: const TextStyle(
+                                                    color: Colors.red)),
                                           );
                                         },
                                         markerBuilder: (context, date, events) {

@@ -41,7 +41,8 @@ class BottomSheetContent extends StatelessWidget {
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 12),
                             ),
-                            onPressed: prevDate.isBefore(DateTime.now())
+                            onPressed: prevDate.isBefore(
+                                    DateTime.now().add(Duration(days: -1)))
                                 ? null
                                 : () {
                                     _currentDate.value = prevDate;
@@ -222,7 +223,7 @@ class BottomSheetContent extends StatelessWidget {
         if (reservationInfoList.length > 0) ...[
           SliverStickyHeader(
             header: Container(
-                color: Colors.grey.shade50,
+                color: Colors.grey.shade50.withOpacity(0.95),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +254,7 @@ class BottomSheetContent extends StatelessWidget {
         // 예약 가능 캠핑장
         SliverStickyHeader(
           header: Container(
-              color: Colors.grey.shade50,
+              color: Colors.grey.shade50.withOpacity(0.95),
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

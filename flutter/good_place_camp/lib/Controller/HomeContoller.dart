@@ -99,7 +99,10 @@ class HomeController extends GetxController {
   void _updateHoliday(Map<String, String> holiday) {
     // 공휴일 처리
     holiday.forEach((key, value) {
-      holidays[DateTime.parse(key)] = [value];
+      holidays[DateTime.utc(
+          int.parse(key.substring(0, 4)),
+          int.parse(key.substring(4, 6)),
+          int.parse(key.substring(6, 8)))] = [value];
     });
   }
 
