@@ -10,6 +10,7 @@ import 'package:good_place_camp/Controller/PostWriteContoller.dart';
 // Model
 import 'package:good_place_camp/Model/Post.dart';
 import 'package:good_place_camp/Widget/CommonAppBar.dart';
+import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
 
 class PostWritePage extends GetView<PostWriteContoller> {
   final children = <int, Widget>{
@@ -24,84 +25,90 @@ class PostWritePage extends GetView<PostWriteContoller> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CommonAppBar(pageName: "board_wirte_new".tr),
-        body: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {
-              FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus) {
-                currentFocus.unfocus();
-              }
-            },
-            child: Obx(() => Stack(children: [
-                  SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextButton(
-                                child: Text(
-                                    "writer".tr +
-                                        ": ${Constants.user.value.isLogin ? Constants.user.value.info.nick : 'default_nick'.tr}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12)),
-                                onPressed: () {
-                                  if (!Constants.user.value.isLogin) {
-                                    showRequiredLoginAlert();
-                                  } else {
-                                    Get.toNamed("/myinfo");
-                                  }
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              SizedBox(
-                                width: 300,
-                                child: CupertinoSegmentedControl<int>(
-                                  padding: EdgeInsets.zero,
-                                  children: children,
-                                  onValueChanged: (int newValue) {
-                                    if (newValue == 2) {
-                                      if (!Constants.user.value.isLogin) {
-                                        showRequiredLoginAlert();
-                                        c.postType.value = 0;
-                                        return;
-                                      }
-                                    }
+        body: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
+                },
+                child: Center(
+                    child: Container(
+                        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
+                        child: Stack(children: [
+                          Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                              child: Obx(() => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextButton(
+                                          child: Text(
+                                              "writer".tr +
+                                                  ": ${Constants.user.value.isLogin ? Constants.user.value.info.nick : 'default_nick'.tr}",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12)),
+                                          onPressed: () {
+                                            if (!Constants.user.value.isLogin) {
+                                              showRequiredLoginAlert();
+                                            } else {
+                                              Get.toNamed("/myinfo");
+                                            }
+                                          },
+                                        ),
+                                        const SizedBox(height: 20),
+                                        SizedBox(
+                                          width: 300,
+                                          child: CupertinoSegmentedControl<int>(
+                                            padding: EdgeInsets.zero,
+                                            children: children,
+                                            onValueChanged: (int newValue) {
+                                              if (newValue == 2) {
+                                                if (!Constants
+                                                    .user.value.isLogin) {
+                                                  showRequiredLoginAlert();
+                                                  c.postType.value = 0;
+                                                  return;
+                                                }
+                                              }
 
-                                    c.postType.value = newValue;
-                                  },
-                                  groupValue: c.postType.value,
-                                ),
-                              ),
-                              if (c.postType.value == 2)
-                                Text("board_secret_info".tr),
-                              TextField(
-                                controller: c.titleControler,
-                                decoration: InputDecoration(
-                                    hintText: "title".tr + "...",
-                                    labelText: 'title'.tr),
-                              ),
-                              const SizedBox(height: 20),
-                              TextField(
-                                controller: c.bodyControler,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                decoration: InputDecoration(
-                                    hintText: "content".tr + "...",
-                                    labelText: 'content'.tr),
-                              ),
-                              const SizedBox(height: 40),
-                              Center(
-                                  child: ElevatedButton(
-                                onPressed: c.makePosts,
-                                child: Text("dialog_registration".tr),
-                              ))
-                            ],
-                          ))),
-                  if (c.isLoading.value)
-                    const Center(child: const CircularProgressIndicator())
-                ]))));
+                                              c.postType.value = newValue;
+                                            },
+                                            groupValue: c.postType.value,
+                                          ),
+                                        ),
+                                        if (c.postType.value == 2)
+                                          Text("board_secret_info".tr),
+                                        const SizedBox(height: 20),
+                                        TextField(
+                                          controller: c.titleControler,
+                                          decoration: InputDecoration(
+                                              hintText: "title".tr + "...",
+                                              labelText: 'title'.tr),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        TextField(
+                                          controller: c.bodyControler,
+                                          keyboardType: TextInputType.multiline,
+                                          minLines: 3,
+                                          maxLines: null,
+                                          decoration: InputDecoration(
+                                              hintText: "content".tr + "...",
+                                              labelText: 'content'.tr),
+                                        ),
+                                        const SizedBox(height: 60),
+                                        Center(
+                                            child: ElevatedButton(
+                                          onPressed: c.makePosts,
+                                          child: Text("dialog_registration".tr),
+                                        )),
+                                      ]))),
+                          obxLoadingWidget(c.isLoading)
+                        ]))))));
   }
 }
