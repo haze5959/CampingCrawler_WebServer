@@ -43,7 +43,7 @@ class PushContoller extends GetxController {
 
   void editArea(CampArea area) async {
     isLoading.value = true;
-    final editedArea = Constants.user.value.info.favoriteAreaList;
+    final editedArea = Constants.user.value.info.favoriteAreaSet;
 
     if (editedArea == null) {
       showOneBtnAlert("server_error".tr, "confirm".tr, () {
@@ -66,7 +66,7 @@ class PushContoller extends GetxController {
       return;
     }
 
-    Constants.user.value.info.favoriteAreaList = editedArea;
+    Constants.user.value.info.favoriteAreaSet = editedArea;
     isLoading.value = false;
   }
 

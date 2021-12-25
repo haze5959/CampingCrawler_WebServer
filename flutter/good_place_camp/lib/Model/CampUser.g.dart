@@ -17,9 +17,9 @@ CampUserInfo _$CampUserInfoFromJson(Map<String, dynamic> json) => CampUserInfo(
       favoriteList: (json['favorite'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      favoriteAreaList: (json['favorite_area'] as List<dynamic>?)
+      favoriteAreaSet: (json['favorite_area'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$CampAreaEnumMap, e))
-          .toList(),
+          .toSet(),
     );
 
 Map<String, dynamic> _$CampUserInfoToJson(CampUserInfo instance) =>
@@ -33,7 +33,7 @@ Map<String, dynamic> _$CampUserInfoToJson(CampUserInfo instance) =>
       'use_push_notice': instance.usePushNotice,
       'favorite': instance.favoriteList,
       'favorite_area':
-          instance.favoriteAreaList?.map((e) => _$CampAreaEnumMap[e]).toList(),
+          instance.favoriteAreaSet?.map((e) => _$CampAreaEnumMap[e]).toList(),
     };
 
 const _$CampRatingEnumMap = {

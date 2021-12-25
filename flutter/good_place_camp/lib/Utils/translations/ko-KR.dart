@@ -158,6 +158,7 @@ const trJson = {
     "dialog_change_complete": "변경되었습니다.",
     "dialog_report_msg": "잘못된 정보 신고하기.",
     "dialog_select_area_msg": "원하시는 지역을 선택해주세요.",
+    "dialog_select_area_empty_err_msg": "원하시는 지역을 한 곳 이상 선택해주세요.",
 
     "promotion_msg_1": "가고싶은 명당을 요청해주세요!",
     "promotion_msg_2": "요청주시면 최대한 빨리 추가해드리겠습니다! 🔥",

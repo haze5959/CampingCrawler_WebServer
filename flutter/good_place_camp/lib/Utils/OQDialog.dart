@@ -379,23 +379,34 @@ void showChangeNickAlert() {
 }
 
 void showAreaFilterDialog() {
+  final selectedArea = <CampArea>{}.obs;
+  selectedArea.addAll(Constants.myArea);
   showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Column(children: [
-            Text(
-              "dialog_select_area_msg".tr,
-            ),
-            for (final area in CampArea.values)
-              CheckboxListTile(
-                title: Text(area.toAreaString()),
-                value: Constants.myArea.contains(area),
-                onChanged: (bool? value) {
-                  print(value);
-                },
-              ),
-          ]),
+          content: Obx(() => Column(mainAxisSize: MainAxisSize.min, children: [
+                Text(
+                  "dialog_select_area_msg".tr,
+                ),
+                SizedBox(height: 20),
+                for (final area in CampArea.values)
+                  CheckboxListTile(
+                    title: Text(area.toAreaString()),
+                    value: selectedArea.contains(area),
+                    onChanged: (bool? value) {
+                      if (value == null) {
+                        return;
+                      }
+
+                      if (value) {
+                        selectedArea.add(area);
+                      } else {
+                        selectedArea.remove(area);
+                      }
+                    },
+                  ),
+              ])),
           actions: [
             TextButton(
               child: Text("cancel".tr),
@@ -405,31 +416,24 @@ void showAreaFilterDialog() {
             ),
             TextButton(
               child: Text("confirm".tr),
-              onPressed: () {
+              onPressed: () async {
+                if (selectedArea.length == 0) {
+                  showOneBtnAlert("dialog_select_area_empty_err_msg".tr,
+                      "confirm".tr, () {});
+                  return;
+                }
+
+                Constants.myArea.value = selectedArea.value;
+                final HomeController c = Get.find();
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                final bit = toAreaBit(Constants.myArea);
+                prefs.setInt(MY_AREA_BIT_KEY, bit);
+
+                c.reload();
                 Get.back();
               },
             )
           ],
         );
       });
-
-  void onSelected(CampArea area) async {
-    final HomeController c = Get.find();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    if (Constants.myArea.contains(area)) {
-      Constants.myArea.remove(area);
-    } else {
-      Constants.myArea.add(area);
-    }
-
-    if (Constants.myArea.length > 0) {
-      final bit = toAreaBit(Constants.myArea);
-      prefs.setInt(MY_AREA_BIT_KEY, bit);
-    } else {
-      prefs.setInt(MY_AREA_BIT_KEY, 0);
-    }
-
-    c.reload();
-  }
 }

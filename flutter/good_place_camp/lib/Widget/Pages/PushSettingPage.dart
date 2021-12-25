@@ -48,7 +48,7 @@ class PushSettingPage extends StatelessWidget {
   }
 
   Widget _buildETCInfo() {
-    final favoriteArea = Constants.user.value.info.favoriteAreaList ?? [];
+    final favoriteArea = Constants.user.value.info.favoriteAreaSet ?? {};
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

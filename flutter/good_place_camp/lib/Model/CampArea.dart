@@ -61,39 +61,44 @@ CampArea fromAreaInt(int areaInt) {
   }
 }
 
-int toAreaBit(List<CampArea> areaList) {
-  if (areaList.isEmpty) {
+int toAreaBit(Set<CampArea> areaSet) {
+  if (areaSet.isEmpty) {
     return 0;
   } else {
-    return areaList
+    return areaSet
         .map((element) => element.toBit())
         .reduce((value, element) => value + element);
   }
 }
 
-List<CampArea> fromBit(int bit) {
-  List<CampArea> areaList = [];
-  while (bit > 0) {
-    if (bit >= CampArea.gangwon.toBit()) {
-      bit = -CampArea.gangwon.toBit();
-      areaList.add(CampArea.gangwon);
-    } else if (bit >= CampArea.chungbuk.toBit()) {
-      bit = -CampArea.chungbuk.toBit();
-      areaList.add(CampArea.chungbuk);
-    } else if (bit >= CampArea.chungnam.toBit()) {
-      bit = -CampArea.chungnam.toBit();
-      areaList.add(CampArea.chungnam);
-    } else if (bit >= CampArea.inchoen.toBit()) {
-      bit = -CampArea.inchoen.toBit();
-      areaList.add(CampArea.inchoen);
-    } else if (bit >= CampArea.gyeonggi.toBit()) {
-      bit = -CampArea.gyeonggi.toBit();
-      areaList.add(CampArea.gyeonggi);
-    } else if (bit >= CampArea.seoul.toBit()) {
-      bit = -CampArea.seoul.toBit();
-      areaList.add(CampArea.seoul);
+Set<CampArea> fromBit(int bit) {
+  Set<CampArea> areaSet = {};
+  if (bit == 0) {
+    // 전지역 설정
+    areaSet.addAll(CampArea.values);
+  } else {
+    while (bit > 0) {
+      if (bit >= CampArea.gangwon.toBit()) {
+        bit -= CampArea.gangwon.toBit();
+        areaSet.add(CampArea.gangwon);
+      } else if (bit >= CampArea.chungbuk.toBit()) {
+        bit -= CampArea.chungbuk.toBit();
+        areaSet.add(CampArea.chungbuk);
+      } else if (bit >= CampArea.chungnam.toBit()) {
+        bit -= CampArea.chungnam.toBit();
+        areaSet.add(CampArea.chungnam);
+      } else if (bit >= CampArea.inchoen.toBit()) {
+        bit -= CampArea.inchoen.toBit();        
+        areaSet.add(CampArea.inchoen);
+      } else if (bit >= CampArea.gyeonggi.toBit()) {
+        bit -= CampArea.gyeonggi.toBit();
+        areaSet.add(CampArea.gyeonggi);
+      } else if (bit >= CampArea.seoul.toBit()) {
+        bit -= CampArea.seoul.toBit();
+        areaSet.add(CampArea.seoul);
+      }
     }
   }
 
-  return areaList;
+  return areaSet;
 }

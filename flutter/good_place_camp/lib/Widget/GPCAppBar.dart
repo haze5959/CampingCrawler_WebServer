@@ -166,24 +166,36 @@ class GPCAppBar extends AppBar {
             ]);
 
   static Widget _buildAreaFilter() {
-    print(Constants.myArea);
     return Tooltip(
         message: "notification_filter_region".tr,
         child: TextButton(
           child: Row(children: [
-            Text(
-                Constants.myArea.isEmpty
-                    ? "area_all".tr
-                    : Constants.myArea
-                        .take(3)
-                        .map((e) => e.toAreaString())
-                        .reduce((value, element) => element + ", $value"),
-                style: TextStyle(color: Colors.white)),
+            Obx(() => Text(_getMyAreaText(Constants.myArea),
+                style: TextStyle(color: Colors.white))),
             const SizedBox(width: 10),
             const Icon(Icons.filter_list_rounded, color: Colors.white)
           ]),
           onPressed: showAreaFilterDialog,
         ));
+  }
+
+  static String _getMyAreaText(RxSet<CampArea> myArea) {
+    if (myArea.length == CampArea.values.length) {
+      return "area_all".tr;
+    } else {
+      final showLength = Constants.isPhoneSize ? 2 : 3;
+      if (myArea.length > showLength) {
+        var text = myArea
+            .take(showLength)
+            .map((e) => e.toAreaString())
+            .reduce((value, element) => element + ", $value");
+        return text + " 외 ${myArea.length - showLength}";
+      } else {
+        return myArea
+            .map((e) => e.toAreaString())
+            .reduce((value, element) => element + ", $value");
+      }
+    }
   }
 
   static void _gotoFavoritePage() {

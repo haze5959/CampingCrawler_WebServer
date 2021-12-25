@@ -46,6 +46,7 @@ class HomeController extends GetxController {
     print("홈 데이터 로드");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final areaBit = prefs.getInt(MY_AREA_BIT_KEY) ?? 0;
+    print(areaBit);
     final myArea = fromBit(areaBit);
     Constants.myArea = myArea.obs;
 
@@ -146,7 +147,7 @@ class HomeController extends GetxController {
 
   void _updateAccpetedCampInfo() {
     final allInfo = Constants.campInfoMap.values.toList();
-    if (Constants.myArea.isEmpty) {
+    if (Constants.myArea.length == CampArea.values.length) {
       accpetedCampInfo = allInfo;
     } else {
       accpetedCampInfo.clear();

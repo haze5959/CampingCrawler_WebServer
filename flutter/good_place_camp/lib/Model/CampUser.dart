@@ -120,7 +120,7 @@ class CampUserInfo {
   List<String>? favoriteList = [];
 
   @JsonKey(name: 'favorite_area')
-  List<CampArea>? favoriteAreaList = [];
+  Set<CampArea>? favoriteAreaSet = {};
 
   CampUserInfo(
       {this.nick,
@@ -131,7 +131,7 @@ class CampUserInfo {
       this.usePushReservationDay,
       this.usePushNotice,
       this.favoriteList,
-      this.favoriteAreaList});
+      this.favoriteAreaSet});
 
   factory CampUserInfo.fromJson(Map<String, dynamic> json) =>
       _$CampUserInfoFromJson(json);
