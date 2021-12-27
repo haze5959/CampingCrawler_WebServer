@@ -17,6 +17,7 @@ class RecommandSiteWidget extends StatelessWidget {
   Widget build(context) {
     return GetBuilder<HomeController>(
         builder: (c) => Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
             constraints: BoxConstraints(maxWidth: HORIZE_INFO_MAX_WIDTH),
             child: Column(children: [
               Padding(

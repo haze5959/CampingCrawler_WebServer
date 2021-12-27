@@ -13,16 +13,30 @@ import 'package:good_place_camp/Widget/Pages/LoginPage.dart';
 import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
+void showOneBtnAlert(String msg, String btnText, Function() confirmAction,
+    {String? title}) {
   showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
+          title: title != null
+              ? Text(
+                  title,
+                  textAlign: TextAlign.center,
+                )
+              : null,
           content: Text(
             msg,
+            textAlign: TextAlign.center,
           ),
+          actionsAlignment: MainAxisAlignment.center,
+          actionsPadding: const EdgeInsets.all(8.0),
           actions: [
-            TextButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.lightGreen,
+                  textStyle: TextStyle(fontSize: 18),
+                  minimumSize: Size(120, 45)),
               child: Text(btnText),
               onPressed: () {
                 Get.back();
@@ -34,22 +48,41 @@ void showOneBtnAlert(String msg, String btnText, Function() confirmAction) {
       });
 }
 
-void showTwoBtnAlert(String msg, String btnText, Function() confirmAction) {
+void showTwoBtnAlert(String msg, String btnText, Function() confirmAction,
+    {String? title}) {
   showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
+          title: title != null
+              ? Text(
+                  title,
+                  textAlign: TextAlign.center,
+                )
+              : null,
           content: Text(
             msg,
+            textAlign: TextAlign.center,
           ),
+          actionsAlignment: MainAxisAlignment.center,
+          actionsPadding: const EdgeInsets.all(8.0),
           actions: [
-            TextButton(
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                  primary: Colors.lightGreen,
+                  textStyle: TextStyle(fontSize: 18),
+                  minimumSize: Size(120, 45)),
               child: Text("cancel".tr),
               onPressed: () {
                 Get.back();
               },
             ),
-            TextButton(
+            const SizedBox(width: 5),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.lightGreen,
+                  textStyle: TextStyle(fontSize: 18),
+                  minimumSize: Size(120, 45)),
               child: Text(btnText),
               onPressed: () {
                 Get.back();
@@ -223,17 +256,33 @@ void showRequiredLoginAlert() {
       context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Text(
-            "required_login".tr,
+          title: Text(
+            "required_login_title".tr,
+            textAlign: TextAlign.center,
           ),
+          content: Text(
+            "required_login_msg".tr,
+            textAlign: TextAlign.center,
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actionsPadding: const EdgeInsets.all(8.0),
           actions: [
-            TextButton(
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                  primary: Colors.lightGreen,
+                  textStyle: TextStyle(fontSize: 18),
+                  minimumSize: Size(120, 45)),
               child: Text("cancel".tr),
               onPressed: () {
                 Get.back();
               },
             ),
-            TextButton(
+            const SizedBox(width: 5),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.lightGreen,
+                  textStyle: TextStyle(fontSize: 18),
+                  minimumSize: Size(120, 45)),
               child: Text("login_start".tr),
               onPressed: () {
                 Get.off(LoginPage());

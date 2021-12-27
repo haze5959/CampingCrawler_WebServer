@@ -60,24 +60,25 @@ const trJson = {
 
     "net_error": "네트워크에 연결되지 않았습니다. @error",
     "net_timeout": "네트워크 연결이 원활하지 않습니다. 네트워크 상태를 확인해주세요.",
-    "server_error": "서버에 접속할 수 없습니다. 잠시 후 다시 이용 바랍니다.",
-    "auth_error": "로그인이 필요한 서비스입니다.",
-    "sign_up_error": "회원가입에 실패하였습니다. 잠시 후 다시 이용 바랍니다.",
+    "server_error": "서버가 많이 아파요... 잠시.. 잠시만 기다려주세요. 빨리 해결할게요!",
+    "auth_error": "인증에 실패했어요... 재로그인 부탁드립니다!",
+    "sign_up_error": "회원가입에 실패했어요... 다시 이용 부탁드립니다!",
     "not_exist_error": "이미 존재하지 않는 값입니다.",
     "already_exist_error": "이미 존재하는 값입니다.",
-    "not_excute_error": "작업에 실패하였습니다. 잠시 후 다시 이용 바랍니다.",
+    "not_excute_error": "처리에 실패했어요... 잠시 후 다시 이용 부탁드립니다!",
     "settings_error": "설정 정보를 가져올 수 없습니다.",
-    "web_no_available": "웹에서는 지원하지 않습니다.",
+    "web_no_available": "웹에서는 지원하지 않아요! 앱에서 부탁드립니다!",
     "android_no_available": "안드로이드에서는 지원하지 않습니다.",
     "ios_no_available": "아이폰에서는 지원하지 않습니다.",
     "no_contents": "내용을 입력해주세요.",
-    "required_login": "로그인이 필요한 서비스입니다.",
+    "required_login_title": "잠깐이면 됩니다!",
+    "required_login_msg": "로그인이 필요한 서비스에요.",
 
     "home_title_1": "이제 '명당'에서 캠핑하세요",
     "home_title_2": "매시간 마다 업데이트 되는 캠핑장 예약 정보로 빠르고 편리하게 명당을 예약하세요!",
 
-    "favorite_add": "즐겨찾기 목록에 추가되었습니다.",
-    "favorite_delete": "즐겨찾기 목록에 삭제되었습니다.",
+    "favorite_add": "즐겨찾기 목록에 추가되었어요!",
+    "favorite_delete": "즐겨찾기 목록에서 삭제되었습니다.",
 
     "camp_detail_no_detail": "@month월 @day일 - 자리 상세정보 미지원",
     "camp_detail": "@month월 @day일 - @info",
@@ -92,7 +93,7 @@ const trJson = {
     "camp_avail_reservation_indicator": "예약가능 캠핑장 표시",
     "camp_avail_reservation_msg": "예약 가능한 캠핑장들의 개수를 표시합니다.\n예약정보 수집은 한시간 주기로 실행되며 이미 예약되었을 수도 있습니다.",
 
-    "login_start": "로그인하기",
+    "login_start": "로그인",
     "login_fail": "로그인에 실패하였습니다. @msg",
     "login_cancel": "사용자 취소",
     "login_sns_cancel_error": "로그인 연동된 SNS가 하나일 경우 해제할 수 없습니다.",
@@ -120,7 +121,7 @@ const trJson = {
     "login_unregistration_complete": "탈퇴되었습니다. \n이용해주셔서 감사합니다.",
 
     "posts_no_contents": "제목과 내용을 입력해주세요.",
-    "posts_success": "등록되었습니다.",
+    "posts_success": "등록되었어요!",
 
     "camp_level_1": "노지캠퍼",
     "camp_level_2": "명당캠퍼 🏕",
@@ -136,7 +137,7 @@ const trJson = {
     "board_secret": "비밀글",
     "board_info_last": "마지막 글 입니다.",
     "board_wirte_new": "새글 작성하기",
-    "board_secret_info": "ℹ️ 비밀글은 작성자와 관리자만 확인할 수 있습니다.",
+    "board_secret_info": "ℹ️ 비밀글은 작성자와 관리자만 확인할 수 있어요!",
 
     "dialog_pw_rules": "6자리 숫자",
     "dialog_pw_rules_msg": "6자리의 숫자를 입력해주세요.",
