@@ -3,12 +3,16 @@ import 'package:good_place_camp/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
+import 'package:good_place_camp/Utils/DateUtils.dart';
 
 // Model
 import 'package:good_place_camp/Model/SiteInfo.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
 
-class CampDetailContoller extends GetxController {
+// Widgets
+import 'package:good_place_camp/Widget/CalenderWidget.dart';
+
+class CampDetailContoller extends CalenderInterface {
   final String siteName;
 
   CampDetailContoller({required this.siteName});
@@ -21,8 +25,7 @@ class CampDetailContoller extends GetxController {
 
   bool isLoading = true;
 
-  Map<DateTime, List<String>> events = Map<DateTime, List<String>>();
-  Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
+  Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
 
   @override
   void onInit() {
@@ -90,14 +93,39 @@ class CampDetailContoller extends GetxController {
       final availDate = dateInfoArr[0];
       final availSiteInfo = dateInfoArr[1];
       final parseDate = DateTime.parse(availDate);
+
+      final info = SiteDateInfo(availSiteInfo, [""], "");
       events[DateTime.utc(parseDate.year, parseDate.month, parseDate.day)] = [
-        availSiteInfo
+        info
       ];
+    }
+
+    // 예약시작일 처리
+    final reservationOpenCode = campInfo?.reservationOpen;
+    if (reservationOpenCode != null) {
+      final reservationDateList = getReservationOpenDate(reservationOpenCode);
+      if (reservationDateList.length > 0) {
+        for (final date in reservationDateList) {
+          final reservationInfo =
+              ReservationInfo(siteName, reservationOpenCode);
+          var list = events[date];
+          if (list == null) {
+            list = [reservationInfo];
+          } else {
+            list.add(reservationInfo);
+          }
+
+          events[DateTime.utc(date.year, date.month, date.day)] = list;
+        }
+      }
     }
 
     // 공휴일 처리
     holiday.forEach((key, value) {
-      holidays[DateTime.parse(key)] = [value];
+      final parseDate = DateTime.parse(key);
+      holidays[DateTime.utc(parseDate.year, parseDate.month, parseDate.day)] = [
+        value
+      ];
     });
   }
 
@@ -139,7 +167,7 @@ class CampDetailContoller extends GetxController {
     }
   }
 
-  List<String> getEventsForDay(DateTime day) {
+  List<SiteInfo> getEventsForDay(DateTime day) {
     return events[day] ?? [];
   }
 
@@ -151,17 +179,23 @@ class CampDetailContoller extends GetxController {
 
     final info = events[selectDay]?[0];
 
-    if (info != null && info.isEmpty) {
-      selectedSiteInfo.value = "camp_detail_no_detail".trParams({
-        'month': selectDay.month.toString(),
-        'day': selectDay.day.toString()
-      });
-    } else {
-      selectedSiteInfo.value = "camp_detail".trParams({
-        'month': selectDay.month.toString(),
-        'day': selectDay.day.toString(),
-        'info': info ?? ""
-      });
+    switch (info.runtimeType) {
+      case SiteDateInfo:
+        if (info != null && info.site.isEmpty) {
+          selectedSiteInfo.value = "camp_detail_no_detail".trParams({
+            'month': selectDay.month.toString(),
+            'day': selectDay.day.toString()
+          });
+        } else {
+          selectedSiteInfo.value = "camp_detail".trParams({
+            'month': selectDay.month.toString(),
+            'day': selectDay.day.toString(),
+            'info': info!.site
+          });
+        }
+        break;
+      case ReservationInfo:
+        break;
     }
   }
 }

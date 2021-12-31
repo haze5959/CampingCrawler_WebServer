@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget with WidgetsBindingObserver {
                               _buildIntroText(),
                               SizedBox(height: 30),
                             ],
-                            CalenderWidget()
+                            CalenderWidget(controller: c),
                           ])),
                       clipper: ZigzagClipPath(),
                     ),

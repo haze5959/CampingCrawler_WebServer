@@ -14,13 +14,13 @@ import 'package:good_place_camp/Model/Post.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
+import 'package:good_place_camp/Widget/CalenderWidget.dart';
 
-class HomeController extends GetxController {
+class HomeController extends CalenderInterface {
   // 사이트별 가능한 날짜 리스트
   List<SiteDateInfo> siteInfoList = List<SiteDateInfo>.empty();
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
-  Map<DateTime, List<String>> holidays = Map<DateTime, List<String>>();
 
   // 해당 지역의 캠핑장 리스트
   List<CampSimpleInfo> accpetedCampInfo = <CampSimpleInfo>[];

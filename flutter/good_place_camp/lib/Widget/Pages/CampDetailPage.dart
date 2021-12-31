@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Widget/CommonAppBar.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
@@ -13,83 +12,86 @@ import 'package:good_place_camp/Controller/CampDetailContoller.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/FooterWidget.dart';
+import 'package:good_place_camp/Widget/CalenderWidget.dart';
 
 class CampDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String siteName = Get.parameters['id'] ?? "";
     final infoJson = Constants.campInfoMap[siteName]!;
-    CampDetailContoller c = CampDetailContoller(siteName: siteName);
 
-    return Scaffold(
-        appBar: CommonAppBar(
-          pageName: infoJson.name,
-          backgroundColor: Colors.lightGreen.shade400,
-          actions: [
-            IconButton(
-              tooltip: "favorite".tr,
-              icon: Obx(() => c.isFavorite.value
-                  ? Icon(Icons.star, color: Colors.yellow)
-                  : Icon(Icons.star_border_outlined, color: Colors.white)),
-              onPressed: c.onClickFavorite,
-            ),
-          ],
-        ),
-        body: GetBuilder<CampDetailContoller>(
-          init: c,
-          builder: (c) => c.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildInfoContent(c),
-                      const SizedBox(height: 10),
-                      _buildButtons(c),
-                      const SizedBox(height: 20),
-                      _buildCalender(c),
-                      _buildSelectedInfo(c),
-                      const SizedBox(height: 20),
-                      if (!GetPlatform.isWeb)
-                        SizedBox(
-                            height: CALENDER_WIDTH,
-                            child: GoogleMap(
-                              mapType: MapType.normal,
-                              myLocationButtonEnabled: false,
-                              rotateGesturesEnabled: false,
-                              scrollGesturesEnabled: false,
-                              zoomControlsEnabled: false,
-                              zoomGesturesEnabled: false,
-                              tiltGesturesEnabled: false,
-                              onTap: (position) {
-                                c.launchMap();
-                              },
-                              markers: {
-                                Marker(
-                                  markerId: MarkerId(""),
-                                  position:
-                                      LatLng(c.campInfo!.lat, c.campInfo!.lon),
-                                  infoWindow: InfoWindow(title: infoJson.name),
-                                )
-                              },
-                              initialCameraPosition: CameraPosition(
-                                target:
-                                    LatLng(c.campInfo!.lat, c.campInfo!.lon),
-                                zoom: 14.0,
-                              ),
-                            )),
-                      TextButton.icon(
-                        label: Text(infoJson.name + "dialog_report_msg".tr),
-                        icon: Icon(Icons.report_gmailerrorred_outlined),
-                        onPressed: () {
-                          showReportAlert("${infoJson.key}", "camp".tr);
-                        },
-                      ),
-                      FooterWidget()
-                    ],
-                  )),
-        ));
+    return GetBuilder<CampDetailContoller>(
+        init: CampDetailContoller(siteName: siteName),
+        global: false,
+        builder: (c) => Scaffold(
+              appBar: CommonAppBar(
+                pageName: infoJson.name,
+                backgroundColor: Colors.lightGreen.shade400,
+                actions: [
+                  IconButton(
+                    tooltip: "favorite".tr,
+                    icon: Obx(() => c.isFavorite.value
+                        ? Icon(Icons.star, color: Colors.yellow)
+                        : Icon(Icons.star_border_outlined,
+                            color: Colors.white)),
+                    onPressed: c.onClickFavorite,
+                  ),
+                ],
+              ),
+              body: c.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                      physics: const ClampingScrollPhysics(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildInfoContent(c),
+                          const SizedBox(height: 10),
+                          _buildButtons(c),
+                          const SizedBox(height: 20),
+                          CalenderWidget(controller: c, isOneCampSite: true),
+                          _buildSelectedInfo(c),
+                          const SizedBox(height: 20),
+                          if (!GetPlatform.isWeb)
+                            SizedBox(
+                                height: CALENDER_WIDTH,
+                                child: GoogleMap(
+                                  mapType: MapType.normal,
+                                  myLocationButtonEnabled: false,
+                                  rotateGesturesEnabled: false,
+                                  scrollGesturesEnabled: false,
+                                  zoomControlsEnabled: false,
+                                  zoomGesturesEnabled: false,
+                                  tiltGesturesEnabled: false,
+                                  onTap: (position) {
+                                    c.launchMap();
+                                  },
+                                  markers: {
+                                    Marker(
+                                      markerId: MarkerId(""),
+                                      position: LatLng(
+                                          c.campInfo!.lat, c.campInfo!.lon),
+                                      infoWindow:
+                                          InfoWindow(title: infoJson.name),
+                                    )
+                                  },
+                                  initialCameraPosition: CameraPosition(
+                                    target: LatLng(
+                                        c.campInfo!.lat, c.campInfo!.lon),
+                                    zoom: 14.0,
+                                  ),
+                                )),
+                          TextButton.icon(
+                            label: Text(infoJson.name + "dialog_report_msg".tr),
+                            icon: Icon(Icons.report_gmailerrorred_outlined),
+                            onPressed: () {
+                              showReportAlert("${infoJson.key}", "camp".tr);
+                            },
+                          ),
+                          FooterWidget()
+                        ],
+                      )),
+            ));
   }
 
   Widget _buildInfoContent(CampDetailContoller c) {
@@ -224,61 +226,8 @@ class CampDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCalender(CampDetailContoller c) {
-    return Container(
-        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
-        child: TableCalendar(
-          locale: 'ko_KR',
-          focusedDay: DateTime.now(),
-          firstDay: DateTime.now(),
-          lastDay: addMonths(DateTime.now(), 3),
-          eventLoader: (day) {
-            return c.getEventsForDay(day);
-          },
-          holidayPredicate: (day) {
-            return c.holidays.containsKey(day);
-          },
-          availableGestures: AvailableGestures.horizontalSwipe,
-          calendarStyle: const CalendarStyle(
-            outsideDaysVisible: false,
-          ),
-          headerStyle: const HeaderStyle(
-              titleCentered: true, formatButtonVisible: false),
-          calendarBuilders: CalendarBuilders(
-            markerBuilder: (context, date, events) {
-              if (events.isNotEmpty) {
-                return Positioned(
-                  right: 1,
-                  bottom: 1,
-                  child: _buildEventsMarker(date, events),
-                );
-              } else {
-                return null;
-              }
-            },
-          ),
-          onDaySelected: c.onDaySelected,
-          rowHeight: CALENDER_WIDTH / 6,
-        ));
-  }
-
   Widget _buildSelectedInfo(CampDetailContoller c) {
     return Obx(() => Container(
         width: CALENDER_WIDTH, child: Text(c.selectedSiteInfo.value)));
-  }
-
-  Widget _buildEventsMarker(DateTime date, List events) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        color: Colors.blueAccent,
-      ),
-      width: 16.0,
-      height: 16.0,
-      child: Center(
-        child: const Icon(Icons.date_range_outlined, size: 12),
-      ),
-    );
   }
 }
