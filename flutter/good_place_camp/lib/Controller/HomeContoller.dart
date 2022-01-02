@@ -13,7 +13,7 @@ import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:good_place_camp/Model/Post.dart';
 
 // Widgets
-import 'package:good_place_camp/Widget/Sheets/BottomSheetContent.dart';
+import 'package:good_place_camp/Widget/Sheets/SiteInfoListSheet.dart';
 import 'package:good_place_camp/Widget/CalenderWidget.dart';
 
 class HomeController extends CalenderInterface {
@@ -171,6 +171,6 @@ class HomeController extends CalenderInterface {
         isScrollControlled: true,
         context: Get.context!,
         builder: (context) =>
-            BottomSheetContent(selectedDate.obs, events, holidays));
+            SiteInfoListSheet(selectedDate.obs, holidays, events));
   }
 }
