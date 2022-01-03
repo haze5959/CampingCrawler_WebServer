@@ -15,17 +15,16 @@ import 'package:good_place_camp/Widget/CalenderWidget.dart';
 class CampDetailContoller extends CalenderInterface {
   final String siteName;
 
-  CampDetailContoller({required this.siteName});
-
   CampInfo? campInfo;
   SiteDateInfo? siteInfo;
 
   Rx<bool> isFavorite = Rx<bool>(false);
-  RxString selectedSiteInfo = "".obs;
 
   bool isLoading = true;
 
   Map<DateTime, List<SiteInfo>> events = Map<DateTime, List<SiteInfo>>();
+
+  CampDetailContoller({required this.siteName});
 
   @override
   void onInit() {
@@ -173,7 +172,6 @@ class CampDetailContoller extends CalenderInterface {
 
   void onDaySelected(DateTime selectDay, DateTime _) {
     if (siteInfo == null) {
-      selectedSiteInfo.value = "";
       return;
     }
 
@@ -182,12 +180,12 @@ class CampDetailContoller extends CalenderInterface {
     switch (info.runtimeType) {
       case SiteDateInfo:
         if (info != null && info.site.isEmpty) {
-          selectedSiteInfo.value = "camp_detail_no_detail".trParams({
+          "camp_detail_no_detail".trParams({
             'month': selectDay.month.toString(),
             'day': selectDay.day.toString()
           });
         } else {
-          selectedSiteInfo.value = "camp_detail".trParams({
+          "camp_detail".trParams({
             'month': selectDay.month.toString(),
             'day': selectDay.day.toString(),
             'info': info!.site
@@ -197,5 +195,15 @@ class CampDetailContoller extends CalenderInterface {
       case ReservationInfo:
         break;
     }
+
+    // TODO: !!!
+    // final selectedDate =
+    //     DateTime.utc(selectDay.year, selectDay.month, selectDay.day);
+
+    // showModalBottomSheet<void>(
+    //     isScrollControlled: true,
+    //     context: Get.context!,
+    //     builder: (context) =>
+    //         SiteDetailListSheet(selectedDate.obs, holidays, events));
   }
 }

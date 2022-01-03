@@ -43,7 +43,7 @@ class _PostsRepository implements PostsRepository {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ServerResult<List<Post>>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/post/list/${page}',
+                .compose(_dio.options, '/post/list/$page',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ServerResult<List<Post>>.fromJson(
@@ -63,7 +63,7 @@ class _PostsRepository implements PostsRepository {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ServerResult<Board>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/post/${id}',
+                .compose(_dio.options, '/post/$id',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ServerResult<Board>.fromJson(
@@ -82,7 +82,7 @@ class _PostsRepository implements PostsRepository {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ServerResult<Board>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/post/${id}',
+                .compose(_dio.options, '/post/$id',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ServerResult<Board>.fromJson(
@@ -160,7 +160,7 @@ class _PostsRepository implements PostsRepository {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ServerResult<dynamic>>(
             Options(method: 'DELETE', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/post/${id}',
+                .compose(_dio.options, '/post/$id',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ServerResult<dynamic>.fromJson(
@@ -182,7 +182,7 @@ class _PostsRepository implements PostsRepository {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ServerResult<dynamic>>(
             Options(method: 'DELETE', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/comment/${id}',
+                .compose(_dio.options, '/comment/$id',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ServerResult<dynamic>.fromJson(

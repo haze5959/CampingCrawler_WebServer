@@ -66,7 +66,7 @@ abstract class GPCSheet extends ScrollContentSheet {
                               color: Colors.grey, size: 10),
                           const SizedBox(width: 3),
                           Text(
-                            "camp_info_1".tr,
+                            "camp_collect_time_tooltip".tr,
                             style: TextStyle(fontSize: 10, color: Colors.grey),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -136,7 +136,7 @@ abstract class GPCSheet extends ScrollContentSheet {
                                 color: Colors.grey, size: 15),
                             const SizedBox(width: 3),
                             Text(
-                              "camp_info_1".tr,
+                              "camp_collect_time_tooltip".tr,
                               style:
                                   TextStyle(fontSize: 15, color: Colors.grey),
                               overflow: TextOverflow.ellipsis,

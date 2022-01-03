@@ -10,7 +10,8 @@ class CommonAppBar extends AppBar {
       : super(
             leading: Row(
               children: [
-                const BackButton(),
+                if (Navigator.canPop(Get.context!))
+                  const BackButton(),
                 const SizedBox(width: 10),
                 IconButton(
                     onPressed: () {

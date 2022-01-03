@@ -46,13 +46,12 @@ class CampDetailPage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           _buildInfoContent(c),
-                          const SizedBox(height: 10),
                           _buildButtons(c),
-                          const SizedBox(height: 20),
+                          _buildReservationContent(c),
+                          const SizedBox(height: 3),
                           CalenderWidget(controller: c, isOneCampSite: true),
-                          _buildSelectedInfo(c),
-                          const SizedBox(height: 20),
-                          if (!GetPlatform.isWeb)
+                          if (!GetPlatform.isWeb) ...[
+                            _titleDivider("camp_detail_map_title".tr),
                             SizedBox(
                                 height: CALENDER_WIDTH,
                                 child: GoogleMap(
@@ -81,13 +80,20 @@ class CampDetailPage extends StatelessWidget {
                                     zoom: 14.0,
                                   ),
                                 )),
-                          TextButton.icon(
-                            label: Text(infoJson.name + "dialog_report_msg".tr),
-                            icon: Icon(Icons.report_gmailerrorred_outlined),
+                            const SizedBox(height: 20),
+                          ],
+                          _titleDivider(""),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.lightGreen),
+                            label: Text("dialog_edit_request"
+                                .trParams({"id": infoJson.name})),
+                            icon: Icon(Icons.edit),
                             onPressed: () {
-                              showReportAlert("${infoJson.key}", "camp".tr);
+                              showCampEditRequestAlert("${infoJson.name}");
                             },
                           ),
+                          const SizedBox(height: 40),
                           FooterWidget()
                         ],
                       )),
@@ -98,7 +104,7 @@ class CampDetailPage extends StatelessWidget {
     final textTheme = Get.theme.textTheme;
     final titleStyle = textTheme.headline5!.copyWith(color: Colors.white);
     final descriptionStyle = textTheme.subtitle1!;
-    final addrStyle = textTheme.caption;
+    final textStyle = const TextStyle(color: Colors.grey, fontSize: 14);
 
     return Container(
         constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
@@ -144,7 +150,7 @@ class CampDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            // Description and share/explore buttons.
+            _titleDivider("camp_detail_info_title".tr),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: DefaultTextStyle(
@@ -154,27 +160,11 @@ class CampDetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Tooltip(
-                      message: "camp_info_1".tr,
-                      child: Text(
-                        "camp_collect_time".tr +
-                            " - ${remainTime(c.siteInfo!.updatedDate)}",
-                        style: addrStyle,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Tooltip(
-                        message: "camp_info_2".tr,
-                        child: Text(
-                          "camp_reservation_open".tr +
-                              " - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
-                          style: addrStyle,
-                        )),
-                    const SizedBox(height: 3),
-                    Text("${c.campInfo!.desc}", maxLines: 2),
-                    const SizedBox(height: 3),
+                    Text("${c.campInfo!.desc}", maxLines: 2, style: textStyle),
+                    const SizedBox(height: 5),
                     TextButton.icon(
-                        icon: const Icon(Icons.location_on, size: 20),
+                        icon: const Icon(Icons.location_on,
+                            size: 14, color: Colors.grey),
                         style: TextButton.styleFrom(
                             minimumSize: Size(50, 20),
                             padding: EdgeInsets.zero,
@@ -182,9 +172,11 @@ class CampDetailPage extends StatelessWidget {
                         onPressed: () {
                           c.launchMap();
                         },
-                        label: Text("${c.campInfo!.addr}", style: addrStyle)),
+                        label: Text("${c.campInfo!.addr}", style: textStyle)),
+                    const SizedBox(height: 5),
                     TextButton.icon(
-                        icon: const Icon(Icons.call, size: 20),
+                        icon: const Icon(Icons.call,
+                            size: 14, color: Colors.grey),
                         style: TextButton.styleFrom(
                             minimumSize: Size(50, 20),
                             padding: EdgeInsets.zero,
@@ -192,7 +184,7 @@ class CampDetailPage extends StatelessWidget {
                         onPressed: () {
                           c.callPhoneNum();
                         },
-                        label: Text("${c.campInfo!.phone}", style: addrStyle))
+                        label: Text("${c.campInfo!.phone}", style: textStyle))
                   ],
                 ),
               ),
@@ -202,32 +194,80 @@ class CampDetailPage extends StatelessWidget {
   }
 
   Widget _buildButtons(CampDetailContoller c) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
-          icon: const Icon(Icons.home, size: 18),
-          label: Text("homepage".tr),
-          onPressed: () {
-            c.launchHomepageURL();
-          },
-        ),
-        const SizedBox(width: 12),
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
-          icon: const Icon(Icons.calendar_today, size: 18),
-          label: Text("reservation_site".tr),
-          onPressed: () {
-            c.launchReservationURL();
-          },
-        ),
-      ],
+    return Container(
+        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(children: [
+          _titleDivider("camp_detail_link_title".tr),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(primary: Colors.lightGreen),
+                icon: const Icon(Icons.home, size: 18),
+                label: Text("homepage".tr),
+                onPressed: () {
+                  c.launchHomepageURL();
+                },
+              ),
+              const SizedBox(width: 12),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(primary: Colors.lightGreen),
+                icon: const Icon(Icons.calendar_today, size: 18),
+                label: Text("reservation_site".tr),
+                onPressed: () {
+                  c.launchReservationURL();
+                },
+              ),
+            ],
+          )
+        ]));
+  }
+
+  Widget _buildReservationContent(CampDetailContoller c) {
+    final textStyle = const TextStyle(color: Colors.grey, fontSize: 14);
+
+    return Container(
+      constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _titleDivider("camp_detail_reservation_title".tr),
+          Tooltip(
+              message: "camp_reservation_open_tooltip".tr,
+              child: Text(
+                  "camp_reservation_open".tr +
+                      " - ${getReservationOpenStr(c.campInfo!.reservationOpen)}",
+                  style: textStyle)),
+          const SizedBox(height: 3),
+          Tooltip(
+            message: "camp_collect_time_tooltip".tr,
+            child: Text(
+              "camp_collect_time".tr +
+                  " - ${remainTime(c.siteInfo!.updatedDate)}",
+              style: textStyle,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildSelectedInfo(CampDetailContoller c) {
-    return Obx(() => Container(
-        width: CALENDER_WIDTH, child: Text(c.selectedSiteInfo.value)));
+  Widget _titleDivider(String title) {
+    final titleStyle = const TextStyle(
+        color: Colors.lightGreen, fontSize: 18, fontWeight: FontWeight.bold);
+
+    return Container(
+        constraints: const BoxConstraints(maxWidth: MAX_WIDTH),
+        padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: Text(title, style: titleStyle)),
+          Divider(
+            thickness: 1,
+          )
+        ]));
   }
 }

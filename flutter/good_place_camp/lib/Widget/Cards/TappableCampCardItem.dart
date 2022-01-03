@@ -90,7 +90,7 @@ class TappableCampCardItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Tooltip(
-                  message: "camp_info_1".tr,
+                  message: "camp_collect_time_tooltip".tr,
                   child: Text(
                     "camp_collect_time".tr +
                         " - ${remainTime(siteInfo.updatedDate)}",
@@ -146,7 +146,7 @@ class TappableReservationInfoCardItem extends StatelessWidget {
             style: titleStyle,
           ),
           Tooltip(
-            message: "camp_info_2".tr,
+            message: "camp_reservation_open_tooltip".tr,
             child: Text(
               "camp_reservation_open".tr +
                   " - ${getReservationOpenStr(info.desc)}",

@@ -180,7 +180,7 @@ class GPCAppBar extends AppBar {
   }
 
   static String _getMyAreaText(RxSet<CampArea> myArea) {
-    if (myArea.length == CampArea.values.length) {
+    if (myArea.length == 0 || myArea.length == CampArea.values.length) {
       return "area_all".tr;
     } else {
       final showLength = Constants.isPhoneSize ? 2 : 3;

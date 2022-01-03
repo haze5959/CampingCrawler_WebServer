@@ -207,17 +207,16 @@ void showReportAlert(String id, String type) {
       context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "dialog_report_id".trParams({"id": id}),
-            style: const TextStyle(color: Colors.grey, fontSize: 12),
-          ),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
             Obx(() => TextField(
                   controller: bodyControler,
+                  maxLines: 4,
                   decoration: InputDecoration(
                       hintText:
-                          "dialog_report_hint".trParams({"id": type}) + "...",
-                      labelText: "dialog_report_hint".trParams({"id": type}),
+                          "dialog_report_hint".trParams({"id": type}) +
+                              "...",
+                      labelText:
+                          "dialog_report_hint".trParams({"id": type}),
                       errorText: hasErr.value ? "no_contents".tr : null),
                 ))
           ]),
@@ -243,6 +242,76 @@ void showReportAlert(String id, String type) {
 
                   showOneBtnAlert(
                       "dialog_report_confirm".tr, "cancel".tr, () {});
+                }
+              },
+            )
+          ],
+        );
+      });
+}
+
+void showCampEditRequestAlert(String id) {
+  TextEditingController bodyControler = new TextEditingController();
+  RxBool hasErr = false.obs;
+
+  bool _validateText() {
+    if (bodyControler.text.length == 0) {
+      hasErr.value = true;
+      return false;
+    }
+
+    return true;
+  }
+
+  showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("수정이 필요한 부분에 대해서 요청해주세요!"),
+          content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Ex) 예약 오픈일이 틀려요. XX월 XX일에 오픈합니다.",
+                    style: TextStyle(color: Colors.grey)),
+                Text("Ex) 예약가능 날짜가 있는데 달력에서는 없다고 나와요.",
+                    style: TextStyle(color: Colors.grey)),
+                Text("Ex) 캠핑장 사이트가 열리지 않아요 등등...",
+                    style: TextStyle(color: Colors.grey)),
+                Obx(() => TextField(
+                      controller: bodyControler,
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                          hintText:
+                              "dialog_edit_request_hint".trParams({"id": id}) +
+                                  "...",
+                          labelText:
+                              "dialog_edit_request_hint".trParams({"id": id}),
+                          errorText: hasErr.value ? "no_contents".tr : null),
+                    ))
+              ]),
+          actions: [
+            TextButton(
+              child: Text("cancel".tr),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: Text("confirm".tr),
+              onPressed: () async {
+                if (_validateText()) {
+                  final res =
+                      await ApiRepo.posts.createReport(id, bodyControler.text);
+                  if (!res.result) {
+                    showServerErrorAlert(res.msg, false);
+                    return;
+                  }
+
+                  Get.back();
+
+                  showOneBtnAlert(
+                      "dialog_edit_request_confirm".tr, "cancel".tr, () {});
                 }
               },
             )
@@ -472,7 +541,7 @@ void showAreaFilterDialog() {
                   return;
                 }
 
-                Constants.myArea.value = selectedArea.value;
+                Constants.myArea.assignAll(selectedArea);
                 final HomeController c = Get.find();
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 final bit = toAreaBit(Constants.myArea);
