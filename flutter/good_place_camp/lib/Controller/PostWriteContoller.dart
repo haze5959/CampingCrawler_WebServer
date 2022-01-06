@@ -17,7 +17,7 @@ class PostWriteContoller extends GetxController {
     final title = titleControler.text;
     final body = bodyControler.text;
 
-    if (title.length == 0 || body.length == 0) {
+    if (body.length == 0) {
       showOneBtnAlert("posts_no_contents".tr, "confirm".tr, () {});
       return;
     }

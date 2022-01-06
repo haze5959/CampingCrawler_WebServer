@@ -14,6 +14,8 @@ const double CARD_WIDTH = 280;
 const double CARD_SPACE = 15;
 const double MAIN_PADDING = 50;
 
+const Duration TIME_OUT = Duration(seconds: 15);
+
 const String MY_AREA_BIT_KEY = "MY_AREA_BIT_KEY";
 
 const String IMAGE_URL = "http://haze5959.iptime.org:5980/images";

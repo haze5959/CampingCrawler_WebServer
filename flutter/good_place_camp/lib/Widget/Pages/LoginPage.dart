@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/LoginController.dart';
-import 'package:good_place_camp/Widget/CommonAppBar.dart';
+import 'package:good_place_camp/Widget/Common/CommonAppBar.dart';
 
 class LoginPage extends StatelessWidget {
   @override

@@ -9,8 +9,8 @@ import 'package:good_place_camp/Controller/PostWriteContoller.dart';
 
 // Model
 import 'package:good_place_camp/Model/Post.dart';
-import 'package:good_place_camp/Widget/CommonAppBar.dart';
-import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
+import 'package:good_place_camp/Widget/Common/CommonAppBar.dart';
+import 'package:good_place_camp/Widget/Common/ObxLoadingWidget.dart';
 
 class PostWritePage extends GetView<PostWriteContoller> {
   final children = <int, Widget>{
@@ -89,13 +89,13 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                           controller: c.titleControler,
                                           decoration: InputDecoration(
                                               hintText: "title".tr + "...",
-                                              labelText: 'title'.tr),
+                                              labelText: 'title'.tr + " (${"option".tr})"),
                                         ),
                                         const SizedBox(height: 20),
                                         TextField(
                                           controller: c.bodyControler,
                                           keyboardType: TextInputType.multiline,
-                                          minLines: 3,
+                                          minLines: 5,
                                           maxLines: null,
                                           decoration: InputDecoration(
                                               hintText: "content".tr + "...",

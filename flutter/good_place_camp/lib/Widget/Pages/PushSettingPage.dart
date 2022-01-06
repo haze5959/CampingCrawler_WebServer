@@ -7,10 +7,10 @@ import 'package:good_place_camp/Controller/PushContoller.dart';
 
 // Models
 import 'package:good_place_camp/Model/CampArea.dart';
-import 'package:good_place_camp/Widget/CommonAppBar.dart';
+import 'package:good_place_camp/Widget/Common/CommonAppBar.dart';
 
 // Widgets
-import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
+import 'package:good_place_camp/Widget/Common/ObxLoadingWidget.dart';
 
 class PushSettingPage extends StatelessWidget {
   final PushContoller c = PushContoller();

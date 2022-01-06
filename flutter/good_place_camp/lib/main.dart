@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:good_place_camp/Repository/ApiRepository.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 
 import 'package:dio/dio.dart';
+import 'package:good_place_camp/Widget/Pages/ErrorPage.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Pages/HomePage.dart';
@@ -40,19 +42,15 @@ class Home extends StatelessWidget {
   Future<void> _initApp() async {
     await Firebase.initializeApp();
 
-    try {
-      final res = await ApiRepo.site.getAllSiteJson();
-      if (!res.result) {
-        showServerErrorAlert(res.msg, false);
-        return;
-      }
-
-      final data = res.data!;
-      Constants.campInfoMap = toCampInfoMap(data);
-    } on DioError catch (ex) {
-      print(ex.message);
-      showServerErrorAlert("server_error".tr, false);
+    final res =
+        await ApiRepo.site.getAllSiteJson().timeout(TIME_OUT);
+    if (!res.result) {
+      showServerErrorAlert(res.msg, false);
+      return;
     }
+
+    final data = res.data!;
+    Constants.campInfoMap = toCampInfoMap(data);
   }
 
   @override
@@ -60,11 +58,6 @@ class Home extends StatelessWidget {
     return FutureBuilder(
       future: _initApp(),
       builder: (context, snapshot) {
-        // Check for errors
-        if (snapshot.hasError) {
-          return Text(snapshot.error.toString());
-        }
-
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           if (GetPlatform.isWeb) {
@@ -79,7 +72,7 @@ class Home extends StatelessWidget {
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,
             ],
-            initialRoute: "/",
+            initialRoute: snapshot.hasError ? "/error" : "/",
             getPages: [
               GetPage(name: "/", page: () => HomePage()),
               GetPage(name: "/login", page: () => LoginPage()),
@@ -91,6 +84,7 @@ class Home extends StatelessWidget {
               GetPage(name: "/board/list", page: () => PostListPage()),
               GetPage(name: "/board/detail/:id", page: () => PostDetailPage()),
               GetPage(name: "/board/write", page: () => PostWritePage()),
+              GetPage(name: "/error", page: () => ErrorPage(), transition: Transition.downToUp),
             ],
           );
         }

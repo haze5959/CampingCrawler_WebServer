@@ -10,7 +10,7 @@ import 'package:good_place_camp/Model/SiteInfo.dart';
 import 'package:good_place_camp/Model/CampInfo.dart';
 
 // Widgets
-import 'package:good_place_camp/Widget/CalenderWidget.dart';
+import 'package:good_place_camp/Widget/Common/CalenderWidget.dart';
 
 class CampDetailContoller extends CalenderInterface {
   final String siteName;

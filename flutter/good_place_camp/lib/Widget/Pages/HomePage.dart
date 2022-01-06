@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Widgets
-import 'package:good_place_camp/Widget/GPCAppBar.dart';
-import 'package:good_place_camp/Widget/CalenderWidget.dart';
-import 'package:good_place_camp/Widget/RecommandSiteWidget.dart';
-import 'package:good_place_camp/Widget/RecentlyPostsWidget.dart';
-import 'package:good_place_camp/Widget/FooterWidget.dart';
-import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
+import 'package:good_place_camp/Widget/Common/GPCAppBar.dart';
+import 'package:good_place_camp/Widget/Common/CalenderWidget.dart';
+import 'package:good_place_camp/Widget/Common/RecommandSiteWidget.dart';
+import 'package:good_place_camp/Widget/Common/RecentlyPostsWidget.dart';
+import 'package:good_place_camp/Widget/Common/FooterWidget.dart';
+import 'package:good_place_camp/Widget/Common/ObxLoadingWidget.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/HomeContoller.dart';

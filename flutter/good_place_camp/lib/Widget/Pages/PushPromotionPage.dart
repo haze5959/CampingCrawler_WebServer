@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:good_place_camp/Widget/CommonAppBar.dart';
+import 'package:good_place_camp/Widget/Common/CommonAppBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:good_place_camp/Constants.dart';
 // import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';

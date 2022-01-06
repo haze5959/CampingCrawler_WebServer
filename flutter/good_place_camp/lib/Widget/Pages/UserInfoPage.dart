@@ -8,10 +8,10 @@ import 'package:good_place_camp/Controller/UserInfoController.dart';
 
 // Models
 import 'package:good_place_camp/Model/CampUser.dart';
-import 'package:good_place_camp/Widget/CommonAppBar.dart';
+import 'package:good_place_camp/Widget/Common/CommonAppBar.dart';
 
 // Widgets
-import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
+import 'package:good_place_camp/Widget/Common/ObxLoadingWidget.dart';
 
 class UserInfoPage extends StatelessWidget {
   final UserInfoController c = UserInfoController();

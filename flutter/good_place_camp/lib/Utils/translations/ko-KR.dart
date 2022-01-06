@@ -2,6 +2,7 @@ const trJson = {
     "app_title": "명당캠핑",
     "title": "제목",
     "content": "내용",
+    "option": "옵션",
     "confirm": "확인",
     "cancel": "취소",
     "open": "열기",
@@ -73,6 +74,7 @@ const trJson = {
     "no_contents": "내용을 입력해주세요.",
     "required_login_title": "잠깐이면 됩니다!",
     "required_login_msg": "로그인이 필요한 서비스에요.",
+    "server_error_page_msg": "서버가 말썽입니다...\n잠시만 기다려주세요😭\n금방 돌아오겠습니다!",
 
     "home_title_1": "이제 '명당'에서 캠핑하세요",
     "home_title_2": "매시간 마다 업데이트 되는 캠핑장 예약 정보로 빠르고 편리하게 명당을 예약하세요!",
@@ -124,7 +126,7 @@ const trJson = {
     "login_unregistration_msg": "정말 탈퇴하시겠습니까?ㅠ",
     "login_unregistration_complete": "탈퇴되었습니다. \n이용해주셔서 감사합니다.",
 
-    "posts_no_contents": "제목과 내용을 입력해주세요.",
+    "posts_no_contents": "내용을 입력해주세요.",
     "posts_success": "등록되었어요!",
 
     "camp_level_1": "노지캠퍼",

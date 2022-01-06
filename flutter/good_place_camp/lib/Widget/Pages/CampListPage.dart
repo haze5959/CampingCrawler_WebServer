@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:good_place_camp/Constants.dart';
 
 // Widgets
-import 'package:good_place_camp/Widget/GPCAppBar.dart';
+import 'package:good_place_camp/Widget/Common/GPCAppBar.dart';
 
 // Cards
 import 'package:good_place_camp/Widget/Cards/TappableCampCardItem.dart';

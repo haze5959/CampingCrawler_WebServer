@@ -9,8 +9,8 @@ import 'package:good_place_camp/Controller/PostDetailContoller.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Comments/CommentWidget.dart';
-import 'package:good_place_camp/Widget/CommonAppBar.dart';
-import 'package:good_place_camp/Widget/ObxLoadingWidget.dart';
+import 'package:good_place_camp/Widget/Common/CommonAppBar.dart';
+import 'package:good_place_camp/Widget/Common/ObxLoadingWidget.dart';
 
 class PostDetailPage extends StatelessWidget {
   @override

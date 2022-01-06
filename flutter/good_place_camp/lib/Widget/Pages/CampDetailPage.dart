@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:good_place_camp/Widget/CommonAppBar.dart';
+import 'package:good_place_camp/Widget/Common/CommonAppBar.dart';
 import 'package:good_place_camp/Constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
@@ -11,8 +11,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:good_place_camp/Controller/CampDetailContoller.dart';
 
 // Widgets
-import 'package:good_place_camp/Widget/FooterWidget.dart';
-import 'package:good_place_camp/Widget/CalenderWidget.dart';
+import 'package:good_place_camp/Widget/Common/FooterWidget.dart';
+import 'package:good_place_camp/Widget/Common/CalenderWidget.dart';
 
 class CampDetailPage extends StatelessWidget {
   @override

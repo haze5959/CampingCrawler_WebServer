@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:good_place_camp/Utils/DateUtils.dart';
@@ -14,7 +16,7 @@ import 'package:good_place_camp/Model/Post.dart';
 
 // Widgets
 import 'package:good_place_camp/Widget/Sheets/SiteInfoListSheet.dart';
-import 'package:good_place_camp/Widget/CalenderWidget.dart';
+import 'package:good_place_camp/Widget/Common/CalenderWidget.dart';
 
 class HomeController extends CalenderInterface {
   // 사이트별 가능한 날짜 리스트
@@ -46,7 +48,6 @@ class HomeController extends CalenderInterface {
     print("홈 데이터 로드");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final areaBit = prefs.getInt(MY_AREA_BIT_KEY) ?? 0;
-    print(areaBit);
     final myArea = fromBit(areaBit);
     Constants.myArea = myArea.obs;
 
@@ -56,15 +57,21 @@ class HomeController extends CalenderInterface {
   void reload() async {
     isLoading.value = true;
     _updateAccpetedCampInfo();
-    await _updateCampSiteAvailDates();
+    try {
+       await _updateCampSiteAvailDates();
     await _updatePostList();
+    } on TimeoutException catch (e) {
+      print(e.message);
+      Get.offNamed("/error");
+      return;
+    }
     isLoading.value = false;
     update();
   }
 
   Future<void> _updatePostList() async {
     // 게시물 로드
-    final res = await ApiRepo.posts.getHomeInfo();
+    final res = await ApiRepo.posts.getHomeInfo().timeout(TIME_OUT);
     if (!res.result) {
       showServerErrorAlert(res.msg, false);
       return;
@@ -130,7 +137,7 @@ class HomeController extends CalenderInterface {
 
   Future<void> _updateCampSiteAvailDates() async {
     final bit = toAreaBit(Constants.myArea);
-    final res = await ApiRepo.site.getSiteInfoWithArea(bit);
+    final res = await ApiRepo.site.getSiteInfoWithArea(bit).timeout(TIME_OUT);
     if (!res.result) {
       showServerErrorAlert(res.msg, false);
       return;

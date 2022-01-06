@@ -40,7 +40,6 @@ class PostCardItem extends StatelessWidget {
 
   Widget _buildContent() {
     final textTheme = Get.theme.textTheme;
-    final titleStyle = textTheme.subtitle1!.copyWith(color: Colors.white);
     final descriptionStyle = textTheme.bodyText2;
     final addrStyle = textTheme.caption;
 
@@ -49,30 +48,19 @@ class PostCardItem extends StatelessWidget {
         height: 184,
         child: Stack(
           children: [
-            Positioned.fill(
-              child: Ink.image(
-                image: const AssetImage('assets/Camp_Default.png'),
-                fit: BoxFit.fitHeight,
-              ),
-            ),
             Positioned(
-              bottom: 8,
-              left: 16,
-              right: 16,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.black54,
+              top: 15,
+              left: 15,
+              child: DecoratedBox(
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
                       borderRadius: const BorderRadius.all(Radius.circular(5))),
-                  padding: const EdgeInsets.all(5.0),
-                  child: Text(
-                    info.getPostType().toPostTypeString(),
-                    style: titleStyle,
-                  ),
-                ),
-              ),
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+                      child: Text(
+                        info.getPostType().toPostTypeString(),
+                        style: const TextStyle(fontSize: 12),
+                      ))),
             ),
             Positioned(
               top: 16,
