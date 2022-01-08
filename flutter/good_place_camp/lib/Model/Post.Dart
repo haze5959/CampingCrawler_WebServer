@@ -25,8 +25,8 @@ class Post {
   final String title;
   final String? body;
   final String? nick;
-  @JsonKey(name: 'updatedTime')
-  final DateTime? updatedTime;
+  @JsonKey(name: 'updatedAt')
+  final DateTime? updatedAt;
   final int? commentCount;
 
   Post({
@@ -35,7 +35,7 @@ class Post {
     required this.title,
     required this.body,
     this.nick,
-    this.updatedTime,
+    this.updatedAt,
     this.commentCount,
   });
 

@@ -10,8 +10,11 @@ const double MAX_WIDTH = 1000;
 const double HORIZE_INFO_MAX_WIDTH = 1500;
 const double CALENDER_WIDTH = 320;
 const double CARD_HEIGHT = 280;
+const double POSTS_CARD_HEIGHT = 240;
+const double POSTS_CARD_MAX_WIDTH = 800;
 const double CARD_WIDTH = 280;
 const double CARD_SPACE = 15;
+const double CARD_MARGIN = 16;
 const double MAIN_PADDING = 50;
 
 const Duration TIME_OUT = Duration(seconds: 15);

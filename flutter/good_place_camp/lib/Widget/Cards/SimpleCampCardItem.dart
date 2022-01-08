@@ -52,9 +52,9 @@ class SimpleCampCardItem extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 16,
-              left: 16,
-              right: 16,
+              bottom: CARD_MARGIN,
+              left: CARD_MARGIN,
+              right: CARD_MARGIN,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
@@ -74,7 +74,7 @@ class SimpleCampCardItem extends StatelessWidget {
         ),
       ),
       Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        padding: const EdgeInsets.fromLTRB(CARD_MARGIN, CARD_MARGIN, CARD_MARGIN, 0),
         child: DefaultTextStyle(
           softWrap: false,
           overflow: TextOverflow.ellipsis,

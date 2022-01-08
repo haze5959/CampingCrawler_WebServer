@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:good_place_camp/Utils/OQDialog.dart';
 import 'package:good_place_camp/Constants.dart';
+import 'package:good_place_camp/Utils/DateUtils.dart';
 
 // Controller
 import 'package:good_place_camp/Controller/PostDetailContoller.dart';
@@ -125,7 +125,7 @@ class PostDetailPage extends StatelessWidget {
             Text("nick".tr + ": ${posts.nick}", style: textTheme.subtitle1),
             Text(
                 "create_date".tr +
-                    ": ${_getDateStr(posts.updatedTime ?? DateTime.now())}",
+                    ": ${getDateStr(posts.updatedAt ?? DateTime.now())}",
                 style: textTheme.caption),
             const Divider(thickness: 1),
             const SizedBox(height: 20),
@@ -144,11 +144,5 @@ class PostDetailPage extends StatelessWidget {
         ),
       ),
     ]);
-  }
-
-  String _getDateStr(DateTime date) {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
-    final String formatted = formatter.format(date);
-    return formatted;
-  }
+  }  
 }

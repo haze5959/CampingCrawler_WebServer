@@ -20,24 +20,9 @@ DateTime addMonths(DateTime from, int months) {
   }
 }
 
-int _daysInMonth(int year, int month) {
-  var result = _daysInMonthArray[month];
-  if (month == 2 && _isLeapYear(year)) result++;
-  return result;
-}
-
-const _daysInMonthArray = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-bool _isLeapYear(int year) =>
-    (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
-
 String remainTime(String dateStr) {
   final date = _convertServerDate(dateStr);
   return getRemainTime(date);
-}
-
-DateTime _convertServerDate(String dateStr) {
-  return DateFormat('yyyy/M/d hh:mm').parse(dateStr);
 }
 
 String getRemainTime(DateTime time) {
@@ -225,4 +210,25 @@ List<DateTime> getReservationOpenDate(String reservationCode) {
   } else {
     return [];
   }
+}
+
+String getDateStr(DateTime date) {
+  final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
+  final String formatted = formatter.format(date);
+  return formatted;
+}
+
+int _daysInMonth(int year, int month) {
+  var result = _daysInMonthArray[month];
+  if (month == 2 && _isLeapYear(year)) result++;
+  return result;
+}
+
+const _daysInMonthArray = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+bool _isLeapYear(int year) =>
+    (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
+
+DateTime _convertServerDate(String dateStr) {
+  return DateFormat('yyyy/M/d hh:mm').parse(dateStr);
 }

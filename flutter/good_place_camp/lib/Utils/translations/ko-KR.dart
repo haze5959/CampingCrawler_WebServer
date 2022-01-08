@@ -14,6 +14,7 @@ const trJson = {
     "nick": "닉네임",
     "delete": "삭제",
     "comment": "댓글",
+    "good": "좋아요",
     "default_nick": "익명의 캠퍼",
     "favorite": "즐겨찾기",
     "login": "로그인",
@@ -27,6 +28,7 @@ const trJson = {
     "etc": "기타",
     "more": "더보기",
     "dear": "@dear 님",
+    "write_comment": "댓글 쓰기",
 
     "subscribe_info": "구독 정보",
     "subscribe_ing": "명당캠핑 알림 서비스 구독 중",
@@ -169,7 +171,7 @@ const trJson = {
     "dialog_edit_request_hint": "@id의 수정요청 내용",
     "dialog_edit_request_confirm": "요청 되었습니다.\n도움주셔서 감사합니다. 👍👍👍",
 
-    "promotion_msg_1": "가고싶은 명당을 요청해주세요!",
+    "promotion_msg_1": "가고싶은 캠핑장을 요청해주세요!",
     "promotion_msg_2": "요청주시면 최대한 빨리 추가해드리겠습니다! 🔥",
 
     "recommend_site": "추천 명당"

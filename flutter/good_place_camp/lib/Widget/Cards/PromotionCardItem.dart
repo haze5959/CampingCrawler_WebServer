@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:good_place_camp/Constants.dart';
 
 class PromotionCardItem extends StatelessWidget {
   @override
@@ -34,9 +35,9 @@ class PromotionCardItem extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 16,
-                left: 16,
-                right: 16,
+                bottom: CARD_MARGIN,
+                left: CARD_MARGIN,
+                right: CARD_MARGIN,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.center,

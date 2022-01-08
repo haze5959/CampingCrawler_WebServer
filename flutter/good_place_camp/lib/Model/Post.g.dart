@@ -26,9 +26,9 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       title: json['title'] as String,
       body: json['body'] as String?,
       nick: json['nick'] as String?,
-      updatedTime: json['updatedTime'] == null
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updatedTime'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
       commentCount: json['comment_count'] as int?,
     );
 
@@ -38,7 +38,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'title': instance.title,
       'body': instance.body,
       'nick': instance.nick,
-      'updatedTime': instance.updatedTime?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'comment_count': instance.commentCount,
     };
 

@@ -57,9 +57,9 @@ class TappableCampCardItem extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 16,
-                left: 16,
-                right: 16,
+                bottom: CARD_MARGIN,
+                left: CARD_MARGIN,
+                right: CARD_MARGIN,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,

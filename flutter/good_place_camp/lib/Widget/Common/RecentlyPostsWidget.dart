@@ -61,7 +61,7 @@ class RecentlyPostsWidget extends StatelessWidget {
               ),
               Stack(children: [
                 SizedBox(
-                    height: CARD_HEIGHT,
+                    height: POSTS_CARD_HEIGHT,
                     child: NotificationListener(
                         child: ListView.separated(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -87,16 +87,18 @@ class RecentlyPostsWidget extends StatelessWidget {
                               }
                             }),
                         onNotification: (t) {
-                          if (t is ScrollNotification) {
+                          if (t is ScrollMetricsNotification) {
+                            // 스크롤이 그려졌을 때
                             final metrics = t.metrics;
-                            if (metrics.atEdge) {
-                              if (metrics.pixels == 0) {
-                                _showLeftBtn.value = false;
-                              } else {
-                                _showRightBtn.value = false;
-                              }
+                            if (metrics.extentBefore == 0) {
+                              _showLeftBtn.value = false;
                             } else {
                               _showLeftBtn.value = true;
+                            }
+
+                            if (metrics.extentAfter == 0) {
+                              _showRightBtn.value = false;
+                            } else {
                               _showRightBtn.value = true;
                             }
                           }
@@ -105,21 +107,20 @@ class RecentlyPostsWidget extends StatelessWidget {
                         })),
                 IgnorePointer(
                     child: SizedBox(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: new LinearGradient(
-                        colors: <Color>[
-                          Colors.lightGreen.shade50.withOpacity(1),
-                          Colors.lightGreen.shade50.withOpacity(0)
-                        ],
-                      ),
-                    ),
-                  ),
-                  width: 60,
-                  height: CARD_HEIGHT,
-                )),
+                        width: 60,
+                        height: POSTS_CARD_HEIGHT,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: new LinearGradient(
+                              colors: <Color>[
+                                Colors.lightGreen.shade50.withOpacity(1),
+                                Colors.lightGreen.shade50.withOpacity(0)
+                              ],
+                            ),
+                          ),
+                        ))),
                 Container(
-                    height: CARD_HEIGHT,
+                    height: POSTS_CARD_HEIGHT,
                     padding: const EdgeInsets.only(left: 20),
                     child: Obx(() => Visibility(
                           child: FloatingActionButton(
@@ -131,11 +132,8 @@ class RecentlyPostsWidget extends StatelessWidget {
                               mini: true,
                               child: Icon(Icons.chevron_left),
                               onPressed: () {
-                                final offset =
-                                    _scrollController.position.pixels -
-                                        CARD_WIDTH -
-                                        CARD_SPACE;
-                                _scrollController.animateTo(offset,
+                                _scrollController.animateTo(
+                                    _getAmountOfScroll(false),
                                     duration: const Duration(milliseconds: 500),
                                     curve: Curves.easeOut);
                               }),
@@ -143,23 +141,21 @@ class RecentlyPostsWidget extends StatelessWidget {
                         ))),
                 IgnorePointer(
                     child: Container(
+                        width: 60,
+                        height: POSTS_CARD_HEIGHT,
                         alignment: Alignment.centerRight,
-                        child: SizedBox(
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: new LinearGradient(
-                                colors: <Color>[
-                                  Colors.lightGreen.shade50.withOpacity(0),
-                                  Colors.lightGreen.shade50.withOpacity(1)
-                                ],
-                              ),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: new LinearGradient(
+                              colors: <Color>[
+                                Colors.lightGreen.shade50.withOpacity(0),
+                                Colors.lightGreen.shade50.withOpacity(1)
+                              ],
                             ),
                           ),
-                          width: 60,
-                          height: CARD_HEIGHT,
                         ))),
                 Container(
-                    height: CARD_HEIGHT,
+                    height: POSTS_CARD_HEIGHT,
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.only(right: 20),
                     child: Obx(() => Visibility(
@@ -172,11 +168,8 @@ class RecentlyPostsWidget extends StatelessWidget {
                               mini: true,
                               child: Icon(Icons.chevron_right),
                               onPressed: () {
-                                final offset =
-                                    _scrollController.position.pixels +
-                                        CARD_WIDTH +
-                                        CARD_SPACE;
-                                _scrollController.animateTo(offset,
+                                _scrollController.animateTo(
+                                    _getAmountOfScroll(true),
                                     duration: const Duration(milliseconds: 500),
                                     curve: Curves.easeOut);
                               }),
@@ -190,6 +183,43 @@ class RecentlyPostsWidget extends StatelessWidget {
     await Get.toNamed("/board/list",
         parameters: {"is_notice": isNotice ? "true" : "false"});
     c.reload();
+  }
+
+  double _getAmountOfScroll(bool isRight) {
+    var scrollFrameWidth = Get.size.width;
+    if (scrollFrameWidth > HORIZE_INFO_MAX_WIDTH) {
+      scrollFrameWidth = HORIZE_INFO_MAX_WIDTH;
+    }
+
+    final cardScrollSpace = CARD_WIDTH + CARD_SPACE;
+    final scrollCount = scrollFrameWidth / cardScrollSpace;
+    final extraAmount = _scrollController.position.pixels % cardScrollSpace;
+
+    if (isRight) {
+      final offset = _scrollController.position.pixels +
+          (cardScrollSpace * scrollCount) -
+          CARD_SPACE -
+          extraAmount;
+      final endOffset = _scrollController.position.pixels +
+          _scrollController.position.extentAfter;
+
+      if (offset > endOffset) {
+        return endOffset;
+      } else {
+        return offset;
+      }
+    } else {
+      final offset = _scrollController.position.pixels -
+          (cardScrollSpace * scrollCount) +
+          CARD_SPACE -
+          extraAmount;
+
+      if (offset < 0) {
+        return 0;
+      } else {
+        return offset;
+      }
+    }
   }
 
   Widget _seeMoreWidget(HomeController c) {
