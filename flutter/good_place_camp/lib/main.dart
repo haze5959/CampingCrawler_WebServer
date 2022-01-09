@@ -48,7 +48,8 @@ class Home extends StatelessWidget {
     }
 
     final data = res.data!;
-    Constants.campInfoMap = toCampInfoMap(data);
+    Constants.campInfoMap = toCampInfoMap(data.siteInfoList);
+    Constants.holiday = data.holiday;
   }
 
   @override

@@ -3,6 +3,21 @@ import 'package:json_annotation/json_annotation.dart';
 part 'CampInfo.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
+class CampData {
+  final List<CampSimpleInfo> siteInfoList;
+  final Map<String, String> holiday;
+
+  CampData({
+    required this.siteInfoList,
+    required this.holiday
+  });
+
+  factory CampData.fromJson(Map<String, dynamic> json) =>
+      _$CampDataFromJson(json);
+  Map<String, dynamic> toJson() => _$CampDataToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class CampInfo {
   final String name;
   final String desc;

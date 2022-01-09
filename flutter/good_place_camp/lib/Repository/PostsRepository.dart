@@ -12,9 +12,6 @@ part 'PostsRepository.g.dart';
 abstract class PostsRepository {
   factory PostsRepository(Dio dio, {String baseUrl}) = _PostsRepository;
 
-  @GET("/home")
-  Future<ServerResult<HomeInfo>> getHomeInfo();
-
   @GET("/post/list/{page}")
   Future<ServerResult<List<Post>>> getAllPostsSimpleList(
       @Path() int page, @Query("is_notice") bool isNotice);

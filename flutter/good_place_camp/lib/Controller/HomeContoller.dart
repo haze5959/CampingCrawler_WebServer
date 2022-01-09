@@ -58,8 +58,7 @@ class HomeController extends CalenderInterface {
     isLoading.value = true;
     _updateAccpetedCampInfo();
     try {
-       await _updateCampSiteAvailDates();
-    await _updatePostList();
+      await _updateHomeInfo();
     } on TimeoutException catch (e) {
       print(e.message);
       Get.offNamed("/error");
@@ -69,17 +68,26 @@ class HomeController extends CalenderInterface {
     update();
   }
 
-  Future<void> _updatePostList() async {
-    // 게시물 로드
-    final res = await ApiRepo.posts.getHomeInfo().timeout(TIME_OUT);
+  Future<void> _updateHomeInfo() async {
+    // 달력정보 로드
+    final bit = toAreaBit(Constants.myArea);
+    final res = await ApiRepo.site.getHomeInfo(bit).timeout(TIME_OUT);
     if (!res.result) {
       showServerErrorAlert(res.msg, false);
       return;
     }
 
     final data = res.data!;
-    noticeList = data.noticeList;
-    postList = data.postsList;
+    events.clear();
+    _updateEvents(data.camps);
+    _updateHoliday(Constants.holiday);
+    _updateReservationDay();
+
+    siteInfoList = data.camps;
+
+    // 게시물 로드
+    noticeList = data.community.noticeList;
+    postList = data.community.postsList;
   }
 
   void _updateEvents(List<SiteDateInfo> infoList) {
@@ -133,23 +141,6 @@ class HomeController extends CalenderInterface {
         }
       }
     });
-  }
-
-  Future<void> _updateCampSiteAvailDates() async {
-    final bit = toAreaBit(Constants.myArea);
-    final res = await ApiRepo.site.getSiteInfoWithArea(bit).timeout(TIME_OUT);
-    if (!res.result) {
-      showServerErrorAlert(res.msg, false);
-      return;
-    }
-
-    final data = res.data!;
-    events.clear();
-    _updateEvents(data.camps);
-    _updateHoliday(data.holiday);
-    _updateReservationDay();
-
-    siteInfoList = data.camps;
   }
 
   void _updateAccpetedCampInfo() {

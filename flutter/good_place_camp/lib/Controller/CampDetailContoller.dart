@@ -42,7 +42,7 @@ class CampDetailContoller extends CalenderInterface {
     final data = res.data!;
     siteInfo = data.camp;
     campInfo = data.info;
-    _updateEvents(data.camp, data.holiday);
+    _updateEvents(data.camp, Constants.holiday);
     isFavorite(_checkFavorite());
     isLoading = false;
     update();

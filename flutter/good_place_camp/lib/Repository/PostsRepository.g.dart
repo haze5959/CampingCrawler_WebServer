@@ -16,25 +16,6 @@ class _PostsRepository implements PostsRepository {
   String? baseUrl;
 
   @override
-  Future<ServerResult<HomeInfo>> getHomeInfo() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ServerResult<HomeInfo>>(
-            Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/home',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ServerResult<HomeInfo>.fromJson(
-      _result.data!,
-      (json) => HomeInfo.fromJson(json as Map<String, dynamic>),
-    );
-    return value;
-  }
-
-  @override
   Future<ServerResult<List<Post>>> getAllPostsSimpleList(page, isNotice) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'is_notice': isNotice};

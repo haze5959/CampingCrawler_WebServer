@@ -16,6 +16,25 @@ class _SiteRepository implements SiteRepository {
   String? baseUrl;
 
   @override
+  Future<ServerResult<HomeInfo>> getHomeInfo(areaBit) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'area_bit': areaBit};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ServerResult<HomeInfo>>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/home',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ServerResult<HomeInfo>.fromJson(
+      _result.data!,
+      (json) => HomeInfo.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<ServerResult<SiteDetailInfo>> getSiteInfo(site) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -54,23 +73,21 @@ class _SiteRepository implements SiteRepository {
   }
 
   @override
-  Future<ServerResult<List<CampSimpleInfo>>> getAllSiteJson() async {
+  Future<ServerResult<CampData>> getAllSiteJson() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ServerResult<List<CampSimpleInfo>>>(
+        _setStreamType<ServerResult<CampData>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/info',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ServerResult<List<CampSimpleInfo>>.fromJson(
-        _result.data!,
-        (json) => (json as List<dynamic>)
-            .map<CampSimpleInfo>(
-                (i) => CampSimpleInfo.fromJson(i as Map<String, dynamic>))
-            .toList());
+    final value = ServerResult<CampData>.fromJson(
+      _result.data!,
+      (json) => CampData.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 

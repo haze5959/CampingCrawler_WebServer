@@ -31,4 +31,5 @@ class Constants {
   static Rx<CampUser> user = CampUser(isLogin: false).obs;
   static RxSet<CampArea> myArea = <CampArea>{}.obs;
   static FirebaseAuth auth = FirebaseAuth.instance;
+  static Map<String, String> holiday = {};
 }

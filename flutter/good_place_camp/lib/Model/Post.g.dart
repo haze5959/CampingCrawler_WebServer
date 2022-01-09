@@ -6,20 +6,6 @@ part of 'Post.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HomeInfo _$HomeInfoFromJson(Map<String, dynamic> json) => HomeInfo(
-      noticeList: (json['notice_list'] as List<dynamic>)
-          .map((e) => Post.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      postsList: (json['posts_list'] as List<dynamic>)
-          .map((e) => Post.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$HomeInfoToJson(HomeInfo instance) => <String, dynamic>{
-      'notice_list': instance.noticeList,
-      'posts_list': instance.postsList,
-    };
-
 Post _$PostFromJson(Map<String, dynamic> json) => Post(
       id: json['id'] as int?,
       type: json['type'] as int,

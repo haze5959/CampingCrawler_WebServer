@@ -6,6 +6,18 @@ part of 'CampInfo.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+CampData _$CampDataFromJson(Map<String, dynamic> json) => CampData(
+      siteInfoList: (json['site_info_list'] as List<dynamic>)
+          .map((e) => CampSimpleInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      holiday: Map<String, String>.from(json['holiday'] as Map),
+    );
+
+Map<String, dynamic> _$CampDataToJson(CampData instance) => <String, dynamic>{
+      'site_info_list': instance.siteInfoList,
+      'holiday': instance.holiday,
+    };
+
 CampInfo _$CampInfoFromJson(Map<String, dynamic> json) => CampInfo(
       name: json['name'] as String,
       desc: json['desc'] as String,

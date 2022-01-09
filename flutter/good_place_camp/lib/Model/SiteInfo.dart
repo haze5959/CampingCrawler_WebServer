@@ -39,10 +39,9 @@ class ReservationInfo implements SiteInfo {
 class SiteDetailInfo {
   final SiteDateInfo camp;
   final CampInfo info;
-  final Map<String, String> holiday;
 
   SiteDetailInfo(
-      {required this.camp, required this.info, required this.holiday});
+      {required this.camp, required this.info});
 
   factory SiteDetailInfo.fromJson(Map<String, dynamic> json) =>
       _$SiteDetailInfoFromJson(json);
@@ -52,9 +51,8 @@ class SiteDetailInfo {
 @JsonSerializable()
 class SiteListInfo {
   final List<SiteDateInfo> camps;
-  final Map<String, String> holiday;
 
-  SiteListInfo({required this.camps, required this.holiday});
+  SiteListInfo({required this.camps});
 
   factory SiteListInfo.fromJson(Map<String, dynamic> json) =>
       _$SiteListInfoFromJson(json);

@@ -4,21 +4,6 @@ import 'package:get/get.dart';
 part 'Post.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class HomeInfo {
-  final List<Post> noticeList;
-  final List<Post> postsList;
-
-  HomeInfo({
-    required this.noticeList,
-    required this.postsList,
-  });
-
-  factory HomeInfo.fromJson(Map<String, dynamic> json) =>
-      _$HomeInfoFromJson(json);
-  Map<String, dynamic> toJson() => _$HomeInfoToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.snake)
 class Post {
   final int? id;
   final int type;
