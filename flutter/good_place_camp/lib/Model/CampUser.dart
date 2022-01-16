@@ -15,7 +15,7 @@ part 'CampUser.g.dart';
 class CampUser {
   bool isLogin;
   User? firebaseUser;
-  CampUserInfo info = CampUserInfo();
+  CampUserInfo? info;
 
   CampUser({required this.isLogin, this.firebaseUser});
 
@@ -35,7 +35,7 @@ class CampUser {
     Constants.auth.signOut();
     isLogin = false;
     firebaseUser = null;
-    info = CampUserInfo();
+    info = null;
     Constants.user.refresh();
   }
 
@@ -51,7 +51,7 @@ class CampUser {
 
       isLogin = false;
       firebaseUser = null;
-      info = CampUserInfo();
+      info = null;
       Constants.user.refresh();
       return true;
     } else {
@@ -96,42 +96,30 @@ class CampUser {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class CampUserInfo {
-  String? nick;
-  CampRating? level;
-
-  @JsonKey(name: 'use_push_subscription')
-  bool? usePushSubscription = false; // TODO
-
-  @JsonKey(name: 'use_push_area_on_holiday')
-  bool? usePushAreaOnHoliday = false;
-
-  @JsonKey(name: 'use_push_site_on_holiday')
-  bool? usePushSiteOnHoliday = false;
-
-  @JsonKey(name: 'use_push_reservation_day')
-  bool? usePushReservationDay = false;
-
-  @JsonKey(name: 'use_push_notice')
-  bool? usePushNotice = false;
-
-  @JsonKey(name: 'favorite')
-  List<String>? favoriteList = [];
-
-  @JsonKey(name: 'favorite_area')
-  Set<CampArea>? favoriteAreaSet = {};
+  String nick;
+  String profileUrl;
+  CampRating level;
+  int areaBit;
+  bool usePushSubscription; // TODO
+  bool usePushAreaOnHoliday;
+  bool usePushSiteOnHoliday;
+  bool usePushReservationDay;
+  bool usePushNotice;
+  List<String> favoriteList;
 
   CampUserInfo(
-      {this.nick,
-      this.level,
-      this.usePushSubscription,
-      this.usePushAreaOnHoliday,
-      this.usePushSiteOnHoliday,
-      this.usePushReservationDay,
-      this.usePushNotice,
-      this.favoriteList,
-      this.favoriteAreaSet});
+      {required this.nick,
+      required this.profileUrl,
+      required this.level,
+      required this.areaBit,
+      required this.usePushSubscription,
+      required this.usePushAreaOnHoliday,
+      required this.usePushSiteOnHoliday,
+      required this.usePushReservationDay,
+      required this.usePushNotice,
+      required this.favoriteList});
 
   factory CampUserInfo.fromJson(Map<String, dynamic> json) =>
       _$CampUserInfoFromJson(json);

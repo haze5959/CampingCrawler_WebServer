@@ -13,7 +13,7 @@ class PostDetailContoller extends GetxController {
   final TextEditingController bodyControler = TextEditingController();
 
   final String nick = Constants.user.value.isLogin
-      ? Constants.user.value.info.nick!
+      ? Constants.user.value.info!.nick
       : "default_nick".tr;
 
   PostDetailContoller({required this.id, this.isSecret = false}) {
@@ -93,14 +93,7 @@ class PostDetailContoller extends GetxController {
       return;
     }
 
-    final now = DateTime.now();
-    final utcTime =
-        DateTime.utc(now.year, now.month, now.day, now.hour, now.minute);
-    final comment =
-        Comment(postId: id, nick: nick, comment: body, updatedAt: utcTime);
-    commentList.insert(0, comment);
-    bodyControler.text = "";
-    update();
+    reload();
   }
 
   void commentRemoveHandler(Comment comment) {

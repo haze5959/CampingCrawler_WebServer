@@ -60,7 +60,7 @@ class PostDetailPage extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerRight,
-                child: posts.nick == Constants.user.value.info.nick
+                child: posts.nick == Constants.user.value.info?.nick
                     ? IconButton(
                         tooltip: "dialog_delete".tr,
                         color: Colors.grey,

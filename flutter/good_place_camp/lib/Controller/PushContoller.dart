@@ -43,14 +43,16 @@ class PushContoller extends GetxController {
 
   void editArea(CampArea area) async {
     isLoading.value = true;
-    final editedArea = Constants.user.value.info.favoriteAreaSet;
+    final areaBit = Constants.user.value.info?.areaBit;
 
-    if (editedArea == null) {
+    if (areaBit == null) {
       showOneBtnAlert("server_error".tr, "confirm".tr, () {
         Get.back();
       });
       return;
     }
+
+    final editedArea = fromBit(areaBit);
 
     if (editedArea.contains(area)) {
       editedArea.remove(area);
@@ -58,15 +60,15 @@ class PushContoller extends GetxController {
       editedArea.add(area);
     }
 
-    final areaBit = toAreaBit(editedArea);
+    final editedAreaBit = toAreaBit(editedArea);
     final token = await Constants.user.value.getToken() ?? "";
-    final res = await ApiRepo.user.putUserArea(token, areaBit);
+    final res = await ApiRepo.user.putUserArea(token, editedAreaBit);
     if (!res.result) {
       showServerErrorAlert(res.msg, false);
       return;
     }
 
-    Constants.user.value.info.favoriteAreaSet = editedArea;
+    Constants.user.value.info?.areaBit = editedAreaBit;
     isLoading.value = false;
   }
 

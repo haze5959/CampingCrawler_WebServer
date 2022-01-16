@@ -7,15 +7,14 @@ part of 'Post.dart';
 // **************************************************************************
 
 Post _$PostFromJson(Map<String, dynamic> json) => Post(
-      id: json['id'] as int?,
+      id: json['id'] as int,
       type: json['type'] as int,
-      title: json['title'] as String,
-      body: json['body'] as String?,
-      nick: json['nick'] as String?,
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      commentCount: json['comment_count'] as int?,
+      title: json['title'] as String?,
+      body: json['body'] as String,
+      nick: json['nick'] as String,
+      profileUrl: json['profile_url'] as String,
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      commentCount: json['comment_count'] as int,
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
@@ -24,25 +23,26 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'title': instance.title,
       'body': instance.body,
       'nick': instance.nick,
-      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'profile_url': instance.profileUrl,
+      'updatedAt': instance.updatedAt.toIso8601String(),
       'comment_count': instance.commentCount,
     };
 
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
-      id: json['id'] as int?,
+      id: json['id'] as int,
       postId: json['post_id'] as int,
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
       nick: json['nick'] as String,
+      profileUrl: json['profile_url'] as String,
       comment: json['comment'] as String,
     );
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'id': instance.id,
       'post_id': instance.postId,
-      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
       'nick': instance.nick,
+      'profile_url': instance.profileUrl,
       'comment': instance.comment,
     };
 

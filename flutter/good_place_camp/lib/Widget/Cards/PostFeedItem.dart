@@ -15,7 +15,7 @@ class PostFeedItem extends PostItem {
 
   Widget buildContent() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      info.title.length > 0 ? _buildBodyWithTitle() : _buildBody(),
+      info.title != null ? _buildBodyWithTitle() : _buildBody(),
       const Divider(height: 1),
       buildBottomInfo()
     ]);

@@ -3,24 +3,40 @@ import 'package:get/get.dart';
 
 part 'Post.g.dart';
 
+class PostParam {
+  final int type;
+  final String? title;
+  final String body;
+  final String token;
+
+  PostParam({
+    required this.type,
+    this.title,
+    required this.body,
+    required this.token,
+  });
+}
+
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Post {
-  final int? id;
+  final int id;
   final int type;
-  final String title;
-  final String? body;
-  final String? nick;
+  final String? title;
+  final String body;
+  final String nick;
+  final String profileUrl;
   @JsonKey(name: 'updatedAt')
-  final DateTime? updatedAt;
+  final DateTime updatedAt;
   final int? commentCount;
 
   Post({
-    this.id,
+    required this.id,
     required this.type,
-    required this.title,
+    this.title,
     required this.body,
-    this.nick,
-    this.updatedAt,
+    required this.nick,
+    required this.profileUrl,
+    required this.updatedAt,
     this.commentCount,
   });
 
@@ -49,18 +65,20 @@ class Post {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Comment {
-  final int? id;
+  final int id;
   final int postId;
   @JsonKey(name: 'updatedAt')
-  final DateTime? updatedAt;
+  final DateTime updatedAt;
   final String nick;
+  final String profileUrl;
   final String comment;
 
   Comment(
-      {this.id,
+      {required this.id,
       required this.postId,
-      this.updatedAt,
+      required this.updatedAt,
       required this.nick,
+      required this.profileUrl,
       required this.comment});
 
   factory Comment.fromJson(Map<String, dynamic> json) =>

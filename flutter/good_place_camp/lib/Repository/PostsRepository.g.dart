@@ -74,11 +74,11 @@ class _PostsRepository implements PostsRepository {
   }
 
   @override
-  Future<ServerResult<dynamic>> createPosts(posts, token) async {
+  Future<ServerResult<dynamic>> createPosts(params) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {'posts': posts, 'token': token};
+    final _data = {'params': params};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ServerResult<dynamic>>(
             Options(method: 'POST', headers: _headers, extra: _extra)

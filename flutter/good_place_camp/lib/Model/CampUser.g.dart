@@ -7,33 +7,32 @@ part of 'CampUser.dart';
 // **************************************************************************
 
 CampUserInfo _$CampUserInfoFromJson(Map<String, dynamic> json) => CampUserInfo(
-      nick: json['nick'] as String?,
-      level: $enumDecodeNullable(_$CampRatingEnumMap, json['level']),
-      usePushSubscription: json['use_push_subscription'] as bool?,
-      usePushAreaOnHoliday: json['use_push_area_on_holiday'] as bool?,
-      usePushSiteOnHoliday: json['use_push_site_on_holiday'] as bool?,
-      usePushReservationDay: json['use_push_reservation_day'] as bool?,
-      usePushNotice: json['use_push_notice'] as bool?,
-      favoriteList: (json['favorite'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      nick: json['nick'] as String,
+      profileUrl: json['profile_url'] as String,
+      level: $enumDecode(_$CampRatingEnumMap, json['level']),
+      areaBit: json['area_bit'] as int,
+      usePushSubscription: json['use_push_subscription'] as bool,
+      usePushAreaOnHoliday: json['use_push_area_on_holiday'] as bool,
+      usePushSiteOnHoliday: json['use_push_site_on_holiday'] as bool,
+      usePushReservationDay: json['use_push_reservation_day'] as bool,
+      usePushNotice: json['use_push_notice'] as bool,
+      favoriteList: (json['favorite_list'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
-      favoriteAreaSet: (json['favorite_area'] as List<dynamic>?)
-          ?.map((e) => $enumDecode(_$CampAreaEnumMap, e))
-          .toSet(),
     );
 
 Map<String, dynamic> _$CampUserInfoToJson(CampUserInfo instance) =>
     <String, dynamic>{
       'nick': instance.nick,
+      'profile_url': instance.profileUrl,
       'level': _$CampRatingEnumMap[instance.level],
+      'area_bit': instance.areaBit,
       'use_push_subscription': instance.usePushSubscription,
       'use_push_area_on_holiday': instance.usePushAreaOnHoliday,
       'use_push_site_on_holiday': instance.usePushSiteOnHoliday,
       'use_push_reservation_day': instance.usePushReservationDay,
       'use_push_notice': instance.usePushNotice,
-      'favorite': instance.favoriteList,
-      'favorite_area':
-          instance.favoriteAreaSet?.map((e) => _$CampAreaEnumMap[e]).toList(),
+      'favorite_list': instance.favoriteList,
     };
 
 const _$CampRatingEnumMap = {
@@ -41,13 +40,4 @@ const _$CampRatingEnumMap = {
   CampRating.level02: 'level02',
   CampRating.level03: 'level03',
   CampRating.owner: 'owner',
-};
-
-const _$CampAreaEnumMap = {
-  CampArea.seoul: 'seoul',
-  CampArea.gyeonggi: 'gyeonggi',
-  CampArea.inchoen: 'inchoen',
-  CampArea.chungnam: 'chungnam',
-  CampArea.chungbuk: 'chungbuk',
-  CampArea.gangwon: 'gangwon',
 };

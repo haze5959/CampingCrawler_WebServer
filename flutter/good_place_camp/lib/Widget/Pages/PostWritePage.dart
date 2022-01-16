@@ -49,7 +49,7 @@ class PostWritePage extends GetView<PostWriteContoller> {
                                         TextButton(
                                           child: Text(
                                               "writer".tr +
-                                                  ": ${Constants.user.value.isLogin ? Constants.user.value.info.nick : 'default_nick'.tr}",
+                                                  ": ${Constants.user.value.isLogin ? Constants.user.value.info?.nick : 'default_nick'.tr}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 12)),

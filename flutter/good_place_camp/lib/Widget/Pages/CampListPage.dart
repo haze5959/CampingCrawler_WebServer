@@ -59,16 +59,16 @@ class CampListPage extends StatelessWidget {
 
   Widget _buildFavoriteList() {
     return Obx(() => ListView.separated(
-          itemCount: Constants.user.value.info.favoriteList?.length ?? 0 + 1,
+          itemCount: Constants.user.value.info?.favoriteList.length ?? 0 + 1,
           separatorBuilder: (BuildContext context, int index) {
             return SizedBox(
               height: 15,
             );
           },
           itemBuilder: (context, index) {
-            if (index < (Constants.user.value.info.favoriteList?.length ?? 0)) {
+            if (index < (Constants.user.value.info?.favoriteList.length ?? 0)) {
               return SimpleCampCardItem(
-                  siteName: Constants.user.value.info.favoriteList![index]);
+                  siteName: Constants.user.value.info!.favoriteList[index]);
             } else {
               return PromotionCardItem();
             }

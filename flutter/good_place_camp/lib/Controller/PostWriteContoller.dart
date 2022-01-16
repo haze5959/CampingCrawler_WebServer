@@ -26,8 +26,8 @@ class PostWriteContoller extends GetxController {
 
     final token = await Constants.user.value.getToken() ?? "";
 
-    final newPosts = Post(type: postType.value + 1, title: title, body: body);
-    final res = await ApiRepo.posts.createPosts(newPosts, token);
+    final param = PostParam(type: postType.value + 1, title: title, body: body, token: token);
+    final res = await ApiRepo.posts.createPosts(param);
     if (res.result) {
       showOneBtnAlert("posts_success".tr, "confirm".tr, () {
         Get.back(result: true);

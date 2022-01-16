@@ -129,7 +129,7 @@ class CampDetailContoller extends CalenderInterface {
   }
 
   bool _checkFavorite() {
-    return Constants.user.value.info.favoriteList?.contains(siteName) ?? false;
+    return Constants.user.value.info?.favoriteList.contains(siteName) ?? false;
   }
 
   void onClickFavorite() async {
@@ -147,7 +147,7 @@ class CampDetailContoller extends CalenderInterface {
         return;
       }
 
-      Constants.user.value.info.favoriteList?.remove(siteName);
+      Constants.user.value.info?.favoriteList.remove(siteName);
       showOneBtnAlert("favorite_delete".tr, "확인", () {
         isFavorite(false);
       });
@@ -159,7 +159,7 @@ class CampDetailContoller extends CalenderInterface {
         return;
       }
 
-      Constants.user.value.info.favoriteList?.add(siteName);
+      Constants.user.value.info?.favoriteList.add(siteName);
       showOneBtnAlert("favorite_add".tr, "confirm".tr, () {
         isFavorite(true);
       });

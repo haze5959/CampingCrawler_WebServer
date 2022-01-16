@@ -31,10 +31,10 @@ class CommentWidget extends StatelessWidget {
                         child: Text(comment.nick,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold))),
-                    Text(getRemainTime(comment.updatedAt ?? DateTime.now()),
+                    Text(getRemainTime(comment.updatedAt),
                         style: TextStyle(fontSize: 12)),
                     const Spacer(),
-                    if (comment.nick == Constants.user.value.info.nick)
+                    if (comment.nick == Constants.user.value.info?.nick)
                       IconButton(
                         tooltip: "dialog_delete".tr,
                         color: Colors.grey,

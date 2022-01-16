@@ -24,7 +24,7 @@ abstract class PostsRepository {
       @Path() int id, @Query("token") String token);
 
   @POST("/post")
-  Future<ServerResult> createPosts(@Field() Post posts, @Field() String token);
+  Future<ServerResult> createPosts(@Field() PostParam params);
 
   @POST("/comment")
   Future<ServerResult> createComment(@Field() String comment,

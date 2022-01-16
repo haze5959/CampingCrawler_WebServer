@@ -90,7 +90,7 @@ class GPCAppBar extends AppBar {
                       PopupMenuItem<GPCAppBarMenu>(
                         enabled: false,
                         child: Text("dear".trParams(
-                            {"dear": Constants.user.value.info.nick ?? ""})),
+                            {"dear": Constants.user.value.info?.nick ?? ""})),
                       ),
                     PopupMenuItem<GPCAppBarMenu>(
                       value: GPCAppBarMenu.favorite,
@@ -137,7 +137,7 @@ class GPCAppBar extends AppBar {
                 // 폰사이즈가 아닐 경우
                 Obx(() => Text(Constants.user.value.isLogin
                     ? "dear".trParams(
-                        {"dear": Constants.user.value.info.nick ?? ""})
+                        {"dear": Constants.user.value.info?.nick ?? ""})
                     : "")),
                 const SizedBox(width: 10),
                 if (showFilter) _buildAreaFilter(),

@@ -448,7 +448,7 @@ void showChangeNickAlert() {
     return true;
   }
 
-  bodyControler.text = Constants.user.value.info.nick ?? "";
+  bodyControler.text = Constants.user.value.info?.nick ?? "";
 
   showDialog(
       context: Get.context!,
@@ -483,7 +483,7 @@ void showChangeNickAlert() {
                   }
 
                   Get.back();
-                  Constants.user.value.info.nick = bodyControler.text;
+                  Constants.user.value.info?.nick = bodyControler.text;
 
                   showOneBtnAlert("dialog_change_complete".tr, "close".tr, () {
                     Constants.user.refresh();

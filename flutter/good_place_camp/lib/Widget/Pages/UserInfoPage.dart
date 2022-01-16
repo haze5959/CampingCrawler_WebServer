@@ -82,7 +82,7 @@ class UserInfoPage extends StatelessWidget {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Text(user.info.nick ?? "",
+                  child: Text(user.info?.nick ?? "",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 ),
@@ -110,7 +110,7 @@ class UserInfoPage extends StatelessWidget {
                     ),
                   )),
               const Spacer(),
-              Text(user.info.level?.getLevelText() ?? "",
+              Text(user.info?.level.getLevelText() ?? "",
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 15))
             ]))
@@ -138,7 +138,7 @@ class UserInfoPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(children: [
               // 구독하러가기 or 푸시설정 바로가기
-              if (user.info.usePushSubscription ?? false) ...[
+              if (user.info?.usePushSubscription ?? false) ...[
                 Text("subscribe_ing".tr,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 15)),
