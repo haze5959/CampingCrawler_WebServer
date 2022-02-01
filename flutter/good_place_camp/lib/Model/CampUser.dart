@@ -7,7 +7,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:good_place_camp/Repository/ApiRepository.dart';
 
 // Model
-import 'package:good_place_camp/Model/CampArea.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 part 'CampUser.g.dart';
@@ -108,6 +107,7 @@ class CampUserInfo {
   bool usePushReservationDay;
   bool usePushNotice;
   List<String> favoriteList;
+  List<int> goodList;
 
   CampUserInfo(
       {required this.nick,
@@ -119,7 +119,8 @@ class CampUserInfo {
       required this.usePushSiteOnHoliday,
       required this.usePushReservationDay,
       required this.usePushNotice,
-      required this.favoriteList});
+      required this.favoriteList,
+      required this.goodList});
 
   factory CampUserInfo.fromJson(Map<String, dynamic> json) =>
       _$CampUserInfoFromJson(json);
